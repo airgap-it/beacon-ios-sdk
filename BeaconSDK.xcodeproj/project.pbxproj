@@ -1,0 +1,2377 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		"BeaconSDK::BeaconSDKPackageTests::ProductTarget" /* BeaconSDKPackageTests */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = OBJ_32 /* Build configuration list for PBXAggregateTarget "BeaconSDKPackageTests" */;
+			buildPhases = (
+			);
+			dependencies = (
+				OBJ_35 /* PBXTargetDependency */,
+			);
+			name = BeaconSDKPackageTests;
+			productName = BeaconSDKPackageTests;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		886FE71B2566B7FB00178523 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886FE71A2566B7FB00178523 /* String+Additions.swift */; };
+		886FE7212566B97600178523 /* HandshakeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886FE7202566B97600178523 /* HandshakeInfo.swift */; };
+		886FE72D2566C54000178523 /* EventResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886FE72C2566C54000178523 /* EventResponse.swift */; };
+		886FE7352566CD7900178523 /* RoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886FE7342566CD7900178523 /* RoomService.swift */; };
+		886FE7462566CE5100178523 /* CreateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886FE7452566CE5100178523 /* CreateRequest.swift */; };
+		886FE74B2566CFDD00178523 /* CreateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886FE74A2566CFDD00178523 /* CreateResponse.swift */; };
+		886FE85A2567FF6600178523 /* HexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886FE8592567FF6600178523 /* HexString.swift */; };
+		886FE8B52568148700178523 /* LazyWeakReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886FE8B42568148700178523 /* LazyWeakReference.swift */; };
+		886FE8C325681E8E00178523 /* BeaconSDKDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886FE8C225681E8E00178523 /* BeaconSDKDemoApp.swift */; };
+		886FE8C725681E9200178523 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 886FE8C625681E9200178523 /* Assets.xcassets */; };
+		886FE8CA25681E9200178523 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 886FE8C925681E9200178523 /* Preview Assets.xcassets */; };
+		886FE8D525681E9200178523 /* BeaconSDKDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886FE8D425681E9200178523 /* BeaconSDKDemoTests.swift */; };
+		886FE8E025681E9300178523 /* BeaconSDKDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886FE8DF25681E9300178523 /* BeaconSDKDemoUITests.swift */; };
+		886FE9A125682B9C00178523 /* BeaconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886FE9A025682B9C00178523 /* BeaconView.swift */; };
+		886FE9B025682D5C00178523 /* BeaconViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886FE9AF25682D5C00178523 /* BeaconViewModel.swift */; };
+		8885ED05256BBE1700F1AE75 /* Result+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8885ED04256BBE1700F1AE75 /* Result+Additions.swift */; };
+		8885ED12256BDEAC00F1AE75 /* BeaconSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "BeaconSDK::BeaconSDK::Product" /* BeaconSDK.framework */; };
+		8885ED13256BDEAC00F1AE75 /* BeaconSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "BeaconSDK::BeaconSDK::Product" /* BeaconSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		88AA0003256533FF003B18F5 /* Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA0002256533FF003B18F5 /* Create.swift */; };
+		88AA0008256534BA003B18F5 /* Invite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA0007256534BA003B18F5 /* Invite.swift */; };
+		88AA000D256534DA003B18F5 /* Join.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA000C256534DA003B18F5 /* Join.swift */; };
+		88AA0012256534FA003B18F5 /* TextMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA0011256534FA003B18F5 /* TextMessage.swift */; };
+		88AA0023256547DB003B18F5 /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA0022256547DB003B18F5 /* Sync.swift */; };
+		88AA002B256558DC003B18F5 /* Array+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA002A256558DC003B18F5 /* Array+Additions.swift */; };
+		88AA003025656013003B18F5 /* DistinguishableListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA002F25656013003B18F5 /* DistinguishableListener.swift */; };
+		88AA003D25656BF3003B18F5 /* Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA003C25656BF3003B18F5 /* Serializer.swift */; };
+		88AA004625657137003B18F5 /* Base58Swift in Frameworks */ = {isa = PBXBuildFile; productRef = 88AA004525657137003B18F5 /* Base58Swift */; };
+		88AA0053256572D2003B18F5 /* Base58CheckSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA0052256572D2003B18F5 /* Base58CheckSerializer.swift */; };
+		88AA005B25657DF3003B18F5 /* CommunicationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA005A25657DF3003B18F5 /* CommunicationUtils.swift */; };
+		88AA006025666395003B18F5 /* ServerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA005F25666395003B18F5 /* ServerUtils.swift */; };
+		88AA0066256691B1003B18F5 /* PeerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA0065256691B1003B18F5 /* PeerInfo.swift */; };
+		88AA006E256694BF003B18F5 /* BeaconConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA006D256694BF003B18F5 /* BeaconConnection.swift */; };
+		88AA00B025669C63003B18F5 /* P2PConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AA00AF25669C63003B18F5 /* P2PConfiguration.swift */; };
+		88AAFEDE2563CA1A003B18F5 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFEDD2563CA1A003B18F5 /* EventService.swift */; };
+		88AAFEE32563CA64003B18F5 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFEE22563CA64003B18F5 /* UserService.swift */; };
+		88AAFEEC2563CBB9003B18F5 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFEEB2563CBB9003B18F5 /* HTTP.swift */; };
+		88AAFEFA2563D6E8003B18F5 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFEF92563D6E8003B18F5 /* LoginRequest.swift */; };
+		88AAFEFF2563D811003B18F5 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFEFE2563D811003B18F5 /* LoginResponse.swift */; };
+		88AAFF062563D978003B18F5 /* UserIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF052563D978003B18F5 /* UserIdentifier.swift */; };
+		88AAFF0F2563DA00003B18F5 /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF0E2563DA00003B18F5 /* Password.swift */; };
+		88AAFF282563E015003B18F5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF272563E015003B18F5 /* User.swift */; };
+		88AAFF332563EB0A003B18F5 /* Date+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF322563EB0A003B18F5 /* Date+Additions.swift */; };
+		88AAFF382563F709003B18F5 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF372563F709003B18F5 /* Store.swift */; };
+		88AAFF3F2563F8F7003B18F5 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF3E2563F8F7003B18F5 /* State.swift */; };
+		88AAFF472563F961003B18F5 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF462563F961003B18F5 /* Action.swift */; };
+		88AAFF50256422B0003B18F5 /* SyncResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF4F256422B0003B18F5 /* SyncResponse.swift */; };
+		88AAFF79256508E1003B18F5 /* Rooms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF78256508E1003B18F5 /* Rooms.swift */; };
+		88AAFF7E256509AD003B18F5 /* RoomState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF7D256509AD003B18F5 /* RoomState.swift */; };
+		88AAFF86256509BB003B18F5 /* RoomTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF85256509BB003B18F5 /* RoomTimeline.swift */; };
+		88AAFF8B256509D9003B18F5 /* StateEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF8A256509D9003B18F5 /* StateEvent.swift */; };
+		88AAFF9125650BB0003B18F5 /* CreateStateEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF9025650BB0003B18F5 /* CreateStateEvent.swift */; };
+		88AAFF9925650D17003B18F5 /* MemberStateEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF9825650D17003B18F5 /* MemberStateEvent.swift */; };
+		88AAFF9E25651297003B18F5 /* MessageStateEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFF9D25651297003B18F5 /* MessageStateEvent.swift */; };
+		88AAFFA3256517D9003B18F5 /* UnknownStateEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFFA2256517D9003B18F5 /* UnknownStateEvent.swift */; };
+		88AAFFEB25652BE2003B18F5 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AAFFEA25652BE2003B18F5 /* Room.swift */; };
+		88BFEA8B255AE0150095F146 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEA8A255AE0150095F146 /* Client.swift */; };
+		88BFEAA4255AE08B0095F146 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEAA3255AE08B0095F146 /* Storage.swift */; };
+		88BFEAAA255AE0950095F146 /* UserDefaultsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEAA9255AE0950095F146 /* UserDefaultsStorage.swift */; };
+		88BFEAB0255AE09F0095F146 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEAAF255AE09F0095F146 /* Key.swift */; };
+		88BFEAC5255AEA7A0095F146 /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEAC4255AEA7A0095F146 /* Beacon.swift */; };
+		88BFEACF255AED020095F146 /* DependencyRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEACE255AED020095F146 /* DependencyRegistry.swift */; };
+		88BFEAD9255BDA140095F146 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEAD8255BDA140095F146 /* Configuration.swift */; };
+		88BFEADF255BDDAD0095F146 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEADE255BDDAD0095F146 /* Crypto.swift */; };
+		88BFEAE5255BDE4E0095F146 /* CryptoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEAE4255BDE4E0095F146 /* CryptoProvider.swift */; };
+		88BFEAEB255BDEF20095F146 /* SodiumCryptoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEAEA255BDEF20095F146 /* SodiumCryptoProvider.swift */; };
+		88BFEB1E255BE2FB0095F146 /* libsodium.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88BFEAF1255BDF6E0095F146 /* libsodium.xcframework */; };
+		88BFEB1F255BE2FB0095F146 /* libsodium.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88BFEAF1255BDF6E0095F146 /* libsodium.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		88BFEB32255C0A590095F146 /* HexStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEB2A255C094C0095F146 /* HexStringTests.swift */; };
+		88BFEB70255D39300095F146 /* CryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEB57255D29AC0095F146 /* CryptoTests.swift */; };
+		88BFEB96255D3FFC0095F146 /* BeaconTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEB95255D3FFC0095F146 /* BeaconTests.swift */; };
+		88BFEB9C255D41590095F146 /* MockStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEB9B255D41590095F146 /* MockStorage.swift */; };
+		88BFEBA4255D452B0095F146 /* CryptoTestsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEBA3255D452B0095F146 /* CryptoTestsUtils.swift */; };
+		88BFEBB0255D531C0095F146 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEBAF255D531C0095F146 /* Message.swift */; };
+		88BFEBB8255D53790095F146 /* Origin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEBB7255D53790095F146 /* Origin.swift */; };
+		88BFEBBD255D54950095F146 /* AppMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEBBC255D54950095F146 /* AppMetadata.swift */; };
+		88BFEBCA255D56190095F146 /* PermissionScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEBC9255D56190095F146 /* PermissionScope.swift */; };
+		88BFEBD2255D598E0095F146 /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEBD1255D598E0095F146 /* ErrorType.swift */; };
+		88BFEBD7255D5A410095F146 /* Threshold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEBD6255D5A410095F146 /* Threshold.swift */; };
+		88BFEBEE255D5CAD0095F146 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEBED255D5CAD0095F146 /* Coin.swift */; };
+		88BFEBF6255D5CFB0095F146 /* CoinRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEBF5255D5CFB0095F146 /* CoinRegistry.swift */; };
+		88BFEC04255D60720095F146 /* Tezos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC03255D60720095F146 /* Tezos.swift */; };
+		88BFEC2F255D64D00095F146 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC19255D64D00095F146 /* Operation.swift */; };
+		88BFEC33255D64D00095F146 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC1D255D64D00095F146 /* Parameters.swift */; };
+		88BFEC34255D64D00095F146 /* BlockHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC1E255D64D00095F146 /* BlockHeader.swift */; };
+		88BFEC36255D64D00095F146 /* Origination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC21255D64D00095F146 /* Origination.swift */; };
+		88BFEC37255D64D00095F146 /* Proposals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC22255D64D00095F146 /* Proposals.swift */; };
+		88BFEC38255D64D00095F146 /* Endorsement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC23255D64D00095F146 /* Endorsement.swift */; };
+		88BFEC39255D64D00095F146 /* ActivateAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC24255D64D00095F146 /* ActivateAccount.swift */; };
+		88BFEC3A255D64D00095F146 /* SeedNonceRevelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC25255D64D00095F146 /* SeedNonceRevelation.swift */; };
+		88BFEC3B255D64D00095F146 /* DoubleBakingEvidence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC26255D64D00095F146 /* DoubleBakingEvidence.swift */; };
+		88BFEC3C255D64D00095F146 /* Ballot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC27255D64D00095F146 /* Ballot.swift */; };
+		88BFEC3D255D64D00095F146 /* DoubleEndorsementEvidence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC28255D64D00095F146 /* DoubleEndorsementEvidence.swift */; };
+		88BFEC3E255D64D00095F146 /* Delegation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC29255D64D00095F146 /* Delegation.swift */; };
+		88BFEC3F255D64D00095F146 /* Reveal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC2A255D64D00095F146 /* Reveal.swift */; };
+		88BFEC40255D64D00095F146 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC2B255D64D00095F146 /* Transaction.swift */; };
+		88BFEC41255D64D00095F146 /* InlinedEndorsement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC2C255D64D00095F146 /* InlinedEndorsement.swift */; };
+		88BFEC6C255D70270095F146 /* MichelinePrim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC67255D70260095F146 /* MichelinePrim.swift */; };
+		88BFEC6D255D70270095F146 /* Micheline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC68255D70260095F146 /* Micheline.swift */; };
+		88BFEC6E255D70270095F146 /* MichelineLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC69255D70270095F146 /* MichelineLiteral.swift */; };
+		88BFEC80255D87CF0095F146 /* MichelineSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC7F255D87CF0095F146 /* MichelineSequence.swift */; };
+		88BFEC9F255E77B40095F146 /* VersionedMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEC9E255E77B40095F146 /* VersionedMessage.swift */; };
+		88BFECAF255E7B620095F146 /* DisconnectMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFECAE255E7B620095F146 /* DisconnectMessage.swift */; };
+		88BFECBA255E7C700095F146 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFECB9255E7C700095F146 /* Request.swift */; };
+		88BFECBF255E7CB00095F146 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFECBE255E7CB00095F146 /* Response.swift */; };
+		88BFECC4255E7D6E0095F146 /* PermissionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFECC3255E7D6E0095F146 /* PermissionRequest.swift */; };
+		88BFECC9255E7DB00095F146 /* OperationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFECC8255E7DB00095F146 /* OperationRequest.swift */; };
+		88BFECD3255E7E5B0095F146 /* BroadcastRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFECD2255E7E5B0095F146 /* BroadcastRequest.swift */; };
+		88BFECD8255E7EA80095F146 /* PermissionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFECD7255E7EA80095F146 /* PermissionResponse.swift */; };
+		88BFECDD255E7EC30095F146 /* OperationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFECDC255E7EC30095F146 /* OperationResponse.swift */; };
+		88BFECE2255E7EE20095F146 /* SignPayloadResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFECE1255E7EE20095F146 /* SignPayloadResponse.swift */; };
+		88BFECEA255E7F130095F146 /* BroadcastResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFECE9255E7F130095F146 /* BroadcastResponse.swift */; };
+		88BFECEF255E7F3D0095F146 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFECEE255E7F3D0095F146 /* ErrorResponse.swift */; };
+		88BFED1C255E85230095F146 /* V1Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED1B255E85230095F146 /* V1Message.swift */; };
+		88BFED2A255E863F0095F146 /* V2Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED29255E863F0095F146 /* V2Message.swift */; };
+		88BFED34255E8D320095F146 /* PermissionV1Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED33255E8D320095F146 /* PermissionV1Request.swift */; };
+		88BFED3C255E8FF20095F146 /* OperationV1Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED3B255E8FF20095F146 /* OperationV1Request.swift */; };
+		88BFED69255E91370095F146 /* SignPayloadRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED68255E91370095F146 /* SignPayloadRequest.swift */; };
+		88BFED75255E91440095F146 /* OperationV1Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED6D255E91440095F146 /* OperationV1Response.swift */; };
+		88BFED76255E91440095F146 /* PermissionV1Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED6E255E91440095F146 /* PermissionV1Response.swift */; };
+		88BFED77255E91440095F146 /* BroadcastV1Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED6F255E91440095F146 /* BroadcastV1Response.swift */; };
+		88BFED78255E91440095F146 /* ErrorV1Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED70255E91440095F146 /* ErrorV1Response.swift */; };
+		88BFED79255E91450095F146 /* SignPayloadV1Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED71255E91440095F146 /* SignPayloadV1Response.swift */; };
+		88BFED7A255E91450095F146 /* SignPayloadV1Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED72255E91440095F146 /* SignPayloadV1Request.swift */; };
+		88BFED7B255E91450095F146 /* DisconnectV1Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED73255E91440095F146 /* DisconnectV1Message.swift */; };
+		88BFED7C255E91450095F146 /* BroadcastV1Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED74255E91440095F146 /* BroadcastV1Request.swift */; };
+		88BFEDA5255EA04D0095F146 /* SignPayloadV2Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED9B255EA04D0095F146 /* SignPayloadV2Response.swift */; };
+		88BFEDA6255EA04D0095F146 /* BroadcastV2Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED9C255EA04D0095F146 /* BroadcastV2Request.swift */; };
+		88BFEDA7255EA04D0095F146 /* OperationV2Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED9D255EA04D0095F146 /* OperationV2Response.swift */; };
+		88BFEDA8255EA04D0095F146 /* SignPayloadV2Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED9E255EA04D0095F146 /* SignPayloadV2Request.swift */; };
+		88BFEDA9255EA04D0095F146 /* ErrorV2Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFED9F255EA04D0095F146 /* ErrorV2Response.swift */; };
+		88BFEDAA255EA04D0095F146 /* DisconnectV2Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEDA0255EA04D0095F146 /* DisconnectV2Message.swift */; };
+		88BFEDAB255EA04D0095F146 /* BroadcastV2Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEDA1255EA04D0095F146 /* BroadcastV2Response.swift */; };
+		88BFEDAC255EA04D0095F146 /* PermissionV2Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEDA2255EA04D0095F146 /* PermissionV2Response.swift */; };
+		88BFEDAD255EA04D0095F146 /* OperationV2Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEDA3255EA04D0095F146 /* OperationV2Request.swift */; };
+		88BFEDAE255EA04D0095F146 /* PermissionV2Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEDA4255EA04D0095F146 /* PermissionV2Request.swift */; };
+		88BFEDD6255EA5F30095F146 /* MessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEDD5255EA5F30095F146 /* MessageController.swift */; };
+		88BFEDDB255EA6120095F146 /* ConnectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEDDA255EA6120095F146 /* ConnectionController.swift */; };
+		88BFEDE1255EA8B10095F146 /* Transport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEDE0255EA8B10095F146 /* Transport.swift */; };
+		88BFEDEA255EA9090095F146 /* P2P.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEDE9255EA9090095F146 /* P2P.swift */; };
+		88BFEDEF255EAC240095F146 /* Dictionary+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEDEE255EAC240095F146 /* Dictionary+Additions.swift */; };
+		88BFEDFC255EB4540095F146 /* ClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEDF4255EB4480095F146 /* ClientTests.swift */; };
+		88BFEE05255EBF6A0095F146 /* ConnectionControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEE04255EBF6A0095F146 /* ConnectionControllerProtocol.swift */; };
+		88BFEE0E255EC08B0095F146 /* MessageControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEE0D255EC08B0095F146 /* MessageControllerProtocol.swift */; };
+		88BFEE2E255ECA0C0095F146 /* MockMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEE13255EC1710095F146 /* MockMessageController.swift */; };
+		88BFEE37255ECA420095F146 /* MockConnectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEE36255ECA420095F146 /* MockConnectionController.swift */; };
+		88BFEE42255ECE8A0095F146 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEE41255ECE8A0095F146 /* TestUtils.swift */; };
+		88BFEE4F255EE1F00095F146 /* ExtendedStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEE4E255EE1F00095F146 /* ExtendedStorage.swift */; };
+		88BFEE55255EE3630095F146 /* DecoratedStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BFEE54255EE3630095F146 /* DecoratedStorage.swift */; };
+		88CC0CC2256EA18000F54056 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0CC1256EA18000F54056 /* Network.swift */; };
+		88CC0CD8256EB98D00F54056 /* TryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0CD7256EB98D00F54056 /* TryUtils.swift */; };
+		88D13B3B256283A500E24EAC /* ConnectionMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D13B3A256283A500E24EAC /* ConnectionMessage.swift */; };
+		88D13B432562847200E24EAC /* SerializedConnectionMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D13B422562847200E24EAC /* SerializedConnectionMessage.swift */; };
+		88D13B482562848F00E24EAC /* BeaconConnectionMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D13B472562848F00E24EAC /* BeaconConnectionMessage.swift */; };
+		88D13B622562A4E500E24EAC /* CommunicationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D13B612562A4E500E24EAC /* CommunicationClient.swift */; };
+		88D13B672562A84800E24EAC /* P2PPeerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D13B662562A84800E24EAC /* P2PPeerInfo.swift */; };
+		88D13B702562C29700E24EAC /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D13B6F2562C29700E24EAC /* Matrix.swift */; };
+		88D13B752562C53500E24EAC /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D13B742562C53500E24EAC /* Event.swift */; };
+		OBJ_30 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
+		OBJ_42 /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* XCTestManifests.swift */; };
+		OBJ_44 /* BeaconSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "BeaconSDK::BeaconSDK::Product" /* BeaconSDK.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		886FE8D125681E9200178523 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 886FE8BF25681E8E00178523;
+			remoteInfo = BeaconSDKDemo;
+		};
+		886FE8DC25681E9300178523 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 886FE8BF25681E8E00178523;
+			remoteInfo = BeaconSDKDemo;
+		};
+		8885ED14256BDEAC00F1AE75 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "BeaconSDK::BeaconSDK";
+			remoteInfo = BeaconSDK;
+		};
+		88BFEA7B255ADF3D0095F146 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "BeaconSDK::BeaconSDK";
+			remoteInfo = BeaconSDK;
+		};
+		88BFEA7E255ADF3E0095F146 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "BeaconSDK::BeaconSDKTests";
+			remoteInfo = BeaconSDKTests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8885ED16256BDEAC00F1AE75 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8885ED13256BDEAC00F1AE75 /* BeaconSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		88BFEB20255BE2FB0095F146 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				88BFEB1F255BE2FB0095F146 /* libsodium.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		886FE71A2566B7FB00178523 /* String+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
+		886FE7202566B97600178523 /* HandshakeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandshakeInfo.swift; sourceTree = "<group>"; };
+		886FE72C2566C54000178523 /* EventResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventResponse.swift; sourceTree = "<group>"; };
+		886FE7342566CD7900178523 /* RoomService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomService.swift; sourceTree = "<group>"; };
+		886FE7452566CE5100178523 /* CreateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRequest.swift; sourceTree = "<group>"; };
+		886FE74A2566CFDD00178523 /* CreateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateResponse.swift; sourceTree = "<group>"; };
+		886FE8592567FF6600178523 /* HexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexString.swift; sourceTree = "<group>"; };
+		886FE8B42568148700178523 /* LazyWeakReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyWeakReference.swift; sourceTree = "<group>"; };
+		886FE8C025681E8E00178523 /* BeaconSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeaconSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		886FE8C225681E8E00178523 /* BeaconSDKDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconSDKDemoApp.swift; sourceTree = "<group>"; };
+		886FE8C625681E9200178523 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		886FE8C925681E9200178523 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		886FE8CB25681E9200178523 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		886FE8D025681E9200178523 /* BeaconSDKDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeaconSDKDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		886FE8D425681E9200178523 /* BeaconSDKDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconSDKDemoTests.swift; sourceTree = "<group>"; };
+		886FE8D625681E9200178523 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		886FE8DB25681E9200178523 /* BeaconSDKDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeaconSDKDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		886FE8DF25681E9300178523 /* BeaconSDKDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconSDKDemoUITests.swift; sourceTree = "<group>"; };
+		886FE8E125681E9300178523 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		886FE9A025682B9C00178523 /* BeaconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconView.swift; sourceTree = "<group>"; };
+		886FE9AF25682D5C00178523 /* BeaconViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconViewModel.swift; sourceTree = "<group>"; };
+		8885ED04256BBE1700F1AE75 /* Result+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Additions.swift"; sourceTree = "<group>"; };
+		88AA0002256533FF003B18F5 /* Create.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Create.swift; sourceTree = "<group>"; };
+		88AA0007256534BA003B18F5 /* Invite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invite.swift; sourceTree = "<group>"; };
+		88AA000C256534DA003B18F5 /* Join.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Join.swift; sourceTree = "<group>"; };
+		88AA0011256534FA003B18F5 /* TextMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextMessage.swift; sourceTree = "<group>"; };
+		88AA0022256547DB003B18F5 /* Sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sync.swift; sourceTree = "<group>"; };
+		88AA002A256558DC003B18F5 /* Array+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Additions.swift"; sourceTree = "<group>"; };
+		88AA002F25656013003B18F5 /* DistinguishableListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistinguishableListener.swift; sourceTree = "<group>"; };
+		88AA003C25656BF3003B18F5 /* Serializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Serializer.swift; sourceTree = "<group>"; };
+		88AA0052256572D2003B18F5 /* Base58CheckSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base58CheckSerializer.swift; sourceTree = "<group>"; };
+		88AA005A25657DF3003B18F5 /* CommunicationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationUtils.swift; sourceTree = "<group>"; };
+		88AA005F25666395003B18F5 /* ServerUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerUtils.swift; sourceTree = "<group>"; };
+		88AA0065256691B1003B18F5 /* PeerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerInfo.swift; sourceTree = "<group>"; };
+		88AA006D256694BF003B18F5 /* BeaconConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconConnection.swift; sourceTree = "<group>"; };
+		88AA00AF25669C63003B18F5 /* P2PConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PConfiguration.swift; sourceTree = "<group>"; };
+		88AAFEDD2563CA1A003B18F5 /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
+		88AAFEE22563CA64003B18F5 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		88AAFEEB2563CBB9003B18F5 /* HTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
+		88AAFEF92563D6E8003B18F5 /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
+		88AAFEFE2563D811003B18F5 /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
+		88AAFF052563D978003B18F5 /* UserIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIdentifier.swift; sourceTree = "<group>"; };
+		88AAFF0E2563DA00003B18F5 /* Password.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Password.swift; sourceTree = "<group>"; };
+		88AAFF272563E015003B18F5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		88AAFF322563EB0A003B18F5 /* Date+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Additions.swift"; sourceTree = "<group>"; };
+		88AAFF372563F709003B18F5 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		88AAFF3E2563F8F7003B18F5 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		88AAFF462563F961003B18F5 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		88AAFF4F256422B0003B18F5 /* SyncResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncResponse.swift; sourceTree = "<group>"; };
+		88AAFF78256508E1003B18F5 /* Rooms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rooms.swift; sourceTree = "<group>"; };
+		88AAFF7D256509AD003B18F5 /* RoomState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomState.swift; sourceTree = "<group>"; };
+		88AAFF85256509BB003B18F5 /* RoomTimeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomTimeline.swift; sourceTree = "<group>"; };
+		88AAFF8A256509D9003B18F5 /* StateEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateEvent.swift; sourceTree = "<group>"; };
+		88AAFF9025650BB0003B18F5 /* CreateStateEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStateEvent.swift; sourceTree = "<group>"; };
+		88AAFF9825650D17003B18F5 /* MemberStateEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStateEvent.swift; sourceTree = "<group>"; };
+		88AAFF9D25651297003B18F5 /* MessageStateEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStateEvent.swift; sourceTree = "<group>"; };
+		88AAFFA2256517D9003B18F5 /* UnknownStateEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnknownStateEvent.swift; sourceTree = "<group>"; };
+		88AAFFEA25652BE2003B18F5 /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		88BFEA8A255AE0150095F146 /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		88BFEAA3255AE08B0095F146 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		88BFEAA9255AE0950095F146 /* UserDefaultsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsStorage.swift; sourceTree = "<group>"; };
+		88BFEAAF255AE09F0095F146 /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		88BFEAC4255AEA7A0095F146 /* Beacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
+		88BFEACE255AED020095F146 /* DependencyRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyRegistry.swift; sourceTree = "<group>"; };
+		88BFEAD8255BDA140095F146 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		88BFEADE255BDDAD0095F146 /* Crypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
+		88BFEAE4255BDE4E0095F146 /* CryptoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoProvider.swift; sourceTree = "<group>"; };
+		88BFEAEA255BDEF20095F146 /* SodiumCryptoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SodiumCryptoProvider.swift; sourceTree = "<group>"; };
+		88BFEAF1255BDF6E0095F146 /* libsodium.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = libsodium.xcframework; sourceTree = "<group>"; };
+		88BFEB2A255C094C0095F146 /* HexStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexStringTests.swift; sourceTree = "<group>"; };
+		88BFEB57255D29AC0095F146 /* CryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoTests.swift; sourceTree = "<group>"; };
+		88BFEB95255D3FFC0095F146 /* BeaconTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconTests.swift; sourceTree = "<group>"; };
+		88BFEB9B255D41590095F146 /* MockStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStorage.swift; sourceTree = "<group>"; };
+		88BFEBA3255D452B0095F146 /* CryptoTestsUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoTestsUtils.swift; sourceTree = "<group>"; };
+		88BFEBAF255D531C0095F146 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		88BFEBB7255D53790095F146 /* Origin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Origin.swift; sourceTree = "<group>"; };
+		88BFEBBC255D54950095F146 /* AppMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMetadata.swift; sourceTree = "<group>"; };
+		88BFEBC9255D56190095F146 /* PermissionScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionScope.swift; sourceTree = "<group>"; };
+		88BFEBD1255D598E0095F146 /* ErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
+		88BFEBD6255D5A410095F146 /* Threshold.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Threshold.swift; sourceTree = "<group>"; };
+		88BFEBED255D5CAD0095F146 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
+		88BFEBF5255D5CFB0095F146 /* CoinRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinRegistry.swift; sourceTree = "<group>"; };
+		88BFEC03255D60720095F146 /* Tezos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tezos.swift; sourceTree = "<group>"; };
+		88BFEC19255D64D00095F146 /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
+		88BFEC1D255D64D00095F146 /* Parameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
+		88BFEC1E255D64D00095F146 /* BlockHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockHeader.swift; sourceTree = "<group>"; };
+		88BFEC21255D64D00095F146 /* Origination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Origination.swift; sourceTree = "<group>"; };
+		88BFEC22255D64D00095F146 /* Proposals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Proposals.swift; sourceTree = "<group>"; };
+		88BFEC23255D64D00095F146 /* Endorsement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endorsement.swift; sourceTree = "<group>"; };
+		88BFEC24255D64D00095F146 /* ActivateAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivateAccount.swift; sourceTree = "<group>"; };
+		88BFEC25255D64D00095F146 /* SeedNonceRevelation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeedNonceRevelation.swift; sourceTree = "<group>"; };
+		88BFEC26255D64D00095F146 /* DoubleBakingEvidence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleBakingEvidence.swift; sourceTree = "<group>"; };
+		88BFEC27255D64D00095F146 /* Ballot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ballot.swift; sourceTree = "<group>"; };
+		88BFEC28255D64D00095F146 /* DoubleEndorsementEvidence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleEndorsementEvidence.swift; sourceTree = "<group>"; };
+		88BFEC29255D64D00095F146 /* Delegation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Delegation.swift; sourceTree = "<group>"; };
+		88BFEC2A255D64D00095F146 /* Reveal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reveal.swift; sourceTree = "<group>"; };
+		88BFEC2B255D64D00095F146 /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		88BFEC2C255D64D00095F146 /* InlinedEndorsement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InlinedEndorsement.swift; sourceTree = "<group>"; };
+		88BFEC67255D70260095F146 /* MichelinePrim.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MichelinePrim.swift; sourceTree = "<group>"; };
+		88BFEC68255D70260095F146 /* Micheline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Micheline.swift; sourceTree = "<group>"; };
+		88BFEC69255D70270095F146 /* MichelineLiteral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MichelineLiteral.swift; sourceTree = "<group>"; };
+		88BFEC7F255D87CF0095F146 /* MichelineSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MichelineSequence.swift; sourceTree = "<group>"; };
+		88BFEC9E255E77B40095F146 /* VersionedMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionedMessage.swift; sourceTree = "<group>"; };
+		88BFECAE255E7B620095F146 /* DisconnectMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisconnectMessage.swift; sourceTree = "<group>"; };
+		88BFECB9255E7C700095F146 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		88BFECBE255E7CB00095F146 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		88BFECC3255E7D6E0095F146 /* PermissionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionRequest.swift; sourceTree = "<group>"; };
+		88BFECC8255E7DB00095F146 /* OperationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationRequest.swift; sourceTree = "<group>"; };
+		88BFECD2255E7E5B0095F146 /* BroadcastRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastRequest.swift; sourceTree = "<group>"; };
+		88BFECD7255E7EA80095F146 /* PermissionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionResponse.swift; sourceTree = "<group>"; };
+		88BFECDC255E7EC30095F146 /* OperationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationResponse.swift; sourceTree = "<group>"; };
+		88BFECE1255E7EE20095F146 /* SignPayloadResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignPayloadResponse.swift; sourceTree = "<group>"; };
+		88BFECE9255E7F130095F146 /* BroadcastResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastResponse.swift; sourceTree = "<group>"; };
+		88BFECEE255E7F3D0095F146 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		88BFED1B255E85230095F146 /* V1Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V1Message.swift; sourceTree = "<group>"; };
+		88BFED29255E863F0095F146 /* V2Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2Message.swift; sourceTree = "<group>"; };
+		88BFED33255E8D320095F146 /* PermissionV1Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionV1Request.swift; sourceTree = "<group>"; };
+		88BFED3B255E8FF20095F146 /* OperationV1Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationV1Request.swift; sourceTree = "<group>"; };
+		88BFED68255E91370095F146 /* SignPayloadRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignPayloadRequest.swift; sourceTree = "<group>"; };
+		88BFED6D255E91440095F146 /* OperationV1Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationV1Response.swift; sourceTree = "<group>"; };
+		88BFED6E255E91440095F146 /* PermissionV1Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionV1Response.swift; sourceTree = "<group>"; };
+		88BFED6F255E91440095F146 /* BroadcastV1Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastV1Response.swift; sourceTree = "<group>"; };
+		88BFED70255E91440095F146 /* ErrorV1Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorV1Response.swift; sourceTree = "<group>"; };
+		88BFED71255E91440095F146 /* SignPayloadV1Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignPayloadV1Response.swift; sourceTree = "<group>"; };
+		88BFED72255E91440095F146 /* SignPayloadV1Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignPayloadV1Request.swift; sourceTree = "<group>"; };
+		88BFED73255E91440095F146 /* DisconnectV1Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisconnectV1Message.swift; sourceTree = "<group>"; };
+		88BFED74255E91440095F146 /* BroadcastV1Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastV1Request.swift; sourceTree = "<group>"; };
+		88BFED9B255EA04D0095F146 /* SignPayloadV2Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignPayloadV2Response.swift; sourceTree = "<group>"; };
+		88BFED9C255EA04D0095F146 /* BroadcastV2Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastV2Request.swift; sourceTree = "<group>"; };
+		88BFED9D255EA04D0095F146 /* OperationV2Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationV2Response.swift; sourceTree = "<group>"; };
+		88BFED9E255EA04D0095F146 /* SignPayloadV2Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignPayloadV2Request.swift; sourceTree = "<group>"; };
+		88BFED9F255EA04D0095F146 /* ErrorV2Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorV2Response.swift; sourceTree = "<group>"; };
+		88BFEDA0255EA04D0095F146 /* DisconnectV2Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisconnectV2Message.swift; sourceTree = "<group>"; };
+		88BFEDA1255EA04D0095F146 /* BroadcastV2Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastV2Response.swift; sourceTree = "<group>"; };
+		88BFEDA2255EA04D0095F146 /* PermissionV2Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionV2Response.swift; sourceTree = "<group>"; };
+		88BFEDA3255EA04D0095F146 /* OperationV2Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationV2Request.swift; sourceTree = "<group>"; };
+		88BFEDA4255EA04D0095F146 /* PermissionV2Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionV2Request.swift; sourceTree = "<group>"; };
+		88BFEDD5255EA5F30095F146 /* MessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageController.swift; sourceTree = "<group>"; };
+		88BFEDDA255EA6120095F146 /* ConnectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionController.swift; sourceTree = "<group>"; };
+		88BFEDE0255EA8B10095F146 /* Transport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transport.swift; sourceTree = "<group>"; };
+		88BFEDE9255EA9090095F146 /* P2P.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2P.swift; sourceTree = "<group>"; };
+		88BFEDEE255EAC240095F146 /* Dictionary+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Additions.swift"; sourceTree = "<group>"; };
+		88BFEDF4255EB4480095F146 /* ClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientTests.swift; sourceTree = "<group>"; };
+		88BFEE04255EBF6A0095F146 /* ConnectionControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionControllerProtocol.swift; sourceTree = "<group>"; };
+		88BFEE0D255EC08B0095F146 /* MessageControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageControllerProtocol.swift; sourceTree = "<group>"; };
+		88BFEE13255EC1710095F146 /* MockMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMessageController.swift; sourceTree = "<group>"; };
+		88BFEE36255ECA420095F146 /* MockConnectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockConnectionController.swift; sourceTree = "<group>"; };
+		88BFEE41255ECE8A0095F146 /* TestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
+		88BFEE4E255EE1F00095F146 /* ExtendedStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedStorage.swift; sourceTree = "<group>"; };
+		88BFEE54255EE3630095F146 /* DecoratedStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoratedStorage.swift; sourceTree = "<group>"; };
+		88CC0CC1256EA18000F54056 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		88CC0CD7256EB98D00F54056 /* TryUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TryUtils.swift; sourceTree = "<group>"; };
+		88D13B3A256283A500E24EAC /* ConnectionMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionMessage.swift; sourceTree = "<group>"; };
+		88D13B422562847200E24EAC /* SerializedConnectionMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerializedConnectionMessage.swift; sourceTree = "<group>"; };
+		88D13B472562848F00E24EAC /* BeaconConnectionMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconConnectionMessage.swift; sourceTree = "<group>"; };
+		88D13B612562A4E500E24EAC /* CommunicationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationClient.swift; sourceTree = "<group>"; };
+		88D13B662562A84800E24EAC /* P2PPeerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PPeerInfo.swift; sourceTree = "<group>"; };
+		88D13B6F2562C29700E24EAC /* Matrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
+		88D13B742562C53500E24EAC /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		"BeaconSDK::BeaconSDK::Product" /* BeaconSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeaconSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"BeaconSDK::BeaconSDKTests::Product" /* BeaconSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = BeaconSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_13 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
+		OBJ_17 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		886FE8BD25681E8E00178523 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8885ED12256BDEAC00F1AE75 /* BeaconSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		886FE8CD25681E9200178523 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		886FE8D825681E9200178523 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_24 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				88AA004625657137003B18F5 /* Base58Swift in Frameworks */,
+				88BFEB1E255BE2FB0095F146 /* libsodium.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_43 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_44 /* BeaconSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		886FE71F2566B95D00178523 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				886FE7202566B97600178523 /* HandshakeInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		886FE72B2566C53500178523 /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				886FE72C2566C54000178523 /* EventResponse.swift */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
+		886FE7392566CE2000178523 /* Room */ = {
+			isa = PBXGroup;
+			children = (
+				886FE7452566CE5100178523 /* CreateRequest.swift */,
+				886FE74A2566CFDD00178523 /* CreateResponse.swift */,
+			);
+			path = Room;
+			sourceTree = "<group>";
+		};
+		886FE76B2567DFCA00178523 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				88BFED74255E91440095F146 /* BroadcastV1Request.swift */,
+				88BFED3B255E8FF20095F146 /* OperationV1Request.swift */,
+				88BFED33255E8D320095F146 /* PermissionV1Request.swift */,
+				88BFED72255E91440095F146 /* SignPayloadV1Request.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		886FE76C2567DFDD00178523 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				88BFED6F255E91440095F146 /* BroadcastV1Response.swift */,
+				88BFED70255E91440095F146 /* ErrorV1Response.swift */,
+				88BFED6D255E91440095F146 /* OperationV1Response.swift */,
+				88BFED6E255E91440095F146 /* PermissionV1Response.swift */,
+				88BFED71255E91440095F146 /* SignPayloadV1Response.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		886FE76D2567DFEC00178523 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				88BFED73255E91440095F146 /* DisconnectV1Message.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		886FE76E2567E00100178523 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				88BFED9C255EA04D0095F146 /* BroadcastV2Request.swift */,
+				88BFEDA3255EA04D0095F146 /* OperationV2Request.swift */,
+				88BFEDA4255EA04D0095F146 /* PermissionV2Request.swift */,
+				88BFED9E255EA04D0095F146 /* SignPayloadV2Request.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		886FE76F2567E01800178523 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEDA1255EA04D0095F146 /* BroadcastV2Response.swift */,
+				88BFED9F255EA04D0095F146 /* ErrorV2Response.swift */,
+				88BFED9D255EA04D0095F146 /* OperationV2Response.swift */,
+				88BFEDA2255EA04D0095F146 /* PermissionV2Response.swift */,
+				88BFED9B255EA04D0095F146 /* SignPayloadV2Response.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		886FE7732567E02100178523 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEDA0255EA04D0095F146 /* DisconnectV2Message.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		886FE7772567E05000178523 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				88BFECAE255E7B620095F146 /* DisconnectMessage.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		886FE7D32567E68E00178523 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				88D13B662562A84800E24EAC /* P2PPeerInfo.swift */,
+			);
+			path = Types;
+			sourceTree = "<group>";
+		};
+		886FE8672568056800178523 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				886FE7392566CE2000178523 /* Room */,
+				886FE72B2566C53500178523 /* Event */,
+				88AAFF042563D960003B18F5 /* Login */,
+				88AAFF4B2564092D003B18F5 /* Sync */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		886FE8862568083000178523 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				88AAFF9025650BB0003B18F5 /* CreateStateEvent.swift */,
+				88AAFF9825650D17003B18F5 /* MemberStateEvent.swift */,
+				88AAFF9D25651297003B18F5 /* MessageStateEvent.swift */,
+				88AAFFA2256517D9003B18F5 /* UnknownStateEvent.swift */,
+			);
+			path = Types;
+			sourceTree = "<group>";
+		};
+		886FE8872568083D00178523 /* Room */ = {
+			isa = PBXGroup;
+			children = (
+				88AAFF78256508E1003B18F5 /* Rooms.swift */,
+				88AAFF7D256509AD003B18F5 /* RoomState.swift */,
+				88AAFF85256509BB003B18F5 /* RoomTimeline.swift */,
+			);
+			path = Room;
+			sourceTree = "<group>";
+		};
+		886FE8882568084F00178523 /* UserIdentifier */ = {
+			isa = PBXGroup;
+			children = (
+				88AAFF262563DFB2003B18F5 /* Types */,
+				88AAFF052563D978003B18F5 /* UserIdentifier.swift */,
+			);
+			path = UserIdentifier;
+			sourceTree = "<group>";
+		};
+		886FE8922568090300178523 /* RequestTypes */ = {
+			isa = PBXGroup;
+			children = (
+				88AAFF0E2563DA00003B18F5 /* Password.swift */,
+			);
+			path = RequestTypes;
+			sourceTree = "<group>";
+		};
+		886FE896256809E000178523 /* Provider */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEAE4255BDE4E0095F146 /* CryptoProvider.swift */,
+				88BFEAEA255BDEF20095F146 /* SodiumCryptoProvider.swift */,
+			);
+			path = Provider;
+			sourceTree = "<group>";
+		};
+		886FE898256809F300178523 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEAAF255AE09F0095F146 /* Key.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		886FE8C125681E8E00178523 /* BeaconSDKDemo */ = {
+			isa = PBXGroup;
+			children = (
+				886FE9AE25682C3600178523 /* Beacon */,
+				886FE8CB25681E9200178523 /* Info.plist */,
+				886FE8C225681E8E00178523 /* BeaconSDKDemoApp.swift */,
+				886FE8C625681E9200178523 /* Assets.xcassets */,
+				886FE8C825681E9200178523 /* Preview Content */,
+			);
+			path = BeaconSDKDemo;
+			sourceTree = "<group>";
+		};
+		886FE8C825681E9200178523 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				886FE8C925681E9200178523 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		886FE8D325681E9200178523 /* BeaconSDKDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				886FE8D425681E9200178523 /* BeaconSDKDemoTests.swift */,
+				886FE8D625681E9200178523 /* Info.plist */,
+			);
+			path = BeaconSDKDemoTests;
+			sourceTree = "<group>";
+		};
+		886FE8DE25681E9300178523 /* BeaconSDKDemoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				886FE8DF25681E9300178523 /* BeaconSDKDemoUITests.swift */,
+				886FE8E125681E9300178523 /* Info.plist */,
+			);
+			path = BeaconSDKDemoUITests;
+			sourceTree = "<group>";
+		};
+		886FE9AE25682C3600178523 /* Beacon */ = {
+			isa = PBXGroup;
+			children = (
+				886FE9A025682B9C00178523 /* BeaconView.swift */,
+				886FE9AF25682D5C00178523 /* BeaconViewModel.swift */,
+			);
+			path = Beacon;
+			sourceTree = "<group>";
+		};
+		8885ED26256BF3C900F1AE75 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				88D13B472562848F00E24EAC /* BeaconConnectionMessage.swift */,
+				88D13B422562847200E24EAC /* SerializedConnectionMessage.swift */,
+			);
+			path = Types;
+			sourceTree = "<group>";
+		};
+		88AA003A25656B66003B18F5 /* Serializer */ = {
+			isa = PBXGroup;
+			children = (
+				88AA0052256572D2003B18F5 /* Base58CheckSerializer.swift */,
+				88AA003C25656BF3003B18F5 /* Serializer.swift */,
+			);
+			path = Serializer;
+			sourceTree = "<group>";
+		};
+		88AA00642566919A003B18F5 /* Peer */ = {
+			isa = PBXGroup;
+			children = (
+				88AA0065256691B1003B18F5 /* PeerInfo.swift */,
+				886FE7D32567E68E00178523 /* Types */,
+			);
+			path = Peer;
+			sourceTree = "<group>";
+		};
+		88AA00AE25669C3D003B18F5 /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				88AA006D256694BF003B18F5 /* BeaconConnection.swift */,
+				88AA00AF25669C63003B18F5 /* P2PConfiguration.swift */,
+			);
+			path = Connection;
+			sourceTree = "<group>";
+		};
+		88AAFEEA2563CBAB003B18F5 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				88AAFEEB2563CBB9003B18F5 /* HTTP.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		88AAFF042563D960003B18F5 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				886FE8882568084F00178523 /* UserIdentifier */,
+				886FE8922568090300178523 /* RequestTypes */,
+				88AAFEF92563D6E8003B18F5 /* LoginRequest.swift */,
+				88AAFEFE2563D811003B18F5 /* LoginResponse.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		88AAFF262563DFB2003B18F5 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				88AAFF272563E015003B18F5 /* User.swift */,
+			);
+			path = Types;
+			sourceTree = "<group>";
+		};
+		88AAFF3C2563F770003B18F5 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				88AAFF462563F961003B18F5 /* Action.swift */,
+				88AAFF3E2563F8F7003B18F5 /* State.swift */,
+				88AAFF372563F709003B18F5 /* Store.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		88AAFF3D2563F774003B18F5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				88AAFEDD2563CA1A003B18F5 /* EventService.swift */,
+				886FE7342566CD7900178523 /* RoomService.swift */,
+				88AAFEE22563CA64003B18F5 /* UserService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		88AAFF4B2564092D003B18F5 /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				886FE8872568083D00178523 /* Room */,
+				88AAFF8F25650AFD003B18F5 /* StateEvent */,
+				88AAFF4F256422B0003B18F5 /* SyncResponse.swift */,
+			);
+			path = Sync;
+			sourceTree = "<group>";
+		};
+		88AAFF8F25650AFD003B18F5 /* StateEvent */ = {
+			isa = PBXGroup;
+			children = (
+				886FE8862568083000178523 /* Types */,
+				88AAFF8A256509D9003B18F5 /* StateEvent.swift */,
+			);
+			path = StateEvent;
+			sourceTree = "<group>";
+		};
+		88AAFFB925652221003B18F5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				88D13B742562C53500E24EAC /* Event.swift */,
+				88AAFFEA25652BE2003B18F5 /* Room.swift */,
+				88AA0022256547DB003B18F5 /* Sync.swift */,
+				886FE8672568056800178523 /* API */,
+				88AAFFEF25652CB0003B18F5 /* Events */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		88AAFFBA256523B7003B18F5 /* Beacon */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEAC4255AEA7A0095F146 /* Beacon.swift */,
+				88BFEA8A255AE0150095F146 /* Client.swift */,
+				88BFEAD8255BDA140095F146 /* Configuration.swift */,
+				88AA00AE25669C3D003B18F5 /* Connection */,
+				88AAFFC4256524CF003B18F5 /* Messages */,
+				88AAFFBD25652408003B18F5 /* Model */,
+			);
+			path = Beacon;
+			sourceTree = "<group>";
+		};
+		88AAFFBB256523D1003B18F5 /* Tezos */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEC03255D60720095F146 /* Tezos.swift */,
+				88AAFFBE25652454003B18F5 /* Micheline */,
+				88AAFFBF25652461003B18F5 /* Operation */,
+			);
+			path = Tezos;
+			sourceTree = "<group>";
+		};
+		88AAFFBD25652408003B18F5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEBBC255D54950095F146 /* AppMetadata.swift */,
+				88BFEBD1255D598E0095F146 /* ErrorType.swift */,
+				88CC0CC1256EA18000F54056 /* Network.swift */,
+				88BFEBB7255D53790095F146 /* Origin.swift */,
+				88BFEBC9255D56190095F146 /* PermissionScope.swift */,
+				88BFEBD6255D5A410095F146 /* Threshold.swift */,
+				88AA00642566919A003B18F5 /* Peer */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		88AAFFBE25652454003B18F5 /* Micheline */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEC68255D70260095F146 /* Micheline.swift */,
+				88BFEC69255D70270095F146 /* MichelineLiteral.swift */,
+				88BFEC67255D70260095F146 /* MichelinePrim.swift */,
+				88BFEC7F255D87CF0095F146 /* MichelineSequence.swift */,
+			);
+			path = Micheline;
+			sourceTree = "<group>";
+		};
+		88AAFFBF25652461003B18F5 /* Operation */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEC1E255D64D00095F146 /* BlockHeader.swift */,
+				88BFEC2C255D64D00095F146 /* InlinedEndorsement.swift */,
+				88BFEC19255D64D00095F146 /* Operation.swift */,
+				88BFEC1D255D64D00095F146 /* Parameters.swift */,
+				88AAFFC02565246D003B18F5 /* Kinds */,
+			);
+			path = Operation;
+			sourceTree = "<group>";
+		};
+		88AAFFC02565246D003B18F5 /* Kinds */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEC21255D64D00095F146 /* Origination.swift */,
+				88BFEC22255D64D00095F146 /* Proposals.swift */,
+				88BFEC23255D64D00095F146 /* Endorsement.swift */,
+				88BFEC24255D64D00095F146 /* ActivateAccount.swift */,
+				88BFEC25255D64D00095F146 /* SeedNonceRevelation.swift */,
+				88BFEC26255D64D00095F146 /* DoubleBakingEvidence.swift */,
+				88BFEC27255D64D00095F146 /* Ballot.swift */,
+				88BFEC28255D64D00095F146 /* DoubleEndorsementEvidence.swift */,
+				88BFEC29255D64D00095F146 /* Delegation.swift */,
+				88BFEC2A255D64D00095F146 /* Reveal.swift */,
+				88BFEC2B255D64D00095F146 /* Transaction.swift */,
+			);
+			path = Kinds;
+			sourceTree = "<group>";
+		};
+		88AAFFC4256524CF003B18F5 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEBAF255D531C0095F146 /* Message.swift */,
+				88BFECB9255E7C700095F146 /* Request.swift */,
+				88BFECBE255E7CB00095F146 /* Response.swift */,
+				886FE7772567E05000178523 /* Other */,
+				88BFECAC255E7B4D0095F146 /* Requests */,
+				88BFECAD255E7B520095F146 /* Responses */,
+				88AAFFC5256524E2003B18F5 /* Versioned */,
+			);
+			path = Messages;
+			sourceTree = "<group>";
+		};
+		88AAFFC5256524E2003B18F5 /* Versioned */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEC9E255E77B40095F146 /* VersionedMessage.swift */,
+				88BFED2E255E8C5E0095F146 /* V1 */,
+				88BFED2F255E8C680095F146 /* V2 */,
+			);
+			path = Versioned;
+			sourceTree = "<group>";
+		};
+		88AAFFEF25652CB0003B18F5 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				88AA0002256533FF003B18F5 /* Create.swift */,
+				88AA0007256534BA003B18F5 /* Invite.swift */,
+				88AA000C256534DA003B18F5 /* Join.swift */,
+				88AA0011256534FA003B18F5 /* TextMessage.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		88BFEA97255AE0600095F146 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEE4E255EE1F00095F146 /* ExtendedStorage.swift */,
+				88BFEAA3255AE08B0095F146 /* Storage.swift */,
+				88BFEAA9255AE0950095F146 /* UserDefaultsStorage.swift */,
+				88BFEE53255EE34C0095F146 /* Decorator */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		88BFEA98255AE0660095F146 /* Crypto */ = {
+			isa = PBXGroup;
+			children = (
+				886FE898256809F300178523 /* Model */,
+				886FE896256809E000178523 /* Provider */,
+				88BFEADE255BDDAD0095F146 /* Crypto.swift */,
+			);
+			path = Crypto;
+			sourceTree = "<group>";
+		};
+		88BFEAB5255AE5390095F146 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEACE255AED020095F146 /* DependencyRegistry.swift */,
+				88AA002F25656013003B18F5 /* DistinguishableListener.swift */,
+				886FE8592567FF6600178523 /* HexString.swift */,
+				886FE8B42568148700178523 /* LazyWeakReference.swift */,
+				88CC0CD7256EB98D00F54056 /* TryUtils.swift */,
+				88BFEBAE255D52F30095F146 /* Model */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		88BFEAF0255BDF6E0095F146 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEAF1255BDF6E0095F146 /* libsodium.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		88BFEB7E255D39580095F146 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEB2A255C094C0095F146 /* HexStringTests.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		88BFEB82255D39650095F146 /* Crypto */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEB57255D29AC0095F146 /* CryptoTests.swift */,
+				88BFEBA3255D452B0095F146 /* CryptoTestsUtils.swift */,
+			);
+			path = Crypto;
+			sourceTree = "<group>";
+		};
+		88BFEB9A255D41470095F146 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEB9B255D41590095F146 /* MockStorage.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		88BFEBAE255D52F30095F146 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				88D13B392562838E00E24EAC /* ConnectionMessage */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		88BFEBEC255D5CA10095F146 /* Coin */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEBED255D5CAD0095F146 /* Coin.swift */,
+				88BFEBF5255D5CFB0095F146 /* CoinRegistry.swift */,
+			);
+			path = Coin;
+			sourceTree = "<group>";
+		};
+		88BFEC0E255D62FD0095F146 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				88AA002A256558DC003B18F5 /* Array+Additions.swift */,
+				88AAFF322563EB0A003B18F5 /* Date+Additions.swift */,
+				88BFEDEE255EAC240095F146 /* Dictionary+Additions.swift */,
+				8885ED04256BBE1700F1AE75 /* Result+Additions.swift */,
+				886FE71A2566B7FB00178523 /* String+Additions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		88BFECAC255E7B4D0095F146 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				88BFECD2255E7E5B0095F146 /* BroadcastRequest.swift */,
+				88BFECC8255E7DB00095F146 /* OperationRequest.swift */,
+				88BFECC3255E7D6E0095F146 /* PermissionRequest.swift */,
+				88BFED68255E91370095F146 /* SignPayloadRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		88BFECAD255E7B520095F146 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				88BFECE9255E7F130095F146 /* BroadcastResponse.swift */,
+				88BFECEE255E7F3D0095F146 /* ErrorResponse.swift */,
+				88BFECDC255E7EC30095F146 /* OperationResponse.swift */,
+				88BFECD7255E7EA80095F146 /* PermissionResponse.swift */,
+				88BFECE1255E7EE20095F146 /* SignPayloadResponse.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		88BFED2E255E8C5E0095F146 /* V1 */ = {
+			isa = PBXGroup;
+			children = (
+				88BFED1B255E85230095F146 /* V1Message.swift */,
+				886FE76D2567DFEC00178523 /* Other */,
+				886FE76B2567DFCA00178523 /* Requests */,
+				886FE76C2567DFDD00178523 /* Responses */,
+			);
+			path = V1;
+			sourceTree = "<group>";
+		};
+		88BFED2F255E8C680095F146 /* V2 */ = {
+			isa = PBXGroup;
+			children = (
+				88BFED29255E863F0095F146 /* V2Message.swift */,
+				886FE7732567E02100178523 /* Other */,
+				886FE76E2567E00100178523 /* Requests */,
+				886FE76F2567E01800178523 /* Responses */,
+			);
+			path = V2;
+			sourceTree = "<group>";
+		};
+		88BFEDD4255EA5D50095F146 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEE03255EBF400095F146 /* Connection */,
+				88BFEE0C255EBF880095F146 /* Message */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		88BFEDDF255EA89D0095F146 /* Transport */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEDE0255EA8B10095F146 /* Transport.swift */,
+				88BFEDE8255EA8FC0095F146 /* P2P */,
+			);
+			path = Transport;
+			sourceTree = "<group>";
+		};
+		88BFEDE8255EA8FC0095F146 /* P2P */ = {
+			isa = PBXGroup;
+			children = (
+				88D13B612562A4E500E24EAC /* CommunicationClient.swift */,
+				88AA005A25657DF3003B18F5 /* CommunicationUtils.swift */,
+				88BFEDE9255EA9090095F146 /* P2P.swift */,
+				88AA005F25666395003B18F5 /* ServerUtils.swift */,
+				886FE71F2566B95D00178523 /* Model */,
+			);
+			path = P2P;
+			sourceTree = "<group>";
+		};
+		88BFEDF3255EB4350095F146 /* Beacon */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEB95255D3FFC0095F146 /* BeaconTests.swift */,
+				88BFEDF4255EB4480095F146 /* ClientTests.swift */,
+			);
+			path = Beacon;
+			sourceTree = "<group>";
+		};
+		88BFEE03255EBF400095F146 /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEDDA255EA6120095F146 /* ConnectionController.swift */,
+				88BFEE04255EBF6A0095F146 /* ConnectionControllerProtocol.swift */,
+			);
+			path = Connection;
+			sourceTree = "<group>";
+		};
+		88BFEE0C255EBF880095F146 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEDD5255EA5F30095F146 /* MessageController.swift */,
+				88BFEE0D255EC08B0095F146 /* MessageControllerProtocol.swift */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		88BFEE12255EC1460095F146 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEE35255ECA260095F146 /* Connection */,
+				88BFEE23255EC9FF0095F146 /* Message */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		88BFEE23255EC9FF0095F146 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEE13255EC1710095F146 /* MockMessageController.swift */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		88BFEE35255ECA260095F146 /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEE36255ECA420095F146 /* MockConnectionController.swift */,
+			);
+			path = Connection;
+			sourceTree = "<group>";
+		};
+		88BFEE53255EE34C0095F146 /* Decorator */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEE54255EE3630095F146 /* DecoratedStorage.swift */,
+			);
+			path = Decorator;
+			sourceTree = "<group>";
+		};
+		88D13B392562838E00E24EAC /* ConnectionMessage */ = {
+			isa = PBXGroup;
+			children = (
+				8885ED26256BF3C900F1AE75 /* Types */,
+				88D13B3A256283A500E24EAC /* ConnectionMessage.swift */,
+			);
+			path = ConnectionMessage;
+			sourceTree = "<group>";
+		};
+		88D13B6B2562B3B300E24EAC /* Matrix */ = {
+			isa = PBXGroup;
+			children = (
+				88D13B6F2562C29700E24EAC /* Matrix.swift */,
+				88AAFFB925652221003B18F5 /* Model */,
+				88AAFF3D2563F774003B18F5 /* Services */,
+				88AAFF3C2563F770003B18F5 /* Store */,
+			);
+			path = Matrix;
+			sourceTree = "<group>";
+		};
+		OBJ_10 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				886FE8D325681E9200178523 /* BeaconSDKDemoTests */,
+				886FE8DE25681E9300178523 /* BeaconSDKDemoUITests */,
+				OBJ_11 /* BeaconSDKTests */,
+			);
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_11 /* BeaconSDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				88BFEE41255ECE8A0095F146 /* TestUtils.swift */,
+				OBJ_13 /* XCTestManifests.swift */,
+				88BFEDF3255EB4350095F146 /* Beacon */,
+				88BFEB7E255D39580095F146 /* Common */,
+				88BFEE12255EC1460095F146 /* Controller */,
+				88BFEB82255D39650095F146 /* Crypto */,
+				88BFEB9A255D41470095F146 /* Storage */,
+			);
+			name = BeaconSDKTests;
+			path = Tests/BeaconSDKTests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_14 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				"BeaconSDK::BeaconSDKTests::Product" /* BeaconSDKTests.xctest */,
+				"BeaconSDK::BeaconSDK::Product" /* BeaconSDK.framework */,
+				886FE8C025681E8E00178523 /* BeaconSDKDemo.app */,
+				886FE8D025681E9200178523 /* BeaconSDKDemoTests.xctest */,
+				886FE8DB25681E9200178523 /* BeaconSDKDemoUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		OBJ_5 = {
+			isa = PBXGroup;
+			children = (
+				OBJ_17 /* README.md */,
+				OBJ_6 /* Package.swift */,
+				88BFEAF0255BDF6E0095F146 /* Frameworks */,
+				OBJ_14 /* Products */,
+				OBJ_7 /* Sources */,
+				OBJ_10 /* Tests */,
+			);
+			sourceTree = "<group>";
+		};
+		OBJ_7 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_8 /* BeaconSDK */,
+				886FE8C125681E8E00178523 /* BeaconSDKDemo */,
+			);
+			name = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_8 /* BeaconSDK */ = {
+			isa = PBXGroup;
+			children = (
+				88AAFFBA256523B7003B18F5 /* Beacon */,
+				88BFEBEC255D5CA10095F146 /* Coin */,
+				88BFEAB5255AE5390095F146 /* Common */,
+				88BFEDD4255EA5D50095F146 /* Controller */,
+				88BFEA98255AE0660095F146 /* Crypto */,
+				88BFEC0E255D62FD0095F146 /* Extensions */,
+				88D13B6B2562B3B300E24EAC /* Matrix */,
+				88AAFEEA2563CBAB003B18F5 /* Network */,
+				88AA003A25656B66003B18F5 /* Serializer */,
+				88BFEA97255AE0600095F146 /* Storage */,
+				88AAFFBB256523D1003B18F5 /* Tezos */,
+				88BFEDDF255EA89D0095F146 /* Transport */,
+			);
+			name = BeaconSDK;
+			path = Sources/BeaconSDK;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		886FE8BF25681E8E00178523 /* BeaconSDKDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 886FE8E225681E9300178523 /* Build configuration list for PBXNativeTarget "BeaconSDKDemo" */;
+			buildPhases = (
+				886FE8BC25681E8E00178523 /* Sources */,
+				886FE8BD25681E8E00178523 /* Frameworks */,
+				886FE8BE25681E8E00178523 /* Resources */,
+				8885ED16256BDEAC00F1AE75 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8885ED15256BDEAC00F1AE75 /* PBXTargetDependency */,
+			);
+			name = BeaconSDKDemo;
+			productName = BeaconSDKDemo;
+			productReference = 886FE8C025681E8E00178523 /* BeaconSDKDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		886FE8CF25681E9200178523 /* BeaconSDKDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 886FE8E525681E9300178523 /* Build configuration list for PBXNativeTarget "BeaconSDKDemoTests" */;
+			buildPhases = (
+				886FE8CC25681E9200178523 /* Sources */,
+				886FE8CD25681E9200178523 /* Frameworks */,
+				886FE8CE25681E9200178523 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				886FE8D225681E9200178523 /* PBXTargetDependency */,
+			);
+			name = BeaconSDKDemoTests;
+			productName = BeaconSDKDemoTests;
+			productReference = 886FE8D025681E9200178523 /* BeaconSDKDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		886FE8DA25681E9200178523 /* BeaconSDKDemoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 886FE8E825681E9300178523 /* Build configuration list for PBXNativeTarget "BeaconSDKDemoUITests" */;
+			buildPhases = (
+				886FE8D725681E9200178523 /* Sources */,
+				886FE8D825681E9200178523 /* Frameworks */,
+				886FE8D925681E9200178523 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				886FE8DD25681E9300178523 /* PBXTargetDependency */,
+			);
+			name = BeaconSDKDemoUITests;
+			productName = BeaconSDKDemoUITests;
+			productReference = 886FE8DB25681E9200178523 /* BeaconSDKDemoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		"BeaconSDK::BeaconSDK" /* BeaconSDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_19 /* Build configuration list for PBXNativeTarget "BeaconSDK" */;
+			buildPhases = (
+				OBJ_22 /* Sources */,
+				OBJ_24 /* Frameworks */,
+				88BFEB20255BE2FB0095F146 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BeaconSDK;
+			packageProductDependencies = (
+				88AA004525657137003B18F5 /* Base58Swift */,
+			);
+			productName = BeaconSDK;
+			productReference = "BeaconSDK::BeaconSDK::Product" /* BeaconSDK.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"BeaconSDK::BeaconSDKTests" /* BeaconSDKTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_37 /* Build configuration list for PBXNativeTarget "BeaconSDKTests" */;
+			buildPhases = (
+				OBJ_40 /* Sources */,
+				OBJ_43 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_45 /* PBXTargetDependency */,
+			);
+			name = BeaconSDKTests;
+			productName = BeaconSDKTests;
+			productReference = "BeaconSDK::BeaconSDKTests::Product" /* BeaconSDKTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		"BeaconSDK::SwiftPMPackageDescription" /* BeaconSDKPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_26 /* Build configuration list for PBXNativeTarget "BeaconSDKPackageDescription" */;
+			buildPhases = (
+				OBJ_29 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BeaconSDKPackageDescription;
+			productName = BeaconSDKPackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftMigration = 9999;
+				LastSwiftUpdateCheck = 1220;
+				LastUpgradeCheck = 9999;
+				ORGANIZATIONNAME = "Papers AG";
+				TargetAttributes = {
+					886FE8BF25681E8E00178523 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					886FE8CF25681E9200178523 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 886FE8BF25681E8E00178523;
+					};
+					886FE8DA25681E9200178523 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 886FE8BF25681E8E00178523;
+					};
+					"BeaconSDK::BeaconSDK" = {
+						LastSwiftMigration = 1210;
+					};
+				};
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "BeaconSDK" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = OBJ_5;
+			packageReferences = (
+				88AA004425657137003B18F5 /* XCRemoteSwiftPackageReference "Base58Swift" */,
+			);
+			productRefGroup = OBJ_14 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"BeaconSDK::BeaconSDK" /* BeaconSDK */,
+				"BeaconSDK::SwiftPMPackageDescription" /* BeaconSDKPackageDescription */,
+				"BeaconSDK::BeaconSDKPackageTests::ProductTarget" /* BeaconSDKPackageTests */,
+				"BeaconSDK::BeaconSDKTests" /* BeaconSDKTests */,
+				886FE8BF25681E8E00178523 /* BeaconSDKDemo */,
+				886FE8CF25681E9200178523 /* BeaconSDKDemoTests */,
+				886FE8DA25681E9200178523 /* BeaconSDKDemoUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		886FE8BE25681E8E00178523 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				886FE8CA25681E9200178523 /* Preview Assets.xcassets in Resources */,
+				886FE8C725681E9200178523 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		886FE8CE25681E9200178523 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		886FE8D925681E9200178523 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		886FE8BC25681E8E00178523 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				886FE9A125682B9C00178523 /* BeaconView.swift in Sources */,
+				886FE8C325681E8E00178523 /* BeaconSDKDemoApp.swift in Sources */,
+				886FE9B025682D5C00178523 /* BeaconViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		886FE8CC25681E9200178523 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				886FE8D525681E9200178523 /* BeaconSDKDemoTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		886FE8D725681E9200178523 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				886FE8E025681E9300178523 /* BeaconSDKDemoUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_22 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				88AAFF382563F709003B18F5 /* Store.swift in Sources */,
+				88AA0066256691B1003B18F5 /* PeerInfo.swift in Sources */,
+				88BFEDA8255EA04D0095F146 /* SignPayloadV2Request.swift in Sources */,
+				88BFEE0E255EC08B0095F146 /* MessageControllerProtocol.swift in Sources */,
+				88AA003025656013003B18F5 /* DistinguishableListener.swift in Sources */,
+				88BFEC37255D64D00095F146 /* Proposals.swift in Sources */,
+				88BFEAAA255AE0950095F146 /* UserDefaultsStorage.swift in Sources */,
+				88AAFFA3256517D9003B18F5 /* UnknownStateEvent.swift in Sources */,
+				88BFECBA255E7C700095F146 /* Request.swift in Sources */,
+				88BFEAE5255BDE4E0095F146 /* CryptoProvider.swift in Sources */,
+				88BFEC3E255D64D00095F146 /* Delegation.swift in Sources */,
+				88D13B3B256283A500E24EAC /* ConnectionMessage.swift in Sources */,
+				88D13B482562848F00E24EAC /* BeaconConnectionMessage.swift in Sources */,
+				88BFEC3F255D64D00095F146 /* Reveal.swift in Sources */,
+				88AAFF332563EB0A003B18F5 /* Date+Additions.swift in Sources */,
+				88BFEBD2255D598E0095F146 /* ErrorType.swift in Sources */,
+				88AA002B256558DC003B18F5 /* Array+Additions.swift in Sources */,
+				88AA0053256572D2003B18F5 /* Base58CheckSerializer.swift in Sources */,
+				88BFEC04255D60720095F146 /* Tezos.swift in Sources */,
+				88AAFF8B256509D9003B18F5 /* StateEvent.swift in Sources */,
+				88BFEDDB255EA6120095F146 /* ConnectionController.swift in Sources */,
+				88AAFEFF2563D811003B18F5 /* LoginResponse.swift in Sources */,
+				88BFED69255E91370095F146 /* SignPayloadRequest.swift in Sources */,
+				88D13B702562C29700E24EAC /* Matrix.swift in Sources */,
+				88BFEDAB255EA04D0095F146 /* BroadcastV2Response.swift in Sources */,
+				88BFEC80255D87CF0095F146 /* MichelineSequence.swift in Sources */,
+				88BFECD8255E7EA80095F146 /* PermissionResponse.swift in Sources */,
+				88BFEAA4255AE08B0095F146 /* Storage.swift in Sources */,
+				88BFECC9255E7DB00095F146 /* OperationRequest.swift in Sources */,
+				88BFEACF255AED020095F146 /* DependencyRegistry.swift in Sources */,
+				886FE8B52568148700178523 /* LazyWeakReference.swift in Sources */,
+				88D13B752562C53500E24EAC /* Event.swift in Sources */,
+				88AAFFEB25652BE2003B18F5 /* Room.swift in Sources */,
+				88AA0023256547DB003B18F5 /* Sync.swift in Sources */,
+				88AA003D25656BF3003B18F5 /* Serializer.swift in Sources */,
+				88BFEC3A255D64D00095F146 /* SeedNonceRevelation.swift in Sources */,
+				88BFED1C255E85230095F146 /* V1Message.swift in Sources */,
+				88BFEDA9255EA04D0095F146 /* ErrorV2Response.swift in Sources */,
+				88BFEDEA255EA9090095F146 /* P2P.swift in Sources */,
+				88BFEC33255D64D00095F146 /* Parameters.swift in Sources */,
+				88BFED79255E91450095F146 /* SignPayloadV1Response.swift in Sources */,
+				88BFED77255E91440095F146 /* BroadcastV1Response.swift in Sources */,
+				88AAFEEC2563CBB9003B18F5 /* HTTP.swift in Sources */,
+				88BFED75255E91440095F146 /* OperationV1Response.swift in Sources */,
+				88BFED34255E8D320095F146 /* PermissionV1Request.swift in Sources */,
+				88AAFF50256422B0003B18F5 /* SyncResponse.swift in Sources */,
+				88AAFF0F2563DA00003B18F5 /* Password.swift in Sources */,
+				88BFEDD6255EA5F30095F146 /* MessageController.swift in Sources */,
+				88BFEBD7255D5A410095F146 /* Threshold.swift in Sources */,
+				88AAFF86256509BB003B18F5 /* RoomTimeline.swift in Sources */,
+				88CC0CC2256EA18000F54056 /* Network.swift in Sources */,
+				88BFEDAD255EA04D0095F146 /* OperationV2Request.swift in Sources */,
+				88D13B622562A4E500E24EAC /* CommunicationClient.swift in Sources */,
+				88AAFF9E25651297003B18F5 /* MessageStateEvent.swift in Sources */,
+				88BFEDA6255EA04D0095F146 /* BroadcastV2Request.swift in Sources */,
+				88D13B672562A84800E24EAC /* P2PPeerInfo.swift in Sources */,
+				88AAFF9125650BB0003B18F5 /* CreateStateEvent.swift in Sources */,
+				88CC0CD8256EB98D00F54056 /* TryUtils.swift in Sources */,
+				88BFEC2F255D64D00095F146 /* Operation.swift in Sources */,
+				88AA005B25657DF3003B18F5 /* CommunicationUtils.swift in Sources */,
+				886FE7462566CE5100178523 /* CreateRequest.swift in Sources */,
+				886FE7212566B97600178523 /* HandshakeInfo.swift in Sources */,
+				88BFED78255E91440095F146 /* ErrorV1Response.swift in Sources */,
+				88BFEC9F255E77B40095F146 /* VersionedMessage.swift in Sources */,
+				886FE85A2567FF6600178523 /* HexString.swift in Sources */,
+				8885ED05256BBE1700F1AE75 /* Result+Additions.swift in Sources */,
+				88BFEC36255D64D00095F146 /* Origination.swift in Sources */,
+				88BFEADF255BDDAD0095F146 /* Crypto.swift in Sources */,
+				88AAFEE32563CA64003B18F5 /* UserService.swift in Sources */,
+				88BFED3C255E8FF20095F146 /* OperationV1Request.swift in Sources */,
+				886FE72D2566C54000178523 /* EventResponse.swift in Sources */,
+				88BFEBBD255D54950095F146 /* AppMetadata.swift in Sources */,
+				88BFEE55255EE3630095F146 /* DecoratedStorage.swift in Sources */,
+				88AAFF282563E015003B18F5 /* User.swift in Sources */,
+				88BFEDAE255EA04D0095F146 /* PermissionV2Request.swift in Sources */,
+				88BFED7A255E91450095F146 /* SignPayloadV1Request.swift in Sources */,
+				88BFEC38255D64D00095F146 /* Endorsement.swift in Sources */,
+				88BFEC3D255D64D00095F146 /* DoubleEndorsementEvidence.swift in Sources */,
+				88AAFEFA2563D6E8003B18F5 /* LoginRequest.swift in Sources */,
+				88BFECDD255E7EC30095F146 /* OperationResponse.swift in Sources */,
+				88AAFF7E256509AD003B18F5 /* RoomState.swift in Sources */,
+				88AAFF3F2563F8F7003B18F5 /* State.swift in Sources */,
+				88BFECAF255E7B620095F146 /* DisconnectMessage.swift in Sources */,
+				886FE71B2566B7FB00178523 /* String+Additions.swift in Sources */,
+				88BFEBF6255D5CFB0095F146 /* CoinRegistry.swift in Sources */,
+				88BFEAD9255BDA140095F146 /* Configuration.swift in Sources */,
+				88BFEDAA255EA04D0095F146 /* DisconnectV2Message.swift in Sources */,
+				88BFEC3B255D64D00095F146 /* DoubleBakingEvidence.swift in Sources */,
+				88D13B432562847200E24EAC /* SerializedConnectionMessage.swift in Sources */,
+				88BFEAC5255AEA7A0095F146 /* Beacon.swift in Sources */,
+				88BFEDAC255EA04D0095F146 /* PermissionV2Response.swift in Sources */,
+				88AA0008256534BA003B18F5 /* Invite.swift in Sources */,
+				88AAFF062563D978003B18F5 /* UserIdentifier.swift in Sources */,
+				88AA00B025669C63003B18F5 /* P2PConfiguration.swift in Sources */,
+				88BFED76255E91440095F146 /* PermissionV1Response.swift in Sources */,
+				88BFEDEF255EAC240095F146 /* Dictionary+Additions.swift in Sources */,
+				886FE74B2566CFDD00178523 /* CreateResponse.swift in Sources */,
+				88BFEA8B255AE0150095F146 /* Client.swift in Sources */,
+				88BFEBB0255D531C0095F146 /* Message.swift in Sources */,
+				88BFECD3255E7E5B0095F146 /* BroadcastRequest.swift in Sources */,
+				88BFEBCA255D56190095F146 /* PermissionScope.swift in Sources */,
+				88AA0003256533FF003B18F5 /* Create.swift in Sources */,
+				88AAFF9925650D17003B18F5 /* MemberStateEvent.swift in Sources */,
+				88BFECEF255E7F3D0095F146 /* ErrorResponse.swift in Sources */,
+				88BFEDA5255EA04D0095F146 /* SignPayloadV2Response.swift in Sources */,
+				88BFEC39255D64D00095F146 /* ActivateAccount.swift in Sources */,
+				88BFEE05255EBF6A0095F146 /* ConnectionControllerProtocol.swift in Sources */,
+				88BFED7C255E91450095F146 /* BroadcastV1Request.swift in Sources */,
+				88BFEC6C255D70270095F146 /* MichelinePrim.swift in Sources */,
+				88AAFF79256508E1003B18F5 /* Rooms.swift in Sources */,
+				88BFECC4255E7D6E0095F146 /* PermissionRequest.swift in Sources */,
+				88BFEC41255D64D00095F146 /* InlinedEndorsement.swift in Sources */,
+				88BFEAEB255BDEF20095F146 /* SodiumCryptoProvider.swift in Sources */,
+				88AA000D256534DA003B18F5 /* Join.swift in Sources */,
+				88BFEDE1255EA8B10095F146 /* Transport.swift in Sources */,
+				88BFEE4F255EE1F00095F146 /* ExtendedStorage.swift in Sources */,
+				88BFECEA255E7F130095F146 /* BroadcastResponse.swift in Sources */,
+				88BFEDA7255EA04D0095F146 /* OperationV2Response.swift in Sources */,
+				88AAFF472563F961003B18F5 /* Action.swift in Sources */,
+				88BFEC6D255D70270095F146 /* Micheline.swift in Sources */,
+				88BFECBF255E7CB00095F146 /* Response.swift in Sources */,
+				88BFEC6E255D70270095F146 /* MichelineLiteral.swift in Sources */,
+				88AA006E256694BF003B18F5 /* BeaconConnection.swift in Sources */,
+				88AA006025666395003B18F5 /* ServerUtils.swift in Sources */,
+				88BFEC40255D64D00095F146 /* Transaction.swift in Sources */,
+				88BFEC34255D64D00095F146 /* BlockHeader.swift in Sources */,
+				88BFED7B255E91450095F146 /* DisconnectV1Message.swift in Sources */,
+				88BFEAB0255AE09F0095F146 /* Key.swift in Sources */,
+				88AA0012256534FA003B18F5 /* TextMessage.swift in Sources */,
+				88BFED2A255E863F0095F146 /* V2Message.swift in Sources */,
+				886FE7352566CD7900178523 /* RoomService.swift in Sources */,
+				88AAFEDE2563CA1A003B18F5 /* EventService.swift in Sources */,
+				88BFEC3C255D64D00095F146 /* Ballot.swift in Sources */,
+				88BFEBB8255D53790095F146 /* Origin.swift in Sources */,
+				88BFEBEE255D5CAD0095F146 /* Coin.swift in Sources */,
+				88BFECE2255E7EE20095F146 /* SignPayloadResponse.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_30 /* Package.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				88BFEE2E255ECA0C0095F146 /* MockMessageController.swift in Sources */,
+				88BFEB96255D3FFC0095F146 /* BeaconTests.swift in Sources */,
+				88BFEB32255C0A590095F146 /* HexStringTests.swift in Sources */,
+				88BFEE42255ECE8A0095F146 /* TestUtils.swift in Sources */,
+				88BFEB9C255D41590095F146 /* MockStorage.swift in Sources */,
+				88BFEBA4255D452B0095F146 /* CryptoTestsUtils.swift in Sources */,
+				88BFEDFC255EB4540095F146 /* ClientTests.swift in Sources */,
+				88BFEB70255D39300095F146 /* CryptoTests.swift in Sources */,
+				88BFEE37255ECA420095F146 /* MockConnectionController.swift in Sources */,
+				OBJ_42 /* XCTestManifests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		886FE8D225681E9200178523 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 886FE8BF25681E8E00178523 /* BeaconSDKDemo */;
+			targetProxy = 886FE8D125681E9200178523 /* PBXContainerItemProxy */;
+		};
+		886FE8DD25681E9300178523 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 886FE8BF25681E8E00178523 /* BeaconSDKDemo */;
+			targetProxy = 886FE8DC25681E9300178523 /* PBXContainerItemProxy */;
+		};
+		8885ED15256BDEAC00F1AE75 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "BeaconSDK::BeaconSDK" /* BeaconSDK */;
+			targetProxy = 8885ED14256BDEAC00F1AE75 /* PBXContainerItemProxy */;
+		};
+		OBJ_35 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "BeaconSDK::BeaconSDKTests" /* BeaconSDKTests */;
+			targetProxy = 88BFEA7E255ADF3E0095F146 /* PBXContainerItemProxy */;
+		};
+		OBJ_45 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = "BeaconSDK::BeaconSDK" /* BeaconSDK */;
+			targetProxy = 88BFEA7B255ADF3D0095F146 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		886FE8E325681E9300178523 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"BeaconSDKDemo/Preview Content\"";
+				DEVELOPMENT_TEAM = 7VLXNQ52UC;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = BeaconSDKDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "it.airgap.beacon-sdk-demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		886FE8E425681E9300178523 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_ASSET_PATHS = "\"BeaconSDKDemo/Preview Content\"";
+				DEVELOPMENT_TEAM = 7VLXNQ52UC;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = BeaconSDKDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "it.airgap.beacon-sdk-demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		886FE8E625681E9300178523 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7VLXNQ52UC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = BeaconSDKDemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = it.airgap.BeaconSDKDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BeaconSDKDemo.app/BeaconSDKDemo";
+			};
+			name = Debug;
+		};
+		886FE8E725681E9300178523 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 7VLXNQ52UC;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = BeaconSDKDemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = it.airgap.BeaconSDKDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BeaconSDKDemo.app/BeaconSDKDemo";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		886FE8E925681E9300178523 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7VLXNQ52UC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = BeaconSDKDemoUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = it.airgap.BeaconSDKDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = BeaconSDKDemo;
+			};
+			name = Debug;
+		};
+		886FE8EA25681E9300178523 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 7VLXNQ52UC;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = BeaconSDKDemoUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = it.airgap.BeaconSDKDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = BeaconSDKDemo;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		OBJ_20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = BeaconSDK.xcodeproj/BeaconSDK_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "it.airgap.beacon-sdk";
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGET_NAME = BeaconSDK;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		OBJ_21 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = BeaconSDK.xcodeproj/BeaconSDK_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "it.airgap.beacon-sdk";
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGET_NAME = BeaconSDK;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		OBJ_27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 5.3.0";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		OBJ_28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 5.3.0";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SWIFT_PACKAGE=1",
+					"DEBUG=1",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE DEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_33 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+			};
+			name = Debug;
+		};
+		OBJ_34 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+			};
+			name = Release;
+		};
+		OBJ_38 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = BeaconSDK.xcodeproj/BeaconSDKTests_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = BeaconSDKTests;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		OBJ_39 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = BeaconSDK.xcodeproj/BeaconSDKTests_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = BeaconSDKTests;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SWIFT_PACKAGE=1",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		886FE8E225681E9300178523 /* Build configuration list for PBXNativeTarget "BeaconSDKDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				886FE8E325681E9300178523 /* Debug */,
+				886FE8E425681E9300178523 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		886FE8E525681E9300178523 /* Build configuration list for PBXNativeTarget "BeaconSDKDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				886FE8E625681E9300178523 /* Debug */,
+				886FE8E725681E9300178523 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		886FE8E825681E9300178523 /* Build configuration list for PBXNativeTarget "BeaconSDKDemoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				886FE8E925681E9300178523 /* Debug */,
+				886FE8EA25681E9300178523 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_19 /* Build configuration list for PBXNativeTarget "BeaconSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_20 /* Debug */,
+				OBJ_21 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_2 /* Build configuration list for PBXProject "BeaconSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_26 /* Build configuration list for PBXNativeTarget "BeaconSDKPackageDescription" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_27 /* Debug */,
+				OBJ_28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_32 /* Build configuration list for PBXAggregateTarget "BeaconSDKPackageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_33 /* Debug */,
+				OBJ_34 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_37 /* Build configuration list for PBXNativeTarget "BeaconSDKTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_38 /* Debug */,
+				OBJ_39 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		88AA004425657137003B18F5 /* XCRemoteSwiftPackageReference "Base58Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/keefertaylor/Base58Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.14;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		88AA004525657137003B18F5 /* Base58Swift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88AA004425657137003B18F5 /* XCRemoteSwiftPackageReference "Base58Swift" */;
+			productName = Base58Swift;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = OBJ_1 /* Project object */;
+}

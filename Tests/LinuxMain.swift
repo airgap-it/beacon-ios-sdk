@@ -1,7 +1,7 @@
 import XCTest
 
-import beacon_sdkTests
+import BeaconSDKTests
 
 var tests = [XCTestCaseEntry]()
-tests += beacon_sdkTests.allTests()
+tests += BeaconSDKTests.allTests()
 XCTMain(tests)
