@@ -7,8 +7,11 @@
 //
 
 import Foundation
+import Base58Swift
 
 public class Tezos: Coin {
+    private static let tz1Prefix: [UInt8] = [6, 161, 159]
+    
     private let crypto: Crypto
     
     init(crypto: Crypto) {
@@ -16,6 +19,41 @@ public class Tezos: Coin {
     }
     
     func getAddressFrom(publicKey: String) throws -> String {
-        "" // TODO: implementation
+        let payload = try crypto.hash(message: try publicKey.toBytes(), size: 20)
+        return Base58.base58CheckEncode(Tezos.tz1Prefix + payload)
+    }
+    
+    // MARK: Types
+    
+    enum Error: Swift.Error {
+        case invalidPublicKey(String)
+    }
+}
+
+// MARK: Extensions
+
+private extension String {
+    static let encryptedPublicKeyPrefix = "edpk"
+    
+    var isPlainPublicKey: Bool {
+        (count == 64 || count == 66) && isHex
+    }
+    
+    var isEncryptedPublicKey: Bool {
+        count == 54 && hasPrefix(.encryptedPublicKeyPrefix)
+    }
+    
+    func toBytes() throws -> [UInt8] {
+        if isPlainPublicKey {
+            return try HexString(from: self).bytes()
+        } else if isEncryptedPublicKey {
+            guard let decoded = Base58.base58CheckDecode(self) else {
+                throw Tezos.Error.invalidPublicKey(self)
+            }
+            
+            return Array(decoded[String.encryptedPublicKeyPrefix.count...])
+        } else {
+            throw Tezos.Error.invalidPublicKey(self)
+        }
     }
 }

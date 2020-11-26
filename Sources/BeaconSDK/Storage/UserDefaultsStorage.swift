@@ -54,6 +54,25 @@ class UserDefaultsStorage: Storage {
         }
     }
     
+    // MARK: Permissions
+    
+    func getPermissions(completion: @escaping (Result<[Beacon.PermissionInfo], Error>) -> ()) {
+        do {
+            completion(.success(try userDefaults.get([Beacon.PermissionInfo].self, forKey: .permissions) ?? []))
+        } catch {
+            completion(.failure(error))
+        }
+    }
+    
+    func set(_ permissions: [Beacon.PermissionInfo], completion: @escaping (Result<(), Error>) -> ()) {
+        do {
+            try userDefaults.set(permissions, forKey: .permissions)
+            completion(.success(()))
+        } catch {
+            completion(.failure(error))
+        }
+    }
+    
     // MARK: Matrix
     
     func getMatrixSyncToken(completion: @escaping (Result<String?, Error>) -> ()) {
@@ -110,6 +129,7 @@ class UserDefaultsStorage: Storage {
     enum Key: String {
         case peers
         case appMetadata
+        case permissions
         case matrixSyncToken
         case matrixRooms
         case sdkSecretSeed

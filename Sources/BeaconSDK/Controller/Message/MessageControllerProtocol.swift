@@ -14,4 +14,10 @@ protocol MessageControllerProtocol {
         with origin: Beacon.Origin,
         completion: @escaping (Result<Beacon.Message, Error>) -> ()
     )
+    
+    func onOutgoing(
+        _ message: Beacon.Message,
+        from senderID: String,
+        completion: @escaping (Result<(Beacon.Origin, Beacon.Message.Versioned), Error>) -> ()
+    )
 }

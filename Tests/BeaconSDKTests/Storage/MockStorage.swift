@@ -11,6 +11,7 @@
 class MockStorage: Storage {
     var peers: [Beacon.PeerInfo] = []
     var appMetadata: [Beacon.AppMetadata] = []
+    var permissions: [Beacon.PermissionInfo] = []
     var matrixSyncToken: String?
     var matrixRooms: [Matrix.Room] = []
     var sdkSecretSeed: String?
@@ -31,6 +32,15 @@ class MockStorage: Storage {
     
     func set(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Error>) -> ()) {
         self.appMetadata = appMetadata
+        completion(.success(()))
+    }
+    
+    func getPermissions(completion: @escaping (Result<[Beacon.PermissionInfo], Error>) -> ()) {
+        completion(.success(permissions))
+    }
+    
+    func set(_ permissions: [Beacon.PermissionInfo], completion: @escaping (Result<(), Error>) -> ()) {
+        self.permissions = permissions
         completion(.success(()))
     }
     

@@ -73,7 +73,7 @@ extension Transport.P2P {
                         return
                     }
                     
-                    listener(selfStrong.decrypt(message: textMessage, with: publicKey))
+                    listener(catchResult { try selfStrong.decrypt(message: textMessage, with: publicKey) })
                 }
             }
             
@@ -94,31 +94,41 @@ extension Transport.P2P {
             }
         }
         
-        private func decrypt(message encrypted: Matrix.Event.TextMessage, with publicKey: HexString) -> Result<String, Swift.Error> {
-            getOrCreateSessionKeyPair(for: publicKey)
-                .flatMap { keyPair in
-                    if encrypted.message.isHex {
-                        return catchResult { try crypto.decrypt(message: try HexString(from: encrypted.message), withSharedKey: keyPair.rx) }
-                    } else {
-                        return catchResult { try crypto.decrypt(message: encrypted.message, withSharedKey: keyPair.rx) }
-                    }
+        private func decrypt(message encrypted: Matrix.Event.TextMessage, with publicKey: HexString) throws -> String {
+            let keyPair = try getOrCreateServerSessionKeyPair(for: publicKey)
+            
+            let decrypted: [UInt8] = try {
+                if encrypted.message.isHex {
+                    return try crypto.decrypt(message: try HexString(from: encrypted.message), withSharedKey: keyPair.rx)
+                } else {
+                    return try crypto.decrypt(message: encrypted.message, withSharedKey: keyPair.rx)
                 }
-                .map { (bytes: [UInt8]) in String(bytes: bytes, encoding: .utf8) ?? "" }
+            }()
+                
+            return String(bytes: decrypted, encoding: .utf8) ?? ""
         }
         
-        private func getOrCreateSessionKeyPair(for publicKey: HexString) -> Result<SessionKeyPair, Swift.Error> {
-            do {
-                let sessionKeyPair = try serverSessionKeyPair.getOrSet(publicKey) {
-                    try crypto.serverSessionKeyPair(publicKey: publicKey.bytes(), secretKey: keyPair.secretKey)
-                }
-                
-                return .success(sessionKeyPair)
-            } catch {
-                return .failure(error)
+        private func getOrCreateServerSessionKeyPair(for publicKey: HexString) throws -> SessionKeyPair {
+            try serverSessionKeyPair.getOrSet(publicKey) {
+                try crypto.serverSessionKeyPair(publicKey: publicKey.bytes(), secretKey: keyPair.secretKey)
             }
         }
         
         // MARK: Outgoing Messages
+        
+        func send(message: String, to publicKey: HexString, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+            do {
+                let encrypted = HexString(from: try encrypt(message: message, with: publicKey)).value()
+                for i in 0..<replicationCount {
+                    let relayServer = try serverUtils.relayServer(for: publicKey, nonce: try HexString(from: i))
+                    let recipient = try communicationUtils.recipientIdentifier(for: publicKey, on: relayServer)
+                    
+                    matrixClients.awaitAll(async: { $0.send(textMessage: encrypted, to: recipient, completion: $1) }, completion: completion)
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        }
         
         func sendPairingRequest(
             to publicKey: HexString,
@@ -143,6 +153,18 @@ extension Transport.P2P {
                 completion(.failure(error))
             }
         }
+        
+        private func encrypt(message: String, with publicKey: HexString) throws -> [UInt8] {
+            let keyPair = try getOrCreateClientSessionKeyPair(for: publicKey)
+            
+            return try crypto.encrypt(message: message, withSharedKey: keyPair.tx)
+        }
+        
+        private func getOrCreateClientSessionKeyPair(for publicKey: HexString) throws -> SessionKeyPair {
+            try clientSessionKeyPair.getOrSet(publicKey) {
+                try crypto.clientSessionKeyPair(publicKey: publicKey.bytes(), secretKey: keyPair.secretKey)
+            }
+        }
     }
 }
 
@@ -159,7 +181,7 @@ extension Matrix {
                 return
             }
             
-            self.send(textMessage: message, to: room, completion: completion)
+            self.send(message: message, to: room, completion: completion)
         }
     }
     
@@ -169,7 +191,7 @@ extension Matrix {
             if let room = joined.first(where: { $0.members.contains(member) }) {
                 completion(.success(room))
             } else {
-                self.createTrustedPrivateRoom(members: [member], completion: completion)
+                self.createTrustedPrivateRoom(invitedMembers: [member], completion: completion)
             }
         }
     }

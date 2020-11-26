@@ -15,5 +15,20 @@ extension Beacon {
         case operation(Operation)
         case signPayload(SignPayload)
         case broadcast(Broadcast)
+        
+        // MARK: Attributes
+        
+        var identifier: String {
+            switch self {
+            case let .permission(content):
+                return content.id
+            case let .operation(content):
+                return content.id
+            case let .signPayload(content):
+                return content.id
+            case let .broadcast(content):
+                return content.id
+            }
+        }
     }
 }

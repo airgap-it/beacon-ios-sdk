@@ -51,6 +51,19 @@ extension Transport {
             }
         }
         
+        override func send(_ message: ConnectionMessage, to recipient: String? = nil, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+            switch message {
+            case let .serialized(serialized):
+                switch serialized.origin.kind {
+                case .p2p:
+                    send(serialized.content, to: recipient, completion: completion)
+                }
+            default:
+                /* ignore other messages */
+                completion(.success(()))
+            }
+        }
+        
         private func connectWithKnownPeers(completion: @escaping (Result<(), Swift.Error>) -> ()) {
             storage.getPeers { [weak self] result in
                 guard let peers = result.get(ifFailure: completion) else { return }
@@ -80,9 +93,57 @@ extension Transport {
             }
         }
         
+        private func send(_ message: String, to recipient: String?, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+            findRecipients(withPublicKey: recipient) { [weak self] result in
+                guard let recipients = result.get(ifFailure: completion) else { return }
+                
+                var sent = 0
+                
+                do {
+                    try recipients.forEach { recipient in
+                        guard let selfStrong = self else {
+                            completion(.failure(Error.unknown))
+                            return
+                        }
+                        
+                        selfStrong.client.send(message: message, to: try HexString(from: recipient.publicKey)) { result in
+                            guard result.isSuccess(otherwise: completion) else { return }
+                            
+                            sent += 1
+                            if sent == recipients.count {
+                                completion(.success(()))
+                            }
+                        }
+                    }
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+        }
+        
+        private func findRecipients(withPublicKey publicKey: String?, completion: @escaping (Result<[Beacon.P2PPeerInfo], Swift.Error>) -> ()) {
+            storage.getPeers { result in
+                guard let peers = result.get(ifFailure: completion) else { return }
+                let p2pPeers = peers.filterP2P()
+                
+                if let publicKey = publicKey {
+                    let recipients = p2pPeers.filter { $0.publicKey == publicKey }
+                    guard !recipients.isEmpty else {
+                        completion(.failure(Error.unknownRecipient))
+                        return
+                    }
+                    
+                    completion(.success(recipients))
+                } else {
+                    completion(.success(p2pPeers))
+                }
+            }
+        }
+        
         // MARK: Types
         
         enum Error: Swift.Error {
+            case unknownRecipient
             case unknown
         }
     }

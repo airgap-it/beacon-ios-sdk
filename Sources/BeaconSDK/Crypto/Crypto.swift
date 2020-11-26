@@ -23,6 +23,10 @@ class Crypto {
         try cryptoProvider.hash(message: message, size: size)
     }
     
+    func hash(message: [UInt8], size: Int) throws -> [UInt8] {
+        try cryptoProvider.hash(message: message, size: size)
+    }
+    
     func hash(key: HexString) throws -> [UInt8] {
         try hash(key: try key.bytes())
     }
@@ -61,6 +65,18 @@ class Crypto {
         )
     }
     
+    func clientSessionKeyPair(publicKey: [UInt8], secretKey: [UInt8]) throws -> SessionKeyPair {
+        let serverPublicKey = try cryptoProvider.convertToCurve25519(ed25519PublicKey: secretKey[32..<64])
+        let serverSecretKey = try cryptoProvider.convertToCurve25519(ed25519SecretKey: secretKey)
+        let clientPublicKey = try cryptoProvider.convertToCurve25519(ed25519PublicKey: publicKey)
+        
+        return try cryptoProvider.clientSessionKeyPair(
+            serverPublicKey: serverPublicKey,
+            serverSecretKey: serverSecretKey,
+            clientPublicKey: clientPublicKey
+        )
+    }
+    
     // MARK: Signature
     
     func signDetached(message: [UInt8], with key: [UInt8]) throws -> [UInt8] {
@@ -85,6 +101,18 @@ class Crypto {
         let curve25519Key = try cryptoProvider.convertToCurve25519(ed25519PublicKey: key)
         
         return try cryptoProvider.encrypt(message: message, withPublicKey: curve25519Key)
+    }
+
+    func encrypt(message: String, withSharedKey key: [UInt8]) throws -> [UInt8] {
+        try encrypt(message: [UInt8](message.utf8), withSharedKey: key)
+    }
+    
+    func encrypt(message: HexString, withSharedKey key: [UInt8]) throws -> [UInt8] {
+        try encrypt(message: try message.bytes(), withPublicKey: key)
+    }
+    
+    func encrypt(message: [UInt8], withSharedKey key: [UInt8]) throws -> [UInt8] {
+        try cryptoProvider.encrypt(message: message, withSharedKey: key)
     }
     
     func decrypt(message: String, withSharedKey key: [UInt8]) throws -> [UInt8] {

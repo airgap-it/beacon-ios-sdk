@@ -12,10 +12,17 @@ import Foundation
 class MockMessageController: MessageControllerProtocol {
     var isFailing: Bool
     
+    var dAppVersion: String
+    var dAppID: String
+    
     private let storage: ExtendedStorage
     
     init(storage: ExtendedStorage) {
         isFailing = false
+        
+        dAppVersion = "1"
+        dAppID = "mockDApp"
+        
         self.storage = storage
     }
     
@@ -30,6 +37,19 @@ class MockMessageController: MessageControllerProtocol {
             message.toBeaconMessage(with: origin, using: storage) { beaconMessage in
                 completion(beaconMessage)
             }
+        }
+    }
+    
+    func onOutgoing(
+        _ message: Beacon.Message,
+        from senderID: String,
+        completion: @escaping (Result<(Beacon.Origin, Beacon.Message.Versioned), Swift.Error>) -> ()
+    ) {
+        if isFailing {
+            completion(.failure(Error.unknown))
+        } else {
+            let versionedMessage = Beacon.Message.Versioned(from: message, version: dAppVersion, senderID: senderID)
+            completion(.success((Beacon.Origin(kind: .p2p, id: senderID), versionedMessage)))
         }
     }
     

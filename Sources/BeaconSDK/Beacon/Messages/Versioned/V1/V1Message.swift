@@ -84,6 +84,83 @@ extension Beacon.Message.Versioned {
             }
         }
         
+        // MARK: Attributes
+        
+        var version: String {
+            switch self {
+            case let .permissionRequest(content):
+                return content.version
+            case let .operationRequest(content):
+                return content.version
+            case let .signPayloadRequest(content):
+                return content.version
+            case let .broadcastRequest(content):
+                return content.version
+            case let .permissionResponse(content):
+                return content.version
+            case let .operationResponse(content):
+                return content.version
+            case let .signPayloadResponse(content):
+                return content.version
+            case let .broadcastResponse(content):
+                return content.version
+            case let .errorResponse(content):
+                return content.version
+            case let .disconnectMessage(content):
+                return content.version
+            }
+        }
+        
+        var identifier: String {
+            switch self {
+            case let .permissionRequest(content):
+                return content.id
+            case let .operationRequest(content):
+                return content.id
+            case let .signPayloadRequest(content):
+                return content.id
+            case let .broadcastRequest(content):
+                return content.id
+            case let .permissionResponse(content):
+                return content.id
+            case let .operationResponse(content):
+                return content.id
+            case let .signPayloadResponse(content):
+                return content.id
+            case let .broadcastResponse(content):
+                return content.id
+            case let .errorResponse(content):
+                return content.id
+            case let .disconnectMessage(content):
+                return content.id
+            }
+        }
+        
+        func comesFrom(appMetadata: Beacon.AppMetadata) -> Bool {
+            switch self {
+            case let .permissionRequest(content):
+                return content.beaconID == appMetadata.senderID
+            case let .operationRequest(content):
+                return content.beaconID == appMetadata.senderID
+            case let .signPayloadRequest(content):
+                return content.beaconID == appMetadata.senderID
+            case let .broadcastRequest(content):
+                return content.beaconID == appMetadata.senderID
+            case let .permissionResponse(content):
+                return content.beaconID == appMetadata.senderID
+            case let .operationResponse(content):
+                return content.beaconID == appMetadata.senderID
+            case let .signPayloadResponse(content):
+                return content.beaconID == appMetadata.senderID
+            case let .broadcastResponse(content):
+                return content.beaconID == appMetadata.senderID
+            case let .errorResponse(content):
+                return content.beaconID == appMetadata.senderID
+            case let .disconnectMessage(content):
+                return content.beaconID == appMetadata.senderID
+            }
+        }
+        
         // MARK: Codable
         
         init(from decoder: Decoder) throws {

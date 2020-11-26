@@ -14,5 +14,18 @@ extension Beacon {
         case request(Request)
         case response(Response)
         case disconnect(Disconnect)
+        
+        // MARK: Attributes
+        
+        var identifier: String {
+            switch self {
+            case let .request(content):
+                return content.identifier
+            case let .response(content):
+                return content.identifier
+            case let .disconnect(content):
+                return content.id
+            }
+        }
     }
 }

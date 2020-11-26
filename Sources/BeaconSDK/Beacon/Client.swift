@@ -78,6 +78,13 @@ extension Beacon {
             }, completion: completion) 
         }
         
+        public func respond(with response: Beacon.Response, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+            messageController.onOutgoing(.response(response), from: beaconID) { result in
+                guard let (origin, versionedMessage) = result.get(ifFailure: completion) else { return }
+                self.connectionController.send(BeaconConnectionMessage(origin: origin, content: versionedMessage), completion: completion)
+            }
+        }
+        
         public func add(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Swift.Error>) -> ()) {
             storage.add(peers) { result in
                 guard result.isSuccess(otherwise: completion) else { return }

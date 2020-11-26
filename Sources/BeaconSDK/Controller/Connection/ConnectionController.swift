@@ -17,6 +17,8 @@ class ConnectionController: ConnectionControllerProtocol {
         self.serializer = serializer
     }
     
+    // MARK: Subscription
+    
     func subscribe(onRequest listener: @escaping (Result<BeaconConnectionMessage, Error>) -> (), completion: @escaping (Result<(), Error>) -> ()) {
         transports.awaitAll(async: { $0.connect(completion: $1) }) { [weak self] result in
             guard result.isSuccess(otherwise: completion) else { return }
@@ -51,5 +53,21 @@ class ConnectionController: ConnectionControllerProtocol {
         }
         
         transports.forEach { $0.add(listener: listener) }
+    }
+    
+    // MARK: Send
+    
+    func send(
+        _ message: BeaconConnectionMessage,
+        completion: @escaping (Result<(), Error>) -> ()
+    ) {
+        do {
+            let serialized = try serializer.serialize(message: message.content)
+            let serializedConnectionMessage = SerializedConnectionMessage(origin: message.origin, content: serialized)
+            
+            transports.awaitAll(async: { $0.send(.serialized(serializedConnectionMessage), completion: $1) }, completion: completion)
+        } catch {
+            completion(.failure(error))
+        }
     }
 }
