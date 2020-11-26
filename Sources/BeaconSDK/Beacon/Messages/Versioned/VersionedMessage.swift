@@ -41,6 +41,35 @@ extension Beacon.Message {
             }
         }
         
+        // MARK: Attributes
+        
+        var version: String {
+            switch self {
+            case let .v1(content):
+                return content.version
+            case let .v2(content):
+                return content.version
+            }
+        }
+        
+        var identifer: String {
+            switch self {
+            case let .v1(content):
+                return content.identifier
+            case let .v2(content):
+                return content.identifier
+            }
+        }
+        
+        func comesFrom(appMetadata: Beacon.AppMetadata) -> Bool {
+            switch self {
+            case let .v1(content):
+                return content.comesFrom(appMetadata: appMetadata)
+            case let .v2(content):
+                return content.comesFrom(appMetadata: appMetadata)
+            }
+        }
+        
         // MARK: Codable
         
         init(from decoder: Decoder) throws {

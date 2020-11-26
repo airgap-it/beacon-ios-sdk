@@ -32,6 +32,10 @@ class MockConnectionController: ConnectionControllerProtocol {
         completion(.success(()))
     }
     
+    func send(_ message: BeaconConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        completion(.success(()))
+    }
+    
     func register(messages: [(Beacon.Origin, Beacon.Message.Versioned)]) {
         self.messages.append(contentsOf: messages)
     }

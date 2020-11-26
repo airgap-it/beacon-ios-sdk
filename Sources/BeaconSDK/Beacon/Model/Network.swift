@@ -15,6 +15,10 @@ extension Beacon {
         public let name: String?
         public let rpcURL: String?
         
+        var identifier: String {
+            type.rawValue
+        }
+        
         init(type: `Type`, name: String? = nil, rpcURL: String? = nil) {
             self.type = type
             self.name = name

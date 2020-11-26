@@ -77,6 +77,32 @@ class DecoratedStorage: ExtendedStorage {
         storage.set(appMetadata, completion: completion)
     }
     
+    // MARK: Permissions
+    
+    func add(
+        _ permissions: [Beacon.PermissionInfo],
+        overwrite: Bool,
+        compareBy predicate: @escaping (Beacon.PermissionInfo, Beacon.PermissionInfo) -> Bool,
+        completion: @escaping (Result<(), Error>) -> ()
+    ) {
+        add(
+            permissions,
+            select: storage.getPermissions,
+            insert: storage.set,
+            overwrite: overwrite,
+            compareBy: predicate,
+            completion: completion
+        )
+    }
+    
+    func getPermissions(completion: @escaping (Result<[Beacon.PermissionInfo], Error>) -> ()) {
+        storage.getPermissions(completion: completion)
+    }
+    
+    func set(_ permissions: [Beacon.PermissionInfo], completion: @escaping (Result<(), Error>) -> ()) {
+        storage.set(permissions, completion: completion)
+    }
+    
     // MARK: Matrix
     
     func getMatrixSyncToken(completion: @escaping (Result<String?, Error>) -> ()) {

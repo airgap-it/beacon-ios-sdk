@@ -155,9 +155,9 @@ extension Matrix {
         }
         
         private func updateStorage(syncToken: String?, rooms: [String: Matrix.Room]?, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-            updateStorage(with: syncToken) { [weak self] result in
+            updateStorage(with: syncToken) { result in
                 guard result.isSuccess(otherwise: completion) else { return }
-                self?.updateStorage(with: rooms, completion: completion)
+                self.updateStorage(with: rooms, completion: completion)
             }
         }
         
@@ -192,7 +192,7 @@ extension Matrix {
 extension Dictionary where Key == String, Value == Matrix.Room {
     
     func merge(with newRooms: [Matrix.Room]) -> [Key: Value] {
-        guard newRooms.isEmpty else {
+        guard !newRooms.isEmpty else {
             return self
         }
         

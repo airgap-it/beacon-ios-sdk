@@ -23,10 +23,6 @@ class SodiumCryptoProvider: CryptoProvider {
     // MARK: Hash
     
     func hash(message: [UInt8], size: Int) throws -> [UInt8] {
-        guard size >= crypto_generichash_bytes_min() && size <= crypto_generichash_bytes_max() else {
-            throw Error.invalidSize
-        }
-        
         var result = [UInt8](repeating: 0, count: size)
         let status = crypto_generichash(&result, size, message, UInt64(message.count), nil, 0)
         guard status == 0 else {
@@ -82,6 +78,18 @@ class SodiumCryptoProvider: CryptoProvider {
         return SessionKeyPair(rx: rx, tx: tx)
     }
     
+    func clientSessionKeyPair(serverPublicKey: [UInt8], serverSecretKey: [UInt8], clientPublicKey: [UInt8]) throws -> SessionKeyPair {
+        var rx = [UInt8](repeating: 0, count: crypto_kx_sessionkeybytes())
+        var tx = [UInt8](repeating: 0, count: crypto_kx_sessionkeybytes())
+        
+        let status = crypto_kx_client_session_keys(&rx, &tx, serverPublicKey, serverSecretKey, clientPublicKey)
+        guard status == 0 else {
+            throw Error.sodium(Int(status))
+        }
+        
+        return SessionKeyPair(rx: rx, tx: tx)
+    }
+    
     // MARK: Signature
     
     func signDetached(message: [UInt8], with key: [UInt8]) throws -> [UInt8] {
@@ -114,6 +122,17 @@ class SodiumCryptoProvider: CryptoProvider {
         return result
     }
     
+    func encrypt(message: [UInt8], withSharedKey key: [UInt8]) throws -> [UInt8] {
+        let nonce = try randomBytes(length: crypto_box_noncebytes())
+        var result = [UInt8](repeating: 0, count: message.count + crypto_box_macbytes())
+        let status = crypto_secretbox_easy(&result, message, UInt64(message.count), nonce, key)
+        guard status == 0 else {
+            throw Error.sodium(Int(status))
+        }
+        
+        return nonce + result
+    }
+    
     func decrypt(message: [UInt8], withSharedKey key: [UInt8]) throws -> [UInt8] {
         let nonce = message[0..<crypto_box_noncebytes()]
         let cypher = message[crypto_box_noncebytes()...]
@@ -128,6 +147,5 @@ class SodiumCryptoProvider: CryptoProvider {
     
     enum Error: Swift.Error {
         case sodium(Int)
-        case invalidSize
     }
 }

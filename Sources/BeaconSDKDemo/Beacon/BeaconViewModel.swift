@@ -11,10 +11,13 @@ import BeaconSDK
 
 class BeaconViewModel: ObservableObject {
     private static let examplePeerName = "Beacon Example Dapp"
-    private static let examplePeerPublicKey = "db359282649b3398ddd7b4d08ac74d95cf80184c4f7b33983b3df08113a3e1dd"
+    private static let examplePeerPublicKey = "6813141cd8c028fe93bcc8e404e39f53eca7f966458271572f7669ed6cc16a0f"
     private static let examplePeerRelayServer = "matrix.papers.tech"
     
-    @Published var beaconRequest: String?
+    private static let exampleTezosPublicKey = "edpktpzo8UZieYaJZgCHP6M6hKHPdWBSNqxvmEt6dwWRgxDh1EAFw9"
+    
+    @Published var beaconRequest: String? = nil
+    private var awaitingRequest: Beacon.Request? = nil
     
     private var beaconClient: Beacon.Client?
     
@@ -27,6 +30,33 @@ class BeaconViewModel: ObservableObject {
     
     init() {
         startBeacon()
+    }
+    
+    func sendResponse() {
+        guard let request = awaitingRequest else {
+            return
+        }
+        
+        switch request {
+        case let .permission(permission):
+            let response = Beacon.Response.Permission(
+                id: permission.id,
+                publicKey: BeaconViewModel.exampleTezosPublicKey,
+                network: permission.network,
+                scopes: permission.scopes
+            )
+            beaconClient?.respond(response: .permission(response)) { result in
+                switch result {
+                case .success(_):
+                    print("Sent the response")
+                case let .failure(error):
+                    print("Failed to send the response, got error: \(error)")
+                }
+            }
+        default:
+            // TODO
+            return
+        }
     }
     
     private func startBeacon() {
@@ -67,6 +97,7 @@ class BeaconViewModel: ObservableObject {
             
             DispatchQueue.main.async {
                 self.beaconRequest = data.flatMap { String(data: $0, encoding: .utf8) }
+                self.awaitingRequest = request
             }
         case let .failure(error):
             print("Error while processing incoming messages: \(error)")

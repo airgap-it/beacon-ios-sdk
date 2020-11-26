@@ -11,4 +11,5 @@ import Foundation
 protocol ConnectionControllerProtocol {
     func subscribe(onRequest listener: @escaping (Result<BeaconConnectionMessage, Error>) -> (), completion: @escaping (Result<(), Error>) -> ())
     func on(new peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ())
+    func send(_ message: BeaconConnectionMessage, completion: @escaping (Result<(), Error>) -> ())
 }

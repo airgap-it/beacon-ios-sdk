@@ -17,7 +17,7 @@ class CoinRegistry {
         self.crypto = crypto
     }
     
-    func get(ofType type: CoinType) -> Coin {
+    func get(_ type: CoinType) -> Coin {
         coins.getOrSet(type) {
             switch type {
             case .tezos:

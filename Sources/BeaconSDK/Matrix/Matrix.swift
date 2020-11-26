@@ -84,7 +84,12 @@ class Matrix {
                 return
             }
             
-            self?.eventService.sync(withToken: accessToken, since: state.syncToken, timeout: state.pollingTimeout) { result in
+            guard let selfStrong = self else {
+                completion(.failure(Error.unknown))
+                return
+            }
+            
+            selfStrong.eventService.sync(withToken: accessToken, since: state.syncToken, timeout: state.pollingTimeout) { result in
                 completion(result.map { Sync(from: $0) })
             }
         }
@@ -158,7 +163,7 @@ class Matrix {
     
     // MARK: Room Management
     
-    func createTrustedPrivateRoom(members: [String], completion: @escaping (Result<Room?, Swift.Error>) -> ()) {
+    func createTrustedPrivateRoom(invitedMembers members: [String], completion: @escaping (Result<Room?, Swift.Error>) -> ()) {
         store.state { [weak self] in
             guard let state = $0.get(ifFailure: completion) else { return }
             guard let accessToken = state.accessToken else {
@@ -180,7 +185,7 @@ class Matrix {
     
     // MARK: Event Management
     
-    func send(textMessage message: String, to room: Matrix.Room, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    func send(message: String, to room: Matrix.Room, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         store.state { [weak self] in
             guard let state = $0.get(ifFailure: completion) else { return }
             guard let accessToken = state.accessToken else {

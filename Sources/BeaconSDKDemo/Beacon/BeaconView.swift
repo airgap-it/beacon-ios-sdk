@@ -13,7 +13,10 @@ struct BeaconView: View {
     @ObservedObject var viewModel = BeaconViewModel()
     
     var body: some View {
-        Text(viewModel.beaconRequest ?? "-- Request --")
+        VStack {
+            Text(viewModel.beaconRequest ?? "-- Request --")
+            Button("Send Response") { viewModel.sendResponse() }
+        }
     }
 }
 

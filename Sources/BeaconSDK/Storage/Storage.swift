@@ -20,6 +20,11 @@ protocol Storage {
     func getAppMetadata(completion: @escaping (Result<[Beacon.AppMetadata], Error>) -> ())
     func set(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Error>) -> ())
     
+    // MARK: Permissions
+    
+    func getPermissions(completion: @escaping (Result<[Beacon.PermissionInfo], Error>) -> ())
+    func set(_ permissions: [Beacon.PermissionInfo], completion: @escaping (Result<(), Error>) -> ())
+    
     // MARK: Matrix
     
     func getMatrixSyncToken(completion: @escaping (Result<String?, Error>) -> ())

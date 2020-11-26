@@ -24,7 +24,7 @@ class DependencyRegistry {
     
     var messageController: MessageControllerProtocol { weakMessageController.value }
     private lazy var weakMessageController: LazyWeakReference<MessageController> = LazyWeakReference { [unowned self] in
-        MessageController(coinRegistry: self.coinRegistry, storage: self.storage)
+        MessageController(coinRegistry: self.coinRegistry, storage: self.storage, accountUtils: self.accountUtils)
     }
     
     // MARK: Transport
@@ -125,5 +125,12 @@ class DependencyRegistry {
         matrixRoomServices.getOrSet(baseURL) {
             LazyWeakReference { Matrix.RoomService(http: HTTP(baseURL: baseURL)) }
         }.value
+    }
+    
+    // MARK: Other
+    
+    private var accountUtils: AccountUtils { weakAccountUtils.value }
+    private lazy var weakAccountUtils: LazyWeakReference<AccountUtils> = LazyWeakReference { [unowned self] in
+        AccountUtils(crypto: self.crypto)
     }
 }

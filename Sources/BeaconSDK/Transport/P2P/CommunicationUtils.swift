@@ -25,6 +25,10 @@ extension Transport.P2P {
             return "@\(hash):\(relayServer)"
         }
         
+        func recipientIdentifier(for publicKey: HexString, on relayServer: URL) throws -> String {
+            try recipientIdentifier(for: publicKey, on: relayServer.host ?? "")
+        }
+        
         // MARK: Text Message
         
         func isMessage(_ message: Matrix.Event.TextMessage, from publicKey: HexString) -> Bool {

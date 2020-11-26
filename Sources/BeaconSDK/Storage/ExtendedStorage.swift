@@ -29,6 +29,15 @@ protocol ExtendedStorage: Storage {
     )
     
     func findAppMetadata(where predicate: @escaping (Beacon.AppMetadata) -> Bool, completion: @escaping (Result<Beacon.AppMetadata?, Error>) -> ())
+    
+    // MARK: Permissions
+    
+    func add(
+        _ permissions: [Beacon.PermissionInfo],
+        overwrite: Bool,
+        compareBy predicate: @escaping (Beacon.PermissionInfo, Beacon.PermissionInfo) -> Bool,
+        completion: @escaping (Result<(), Error>) -> ()
+    )
 }
 
 // MARK: Extensions
@@ -50,6 +59,15 @@ extension ExtendedStorage {
         completion: @escaping (Result<(), Error>) -> ()
     ) {
         add(appMetadata, overwrite: overwrite, compareBy: predicate, completion: completion)
+    }
+    
+    func add(
+        _ permissions: [Beacon.PermissionInfo],
+        overwrite: Bool = false,
+        compareBy predicate: @escaping (Beacon.PermissionInfo, Beacon.PermissionInfo) -> Bool = { $0 == $1 },
+        completion: @escaping (Result<(), Error>) -> ()
+    ) {
+        add(permissions, overwrite: overwrite, compareBy: predicate, completion: completion)
     }
     
     func extend() -> ExtendedStorage {
