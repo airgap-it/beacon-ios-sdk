@@ -31,7 +31,8 @@ extension Beacon.Message.Versioned.V1 {
         
         func toBeaconMessage(
             with origin: Beacon.Origin,
-            using storage: ExtendedStorage, completion: @escaping (Result<Beacon.Message, Error>) -> ()
+            using storage: StorageManager,
+            completion: @escaping (Result<Beacon.Message, Error>) -> ()
         ) {
             let message = Beacon.Message.disconnect(Beacon.Message.Disconnect(id: id, senderID: beaconID))
             completion(.success(message))

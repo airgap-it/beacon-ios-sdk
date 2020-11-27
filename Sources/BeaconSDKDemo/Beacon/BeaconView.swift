@@ -16,6 +16,7 @@ struct BeaconView: View {
         VStack {
             Text(viewModel.beaconRequest ?? "-- Request --")
             Button("Send Response") { viewModel.sendResponse() }
+            Button("Remove Example Peer") { viewModel.removePeer() }
         }
     }
 }

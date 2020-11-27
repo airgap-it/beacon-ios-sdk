@@ -13,6 +13,17 @@ extension Beacon {
     public enum PeerInfo: Equatable, Codable {
         case p2p(P2PPeerInfo)
         
+        // MARK: Attributes
+        
+        func matches(appMetadata: AppMetadata) -> Bool {
+            switch self {
+            case let .p2p(content):
+                return content.publicKey == appMetadata.senderID
+            }
+        }
+        
+        // MARK: Codable
+        
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let kind = try container.decode(Beacon.Connection.Kind.self, forKey: .kind)

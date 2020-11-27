@@ -31,6 +31,11 @@ class Transport {
         completion(.success(()))
     }
     
+    func disconnect(from peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
+        /* no action */
+        completion(.success(()))
+    }
+    
     func start(completion: @escaping (Result<(), Error>) -> ()) {
         /* no action */
         completion(.success(()))

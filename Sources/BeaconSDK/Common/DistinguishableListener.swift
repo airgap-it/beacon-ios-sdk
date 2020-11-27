@@ -9,11 +9,11 @@
 import Foundation
 
 class DistinguishableListener<T>: Hashable, Equatable {
-    private let id: Int
+    let id: String
     private let closure: (T) -> ()
     
-    init(_ closure: @escaping (T) -> ()) {
-        id = UUID.init().hashValue
+    init(id: String? = nil, _ closure: @escaping (T) -> ()) {
+        self.id = id ?? UUID().uuidString
         self.closure = closure
     }
     

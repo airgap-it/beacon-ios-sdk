@@ -30,7 +30,7 @@ extension Beacon.Message {
         
         func toBeaconMessage(
             with origin: Beacon.Origin,
-            using storage: ExtendedStorage,
+            using storage: StorageManager,
             completion: @escaping (Result<Beacon.Message, Error>) -> ()
         ) {
             switch self {

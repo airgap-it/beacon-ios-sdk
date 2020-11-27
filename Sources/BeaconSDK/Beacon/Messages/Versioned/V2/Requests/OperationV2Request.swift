@@ -51,7 +51,7 @@ extension Beacon.Message.Versioned.V2 {
         
         func toBeaconMessage(
             with origin: Beacon.Origin,
-            using storage: ExtendedStorage,
+            using storage: StorageManager,
             completion: @escaping (Result<Beacon.Message, Error>) -> ()
         ) {
             storage.findAppMetadata(where: { $0.senderID == senderID }) { result in

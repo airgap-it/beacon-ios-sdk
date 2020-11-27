@@ -15,9 +15,9 @@ class MockMessageController: MessageControllerProtocol {
     var dAppVersion: String
     var dAppID: String
     
-    private let storage: ExtendedStorage
+    private let storage: StorageManager
     
-    init(storage: ExtendedStorage) {
+    init(storage: StorageManager) {
         isFailing = false
         
         dAppVersion = "1"

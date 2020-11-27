@@ -9,10 +9,10 @@
 import Foundation
 
 class DependencyRegistry {
-    let storage: ExtendedStorage
+    let storage: StorageManager
     
     init(storage: Storage) {
-        self.storage = storage.extend()
+        self.storage = StorageManager(storage: storage)
     }
     
     // MARK: Controller

@@ -32,6 +32,10 @@ class MockConnectionController: ConnectionControllerProtocol {
         completion(.success(()))
     }
     
+    func on(deleted peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        completion(.success(()))
+    }
+    
     func send(_ message: BeaconConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         completion(.success(()))
     }
