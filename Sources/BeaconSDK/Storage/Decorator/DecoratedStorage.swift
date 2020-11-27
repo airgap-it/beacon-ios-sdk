@@ -44,6 +44,10 @@ class DecoratedStorage: ExtendedStorage {
         )
     }
     
+    func removePeers(where predicate: ((Beacon.PeerInfo) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
+        remove(where: predicate, select: storage.getPeers, insert: storage.set, completion: completion)
+    }
+    
     // MARK: AppMetadata
     
     func add(
@@ -103,6 +107,10 @@ class DecoratedStorage: ExtendedStorage {
         storage.set(permissions, completion: completion)
     }
     
+    func removePermissions(where predicate: ((Beacon.PermissionInfo) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
+        remove(where: predicate, select: storage.getPermissions, insert: storage.set, completion: completion)
+    }
+    
     // MARK: Matrix
     
     func getMatrixSyncToken(completion: @escaping (Result<String?, Error>) -> ()) {
@@ -150,24 +158,20 @@ class DecoratedStorage: ExtendedStorage {
         completion: @escaping (Result<(), Error>) -> ()
     ) {
         select { result in
-            switch result {
-            case var .success(stored):
-                let (new, existing) = elements.partitioned { toAdd in
-                    !stored.contains { inStorage in predicate(toAdd, inStorage) }
-                }
-                
-                if overwrite {
-                    existing.forEach {
-                        if let index = stored.firstIndex(of: $0) {
-                            stored[index] = $0
-                        }
+            guard var stored = result.get(ifFailure: completion) else { return }
+            let (new, existing) = elements.partitioned { toAdd in
+                !stored.contains { inStorage in predicate(toAdd, inStorage) }
+            }
+            
+            if overwrite {
+                existing.forEach {
+                    if let index = stored.firstIndex(of: $0) {
+                        stored[index] = $0
                     }
                 }
-                
-                insert(stored + new, completion)
-            case let .failure(error):
-                completion(.failure(error))
             }
+            
+            insert(stored + new, completion)
         }
     }
     
@@ -179,5 +183,25 @@ class DecoratedStorage: ExtendedStorage {
         select { result in
             completion(result.map { $0.first(where: predicate) })
         }
+    }
+    
+    private func remove<T>(
+        where predicate: ((T) -> Bool)?,
+        select: SelectCollection<T>,
+        insert: @escaping InsertCollection<T>,
+        completion: @escaping (Result<(), Error>) -> ()
+    ) {
+        if let predicate = predicate {
+            select { result in
+                guard let stored = result.get(ifFailure: completion) else { return }
+                insert(stored.filter(predicate), completion)
+            }
+        } else {
+            removeAll(insert: insert, completion: completion)
+        }
+    }
+    
+    private func removeAll<T>(insert: InsertCollection<T>, completion: @escaping (Result<(), Error>) -> ()) {
+        insert([], completion)
     }
 }

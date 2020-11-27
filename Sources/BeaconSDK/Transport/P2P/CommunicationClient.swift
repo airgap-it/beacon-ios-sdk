@@ -19,7 +19,7 @@ extension Transport.P2P {
         private let crypto: Crypto
         private let keyPair: KeyPair
         
-        private var listeners: [HexString: (Matrix.Event) -> ()] = [:]
+        private var eventListeners: [HexString: Matrix.EventListener] = [:]
         private var serverSessionKeyPair: [HexString: SessionKeyPair] = [:]
         private var clientSessionKeyPair: [HexString: SessionKeyPair] = [:]
         
@@ -63,22 +63,22 @@ extension Transport.P2P {
         // MARK: Incoming Messages
         
         func listen(to publicKey: HexString, listener: @escaping (Result<String, Swift.Error>) -> ()) {
-            guard listeners[publicKey] == nil else {
-                return
+            guard eventListeners[publicKey] == nil else { return }
+
+            let textMessageListener = Matrix.EventListener { [weak self] event in
+                guard let selfStrong = self else { return }
+                guard let textMessage = selfStrong.textMessage(from: event, sender: publicKey) else { return }
+                
+                listener(catchResult { try selfStrong.decrypt(message: textMessage, with: publicKey) })
             }
             
-            let textMessageListener: (Matrix.Event) -> () = { [weak self] event in
-                if let selfStrong = self {
-                    guard let textMessage = selfStrong.textMessage(from: event, sender: publicKey) else {
-                        return
-                    }
-                    
-                    listener(catchResult { try selfStrong.decrypt(message: textMessage, with: publicKey) })
-                }
-            }
-            
-            listeners[publicKey] = textMessageListener
-            matrixClients.forEach { $0.subscribe(for: .textMessage, listener: textMessageListener) }
+            eventListeners[publicKey] = textMessageListener
+            matrixClients.forEach { $0.subscribe(for: .textMessage, with: textMessageListener) }
+        }
+        
+        func removeListener(for publicKey: HexString) {
+            guard let listener = eventListeners.removeValue(forKey: publicKey) else { return }
+            matrixClients.forEach { $0.unsubscribe(listener) }
         }
         
         private func textMessage(from event: Matrix.Event, sender publicKey: HexString) -> Matrix.Event.TextMessage? {

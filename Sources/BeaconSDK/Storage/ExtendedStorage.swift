@@ -19,6 +19,8 @@ protocol ExtendedStorage: Storage {
         completion: @escaping (Result<(), Error>) -> ()
     )
     
+    func removePeers(where predicate: ((Beacon.PeerInfo) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    
     // MARK: AppMetadata
     
     func add(
@@ -38,39 +40,6 @@ protocol ExtendedStorage: Storage {
         compareBy predicate: @escaping (Beacon.PermissionInfo, Beacon.PermissionInfo) -> Bool,
         completion: @escaping (Result<(), Error>) -> ()
     )
-}
-
-// MARK: Extensions
-
-extension ExtendedStorage {
-    func add(
-        _ peers: [Beacon.PeerInfo],
-        overwrite: Bool = false,
-        compareBy predicate: @escaping (Beacon.PeerInfo, Beacon.PeerInfo) -> Bool = { $0 == $1 },
-        completion: @escaping (Result<(), Error>) -> ()
-    ) {
-        add(peers, overwrite: overwrite, compareBy: predicate, completion: completion)
-    }
     
-    func add(
-        _ appMetadata: [Beacon.AppMetadata],
-        overwrite: Bool = false,
-        compareBy predicate: @escaping (Beacon.AppMetadata, Beacon.AppMetadata) -> Bool = { $0 == $1 },
-        completion: @escaping (Result<(), Error>) -> ()
-    ) {
-        add(appMetadata, overwrite: overwrite, compareBy: predicate, completion: completion)
-    }
-    
-    func add(
-        _ permissions: [Beacon.PermissionInfo],
-        overwrite: Bool = false,
-        compareBy predicate: @escaping (Beacon.PermissionInfo, Beacon.PermissionInfo) -> Bool = { $0 == $1 },
-        completion: @escaping (Result<(), Error>) -> ()
-    ) {
-        add(permissions, overwrite: overwrite, compareBy: predicate, completion: completion)
-    }
-    
-    func extend() -> ExtendedStorage {
-        self
-    }
+    func removePermissions(where predicate: ((Beacon.PermissionInfo) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
 }

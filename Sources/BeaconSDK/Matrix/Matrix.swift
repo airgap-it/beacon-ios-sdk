@@ -43,14 +43,18 @@ class Matrix {
         }
     }
     
-    func subscribe(for kind: Matrix.Event.Kind, listener: @escaping (Matrix.Event) -> ()) {
-        let listener = Store.EventsListener { events in
+    func subscribe(for kind: Event.Kind, with listener: EventListener) {
+        let listener = Store.EventsListener(id: listener.id) { events in
             events
                 .filter { $0.isOf(kind: kind) }
-                .forEach { listener($0) }
+                .forEach { listener.on(value: $0) }
         }
         
         store.add(eventsListener: listener)
+    }
+    
+    func unsubscribe(_ listener: EventListener) {
+        store.remove(listenerWithID: listener.id)
     }
     
     // MARK: Sync
@@ -225,6 +229,8 @@ class Matrix {
     }
     
     // MARK: Types
+    
+    typealias EventListener = DistinguishableListener<Event>
     
     enum Error: Swift.Error {
         case login(String? = nil)

@@ -15,14 +15,14 @@ extension Beacon {
         public let name: String
         public let beaconID: String
         
-        private let storage: ExtendedStorage
+        private let storage: StorageManager
         private let connectionController: ConnectionControllerProtocol
         private let messageController: MessageControllerProtocol
         
         init(
             name: String,
             beaconID: String,
-            storage: ExtendedStorage,
+            storage: StorageManager,
             connectionController: ConnectionControllerProtocol,
             messageController: MessageControllerProtocol
         ) {
@@ -90,6 +90,14 @@ extension Beacon {
                 guard result.isSuccess(otherwise: completion) else { return }
                 
                 self.connectionController.on(new: peers, completion: completion)
+            }
+        }
+        
+        public func remove(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+            storage.remove(peers) { result in
+                guard result.isSuccess(otherwise: completion) else { return }
+                
+                self.connectionController.on(deleted: peers, completion: completion)
             }
         }
         

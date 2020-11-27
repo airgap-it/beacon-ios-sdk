@@ -32,6 +32,22 @@ class ConnectionController: ConnectionControllerProtocol {
         transports.awaitAll(async: { $0.connect(withNew: peers, completion: $1) }, completion: completion)
     }
     
+    func on(deleted peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
+        let transportsCount = transports.count
+        var disconnected = 0
+        
+        transports.forEach { transport in
+            transport.disconnect(from: peers) { result in
+                guard result.isSuccess(otherwise: completion) else { return }
+                
+                disconnected += 1
+                if disconnected == transportsCount {
+                    completion(.success(()))
+                }
+            }
+        }
+    }
+    
     private func listen(onRequest listener: @escaping (Result<BeaconConnectionMessage, Error>) -> ()) {
         let listener = Transport.Listener { [weak self] connectionMessage in
             guard let selfStrong = self else {

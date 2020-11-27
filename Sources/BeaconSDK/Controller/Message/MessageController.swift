@@ -11,12 +11,12 @@ import Foundation
 class MessageController: MessageControllerProtocol {
     
     private let coinRegistry: CoinRegistry
-    private let storage: ExtendedStorage
+    private let storage: StorageManager
     private let accountUtils: AccountUtils
     
     private var pendingRequests: [String: (Beacon.Origin, Beacon.Message.Versioned)] = [:]
     
-    init(coinRegistry: CoinRegistry, storage: ExtendedStorage, accountUtils: AccountUtils) {
+    init(coinRegistry: CoinRegistry, storage: StorageManager, accountUtils: AccountUtils) {
         self.coinRegistry = coinRegistry
         self.storage = storage
         self.accountUtils = accountUtils

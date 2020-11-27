@@ -180,6 +180,7 @@
 		88CC0C6C256D59DA00F54056 /* BeaconTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0BA0256D57CB00F54056 /* BeaconTests.swift */; };
 		88CC0D22256FB22C00F54056 /* TryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0D21256FB22C00F54056 /* TryUtils.swift */; };
 		88CC0D29256FB23A00F54056 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0D28256FB23A00F54056 /* Network.swift */; };
+		88CC0CA2256E911F00F54056 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0CA1256E911F00F54056 /* StorageManager.swift */; };
 		OBJ_30 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_44 /* BeaconSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "BeaconSDK::BeaconSDK::Product" /* BeaconSDK.framework */; };
 /* End PBXBuildFile section */
@@ -411,6 +412,7 @@
 		88CC0BCC256D587700F54056 /* BeaconSDKDemoUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconSDKDemoUITests.swift; sourceTree = "<group>"; };
 		88CC0D21256FB22C00F54056 /* TryUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TryUtils.swift; sourceTree = "<group>"; };
 		88CC0D28256FB23A00F54056 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		88CC0CA1256E911F00F54056 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		"BeaconSDK::BeaconSDK::Product" /* BeaconSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeaconSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"BeaconSDK::BeaconSDKTests::Product" /* BeaconSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = BeaconSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_17 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -586,16 +588,16 @@
 		88CC0A42256D57B300F54056 /* Kinds */ = {
 			isa = PBXGroup;
 			children = (
+				88CC0A46256D57B300F54056 /* ActivateAccount.swift */,
+				88CC0A49256D57B300F54056 /* Ballot.swift */,
+				88CC0A4B256D57B300F54056 /* Delegation.swift */,
+				88CC0A48256D57B300F54056 /* DoubleBakingEvidence.swift */,
+				88CC0A4A256D57B300F54056 /* DoubleEndorsementEvidence.swift */,
+				88CC0A45256D57B300F54056 /* Endorsement.swift */,
 				88CC0A43256D57B300F54056 /* Origination.swift */,
 				88CC0A44256D57B300F54056 /* Proposals.swift */,
-				88CC0A45256D57B300F54056 /* Endorsement.swift */,
-				88CC0A46256D57B300F54056 /* ActivateAccount.swift */,
-				88CC0A47256D57B300F54056 /* SeedNonceRevelation.swift */,
-				88CC0A48256D57B300F54056 /* DoubleBakingEvidence.swift */,
-				88CC0A49256D57B300F54056 /* Ballot.swift */,
-				88CC0A4A256D57B300F54056 /* DoubleEndorsementEvidence.swift */,
-				88CC0A4B256D57B300F54056 /* Delegation.swift */,
 				88CC0A4C256D57B300F54056 /* Reveal.swift */,
+				88CC0A47256D57B300F54056 /* SeedNonceRevelation.swift */,
 				88CC0A4D256D57B300F54056 /* Transaction.swift */,
 			);
 			path = Kinds;
@@ -627,6 +629,7 @@
 				88CC0A59256D57B300F54056 /* Storage.swift */,
 				88CC0A5D256D57B300F54056 /* UserDefaultsStorage.swift */,
 				88CC0A5B256D57B300F54056 /* Decorator */,
+				88CC0CA0256E910900F54056 /* Manager */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -1209,6 +1212,14 @@
 			path = BeaconSDKDemoUITests;
 			sourceTree = "<group>";
 		};
+		88CC0CA0256E910900F54056 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				88CC0CA1256E911F00F54056 /* StorageManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		OBJ_14 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1575,6 +1586,7 @@
 				88CC0B3D256D57B500F54056 /* UserIdentifier.swift in Sources */,
 				88CC0B68256D57B500F54056 /* PermissionRequest.swift in Sources */,
 				88CC0B22256D57B500F54056 /* AccountUtils.swift in Sources */,
+				88CC0CA2256E911F00F54056 /* StorageManager.swift in Sources */,
 				88CC0B4B256D57B500F54056 /* PermissionV1Response.swift in Sources */,
 				88CC0B15256D57B500F54056 /* DecoratedStorage.swift in Sources */,
 				88CC0B42256D57B500F54056 /* Create.swift in Sources */,
@@ -1585,6 +1597,7 @@
 				88CC0B26256D57B500F54056 /* SerializedConnectionMessage.swift in Sources */,
 				88CC0B28256D57B500F54056 /* Coin.swift in Sources */,
 				88CC0B34256D57B500F54056 /* MessageStateEvent.swift in Sources */,
+				88CC0D40256FC0EC00F54056 /* StorageManager.swift in Sources */,
 				88CC0AF2256D57B500F54056 /* CryptoProvider.swift in Sources */,
 				88CC0B33256D57B500F54056 /* MemberStateEvent.swift in Sources */,
 				88CC0B43256D57B500F54056 /* UserService.swift in Sources */,

@@ -13,7 +13,7 @@ class ClientTests: XCTestCase {
     
     private var beaconClient: Beacon.Client!
     private var storage: MockStorage!
-    private var extendedStorage: ExtendedStorage!
+    private var storageManager: StorageManager!
     private var connectionController: MockConnectionController!
     private var messageController: MockMessageController!
     
@@ -23,15 +23,15 @@ class ClientTests: XCTestCase {
     
     override func setUpWithError() throws {
         storage = MockStorage()
-        extendedStorage = storage.extend()
+        storageManager = StorageManager(storage: storage)
         
         connectionController = MockConnectionController()
-        messageController = MockMessageController(storage: extendedStorage)
+        messageController = MockMessageController(storage: storageManager)
         
         beaconClient = Beacon.Client(
             name: "mockApp",
             beaconID: beaconID,
-            storage: extendedStorage,
+            storage: storageManager,
             connectionController: connectionController,
             messageController: messageController
         )
@@ -41,7 +41,7 @@ class ClientTests: XCTestCase {
         beaconClient = nil
         messageController = nil
         connectionController = nil
-        extendedStorage = nil
+        storageManager = nil
         storage = nil
     }
     

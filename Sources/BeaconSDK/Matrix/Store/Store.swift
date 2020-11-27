@@ -15,9 +15,9 @@ extension Matrix {
         private var state: State = State()
         private var eventsListeners: Set<EventsListener> = Set()
         
-        private let storage: ExtendedStorage
+        private let storage: StorageManager
         
-        init(storage: ExtendedStorage) {
+        init(storage: StorageManager) {
             self.storage = storage
         }
         
@@ -93,6 +93,11 @@ extension Matrix {
         }
         
         func remove(eventsListener listener: EventsListener) {
+            eventsListeners.remove(listener)
+        }
+        
+        func remove(listenerWithID listenerID: String) {
+            guard let listener = eventsListeners.first(where: { $0.id == listenerID }) else { return }
             eventsListeners.remove(listener)
         }
         

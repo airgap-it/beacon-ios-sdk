@@ -13,9 +13,9 @@ extension Transport {
     class P2P: Transport {
         
         private let client: CommunicationClient
-        private let storage: ExtendedStorage
+        private let storage: StorageManager
         
-        init(client: CommunicationClient, storage: ExtendedStorage) {
+        init(client: CommunicationClient, storage: StorageManager) {
             self.client = client
             self.storage = storage
         }
@@ -36,6 +36,19 @@ extension Transport {
                 }
                 
                 selfStrong.listen(to: p2pPeers, completion: completion)
+            }
+        }
+        
+        override func disconnect(from peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+            do {
+                let p2pPeers = peers.filterP2P()
+                try p2pPeers.forEach { peer in
+                    client.removeListener(for: try HexString(from: peer.publicKey))
+                }
+                
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
             }
         }
         

@@ -11,7 +11,7 @@ import BeaconSDK
 
 class BeaconViewModel: ObservableObject {
     private static let examplePeerName = "Beacon Example Dapp"
-    private static let examplePeerPublicKey = "6813141cd8c028fe93bcc8e404e39f53eca7f966458271572f7669ed6cc16a0f"
+    private static let examplePeerPublicKey = "da58fa0a0912ecc62b4467721416ae4669e90ade4987086ee5c23d20075ad15c"
     private static let examplePeerRelayServer = "matrix.papers.tech"
     
     private static let exampleTezosPublicKey = "edpktpzo8UZieYaJZgCHP6M6hKHPdWBSNqxvmEt6dwWRgxDh1EAFw9"
@@ -37,6 +37,9 @@ class BeaconViewModel: ObservableObject {
             return
         }
         
+        beaconRequest = nil
+        awaitingRequest = nil
+        
         switch request {
         case let .permission(permission):
             let response = Beacon.Response.Permission(
@@ -45,7 +48,7 @@ class BeaconViewModel: ObservableObject {
                 network: permission.network,
                 scopes: permission.scopes
             )
-            beaconClient?.respond(response: .permission(response)) { result in
+            beaconClient?.respond(with: .permission(response)) { result in
                 switch result {
                 case .success(_):
                     print("Sent the response")
@@ -56,6 +59,17 @@ class BeaconViewModel: ObservableObject {
         default:
             // TODO
             return
+        }
+    }
+    
+    func removePeer() {
+        beaconClient?.remove([.p2p(exampleP2PPeer)]) { result in
+            switch result {
+            case .success(_):
+                print("Successfully removed peers")
+            case let .failure(error):
+                print("Failed to remove peers, got error: \(error)")
+            }
         }
     }
     
