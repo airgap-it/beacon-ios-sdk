@@ -17,15 +17,21 @@ extension Beacon {
         
         // MARK: Attributes
         
-        var identifier: String {
+        var common: MessageProtocol {
             switch self {
             case let .request(content):
-                return content.identifier
+                return content.common
             case let .response(content):
-                return content.identifier
+                return content.common
             case let .disconnect(content):
-                return content.id
+                return content
             }
         }
     }
+}
+
+// MARK: Protocol
+
+protocol MessageProtocol {
+    var id: String { get }
 }

@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon.Response {
     
-    public struct Operation: Equatable, Codable {
+    public struct Operation: ResponseProtocol, Equatable, Codable {
         public let id: String
         public let transactionHash: String
     }

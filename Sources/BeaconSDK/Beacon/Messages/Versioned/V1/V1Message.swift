@@ -55,109 +55,30 @@ extension Beacon.Message.Versioned {
             }
         }
         
-        func toBeaconMessage(
-            with origin: Beacon.Origin,
-            using storage: StorageManager,
-            completion: @escaping (Result<Beacon.Message, Error>) -> ()
-        ) {
-            switch self {
-            case let .permissionRequest(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .operationRequest(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .signPayloadRequest(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .broadcastRequest(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .permissionResponse(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .operationResponse(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .signPayloadResponse(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .broadcastResponse(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .errorResponse(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .disconnectMessage(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            }
-        }
-        
         // MARK: Attributes
         
-        var version: String {
+        var common: V1MessageProtocol {
             switch self {
             case let .permissionRequest(content):
-                return content.version
+                return content
             case let .operationRequest(content):
-                return content.version
+                return content
             case let .signPayloadRequest(content):
-                return content.version
+                return content
             case let .broadcastRequest(content):
-                return content.version
+                return content
             case let .permissionResponse(content):
-                return content.version
+                return content
             case let .operationResponse(content):
-                return content.version
+                return content
             case let .signPayloadResponse(content):
-                return content.version
+                return content
             case let .broadcastResponse(content):
-                return content.version
+                return content
             case let .errorResponse(content):
-                return content.version
+                return content
             case let .disconnectMessage(content):
-                return content.version
-            }
-        }
-        
-        var identifier: String {
-            switch self {
-            case let .permissionRequest(content):
-                return content.id
-            case let .operationRequest(content):
-                return content.id
-            case let .signPayloadRequest(content):
-                return content.id
-            case let .broadcastRequest(content):
-                return content.id
-            case let .permissionResponse(content):
-                return content.id
-            case let .operationResponse(content):
-                return content.id
-            case let .signPayloadResponse(content):
-                return content.id
-            case let .broadcastResponse(content):
-                return content.id
-            case let .errorResponse(content):
-                return content.id
-            case let .disconnectMessage(content):
-                return content.id
-            }
-        }
-        
-        func comesFrom(appMetadata: Beacon.AppMetadata) -> Bool {
-            switch self {
-            case let .permissionRequest(content):
-                return content.beaconID == appMetadata.senderID
-            case let .operationRequest(content):
-                return content.beaconID == appMetadata.senderID
-            case let .signPayloadRequest(content):
-                return content.beaconID == appMetadata.senderID
-            case let .broadcastRequest(content):
-                return content.beaconID == appMetadata.senderID
-            case let .permissionResponse(content):
-                return content.beaconID == appMetadata.senderID
-            case let .operationResponse(content):
-                return content.beaconID == appMetadata.senderID
-            case let .signPayloadResponse(content):
-                return content.beaconID == appMetadata.senderID
-            case let .broadcastResponse(content):
-                return content.beaconID == appMetadata.senderID
-            case let .errorResponse(content):
-                return content.beaconID == appMetadata.senderID
-            case let .disconnectMessage(content):
-                return content.beaconID == appMetadata.senderID
+                return content
             }
         }
         
@@ -232,4 +153,10 @@ extension Beacon.Message.Versioned {
             case disconnectMessage = "disconnect"
         }
     }
+}
+
+// MARK: Protocol
+
+protocol V1MessageProtocol: VersionedMessageProtocol {
+    var type: Beacon.Message.Versioned.V1.`Type` { get }
 }

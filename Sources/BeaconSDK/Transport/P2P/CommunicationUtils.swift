@@ -20,7 +20,7 @@ extension Transport.P2P {
         // MARK: Identifiers
         
         func recipientIdentifier(for publicKey: HexString, on relayServer: String) throws -> String {
-            let hash = HexString(from: try crypto.hash(key: publicKey)).value()
+            let hash = HexString(from: try crypto.hash(key: publicKey)).asString()
             
             return "@\(hash):\(relayServer)"
         }
@@ -33,8 +33,8 @@ extension Transport.P2P {
         
         func isMessage(_ message: Matrix.Event.TextMessage, from publicKey: HexString) -> Bool {
             do {
-                let hash = try crypto.hash(key: try publicKey.bytes())
-                return message.sender.starts(with: "@\(HexString(from: hash).value())")
+                let hash = try crypto.hash(key: try publicKey.asBytes())
+                return message.sender.starts(with: "@\(HexString(from: hash).asString())")
             } catch {
                 return false
             }
@@ -53,7 +53,7 @@ extension Transport.P2P {
                 return pairingPayloadV1(from: HexString(from: publicKey))
             }
             
-            switch version.substring(before: ".") {
+            switch version.prefix(before: ".") {
             case "1":
                 return pairingPayloadV1(from: HexString(from: publicKey))
             case "2":
@@ -65,11 +65,11 @@ extension Transport.P2P {
         }
         
         private func pairingPayloadV1(from publicKey: HexString) -> String {
-            publicKey.value()
+            publicKey.asString()
         }
         
         private func pairingPayloadV2(from publicKey: HexString, on relayServer: String, appName: String, version: String) throws -> String {
-            let handshakeInfo = HandshakeInfo(name: appName, version: version, publicKey: publicKey.value(), relayServer: relayServer)
+            let handshakeInfo = HandshakeInfo(name: appName, version: version, publicKey: publicKey.asString(), relayServer: relayServer)
             let encoder = JSONEncoder()
             
             let json = String(data: try encoder.encode(handshakeInfo), encoding: .utf8)

@@ -12,7 +12,10 @@ extension Matrix {
     
     class Store {
         private var isInitialized: Bool = false
+        
         private var state: State = State()
+        private let queue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.Matrix.Store", attributes: [], target: .global(qos: .default))
+        
         private var eventsListeners: Set<EventsListener> = Set()
         
         private let storage: StorageManager
@@ -24,26 +27,18 @@ extension Matrix {
         // MARK: Initialization
         
         private func whenReady(onReady callback: @escaping (Result<(), Swift.Error>) -> ()) {
-            storage.getMatrixSyncToken { [weak self] result in
+            storage.getMatrixSyncToken { result in
                 guard let token = result.get(ifFailure: callback) else { return }
-                guard let selfStrong = self else {
-                    callback(.failure(Error.unknown))
-                    return
-                }
                 
-                selfStrong.storage.getMatrixRooms { [weak self] result in
+                self.storage.getMatrixRooms { result in
                     guard let rooms = result.get(ifFailure: callback) else { return }
-                    guard let selfStrong = self else {
-                        callback(.failure(Error.unknown))
-                        return
-                    }
                     
-                    selfStrong.state = State(
-                        from: selfStrong.state,
+                    self.state = State(
+                        from: self.state,
                         syncToken: token,
-                        rooms: selfStrong.state.rooms.merge(with: rooms)
+                        rooms: self.state.rooms.merged(with: rooms)
                     )
-                    selfStrong.isInitialized = true
+                    self.isInitialized = true
                     
                     callback(.success(()))
                 }
@@ -53,25 +48,23 @@ extension Matrix {
         // MARK: State
         
         func state(completion: @escaping (Result<State, Swift.Error>) -> ()) {
-            whenReady { [weak self] result in
-                completion(result.map { self?.state ?? State() })
+            whenReady { result in
+                guard result.isSuccess(otherwise: completion) else { return }
+                self.queue.async {
+                    completion(.success(self.state))
+                }
             }
         }
         
         func intent(action: Action, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-            whenReady { [weak self] result in
+            whenReady { result in
                 guard result.isSuccess(otherwise: completion) else { return }
-
-                guard let selfStrong = self else {
-                    completion(.failure(Error.unknown))
-                    return
-                }
                 
                 switch action {
                 case let .initialize(userID, deviceID, accessToken):
-                    selfStrong.initialize(userID: userID, deviceID: deviceID, accessToken: accessToken, completion: completion)
+                    self.initialize(userID: userID, deviceID: deviceID, accessToken: accessToken, completion: completion)
                 case let .onSyncSuccess(syncToken, pollingTimeout, rooms, events):
-                    selfStrong.onSyncSuccess(
+                    self.onSyncSuccess(
                         syncToken: syncToken,
                         pollingTimeout: pollingTimeout,
                         rooms: rooms,
@@ -79,9 +72,9 @@ extension Matrix {
                         completion: completion
                     )
                 case .onSyncFailure:
-                    selfStrong.onSyncFailure(completion: completion)
+                    self.onSyncFailure(completion: completion)
                 case .onTxnIDCreated:
-                    selfStrong.onTxnIDCreated(completion: completion)
+                    self.onTxnIDCreated(completion: completion)
                 }
             }
         }
@@ -106,14 +99,16 @@ extension Matrix {
                 return
             }
             
-            eventsListeners.forEach { $0.on(value: events) }
+            eventsListeners.forEach { $0.notify(with: events) }
         }
         
         // MARK: Action Handlers
         
         private func initialize(userID: String?, deviceID: String?, accessToken: String?, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-            state = State(from: state, userID: userID, deviceID: deviceID, accessToken: accessToken)
-            completion(.success(()))
+            queue.async {
+                self.state = State(from: self.state, userID: userID, deviceID: deviceID, accessToken: accessToken)
+                completion(.success(()))
+            }
         }
         
         private func onSyncSuccess(
@@ -123,40 +118,41 @@ extension Matrix {
             events: [Matrix.Event]?,
             completion: @escaping (Result<(), Swift.Error>) -> ()
         ) {
-            let mergedRooms = rooms.map { state.rooms.merge(with: $0) }
+            let mergedRooms = rooms.map { state.rooms.merged(with: $0) }
             if let events = events {
                 notify(with: events)
             }
             
-            updateStorage(syncToken: syncToken, rooms: mergedRooms) { [weak self] result in
+            updateStorage(syncToken: syncToken, rooms: mergedRooms) { result in
                 guard result.isSuccess(otherwise: completion) else { return }
-                
-                guard let selfStrong = self else {
-                    completion(.failure(Error.unknown))
-                    return
+           
+                self.queue.async {
+                    self.state = State(
+                        from: self.state,
+                        isPolling: true,
+                        syncToken: .some(syncToken),
+                        pollingTimeout: pollingTimeout,
+                        pollingRetries: 0,
+                        rooms: mergedRooms ?? self.state.rooms
+                    )
+                    
+                    completion(.success(()))
                 }
-                
-                selfStrong.state = State(
-                    from: selfStrong.state,
-                    isPolling: true,
-                    syncToken: .some(syncToken),
-                    pollingTimeout: pollingTimeout,
-                    pollingRetries: 0,
-                    rooms: mergedRooms ?? selfStrong.state.rooms
-                )
-                
-                completion(.success(()))
             }
         }
         
         private func onSyncFailure(completion: @escaping (Result<(), Swift.Error>) -> ()) {
-            state = State(from: state, isPolling: false, pollingRetries: state.pollingRetries + 1)
-            completion(.success(()))
+            queue.async {
+                self.state = State(from: self.state, isPolling: false, pollingRetries: self.state.pollingRetries + 1)
+                completion(.success(()))
+            }
         }
         
         private func onTxnIDCreated(completion: @escaping (Result<(), Swift.Error>) -> ()) {
-            state = State(from: state, transactionCounter: state.transactionCounter + 1)
-            completion(.success(()))
+            queue.async {
+                self.state = State(from: self.state, transactionCounter: self.state.transactionCounter + 1)
+                completion(.success(()))
+            }
         }
         
         private func updateStorage(syncToken: String?, rooms: [String: Matrix.Room]?, completion: @escaping (Result<(), Swift.Error>) -> ()) {
@@ -185,18 +181,14 @@ extension Matrix {
         // MARK: Types
         
         typealias EventsListener = DistinguishableListener<[Matrix.Event]>
-        
-        enum Error: Swift.Error {
-            case unknown
-        }
     }
 }
 
 // MARK: Extensions
 
-extension Dictionary where Key == String, Value == Matrix.Room {
+private extension Dictionary where Key == String, Value == Matrix.Room {
     
-    func merge(with newRooms: [Matrix.Room]) -> [Key: Value] {
+    func merged(with newRooms: [Matrix.Room]) -> [Key: Value] {
         guard !newRooms.isEmpty else {
             return self
         }

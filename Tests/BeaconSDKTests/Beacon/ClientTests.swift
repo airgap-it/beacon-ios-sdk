@@ -58,7 +58,7 @@ class ClientTests: XCTestCase {
         connectionController.register(messages: versioned)
         
         var received: [Beacon.Request] = []
-        beaconClient.connect(onRequest: { result in
+        beaconClient.listen { result in
             switch result {
             case let .success(request):
                 received.append(request)
@@ -70,7 +70,7 @@ class ClientTests: XCTestCase {
                 XCTFail("Unexpected error: \(error)")
                 expect.fulfill()
             }
-        }) { _ in }
+        }
         
         waitForExpectations(timeout: 1) { error in
             if let error = error {

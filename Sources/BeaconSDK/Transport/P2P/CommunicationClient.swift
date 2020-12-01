@@ -44,17 +44,21 @@ extension Transport.P2P {
         func start(completion: @escaping (Result<(), Swift.Error>) -> ()) {
             do {
                 let loginDigest = try crypto.hash(message: "login:\(Date().currentTimeMillis / 1000 / (5 * 60))", size: 32)
-                let signature = HexString(from: try crypto.signDetached(message: loginDigest, with: keyPair.secretKey)).value()
-                let publicKeyHex = HexString(from: keyPair.publicKey).value()
-                let id = HexString(from: try crypto.hash(key: keyPair.publicKey)).value()
+                let signature = HexString(from: try crypto.signDetached(message: loginDigest, with: keyPair.secretKey)).asString()
+                let publicKeyHex = HexString(from: keyPair.publicKey).asString()
+                let id = HexString(from: try crypto.hash(key: keyPair.publicKey)).asString()
                 
                 let password = "ed:\(signature):\(publicKeyHex)"
                 let deviceID = publicKeyHex
                 
-                matrixClients.awaitAll(
-                    async: { $0.start(userID: id, password: password, deviceID: deviceID, completion: $1) },
-                    completion: completion
-                )
+                matrixClients.forEachAsync(body: { $0.start(userID: id, password: password, deviceID: deviceID, completion: $1) }) { results in
+                    guard results.contains(where: { $0.isSuccess }) else {
+                        completion(.failure(Error.startFailed(causedBy: results.compactMap { $0.error })))
+                        return
+                    }
+                    
+                    completion(.success(()))
+                }
             } catch {
                 completion(.failure(error))
             }
@@ -110,7 +114,7 @@ extension Transport.P2P {
         
         private func getOrCreateServerSessionKeyPair(for publicKey: HexString) throws -> SessionKeyPair {
             try serverSessionKeyPair.getOrSet(publicKey) {
-                try crypto.serverSessionKeyPair(publicKey: publicKey.bytes(), secretKey: keyPair.secretKey)
+                try crypto.serverSessionKeyPair(publicKey: publicKey.asBytes(), secretKey: keyPair.secretKey)
             }
         }
         
@@ -118,12 +122,19 @@ extension Transport.P2P {
         
         func send(message: String, to publicKey: HexString, completion: @escaping (Result<(), Swift.Error>) -> ()) {
             do {
-                let encrypted = HexString(from: try encrypt(message: message, with: publicKey)).value()
+                let encrypted = HexString(from: try encrypt(message: message, with: publicKey)).asString()
                 for i in 0..<replicationCount {
                     let relayServer = try serverUtils.relayServer(for: publicKey, nonce: try HexString(from: i))
                     let recipient = try communicationUtils.recipientIdentifier(for: publicKey, on: relayServer)
                     
-                    matrixClients.awaitAll(async: { $0.send(textMessage: encrypted, to: recipient, completion: $1) }, completion: completion)
+                    matrixClients.forEachAsync(body: { $0.send(textMessage: encrypted, to: recipient, completion: $1) }) { results in
+                        guard results.contains(where: { $0.isSuccess }) else {
+                            completion(.failure(Error.sendFailed(causedBy: results.compactMap { $0.error })))
+                            return
+                        }
+                        
+                        completion(.success(()))
+                    }
                 }
             } catch {
                 completion(.failure(error))
@@ -145,10 +156,17 @@ extension Transport.P2P {
                     version: version
                 )
                 
-                let payload = HexString(from: try crypto.encrypt(message: pairingPayload, withPublicKey: try publicKey.bytes())).value()
+                let payload = HexString(from: try crypto.encrypt(message: pairingPayload, withPublicKey: try publicKey.asBytes())).asString()
                 let message = communicationUtils.channelOpeningMessage(to: recipient, withPayload: payload)
                 
-                matrixClients.awaitAll(async: { $0.send(textMessage: message, to: recipient, completion: $1) }, completion: completion)
+                matrixClients.forEachAsync(body: { $0.send(textMessage: message, to: recipient, completion: $1) }) { results in
+                    guard results.contains(where: { $0.isSuccess }) else {
+                        completion(.failure(Error.pairingFailed(causedBy: results.compactMap { $0.error })))
+                        return
+                    }
+                    
+                    completion(.success(()))
+                }
             } catch {
                 completion(.failure(error))
             }
@@ -162,15 +180,23 @@ extension Transport.P2P {
         
         private func getOrCreateClientSessionKeyPair(for publicKey: HexString) throws -> SessionKeyPair {
             try clientSessionKeyPair.getOrSet(publicKey) {
-                try crypto.clientSessionKeyPair(publicKey: publicKey.bytes(), secretKey: keyPair.secretKey)
+                try crypto.clientSessionKeyPair(publicKey: publicKey.asBytes(), secretKey: keyPair.secretKey)
             }
+        }
+        
+        // MARK: Types
+        
+        enum Error: Swift.Error {
+            case startFailed(causedBy: [Swift.Error])
+            case sendFailed(causedBy: [Swift.Error])
+            case pairingFailed(causedBy: [Swift.Error])
         }
     }
 }
 
 // MARK: Extensions
 
-extension Matrix {
+private extension Matrix {
     
     func send(textMessage message: String, to recipient: String, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         getRelevantRoom(withMember: recipient) { result in

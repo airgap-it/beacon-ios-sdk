@@ -32,7 +32,7 @@ class MockMessageController: MessageControllerProtocol {
         completion: @escaping (Result<Beacon.Message, Swift.Error>) -> ()
     ) {
         if isFailing {
-            completion(.failure(Error.unknown))
+            completion(.failure(Beacon.Error.unknown))
         } else {
             message.toBeaconMessage(with: origin, using: storage) { beaconMessage in
                 completion(beaconMessage)
@@ -46,14 +46,10 @@ class MockMessageController: MessageControllerProtocol {
         completion: @escaping (Result<(Beacon.Origin, Beacon.Message.Versioned), Swift.Error>) -> ()
     ) {
         if isFailing {
-            completion(.failure(Error.unknown))
+            completion(.failure(Beacon.Error.unknown))
         } else {
             let versionedMessage = Beacon.Message.Versioned(from: message, version: dAppVersion, senderID: senderID)
             completion(.success((Beacon.Origin(kind: .p2p, id: senderID), versionedMessage)))
         }
-    }
-    
-    enum Error: Swift.Error {
-        case unknown
     }
 }

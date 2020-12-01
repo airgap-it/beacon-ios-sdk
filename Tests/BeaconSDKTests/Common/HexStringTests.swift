@@ -31,7 +31,7 @@ class HexStringTests: XCTestCase {
     
     func testHexStringIsCreatedFromValidString() throws {
         validHexStrings.forEach { string in
-            XCTAssertEqual(withoutPrefix(string), try! HexString(from: string).value(), "Created HexString doesn't match expected")
+            XCTAssertEqual(withoutPrefix(string), try! HexString(from: string).asString(), "Created HexString doesn't match expected")
         }
     }
     
@@ -54,20 +54,20 @@ class HexStringTests: XCTestCase {
         ]
         
         bytesWithExpected.forEach { (bytes, expected) in
-            XCTAssertEqual(expected, HexString(from: bytes).value(), "Created HexString doesn't match expected")
+            XCTAssertEqual(expected, HexString(from: bytes).asString(), "Created HexString doesn't match expected")
         }
     }
     
     func testHexStringValueIsReturnedWithPrefix() throws {
         let hex = validHexStrings.first!
         
-        XCTAssertEqual(withPrefix(hex), try HexString(from: hex).value(withPrefix: true))
+        XCTAssertEqual(withPrefix(hex), try HexString(from: hex).asString(withPrefix: true))
     }
     
     func testHexStringValueIsReturnedWithoutPrefix() throws {
         let hex = validHexStrings.first!
         
-        XCTAssertEqual(withoutPrefix(hex), try HexString(from: hex).value())
+        XCTAssertEqual(withoutPrefix(hex), try HexString(from: hex).asString())
     }
     
     func testHexStringIsConvertedToBytes() throws {
@@ -81,7 +81,7 @@ class HexStringTests: XCTestCase {
         ]
         
         stringsWithExpected.forEach { (string, expected) in
-            XCTAssertEqual(expected, try! HexString(from: string).bytes(), "Bytes from HexString don't match expected")
+            XCTAssertEqual(expected, try! HexString(from: string).asBytes(), "Bytes from HexString don't match expected")
         }
     }
     

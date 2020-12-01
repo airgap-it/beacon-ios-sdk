@@ -19,36 +19,24 @@ class ConnectionController: ConnectionControllerProtocol {
     
     // MARK: Subscription
     
-    func subscribe(onRequest listener: @escaping (Result<BeaconConnectionMessage, Error>) -> (), completion: @escaping (Result<(), Error>) -> ()) {
-        transports.awaitAll(async: { $0.connect(completion: $1) }) { [weak self] result in
-            guard result.isSuccess(otherwise: completion) else { return }
+    func connect(completion: @escaping (Result<(), Error>) -> ()) {
+        transports.forEachAsync(body: { $0.connect(completion: $1) }) { results in
+            guard results.allSatisfy({ $0.isSuccess }) else {
+                let (notConnected, errors) = results.enumerated()
+                    .map { (index, result) in (self.transports[index].kind, result.error) }
+                    .filter { (_, error) in error != nil }
+                    .unzip()
+                
+                completion(.failure(Beacon.Error.connectionFailed(notConnected, causedBy: errors.compactMap { $0 })))
+                
+                return
+            }
             
-            self?.listen(onRequest: listener)
             completion(.success(()))
         }
     }
     
-    func on(new peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
-        transports.awaitAll(async: { $0.connect(withNew: peers, completion: $1) }, completion: completion)
-    }
-    
-    func on(deleted peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
-        let transportsCount = transports.count
-        var disconnected = 0
-        
-        transports.forEach { transport in
-            transport.disconnect(from: peers) { result in
-                guard result.isSuccess(otherwise: completion) else { return }
-                
-                disconnected += 1
-                if disconnected == transportsCount {
-                    completion(.success(()))
-                }
-            }
-        }
-    }
-    
-    private func listen(onRequest listener: @escaping (Result<BeaconConnectionMessage, Error>) -> ()) {
+    func listen(onRequest listener: @escaping (Result<BeaconConnectionMessage, Error>) -> ()) {
         let listener = Transport.Listener { [weak self] connectionMessage in
             guard let selfStrong = self else {
                 return
@@ -68,7 +56,41 @@ class ConnectionController: ConnectionControllerProtocol {
             listener(result)
         }
         
-        transports.forEach { $0.add(listener: listener) }
+        transports.forEach { $0.add(listener) }
+    }
+    
+    func onNew(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
+        transports.forEachAsync(body: { $0.connect(new: peers, completion: $1) }) { (results: [Result<(), Error>]) in
+            guard results.allSatisfy({ $0.isSuccess }) else {
+                self.transports.forEachAsync(body: { $0.connectedPeers(completion: $1) }) { connectedPeers in
+                    let connected = connectedPeers.flatMap { $0 }
+                    let notConnected = peers.filter { !connected.contains($0) }
+                    
+                    completion(.failure(Beacon.Error.peersNotConnected(notConnected, causedBy: results.compactMap { $0.error })))
+                }
+                
+                return
+            }
+            
+            completion(.success(()))
+        }
+    }
+    
+    func onDeleted(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
+        transports.forEachAsync(body: { $0.disconnect(from: peers, completion: $1) }) { (results: [Result<(), Error>]) in
+            guard results.allSatisfy({ $0.isSuccess }) else {
+                self.transports.forEachAsync(body: { $0.connectedPeers(completion: $1) }) { connectedPeers in
+                    let connected = connectedPeers.flatMap { $0 }
+                    let notDisconnected = peers.filter { connected.contains($0) }
+                    
+                    completion(.failure(Beacon.Error.peersNotDisconnected(notDisconnected, causedBy: results.compactMap { $0.error })))
+                }
+                
+                return
+            }
+            
+            completion(.success(()))
+        }
     }
     
     // MARK: Send
@@ -81,7 +103,19 @@ class ConnectionController: ConnectionControllerProtocol {
             let serialized = try serializer.serialize(message: message.content)
             let serializedConnectionMessage = SerializedConnectionMessage(origin: message.origin, content: serialized)
             
-            transports.awaitAll(async: { $0.send(.serialized(serializedConnectionMessage), completion: $1) }, completion: completion)
+            transports.forEachAsync(body: { $0.send(.serialized(serializedConnectionMessage), completion: $1) }) { results in
+                guard results.allSatisfy({ $0.isSuccess }) else {
+                    let (notSent, errors) = results.enumerated()
+                        .map { (index, result) in (self.transports[index].kind, result.error) }
+                        .filter { (_, error) in error != nil }
+                        .unzip()
+                    
+                    completion(.failure(Beacon.Error.sendFailed(notSent, causedBy: errors.compactMap { $0 })))
+                    return
+                }
+                
+                completion(.success(()))
+            }
         } catch {
             completion(.failure(error))
         }

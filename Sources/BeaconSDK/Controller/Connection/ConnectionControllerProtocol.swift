@@ -9,9 +9,10 @@
 import Foundation
 
 protocol ConnectionControllerProtocol {
-    func subscribe(onRequest listener: @escaping (Result<BeaconConnectionMessage, Error>) -> (), completion: @escaping (Result<(), Error>) -> ())
+    func connect(completion: @escaping (Result<(), Error>) -> ())
+    func listen(onRequest listener: @escaping (Result<BeaconConnectionMessage, Error>) -> ())
     func send(_ message: BeaconConnectionMessage, completion: @escaping (Result<(), Error>) -> ())
     
-    func on(new peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ())
-    func on(deleted peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ())
+    func onNew(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ())
+    func onDeleted(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ())
 }

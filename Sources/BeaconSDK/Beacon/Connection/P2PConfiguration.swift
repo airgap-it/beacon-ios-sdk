@@ -21,15 +21,11 @@ extension Beacon.Connection {
         
         public init(nodes: [URL]) throws {
             guard !nodes.isEmpty else {
-                throw Error.emptyNodes
+                throw Beacon.Error.emptyNodes
             }
             
             kind = .p2p
             self.nodes = nodes
-        }
-        
-        public enum Error: Swift.Error {
-            case emptyNodes
         }
     }
 }

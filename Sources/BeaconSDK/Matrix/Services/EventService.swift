@@ -12,10 +12,13 @@ extension Matrix {
     
     class EventService {
         private let http: HTTP
+        private lazy var syncCached: CachedCompletion<SyncResponse> = CachedCompletion()
         
         init(http: HTTP) {
             self.http = http
         }
+        
+        // MARK: Sync
         
         func sync(
             withToken accessToken: String,
@@ -31,8 +34,13 @@ extension Matrix {
                 parameters.append(("timeout", String(timeout)))
             }
             
-            http.get(at: "/sync", headers: [.bearer(token: accessToken)], parameters: parameters, completion: completion)
+            syncCached.run(
+                action: { self.http.get(at: "/sync", headers: [.bearer(token: accessToken)], parameters: parameters, completion: $0) },
+                completion: completion
+            )
         }
+        
+        // MARK: Send
         
         func send(
             withToken accessToken: String,
@@ -65,6 +73,17 @@ extension Matrix {
                 headers: [.bearer(token: accessToken)],
                 completion: completion
             )
+        }
+    }
+}
+
+// MARK: Extensions
+
+private extension Array {
+    
+    mutating func append(_ newElement: Element?) {
+        if let element = newElement {
+            append(element)
         }
     }
 }

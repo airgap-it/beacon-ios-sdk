@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon.Message.Versioned.V2 {
     
-    struct SignPayloadResponse: Codable {
+    struct SignPayloadResponse: V2MessageProtocol, Codable {
         let type: `Type`
         let version: String
         let id: String
@@ -29,6 +29,10 @@ extension Beacon.Message.Versioned.V2 {
         
         init(from beaconMessage: Beacon.Response.SignPayload, version: String, senderID: String) {
             self.init(version: version, id: beaconMessage.id, senderID: senderID, signature: beaconMessage.signature)
+        }
+        
+        func comesFrom(_ appMetadata: Beacon.AppMetadata) -> Bool {
+            appMetadata.senderID == senderID
         }
         
         func toBeaconMessage(

@@ -95,7 +95,7 @@ class HTTP {
     private func send<R: Codable>(request: URLRequest, completion: @escaping (Result<R, Swift.Error>) -> ()) {
         let dataTask = session.dataTask(with: request) { [weak self] result in
             guard let selfStrong = self else {
-                completion(.failure(Error.unknown))
+                completion(.failure(Beacon.Error.unknown))
                 return
             }
             switch result {
@@ -151,9 +151,9 @@ class HTTP {
     }
     
     enum Error: Swift.Error {
-        case unknown
         case invalidURL(URL)
         case http(Int)
+        
         case other(Swift.Error)
         
         init(_ error: Swift.Error) {
@@ -168,12 +168,12 @@ class HTTP {
 
 // MARK: Extensions
 
-extension URLSession {
+private extension URLSession {
     
     func dataTask(with request: URLRequest, completion: @escaping (Result<(Data, HTTPURLResponse), Error>) -> ()) -> URLSessionDataTask {
         return dataTask(with: request) { (data, response, error) in
             guard let data = data, let response = response as? HTTPURLResponse else {
-                completion(.failure(error ?? HTTP.Error.unknown))
+                completion(.failure(error ?? Beacon.Error.unknown))
                 return
             }
             guard (200..<300).contains(response.statusCode) else {
@@ -185,7 +185,7 @@ extension URLSession {
     }
 }
 
-extension URLRequest {
+private extension URLRequest {
     
     mutating func set(header: HTTP.Header) {
         let tuple = header.tuple
