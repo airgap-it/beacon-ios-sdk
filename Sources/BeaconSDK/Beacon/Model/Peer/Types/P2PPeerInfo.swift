@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon {
     
-    public struct P2PPeerInfo: Equatable, Codable {
+    public struct P2PPeerInfo: Equatable, Hashable, Codable {
         public let kind: Beacon.Connection.Kind
         public let name: String
         public let publicKey: String

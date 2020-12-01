@@ -14,7 +14,7 @@ extension String {
         range(of: "^(\(HexString.prefix))?([0-9a-fA-F]{2})+$", options: .regularExpression) != nil
     }
     
-    func substring(before separator: Character) -> String {
+    func prefix(before separator: Character) -> String {
         String(prefix { $0 != separator })
     }
 }

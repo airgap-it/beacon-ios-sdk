@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon.Response {
     
-    public struct Permission: Equatable, Codable {
+    public struct Permission: ResponseProtocol, Equatable, Codable {
         public let id: String
         public let publicKey: String
         public let network: Beacon.Network

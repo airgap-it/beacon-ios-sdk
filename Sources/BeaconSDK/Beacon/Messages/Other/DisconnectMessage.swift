@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon.Message {
     
-    public struct Disconnect: Equatable, Codable {
+    public struct Disconnect: MessageProtocol, Equatable, Codable {
         public let id: String
         public let senderID: String
     }

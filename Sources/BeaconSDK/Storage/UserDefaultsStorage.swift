@@ -139,7 +139,7 @@ class UserDefaultsStorage: Storage {
 
 // MARK: Extensions
 
-extension UserDefaults {
+private extension UserDefaults {
     func set(_ value: String, forKey key: UserDefaultsStorage.Key) {
         set(value, forKey: key.rawValue)
     }

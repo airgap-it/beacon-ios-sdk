@@ -21,7 +21,7 @@ class DistinguishableListener<T>: Hashable, Equatable {
         lhs.id == rhs.id
     }
     
-    final func on(value: T) {
+    final func notify(with value: T) {
         closure(value)
     }
     

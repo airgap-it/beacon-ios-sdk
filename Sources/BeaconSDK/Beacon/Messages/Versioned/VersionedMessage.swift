@@ -33,40 +33,17 @@ extension Beacon.Message {
             using storage: StorageManager,
             completion: @escaping (Result<Beacon.Message, Error>) -> ()
         ) {
-            switch self {
-            case let .v1(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .v2(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            }
+            common.toBeaconMessage(with: origin, using: storage, completion: completion)
         }
         
         // MARK: Attributes
         
-        var version: String {
+        var common: VersionedMessageProtocol {
             switch self {
             case let .v1(content):
-                return content.version
+                return content.common
             case let .v2(content):
-                return content.version
-            }
-        }
-        
-        var identifer: String {
-            switch self {
-            case let .v1(content):
-                return content.identifier
-            case let .v2(content):
-                return content.identifier
-            }
-        }
-        
-        func comesFrom(appMetadata: Beacon.AppMetadata) -> Bool {
-            switch self {
-            case let .v1(content):
-                return content.comesFrom(appMetadata: appMetadata)
-            case let .v2(content):
-                return content.comesFrom(appMetadata: appMetadata)
+                return content.common
             }
         }
         
@@ -101,11 +78,21 @@ extension Beacon.Message {
     }
 }
 
+// MARK: Protocol
+
+protocol VersionedMessageProtocol {
+    var version: String { get }
+    var id: String { get }
+    
+    func comesFrom(_ appMetadata: Beacon.AppMetadata) -> Bool
+    func toBeaconMessage(with origin: Beacon.Origin, using storage: StorageManager, completion: @escaping (Result<Beacon.Message, Error>) -> ())
+}
+
 // MARK: Extensions
 
-extension String {
+private extension String {
     
     var major: String {
-        substring(before: ".")
+        prefix(before: ".")
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon.Request {
     
-    public struct Permission: Equatable, Codable {
+    public struct Permission: RequestProtocol, Equatable, Codable {
         public let id: String
         public let senderID: String
         public let appMetadata: Beacon.AppMetadata

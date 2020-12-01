@@ -15,6 +15,7 @@ class MessageController: MessageControllerProtocol {
     private let accountUtils: AccountUtils
     
     private var pendingRequests: [String: (Beacon.Origin, Beacon.Message.Versioned)] = [:]
+    private let queue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.MessageController", attributes: [], target: .global(qos: .default))
     
     init(coinRegistry: CoinRegistry, storage: StorageManager, accountUtils: AccountUtils) {
         self.coinRegistry = coinRegistry
@@ -35,7 +36,9 @@ class MessageController: MessageControllerProtocol {
             self.onIncoming(beaconMessage) { result in
                 guard result.isSuccess(otherwise: completion) else { return }
                 
-                self.pendingRequests[message.identifer] = (origin, message)
+                self.queue.async {
+                    self.pendingRequests[message.common.id] = (origin, message)
+                }
 
                 completion(.success(beaconMessage))
             }
@@ -53,8 +56,8 @@ class MessageController: MessageControllerProtocol {
     
     private func onIncoming(_ request: Beacon.Request, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         switch request {
-        case let .permission(request):
-            onIncoming(request, completion: completion)
+        case let .permission(permissionRequest):
+            onIncoming(permissionRequest, completion: completion)
         default:
             /* no action */
             completion(.success(()))
@@ -72,16 +75,18 @@ class MessageController: MessageControllerProtocol {
         from senderID: String,
         completion: @escaping (Result<(Beacon.Origin, Beacon.Message.Versioned), Swift.Error>) -> ()
     ) {
-        guard let (origin, request) = pendingRequests.removeValue(forKey: message.identifier) else {
-            completion(.failure(Error.noPendingRequest))
-            return
-        }
-        
-        onOutgoing(message, with: origin, respondingTo: request) { result in
-            guard result.isSuccess(otherwise: completion) else { return }
+        queue.async {
+            guard let (origin, request) = self.pendingRequests.removeValue(forKey: message.common.id) else {
+                completion(.failure(Beacon.Error.noPendingRequest(withID: message.common.id)))
+                return
+            }
             
-            let versionedMessage = Beacon.Message.Versioned(from: message, version: request.version, senderID: senderID)
-            completion(.success((origin, versionedMessage)))
+            self.onOutgoing(message, with: origin, respondingTo: request) { result in
+                guard result.isSuccess(otherwise: completion) else { return }
+                
+                let versionedMessage = Beacon.Message.Versioned(from: message, version: request.common.version, senderID: senderID)
+                completion(.success((origin, versionedMessage)))
+            }
         }
     }
     
@@ -126,7 +131,7 @@ class MessageController: MessageControllerProtocol {
             let address = try coinRegistry.get(.tezos).getAddressFrom(publicKey: publicKey)
             let accountIdentifier = try accountUtils.getAccountIdentifier(for: address, on: response.network)
             
-            storage.findAppMetadata(where: { request.comesFrom(appMetadata: $0) }) { result in
+            storage.findAppMetadata(where: { request.common.comesFrom($0) }) { result in
                 guard let appMetadataOrNil = result.get(ifFailure: completion) else { return }
                 
                 guard let appMetadata = appMetadataOrNil else {
@@ -153,8 +158,6 @@ class MessageController: MessageControllerProtocol {
     }
     
     enum Error: Swift.Error {
-        case noPendingRequest
         case noMatchingAppMetadata
-        case unknown
     }
 }

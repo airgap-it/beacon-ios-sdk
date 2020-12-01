@@ -19,7 +19,7 @@ extension Beacon {
         }
         
         static func p2p(id: HexString) -> Origin {
-            p2p(id: id.value())
+            p2p(id: id.asString())
         }
     }
 }

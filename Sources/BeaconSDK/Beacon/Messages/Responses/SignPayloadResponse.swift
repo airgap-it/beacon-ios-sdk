@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon.Response {
     
-    public struct SignPayload: Equatable, Codable {
+    public struct SignPayload: ResponseProtocol, Equatable, Codable {
         public let id: String
         public let signature: String
     }

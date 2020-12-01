@@ -178,9 +178,11 @@
 		88CC0C65256D59D000F54056 /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0B9D256D57CB00F54056 /* TestUtils.swift */; };
 		88CC0C6B256D59DA00F54056 /* ClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0B9F256D57CB00F54056 /* ClientTests.swift */; };
 		88CC0C6C256D59DA00F54056 /* BeaconTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0BA0256D57CB00F54056 /* BeaconTests.swift */; };
+		88CC0CA2256E911F00F54056 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0CA1256E911F00F54056 /* StorageManager.swift */; };
 		88CC0D22256FB22C00F54056 /* TryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0D21256FB22C00F54056 /* TryUtils.swift */; };
 		88CC0D29256FB23A00F54056 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0D28256FB23A00F54056 /* Network.swift */; };
-		88CC0CA2256E911F00F54056 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0CA1256E911F00F54056 /* StorageManager.swift */; };
+		88CC0D66256FF58700F54056 /* CachedCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0D65256FF58700F54056 /* CachedCompletion.swift */; };
+		88CC0D862570003800F54056 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0D852570003800F54056 /* Error.swift */; };
 		OBJ_30 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_44 /* BeaconSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "BeaconSDK::BeaconSDK::Product" /* BeaconSDK.framework */; };
 /* End PBXBuildFile section */
@@ -410,9 +412,11 @@
 		88CC0BC9256D587700F54056 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		88CC0BCB256D587700F54056 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		88CC0BCC256D587700F54056 /* BeaconSDKDemoUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconSDKDemoUITests.swift; sourceTree = "<group>"; };
+		88CC0CA1256E911F00F54056 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		88CC0D21256FB22C00F54056 /* TryUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TryUtils.swift; sourceTree = "<group>"; };
 		88CC0D28256FB23A00F54056 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
-		88CC0CA1256E911F00F54056 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		88CC0D65256FF58700F54056 /* CachedCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedCompletion.swift; sourceTree = "<group>"; };
+		88CC0D852570003800F54056 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		"BeaconSDK::BeaconSDK::Product" /* BeaconSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeaconSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"BeaconSDK::BeaconSDKTests::Product" /* BeaconSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = BeaconSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_17 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -487,7 +491,6 @@
 				88CC0A6B256D57B300F54056 /* Common */,
 				88CC0A5E256D57B300F54056 /* Controller */,
 				88CC0A2B256D57B200F54056 /* Crypto */,
-				88CC0A65256D57B300F54056 /* Extensions */,
 				88CC0A7A256D57B300F54056 /* Matrix */,
 				88CC0A56256D57B300F54056 /* Network */,
 				88CC0A32256D57B300F54056 /* Serializer */,
@@ -685,11 +688,13 @@
 			isa = PBXGroup;
 			children = (
 				88CC0A6E256D57B300F54056 /* AccountUtils.swift */,
+				88CC0D65256FF58700F54056 /* CachedCompletion.swift */,
 				88CC0A6C256D57B300F54056 /* DependencyRegistry.swift */,
 				88CC0A76256D57B300F54056 /* DistinguishableListener.swift */,
 				88CC0A6F256D57B300F54056 /* HexString.swift */,
 				88CC0A6D256D57B300F54056 /* LazyWeakReference.swift */,
 				88CC0D21256FB22C00F54056 /* TryUtils.swift */,
+				88CC0A65256D57B300F54056 /* Extensions */,
 				88CC0A70256D57B300F54056 /* Model */,
 			);
 			path = Common;
@@ -894,6 +899,7 @@
 				88CC0ADE256D57B400F54056 /* Beacon.swift */,
 				88CC0ADF256D57B400F54056 /* Client.swift */,
 				88CC0AF1256D57B500F54056 /* Configuration.swift */,
+				88CC0D852570003800F54056 /* Error.swift */,
 				88CC0ADB256D57B400F54056 /* Connection */,
 				88CC0AAA256D57B400F54056 /* Messages */,
 				88CC0AE0256D57B400F54056 /* Model */,
@@ -1588,16 +1594,17 @@
 				88CC0B22256D57B500F54056 /* AccountUtils.swift in Sources */,
 				88CC0CA2256E911F00F54056 /* StorageManager.swift in Sources */,
 				88CC0B4B256D57B500F54056 /* PermissionV1Response.swift in Sources */,
+				88CC0D66256FF58700F54056 /* CachedCompletion.swift in Sources */,
 				88CC0B15256D57B500F54056 /* DecoratedStorage.swift in Sources */,
 				88CC0B42256D57B500F54056 /* Create.swift in Sources */,
 				88CC0B09256D57B500F54056 /* Reveal.swift in Sources */,
+				88CC0D862570003800F54056 /* Error.swift in Sources */,
 				88CC0B60256D57B500F54056 /* Message.swift in Sources */,
 				88CC0D22256FB22C00F54056 /* TryUtils.swift in Sources */,
 				88CC0B1A256D57B500F54056 /* MessageControllerProtocol.swift in Sources */,
 				88CC0B26256D57B500F54056 /* SerializedConnectionMessage.swift in Sources */,
 				88CC0B28256D57B500F54056 /* Coin.swift in Sources */,
 				88CC0B34256D57B500F54056 /* MessageStateEvent.swift in Sources */,
-				88CC0D40256FC0EC00F54056 /* StorageManager.swift in Sources */,
 				88CC0AF2256D57B500F54056 /* CryptoProvider.swift in Sources */,
 				88CC0B33256D57B500F54056 /* MemberStateEvent.swift in Sources */,
 				88CC0B43256D57B500F54056 /* UserService.swift in Sources */,

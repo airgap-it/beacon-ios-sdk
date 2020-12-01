@@ -11,7 +11,7 @@ import BeaconSDK
 
 class BeaconViewModel: ObservableObject {
     private static let examplePeerName = "Beacon Example Dapp"
-    private static let examplePeerPublicKey = "da58fa0a0912ecc62b4467721416ae4669e90ade4987086ee5c23d20075ad15c"
+    private static let examplePeerPublicKey = "6813141cd8c028fe93bcc8e404e39f53eca7f966458271572f7669ed6cc16a0f"
     private static let examplePeerRelayServer = "matrix.papers.tech"
     
     private static let exampleTezosPublicKey = "edpktpzo8UZieYaJZgCHP6M6hKHPdWBSNqxvmEt6dwWRgxDh1EAFw9"
@@ -74,11 +74,11 @@ class BeaconViewModel: ObservableObject {
     }
     
     private func startBeacon() {
-        Beacon.Client.create(with: Beacon.Client.Configuration(name: "iOS Beacon SDK Demo")) { [weak self] result in
+        Beacon.Client.create(with: Beacon.Client.Configuration(name: "iOS Beacon SDK Demo")) { result in
             switch result {
             case let .success(client):
-                self?.beaconClient = client
-                self?.listenForRequests()
+                self.beaconClient = client
+                self.listenForRequests()
             case let .failure(error):
                 print("Could not create Beacon clinet, got error: \(error)")
             }
@@ -86,9 +86,10 @@ class BeaconViewModel: ObservableObject {
     }
     
     private func listenForRequests() {
-        beaconClient?.connect(onRequest: onBeaconRequest) { result in
+        beaconClient?.connect { result in
             switch result {
             case .success(_):
+                self.beaconClient?.listen(onRequest: self.onBeaconRequest)
                 self.beaconClient?.add([.p2p(self.exampleP2PPeer)]) { result in
                     switch result {
                     case .success(_):
@@ -103,7 +104,7 @@ class BeaconViewModel: ObservableObject {
         }
     }
     
-    private func onBeaconRequest(result: Result<Beacon.Request, Error>) {
+    private func onBeaconRequest(result: Result<Beacon.Request, Beacon.Error>) {
         switch result {
         case let .success(request):
             let encoder = JSONEncoder()

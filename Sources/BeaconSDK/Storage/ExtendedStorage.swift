@@ -43,3 +43,12 @@ protocol ExtendedStorage: Storage {
     
     func removePermissions(where predicate: ((Beacon.PermissionInfo) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
 }
+
+// MARK: Extensions
+
+extension ExtendedStorage {
+    
+    func extend() -> ExtendedStorage {
+        self
+    }
+}

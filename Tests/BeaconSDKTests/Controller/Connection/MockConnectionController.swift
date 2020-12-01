@@ -14,37 +14,33 @@ class MockConnectionController: ConnectionControllerProtocol {
     
     private var messages: [(Beacon.Origin, Beacon.Message.Versioned)] = []
     
-    func subscribe(
-        onRequest listener: @escaping (Result<BeaconConnectionMessage, Swift.Error>) -> (),
-        completion: @escaping (Result<(), Swift.Error>) -> ()
-    ) {
+    func connect(completion: @escaping (Result<(), Error>) -> ()) {
+        completion(isFailing ? .failure(Beacon.Error.unknown) : .success(()))
+    }
+    
+    func listen(onRequest listener: @escaping (Result<BeaconConnectionMessage, Error>) -> ()) {
         messages.forEach { (origin, message) in
             if isFailing {
-                listener(.failure(Error.unknown))
+                listener(.failure(Beacon.Error.unknown))
             } else {
                 listener(.success(BeaconConnectionMessage(origin: origin, content: message)))
             }
         }
-        completion(.success(()))
     }
     
-    func on(new peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Swift.Error>) -> ()) {
-        completion(.success(()))
+    func onNew(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
+        completion(isFailing ? .failure(Beacon.Error.unknown) : .success(()))
     }
     
-    func on(deleted peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Swift.Error>) -> ()) {
-        completion(.success(()))
+    func onDeleted(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
+        completion(isFailing ? .failure(Beacon.Error.unknown) : .success(()))
     }
     
-    func send(_ message: BeaconConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-        completion(.success(()))
+    func send(_ message: BeaconConnectionMessage, completion: @escaping (Result<(), Error>) -> ()) {
+        completion(isFailing ? .failure(Beacon.Error.unknown) : .success(()))
     }
     
     func register(messages: [(Beacon.Origin, Beacon.Message.Versioned)]) {
         self.messages.append(contentsOf: messages)
-    }
-    
-    enum Error: Swift.Error {
-        case unknown
     }
 }

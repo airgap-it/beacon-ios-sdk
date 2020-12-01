@@ -18,17 +18,24 @@ extension Beacon {
         
         // MARK: Attributes
         
-        var identifier: String {
+        var common: RequestProtocol {
             switch self {
             case let .permission(content):
-                return content.id
+                return content
             case let .operation(content):
-                return content.id
+                return content
             case let .signPayload(content):
-                return content.id
+                return content
             case let .broadcast(content):
-                return content.id
+                return content
             }
         }
     }
+}
+
+// MARK: Protocol
+
+protocol RequestProtocol: MessageProtocol {
+    var senderID: String { get }
+    var origin: Beacon.Origin { get }
 }

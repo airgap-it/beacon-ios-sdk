@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon.Response {
     
-    public struct Error: Equatable, Codable {
+    public struct Error: ResponseProtocol, Equatable, Codable {
         public let id: String
         public let errorType: Beacon.ErrorType
     }

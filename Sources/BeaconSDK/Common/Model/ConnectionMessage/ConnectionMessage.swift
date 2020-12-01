@@ -12,11 +12,11 @@ enum ConnectionMessage {
     case serialized(SerializedConnectionMessage)
     case beacon(BeaconConnectionMessage)
     
-    static func serialized(origin: Beacon.Origin, content: String) -> ConnectionMessage {
+    static func serialized(originatedFrom origin: Beacon.Origin, withContent content: String) -> ConnectionMessage {
         .serialized(SerializedConnectionMessage(origin: origin, content: content))
     }
     
-    static func beacon(origin: Beacon.Origin, content: Beacon.Message.Versioned) -> ConnectionMessage {
+    static func beacon(originatedFrom origin: Beacon.Origin, withContent content: Beacon.Message.Versioned) -> ConnectionMessage {
         .beacon(BeaconConnectionMessage(origin: origin, content: content))
     }
 }

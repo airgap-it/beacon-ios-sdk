@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon {
     
-    public enum PeerInfo: Equatable, Codable {
+    public enum PeerInfo: Equatable, Hashable, Codable {
         case p2p(P2PPeerInfo)
         
         // MARK: Attributes

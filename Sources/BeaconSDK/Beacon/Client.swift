@@ -35,7 +35,7 @@ extension Beacon {
         
         // MARK: Initialization
         
-        public static func create(with configuration: Configuration, completion: @escaping (Result<Client, Swift.Error>) -> ()) {
+        public static func create(with configuration: Configuration, completion: @escaping (Result<Client, Error>) -> ()) {
             let storage = UserDefaultsStorage()
             
             Beacon.initialize(appName: configuration.name, storage: storage) { result in
@@ -52,18 +52,21 @@ extension Beacon {
                     
                     completion(.success(beaconClient))
                 } catch {
-                    completion(.failure(error))
+                    completion(.failure(Error(error)))
                 }
             }
         }
         
         // MARK: Connection
         
-        public func connect(
-            onRequest listener: @escaping (Result<Beacon.Request, Swift.Error>) -> (),
-            completion: @escaping (Result<(), Swift.Error>) -> ()
-        ) {
-            connectionController.subscribe(onRequest: { [weak self] result in
+        public func connect(completion: @escaping (Result<(), Error>) -> ()) {
+            connectionController.connect { result in
+                completion(result.withBeaconError())
+            }
+        }
+        
+        public func listen(onRequest listener: @escaping (Result<Beacon.Request, Error>) -> ()) {
+            connectionController.listen { [weak self] result in
                 guard let versionedMessage = result.get(ifFailure: listener) else { return }
                 self?.messageController.onIncoming(versionedMessage.content, with: versionedMessage.origin) { result in
                     guard let beaconMessage = result.get(ifFailure: listener) else { return }
@@ -75,29 +78,33 @@ extension Beacon {
                         break
                     }
                 }
-            }, completion: completion) 
+            }
         }
         
-        public func respond(with response: Beacon.Response, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        public func respond(with response: Beacon.Response, completion: @escaping (Result<(), Error>) -> ()) {
             messageController.onOutgoing(.response(response), from: beaconID) { result in
                 guard let (origin, versionedMessage) = result.get(ifFailure: completion) else { return }
-                self.connectionController.send(BeaconConnectionMessage(origin: origin, content: versionedMessage), completion: completion)
+                self.connectionController.send(BeaconConnectionMessage(origin: origin, content: versionedMessage)) { result in
+                    completion(result.withBeaconError())
+                }
             }
         }
         
-        public func add(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        public func add(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
             storage.add(peers) { result in
                 guard result.isSuccess(otherwise: completion) else { return }
-                
-                self.connectionController.on(new: peers, completion: completion)
+                self.connectionController.onNew(peers) { result in
+                    completion(result.withBeaconError())
+                }
             }
         }
         
-        public func remove(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        public func remove(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
             storage.remove(peers) { result in
                 guard result.isSuccess(otherwise: completion) else { return }
-                
-                self.connectionController.on(deleted: peers, completion: completion)
+                self.connectionController.onDeleted(peers) { result in
+                    completion(result.withBeaconError())
+                }
             }
         }
         

@@ -29,7 +29,7 @@ extension Micheline {
                 return
             }
             if let value = try container.decodeIfPresent(String.self, forKey: .bytes) {
-                self = .bytes(try HexString(from: value).bytes())
+                self = .bytes(try HexString(from: value).asBytes())
                 return
             }
             throw SerializationError.invalidType

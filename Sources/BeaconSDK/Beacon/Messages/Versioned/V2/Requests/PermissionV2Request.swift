@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon.Message.Versioned.V2 {
     
-    struct PermissionRequest: Codable {
+    struct PermissionRequest: V2MessageProtocol, Codable {
         let type: `Type`
         let version: String
         let id: String
@@ -47,6 +47,10 @@ extension Beacon.Message.Versioned.V2 {
                 network: beaconMessage.network,
                 scopes: beaconMessage.scopes
             )
+        }
+        
+        func comesFrom(_ appMetadata: Beacon.AppMetadata) -> Bool {
+            appMetadata.senderID == senderID
         }
         
         func toBeaconMessage(

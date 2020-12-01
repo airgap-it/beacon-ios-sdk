@@ -18,35 +18,42 @@ extension Transport {
         init(client: CommunicationClient, storage: StorageManager) {
             self.client = client
             self.storage = storage
+            super.init(kind: .p2p)
         }
         
-        override func connect(withNew peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        override func connect(new peers: [Beacon.PeerInfo], completion: @escaping (Result<[Beacon.PeerInfo], Swift.Error>) -> ()) {
             let p2pPeers: [Beacon.P2PPeerInfo] = peers.filterP2P()
-            
-            p2pPeers.awaitAll(
-                async: {
+
+            p2pPeers.forEachAsync(
+                body: {
                     self.client.sendPairingRequest(to: try HexString(from: $0.publicKey), on: $0.relayServer, version: $0.version, completion: $1)
                 }
-            ) { [weak self] result in
-                guard result.isSuccess(otherwise: completion) else { return }
-                
-                guard let selfStrong = self else {
-                    completion(.failure(Error.unknown))
+            ) { results in
+                guard results.allSatisfy({ $0.isSuccess }) else {
+                    let (notPaired, errors) = results.enumerated()
+                        .map { (index, result) in (Beacon.PeerInfo.p2p(p2pPeers[index]), result.error) }
+                        .filter { (_, error) in error != nil }
+                        .unzip()
+                    
+                    completion(.failure(Beacon.Error.peersNotPaired(notPaired, causedBy: errors.compactMap { $0 })))
                     return
                 }
-                
-                selfStrong.listen(to: p2pPeers, completion: completion)
+
+                self.listen(to: p2pPeers) { result in
+                    guard result.isSuccess(otherwise: completion) else { return }
+                    completion(.success(p2pPeers.map { .p2p($0) }))
+                }
             }
         }
         
-        override func disconnect(from peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        override func disconnect(from peers: [Beacon.PeerInfo], completion: @escaping (Result<[Beacon.PeerInfo], Swift.Error>) -> ()) {
             do {
                 let p2pPeers = peers.filterP2P()
                 try p2pPeers.forEach { peer in
                     client.removeListener(for: try HexString(from: peer.publicKey))
                 }
                 
-                completion(.success(()))
+                completion(.success(p2pPeers.map { .p2p($0) }))
             } catch {
                 completion(.failure(error))
             }
@@ -56,7 +63,7 @@ extension Transport {
             client.start { [weak self] result in
                 guard result.isSuccess(otherwise: completion) else { return }
                 guard let selfStrong = self else {
-                    completion(.failure(Error.unknown))
+                    completion(.failure(Beacon.Error.unknown))
                     return
                 }
                 
@@ -78,15 +85,10 @@ extension Transport {
         }
         
         private func connectWithKnownPeers(completion: @escaping (Result<(), Swift.Error>) -> ()) {
-            storage.getPeers { [weak self] result in
+            storage.getPeers { result in
                 guard let peers = result.get(ifFailure: completion) else { return }
                 
-                guard let selfStrong = self else {
-                    completion(.failure(Error.unknown))
-                    return
-                }
-                
-                selfStrong.listen(to: peers.filterP2P(), completion: completion)
+                self.listen(to: peers.filterP2P(), completion: completion)
             }
         }
         
@@ -102,34 +104,27 @@ extension Transport {
         
         private func listen(to publicKey: HexString) {
             client.listen(to: publicKey) { [weak self] result in
-                self?.notify(with: result.map { ConnectionMessage.serialized(origin: Beacon.Origin.p2p(id: publicKey), content: $0) })
+                let message = result.map { ConnectionMessage.serialized(originatedFrom: .p2p(id: publicKey), withContent: $0) }
+                self?.notify(with: message)
             }
         }
         
         private func send(_ message: String, to recipient: String?, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-            findRecipients(withPublicKey: recipient) { [weak self] result in
+            findRecipients(withPublicKey: recipient) { result in
                 guard let recipients = result.get(ifFailure: completion) else { return }
                 
-                var sent = 0
-                
-                do {
-                    try recipients.forEach { recipient in
-                        guard let selfStrong = self else {
-                            completion(.failure(Error.unknown))
-                            return
-                        }
+                recipients.forEachAsync(body: { self.client.send(message: message, to: try HexString(from: $0.publicKey), completion: $1) }) { results in
+                    guard results.allSatisfy({ $0.isSuccess }) else {
+                        let (recipients, errors) = results.enumerated()
+                            .map { (index, result) in (Beacon.PeerInfo.p2p(recipients[index]), result.error) }
+                            .filter { (_, error) in error != nil }
+                            .unzip()
                         
-                        selfStrong.client.send(message: message, to: try HexString(from: recipient.publicKey)) { result in
-                            guard result.isSuccess(otherwise: completion) else { return }
-                            
-                            sent += 1
-                            if sent == recipients.count {
-                                completion(.success(()))
-                            }
-                        }
+                        completion(.failure(Beacon.Error.sendToPeersFailed(recipients, causedBy: errors.compactMap { $0 })))
+                        return
                     }
-                } catch {
-                    completion(.failure(error))
+                    
+                    completion(.success(()))
                 }
             }
         }
@@ -157,14 +152,13 @@ extension Transport {
         
         enum Error: Swift.Error {
             case unknownRecipient
-            case unknown
         }
     }
 }
 
 // MARK: Extensions
 
-extension Array where Element == Beacon.PeerInfo {
+private extension Array where Element == Beacon.PeerInfo {
     
     func filterP2P() -> [Beacon.P2PPeerInfo] {
         compactMap {

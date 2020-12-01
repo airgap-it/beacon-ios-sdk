@@ -9,7 +9,7 @@
 import Foundation
 
 public class Beacon {
-    
+
     private(set) static var shared: Beacon? = nil
     
     let dependencyRegistry: DependencyRegistry
@@ -17,7 +17,7 @@ public class Beacon {
     let keyPair: KeyPair
     
     var beaconID: String {
-        HexString(from: keyPair.publicKey).value()
+        HexString(from: keyPair.publicKey).asString()
     }
     
     private init(dependencyRegistry: DependencyRegistry, appName: String, keyPair: KeyPair) {
@@ -85,13 +85,6 @@ public class Beacon {
         } catch {
             completion(.failure(error))
         }
-    }
-    
-    // MARK: Types
-    
-    public enum Error: Swift.Error {
-        case unknown
-        case uninitialized
     }
 }
 

@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon.Request {
     
-    public struct SignPayload: Equatable, Codable {
+    public struct SignPayload: RequestProtocol, Equatable, Codable {
         public let id: String
         public let senderID: String
         public let appMetadata: Beacon.AppMetadata?

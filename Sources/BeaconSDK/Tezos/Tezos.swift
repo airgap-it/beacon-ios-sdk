@@ -22,12 +22,6 @@ public class Tezos: Coin {
         let payload = try crypto.hash(message: try publicKey.toBytes(), size: 20)
         return Base58.base58CheckEncode(Tezos.tz1Prefix + payload)
     }
-    
-    // MARK: Types
-    
-    enum Error: Swift.Error {
-        case invalidPublicKey(String)
-    }
 }
 
 // MARK: Extensions
@@ -45,15 +39,15 @@ private extension String {
     
     func toBytes() throws -> [UInt8] {
         if isPlainPublicKey {
-            return try HexString(from: self).bytes()
+            return try HexString(from: self).asBytes()
         } else if isEncryptedPublicKey {
             guard let decoded = Base58.base58CheckDecode(self) else {
-                throw Tezos.Error.invalidPublicKey(self)
+                throw Beacon.Error.invalidPublicKey(self)
             }
             
             return Array(decoded[String.encryptedPublicKeyPrefix.count...])
         } else {
-            throw Tezos.Error.invalidPublicKey(self)
+            throw Beacon.Error.invalidPublicKey(self)
         }
     }
 }

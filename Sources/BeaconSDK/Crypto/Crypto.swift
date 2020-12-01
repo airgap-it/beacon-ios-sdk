@@ -28,7 +28,7 @@ class Crypto {
     }
     
     func hash(key: HexString) throws -> [UInt8] {
-        try hash(key: try key.bytes())
+        try hash(key: try key.asBytes())
     }
     
     func hash(key: [UInt8]) throws -> [UInt8] {
@@ -41,7 +41,7 @@ class Crypto {
         let bytes = try cryptoProvider.randomBytes(length: Crypto.seedBytes)
         
         return [bytes[0..<4], bytes[4..<6], bytes[6..<8], bytes[8..<10], bytes[10...]]
-            .map { slice in HexString(from: Array(slice)).value() }
+            .map { slice in HexString(from: Array(slice)).asString() }
             .joined(separator: "-")
     }
     
@@ -94,7 +94,7 @@ class Crypto {
     }
     
     func encrypt(message: HexString, withPublicKey key: [UInt8]) throws -> [UInt8] {
-        try encrypt(message: try message.bytes(), withPublicKey: key)
+        try encrypt(message: try message.asBytes(), withPublicKey: key)
     }
     
     func encrypt(message: [UInt8], withPublicKey key: [UInt8]) throws -> [UInt8] {
@@ -108,7 +108,7 @@ class Crypto {
     }
     
     func encrypt(message: HexString, withSharedKey key: [UInt8]) throws -> [UInt8] {
-        try encrypt(message: try message.bytes(), withPublicKey: key)
+        try encrypt(message: try message.asBytes(), withPublicKey: key)
     }
     
     func encrypt(message: [UInt8], withSharedKey key: [UInt8]) throws -> [UInt8] {
@@ -120,7 +120,7 @@ class Crypto {
     }
     
     func decrypt(message: HexString, withSharedKey key: [UInt8]) throws -> [UInt8] {
-        try decrypt(message: try message.bytes(), withSharedKey: key)
+        try decrypt(message: try message.asBytes(), withSharedKey: key)
     }
     
     func decrypt(message: [UInt8], withSharedKey key: [UInt8]) throws -> [UInt8] {
@@ -130,7 +130,7 @@ class Crypto {
 
 // MARK: Extensions
 
-extension CryptoProvider {
+private extension CryptoProvider {
     func hash(message: String, size: Int) throws -> [UInt8] {
         try hash(message: [UInt8](message.utf8), size: size)
     }

@@ -41,17 +41,17 @@ struct HexString: Hashable, Equatable {
     
     // MARK: Attributes
     
-    func value(withPrefix prefixed: Bool = false) -> String {
-        prefixed ? HexString.prefix + value : value
-    }
-    
     func count(withPrefix prefixed: Bool = false) -> Int {
-        value(withPrefix: prefixed).count
+        asString(withPrefix: prefixed).count
     }
     
     // MARK: Converters
     
-    func bytes() throws -> [UInt8] {
+    func asString(withPrefix prefixed: Bool = false) -> String {
+        prefixed ? HexString.prefix + value : value
+    }
+    
+    func asBytes() throws -> [UInt8] {
         var bytes = [UInt8]()
         bytes.reserveCapacity(value.count / 2)
         
@@ -80,7 +80,7 @@ struct HexString: Hashable, Equatable {
 
 // MARK: Extensions
 
-extension String {
+private extension String {
     
     func removing(prefix: String) -> String {
         guard hasPrefix(prefix) else {

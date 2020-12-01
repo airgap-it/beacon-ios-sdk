@@ -19,19 +19,23 @@ extension Beacon {
         
         // MARK: Attributes
         
-        var identifier: String {
+        var common: ResponseProtocol {
             switch self {
             case let .permission(content):
-                return content.id
+                return content
             case let .operation(content):
-                return content.id
+                return content
             case let .signPayload(content):
-                return content.id
+                return content
             case let .broadcast(content):
-                return content.id
+                return content
             case let .error(content):
-                return content.id
+                return content
             }
         }
     }
 }
+
+// MARK: Protocol
+
+protocol ResponseProtocol: MessageProtocol {}
