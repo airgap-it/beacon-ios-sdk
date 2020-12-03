@@ -79,7 +79,7 @@ class MessageController: MessageControllerProtocol {
     ) {
         queue.async {
             guard let (origin, request) = self.pendingRequests.removeValue(forKey: message.common.id) else {
-                completion(.failure(Beacon.Error.noPendingRequest(withID: message.common.id)))
+                completion(.failure(Beacon.Error.noPendingRequest(id: message.common.id)))
                 return
             }
             

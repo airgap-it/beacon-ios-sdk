@@ -12,6 +12,14 @@ public enum Micheline {
     
     public typealias Sequence = [MichelsonV1Expression]
     
+    
+    ///
+    /// Base for JSON Micheline expressions.
+    ///
+    /// For more details see:
+    /// - [Micheline White Doc](https://tezos.gitlab.io/whitedoc/micheline.html)
+    /// - [Michelson White Doc](https://tezos.gitlab.io/whitedoc/michelson.html)
+    ///
     public indirect enum MichelsonV1Expression: Codable, Equatable, Hashable {
         case prim(Prim)
         case literal(Literal)

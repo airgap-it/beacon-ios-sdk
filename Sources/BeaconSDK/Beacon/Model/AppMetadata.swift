@@ -10,9 +10,16 @@ import Foundation
 
 extension Beacon {
     
+    /// Metadata describing a dApp.
     public struct AppMetadata: Equatable, Codable {
+        
+        /// The value that identifies the dApp.
         public let senderID: String
+        
+        /// The name of the dApp.
         public let name: String
+        
+        /// An optional URL for the dApp icon.
         public let icon: String?
         
         public init(senderID: String, name: String, icon: String? = nil) {

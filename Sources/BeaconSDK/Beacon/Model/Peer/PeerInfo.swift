@@ -10,8 +10,14 @@ import Foundation
 
 extension Beacon {
     
+    /// Types of peers supported in Beacon.
     public enum PeerInfo: Equatable, Hashable, Codable {
-        case p2p(P2PPeerInfo)
+        
+        ///
+        /// Peer details required in the P2P connection.
+        ///
+        /// - peers: The peer data.
+        case p2p(_ peers: P2PPeerInfo)
         
         // MARK: Attributes
         

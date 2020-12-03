@@ -10,8 +10,13 @@ import Foundation
 
 extension Beacon.Response {
     
+    /// Body of the `Beacon.Response.signPayload` message.
     public struct SignPayload: ResponseProtocol, Equatable, Codable {
+        
+        /// The value that identifies the request to which the message is responding.
         public let id: String
+        
+        /// The payload signature.
         public let signature: String
     }
 }
