@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CoinRegistry {
+class CoinRegistry: CoinRegistryProtocol {
     private let crypto: Crypto
     
     private var coins: [CoinType: Coin] = [:]
@@ -25,4 +25,8 @@ class CoinRegistry {
             }
         }
     }
+}
+
+protocol CoinRegistryProtocol {
+    func get(_ type: CoinType) -> Coin
 }

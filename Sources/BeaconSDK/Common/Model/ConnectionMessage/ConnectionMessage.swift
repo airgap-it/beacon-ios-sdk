@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ConnectionMessage {
+enum ConnectionMessage: Equatable {
     case serialized(SerializedConnectionMessage)
     case beacon(BeaconConnectionMessage)
     

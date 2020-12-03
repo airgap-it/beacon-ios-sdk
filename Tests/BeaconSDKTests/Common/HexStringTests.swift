@@ -58,6 +58,30 @@ class HexStringTests: XCTestCase {
         }
     }
     
+    func testHexStringIsCreatedFromPositiveInt() throws {
+        let intsWithExpected: [(Int, String)] = [
+            (0, "00"),
+            (10, "0a"),
+            (154, "9a"),
+            (5435, "153b"),
+            (6855643, "689bdb")
+        ]
+        
+        try intsWithExpected.forEach { (int, expected) in
+            XCTAssertEqual(expected, try HexString(from: int).asString(), "Created HexString doesn't match expected")
+        }
+    }
+    
+    func testHexStringIsNotCreatedFromNegativeInt() throws {
+        let negatives = [-1, -24, -156, -363, -6764]
+        
+        for int in negatives {
+            XCTAssertThrowsError(try HexString(from: int), "A `negativeInt` Error should have been thrown, but no error was thrown") { error in
+                XCTAssertEqual(error as? HexString.Error, HexString.Error.negativeInt(int))
+            }
+        }
+    }
+    
     func testHexStringValueIsReturnedWithPrefix() throws {
         let hex = validHexStrings.first!
         
@@ -68,6 +92,18 @@ class HexStringTests: XCTestCase {
         let hex = validHexStrings.first!
         
         XCTAssertEqual(withoutPrefix(hex), try HexString(from: hex).asString())
+    }
+    
+    func testHexStringCountIsReturnedIncludingPrefix() throws {
+        let hex = validHexStrings.first!
+        
+        XCTAssertEqual(withPrefix(hex).count, try HexString(from: hex).count(withPrefix: true))
+    }
+    
+    func testHexStringCountIsReturnedExcludingPrefix() throws {
+        let hex = validHexStrings.first!
+        
+        XCTAssertEqual(withoutPrefix(hex).count, try HexString(from: hex).count())
     }
     
     func testHexStringIsConvertedToBytes() throws {
@@ -82,17 +118,6 @@ class HexStringTests: XCTestCase {
         
         stringsWithExpected.forEach { (string, expected) in
             XCTAssertEqual(expected, try! HexString(from: string).asBytes(), "Bytes from HexString don't match expected")
-        }
-    }
-    
-    // TODO: move to extension tests
-    func testStringVerifiesIfIsHex() throws {
-        validHexStrings.forEach { string in
-            XCTAssertTrue(string.isHex, "Valid hex string (\(string)) was recognized as invalid")
-        }
-        
-        invalidHexStrings.forEach { string in
-            XCTAssertFalse(string.isHex, "Invalid hex string (\(string)) was recognized as valid")
         }
     }
     
@@ -113,9 +138,12 @@ class HexStringTests: XCTestCase {
         ("testHexStringIsCreatedFromValidString", testHexStringIsCreatedFromValidString),
         ("testHexStringNotCreatedFromInvalidString", testHexStringNotCreatedFromInvalidString),
         ("testHexStringIsCreatedFromBytes", testHexStringIsCreatedFromBytes),
+        ("testHexStringIsCreatedFromPositiveInt", testHexStringIsCreatedFromPositiveInt),
+        ("testHexStringIsNotCreatedFromNegativeInt", testHexStringIsNotCreatedFromNegativeInt),
         ("testHexStringValueIsReturnedWithPrefix", testHexStringValueIsReturnedWithPrefix),
         ("testHexStringValueIsReturnedWithoutPrefix", testHexStringValueIsReturnedWithoutPrefix),
+        ("testHexStringCountIsReturnedIncludingPrefix", testHexStringCountIsReturnedIncludingPrefix),
+        ("testHexStringCountIsReturnedExcludingPrefix", testHexStringCountIsReturnedExcludingPrefix),
         ("testHexStringIsConvertedToBytes", testHexStringIsConvertedToBytes),
-        ("testStringVerifiesIfIsHex", testStringVerifiesIfIsHex),
     ]
 }

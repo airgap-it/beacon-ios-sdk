@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon.Message.Versioned.V2 {
     
-    struct OperationRequest: V2MessageProtocol, Codable {
+    struct OperationRequest: V2MessageProtocol, Equatable, Codable {
         let type: `Type`
         let version: String
         let id: String

@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon.Message {
     
-    enum Versioned: Codable {
+    enum Versioned: Equatable, Codable {
         case v1(V1)
         case v2(V2)
         

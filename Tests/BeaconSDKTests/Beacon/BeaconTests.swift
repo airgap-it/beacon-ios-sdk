@@ -16,7 +16,7 @@ class BeaconTests: XCTestCase {
     }
 
     func testInitializationOnFirstRun() throws {
-        let expect = expectation(description: "BeaconApp initialization")
+        let testExpectation = expectation(description: "BeaconApp initialization")
         
         let appName = "mockApp"
         let storage = MockStorage()
@@ -48,18 +48,18 @@ class BeaconTests: XCTestCase {
                 XCTFail("Unexpected error: \(error)")
             }
             
-            expect.fulfill()
+            testExpectation.fulfill()
         }
         
         waitForExpectations(timeout: 1) { error in
             if let error = error {
-                XCTFail("testInitialization timeout: \(error)")
+                XCTFail("testInitializationOnFirstRun timeout: \(error)")
             }
         }
     }
     
     func testInitializationOnEveryOtherRun() {
-        let expect = expectation(description: "BeaconApp initialization")
+        let testExpectation = expectation(description: "BeaconApp initialization")
         
         let appName = "mockApp"
         let storage = MockStorage()
@@ -93,12 +93,12 @@ class BeaconTests: XCTestCase {
                 XCTFail("Unexpected error: \(error)")
             }
             
-            expect.fulfill()
+            testExpectation.fulfill()
         }
         
         waitForExpectations(timeout: 1) { error in
             if let error = error {
-                XCTFail("testInitialization timeout: \(error)")
+                XCTFail("testInitializationOnEveryOtherRun timeout: \(error)")
             }
         }
     }

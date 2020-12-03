@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon {
     
-    public enum Response {
+    public enum Response: Equatable {
         case permission(Permission)
         case operation(Operation)
         case signPayload(SignPayload)

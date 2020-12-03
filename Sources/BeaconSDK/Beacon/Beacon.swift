@@ -42,7 +42,7 @@ public class Beacon {
         let crypto = dependencyRegistry.crypto
         
         setSDKVersion(savedIn: storage) { result in
-            guard result.isSuccess(otherwise: completion) else { return }
+            guard result.isSuccess(else: completion) else { return }
             
             self.loadOrGenerateKeyPair(using: crypto, savedIn: storage) { result in
                 guard let keyPair = result.get(ifFailure: completion) else { return }
@@ -78,7 +78,7 @@ public class Beacon {
         do {
             let seed = try crypto.randomSeed()
             storage.setSDKSecretSeed(seed) { result in
-                guard result.isSuccess(otherwise: completion) else { return }
+                guard result.isSuccess(else: completion) else { return }
                 
                 completion(catchResult { try crypto.keyPairFrom(seed: seed) })
             }

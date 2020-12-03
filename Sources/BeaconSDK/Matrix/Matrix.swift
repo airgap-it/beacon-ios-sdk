@@ -13,14 +13,16 @@ class Matrix {
     private let userService: UserService
     private let eventService: EventService
     private let roomService: RoomService
+    private let timeUtils: TimeUtilsProtocol
     
     private let pollQueue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.Matrix.poll", target: .global(qos: .default))
     
-    init(store: Store, userService: UserService, eventService: EventService, roomService: RoomService) {
+    init(store: Store, userService: UserService, eventService: EventService, roomService: RoomService, timeUtils: TimeUtilsProtocol) {
         self.store = store
         self.userService = userService
         self.eventService = eventService
         self.roomService = roomService
+        self.timeUtils = timeUtils
     }
     
     // MARK: State
@@ -74,7 +76,7 @@ class Matrix {
             }
             
             selfStrong.store.intent(action: .initialize(userID: userID, deviceID: deviceID, accessToken: accessToken)) { result in
-                guard result.isSuccess(otherwise: completion) else { return }
+                guard result.isSuccess(else: completion) else { return }
                 selfStrong.poll(completion: completion)
             }
         }
@@ -199,7 +201,7 @@ class Matrix {
     private func createTxnID(completion: @escaping (Result<String, Swift.Error>) -> ()) {
         store.state {
             guard let state = $0.get(ifFailure: completion) else { return }
-            let timestamp = Date().currentTimeMillis
+            let timestamp = self.timeUtils.currentTimeMillis
             let counter = state.transactionCounter
             
             self.store.intent(action: .onTxnIDCreated) { result in

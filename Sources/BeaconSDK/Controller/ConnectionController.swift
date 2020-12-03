@@ -63,7 +63,7 @@ class ConnectionController: ConnectionControllerProtocol {
         transports.forEachAsync(body: { $0.connect(new: peers, completion: $1) }) { (results: [Result<(), Error>]) in
             guard results.allSatisfy({ $0.isSuccess }) else {
                 self.transports.forEachAsync(body: { $0.connectedPeers(completion: $1) }) { connectedPeers in
-                    let connected = connectedPeers.flatMap { $0 }
+                    let connected = connectedPeers.compactMap { $0 }.flatMap { $0 }
                     let notConnected = peers.filter { !connected.contains($0) }
                     
                     completion(.failure(Beacon.Error.peersNotConnected(notConnected, causedBy: results.compactMap { $0.error })))
@@ -80,7 +80,7 @@ class ConnectionController: ConnectionControllerProtocol {
         transports.forEachAsync(body: { $0.disconnect(from: peers, completion: $1) }) { (results: [Result<(), Error>]) in
             guard results.allSatisfy({ $0.isSuccess }) else {
                 self.transports.forEachAsync(body: { $0.connectedPeers(completion: $1) }) { connectedPeers in
-                    let connected = connectedPeers.flatMap { $0 }
+                    let connected = connectedPeers.compactMap { $0 }.flatMap { $0 }
                     let notDisconnected = peers.filter { connected.contains($0) }
                     
                     completion(.failure(Beacon.Error.peersNotDisconnected(notDisconnected, causedBy: results.compactMap { $0.error })))
@@ -120,4 +120,13 @@ class ConnectionController: ConnectionControllerProtocol {
             completion(.failure(error))
         }
     }
+}
+
+protocol ConnectionControllerProtocol {
+    func connect(completion: @escaping (Result<(), Error>) -> ())
+    func listen(onRequest listener: @escaping (Result<BeaconConnectionMessage, Error>) -> ())
+    func send(_ message: BeaconConnectionMessage, completion: @escaping (Result<(), Error>) -> ())
+    
+    func onNew(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ())
+    func onDeleted(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ())
 }

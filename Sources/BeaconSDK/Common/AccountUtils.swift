@@ -9,14 +9,14 @@
 import Foundation
 import Base58Swift
 
-class AccountUtils {
+class AccountUtils: AccountUtilsProtocol {
     private let crypto: Crypto
     
     init(crypto: Crypto) {
         self.crypto = crypto
     }
     
-    func getAccountIdentifier(for address: String, on network: Beacon.Network) throws -> String {
+    func getAccountIdentifier(forAddress address: String, on network: Beacon.Network) throws -> String {
         var data: [String] = [address, network.identifier]
         
         if let name = network.name {
@@ -31,4 +31,10 @@ class AccountUtils {
         
         return Base58.base58CheckEncode(hash)
     }
+}
+
+// MARK: Protocol
+
+protocol AccountUtilsProtocol {
+    func getAccountIdentifier(forAddress address: String, on network: Beacon.Network) throws -> String
 }
