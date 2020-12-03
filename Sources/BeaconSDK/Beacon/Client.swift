@@ -92,7 +92,7 @@ extension Beacon {
         
         public func add(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
             storage.add(peers) { result in
-                guard result.isSuccess(otherwise: completion) else { return }
+                guard result.isSuccess(else: completion) else { return }
                 self.connectionController.onNew(peers) { result in
                     completion(result.withBeaconError())
                 }
@@ -101,7 +101,7 @@ extension Beacon {
         
         public func remove(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
             storage.remove(peers) { result in
-                guard result.isSuccess(otherwise: completion) else { return }
+                guard result.isSuccess(else: completion) else { return }
                 self.connectionController.onDeleted(peers) { result in
                     completion(result.withBeaconError())
                 }

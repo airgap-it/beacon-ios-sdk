@@ -49,7 +49,7 @@ extension Matrix {
         
         func state(completion: @escaping (Result<State, Swift.Error>) -> ()) {
             whenReady { result in
-                guard result.isSuccess(otherwise: completion) else { return }
+                guard result.isSuccess(else: completion) else { return }
                 self.queue.async {
                     completion(.success(self.state))
                 }
@@ -58,7 +58,7 @@ extension Matrix {
         
         func intent(action: Action, completion: @escaping (Result<(), Swift.Error>) -> ()) {
             whenReady { result in
-                guard result.isSuccess(otherwise: completion) else { return }
+                guard result.isSuccess(else: completion) else { return }
                 
                 switch action {
                 case let .initialize(userID, deviceID, accessToken):
@@ -124,7 +124,7 @@ extension Matrix {
             }
             
             updateStorage(syncToken: syncToken, rooms: mergedRooms) { result in
-                guard result.isSuccess(otherwise: completion) else { return }
+                guard result.isSuccess(else: completion) else { return }
            
                 self.queue.async {
                     self.state = State(
@@ -157,7 +157,7 @@ extension Matrix {
         
         private func updateStorage(syncToken: String?, rooms: [String: Matrix.Room]?, completion: @escaping (Result<(), Swift.Error>) -> ()) {
             updateStorage(with: syncToken) { result in
-                guard result.isSuccess(otherwise: completion) else { return }
+                guard result.isSuccess(else: completion) else { return }
                 self.updateStorage(with: rooms, completion: completion)
             }
         }

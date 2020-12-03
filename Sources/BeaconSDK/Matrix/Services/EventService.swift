@@ -12,7 +12,7 @@ extension Matrix {
     
     class EventService {
         private let http: HTTP
-        private lazy var syncCached: CachedCompletion<SyncResponse> = CachedCompletion()
+        private lazy var syncSingle: SingleCall<SyncResponse> = SingleCall()
         
         init(http: HTTP) {
             self.http = http
@@ -34,9 +34,9 @@ extension Matrix {
                 parameters.append(("timeout", String(timeout)))
             }
             
-            syncCached.run(
-                action: { self.http.get(at: "/sync", headers: [.bearer(token: accessToken)], parameters: parameters, completion: $0) },
-                completion: completion
+            syncSingle.run(
+                body: { self.http.get(at: "/sync", headers: [.bearer(token: accessToken)], parameters: parameters, completion: $0) },
+                onResult: completion
             )
         }
         

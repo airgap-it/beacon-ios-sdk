@@ -10,17 +10,19 @@ import Foundation
 
 class MessageController: MessageControllerProtocol {
     
-    private let coinRegistry: CoinRegistry
+    private let coinRegistry: CoinRegistryProtocol
     private let storage: StorageManager
-    private let accountUtils: AccountUtils
+    private let accountUtils: AccountUtilsProtocol
+    private let timeUtils: TimeUtilsProtocol
     
     private var pendingRequests: [String: (Beacon.Origin, Beacon.Message.Versioned)] = [:]
     private let queue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.MessageController", attributes: [], target: .global(qos: .default))
     
-    init(coinRegistry: CoinRegistry, storage: StorageManager, accountUtils: AccountUtils) {
+    init(coinRegistry: CoinRegistryProtocol, storage: StorageManager, accountUtils: AccountUtilsProtocol, timeUtils: TimeUtilsProtocol) {
         self.coinRegistry = coinRegistry
         self.storage = storage
         self.accountUtils = accountUtils
+        self.timeUtils = timeUtils
     }
     
     // MARK: Incoming Messages
@@ -34,7 +36,7 @@ class MessageController: MessageControllerProtocol {
             guard let beaconMessage = result.get(ifFailure: completion) else { return }
             
             self.onIncoming(beaconMessage) { result in
-                guard result.isSuccess(otherwise: completion) else { return }
+                guard result.isSuccess(else: completion) else { return }
                 
                 self.queue.async {
                     self.pendingRequests[message.common.id] = (origin, message)
@@ -82,7 +84,7 @@ class MessageController: MessageControllerProtocol {
             }
             
             self.onOutgoing(message, with: origin, respondingTo: request) { result in
-                guard result.isSuccess(otherwise: completion) else { return }
+                guard result.isSuccess(else: completion) else { return }
                 
                 let versionedMessage = Beacon.Message.Versioned(from: message, version: request.common.version, senderID: senderID)
                 completion(.success((origin, versionedMessage)))
@@ -129,7 +131,7 @@ class MessageController: MessageControllerProtocol {
         do {
             let publicKey = response.publicKey
             let address = try coinRegistry.get(.tezos).getAddressFrom(publicKey: publicKey)
-            let accountIdentifier = try accountUtils.getAccountIdentifier(for: address, on: response.network)
+            let accountIdentifier = try accountUtils.getAccountIdentifier(forAddress: address, on: response.network)
             
             storage.findAppMetadata(where: { request.common.comesFrom($0) }) { result in
                 guard let appMetadataOrNil = result.get(ifFailure: completion) else { return }
@@ -147,7 +149,7 @@ class MessageController: MessageControllerProtocol {
                     senderID: origin.id,
                     appMetadata: appMetadata,
                     publicKey: publicKey,
-                    connectedAt: Date().currentTimeMillis
+                    connectedAt: self.timeUtils.currentTimeMillis
                 )
                 
                 self.storage.add([permissionInfo], completion: completion)
@@ -160,4 +162,20 @@ class MessageController: MessageControllerProtocol {
     enum Error: Swift.Error {
         case noMatchingAppMetadata
     }
+}
+
+// MARK: Protocol
+
+protocol MessageControllerProtocol {
+    func onIncoming(
+        _ message: Beacon.Message.Versioned,
+        with origin: Beacon.Origin,
+        completion: @escaping (Result<Beacon.Message, Error>) -> ()
+    )
+    
+    func onOutgoing(
+        _ message: Beacon.Message,
+        from senderID: String,
+        completion: @escaping (Result<(Beacon.Origin, Beacon.Message.Versioned), Error>) -> ()
+    )
 }

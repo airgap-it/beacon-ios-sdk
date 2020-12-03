@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct BeaconConnectionMessage {
+struct BeaconConnectionMessage: Equatable {
     let origin: Beacon.Origin
     let content: Beacon.Message.Versioned
 }

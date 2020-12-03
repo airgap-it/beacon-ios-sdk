@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon.Message.Versioned.V2 {
     
-    struct PermissionRequest: V2MessageProtocol, Codable {
+    struct PermissionRequest: V2MessageProtocol, Equatable, Codable {
         let type: `Type`
         let version: String
         let id: String
@@ -89,7 +89,7 @@ extension Beacon.Message.Versioned.V2 {
     
     // MARK: Types
     
-    struct AppMetadata: Codable {
+    struct AppMetadata: Equatable, Codable {
         public let senderID: String
         public let name: String
         public let icon: String?

@@ -44,7 +44,7 @@ class StorageManager: ExtendedStorage {
             let toRemove = peers.filter(predicate)
         
             self.storage.removePeers(where: predicate) { result in
-                guard result.isSuccess(otherwise: completion) else { return }
+                guard result.isSuccess(else: completion) else { return }
         
                 self.removePermissions(
                     where: { permission in toRemove.contains { $0.matches(appMetadata: permission.appMetadata) } },

@@ -28,7 +28,7 @@ extension Result {
         }
     }
     
-    func isSuccess<T>(otherwise completion: @escaping (Result<T, Failure>) -> ()) -> Bool {
+    func isSuccess<T>(else completion: @escaping (Result<T, Failure>) -> ()) -> Bool {
         switch self {
         case .success(_):
             return true
@@ -48,7 +48,7 @@ extension Result {
         }
     }
     
-    func isSuccess<T>(otherwise completion: @escaping (Result<T, Beacon.Error>) -> ()) -> Bool {
+    func isSuccess<T>(else completion: @escaping (Result<T, Beacon.Error>) -> ()) -> Bool {
         switch self {
         case .success(_):
             return true

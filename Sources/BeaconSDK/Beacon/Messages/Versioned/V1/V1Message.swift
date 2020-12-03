@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon.Message.Versioned {
     
-    enum V1: Codable {
+    enum V1: Equatable, Codable {
         case permissionRequest(PermissionRequest)
         case operationRequest(OperationRequest)
         case signPayloadRequest(SignPayloadRequest)

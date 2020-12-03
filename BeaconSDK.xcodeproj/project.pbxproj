@@ -21,6 +21,15 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		884C4972257656110049DF55 /* ConnectionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C4971257656110049DF55 /* ConnectionControllerTests.swift */; };
+		884C497A2576568F0049DF55 /* MockTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C49792576568F0049DF55 /* MockTransport.swift */; };
+		884C4987257657560049DF55 /* MockSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C4986257657560049DF55 /* MockSerializer.swift */; };
+		884C49932576663A0049DF55 /* MessageControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C49922576663A0049DF55 /* MessageControllerTests.swift */; };
+		884C49D72576702E0049DF55 /* MockCoin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C49D62576702E0049DF55 /* MockCoin.swift */; };
+		884C4A03257671200049DF55 /* MockCoinRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C4A02257671200049DF55 /* MockCoinRegistry.swift */; };
+		884C4A10257678C70049DF55 /* MockAccountUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C4A0F257678C70049DF55 /* MockAccountUtils.swift */; };
+		884C4A1C25767A680049DF55 /* TimeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C4A1B25767A680049DF55 /* TimeUtils.swift */; };
+		884C4A2D25767B3F0049DF55 /* MockTimeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C4A2C25767B3F0049DF55 /* MockTimeUtils.swift */; };
 		8885ED12256BDEAC00F1AE75 /* BeaconSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "BeaconSDK::BeaconSDK::Product" /* BeaconSDK.framework */; };
 		8885ED13256BDEAC00F1AE75 /* BeaconSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = "BeaconSDK::BeaconSDK::Product" /* BeaconSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		88AA004625657137003B18F5 /* Base58Swift in Frameworks */ = {isa = PBXBuildFile; productRef = 88AA004525657137003B18F5 /* Base58Swift */; };
@@ -63,11 +72,8 @@
 		88CC0B14256D57B500F54056 /* ExtendedStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A5A256D57B300F54056 /* ExtendedStorage.swift */; };
 		88CC0B15256D57B500F54056 /* DecoratedStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A5C256D57B300F54056 /* DecoratedStorage.swift */; };
 		88CC0B16256D57B500F54056 /* UserDefaultsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A5D256D57B300F54056 /* UserDefaultsStorage.swift */; };
-		88CC0B17256D57B500F54056 /* ConnectionControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A60256D57B300F54056 /* ConnectionControllerProtocol.swift */; };
 		88CC0B18256D57B500F54056 /* ConnectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A61256D57B300F54056 /* ConnectionController.swift */; };
 		88CC0B19256D57B500F54056 /* MessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A63256D57B300F54056 /* MessageController.swift */; };
-		88CC0B1A256D57B500F54056 /* MessageControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A64256D57B300F54056 /* MessageControllerProtocol.swift */; };
-		88CC0B1B256D57B500F54056 /* Date+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A66256D57B300F54056 /* Date+Additions.swift */; };
 		88CC0B1C256D57B500F54056 /* Array+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A67256D57B300F54056 /* Array+Additions.swift */; };
 		88CC0B1D256D57B500F54056 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A68256D57B300F54056 /* String+Additions.swift */; };
 		88CC0B1E256D57B500F54056 /* Result+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A69256D57B300F54056 /* Result+Additions.swift */; };
@@ -181,8 +187,17 @@
 		88CC0CA2256E911F00F54056 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0CA1256E911F00F54056 /* StorageManager.swift */; };
 		88CC0D22256FB22C00F54056 /* TryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0D21256FB22C00F54056 /* TryUtils.swift */; };
 		88CC0D29256FB23A00F54056 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0D28256FB23A00F54056 /* Network.swift */; };
-		88CC0D66256FF58700F54056 /* CachedCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0D65256FF58700F54056 /* CachedCompletion.swift */; };
+		88CC0D66256FF58700F54056 /* SingleCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0D65256FF58700F54056 /* SingleCall.swift */; };
 		88CC0D862570003800F54056 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0D852570003800F54056 /* Error.swift */; };
+		88FA681F2574F75100E94902 /* AccountUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA681E2574F75100E94902 /* AccountUtilsTests.swift */; };
+		88FA682B257501E000E94902 /* SingleCallTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA682A257501E000E94902 /* SingleCallTests.swift */; };
+		88FA68912575176600E94902 /* DistinguishableListenerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA68902575176600E94902 /* DistinguishableListenerTests.swift */; };
+		88FA689D25751A1E00E94902 /* LazyWeakReferenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA689C25751A1E00E94902 /* LazyWeakReferenceTests.swift */; };
+		88FA68A9257520C700E94902 /* TryUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA68A8257520C700E94902 /* TryUtilsTests.swift */; };
+		88FA68B12575251600E94902 /* DictionaryAdditionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA68B02575251600E94902 /* DictionaryAdditionsTests.swift */; };
+		88FA68BD2575282A00E94902 /* ResultAdditionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA68BC2575282A00E94902 /* ResultAdditionsTests.swift */; };
+		88FA68CE2575368400E94902 /* StringAdditionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA68CD2575368400E94902 /* StringAdditionsTests.swift */; };
+		88FA68D52575382C00E94902 /* ArrayAdditionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA68D42575382C00E94902 /* ArrayAdditionsTests.swift */; };
 		OBJ_30 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_44 /* BeaconSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "BeaconSDK::BeaconSDK::Product" /* BeaconSDK.framework */; };
 /* End PBXBuildFile section */
@@ -251,6 +266,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		884C4971257656110049DF55 /* ConnectionControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionControllerTests.swift; sourceTree = "<group>"; };
+		884C49792576568F0049DF55 /* MockTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTransport.swift; sourceTree = "<group>"; };
+		884C4986257657560049DF55 /* MockSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSerializer.swift; sourceTree = "<group>"; };
+		884C49922576663A0049DF55 /* MessageControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageControllerTests.swift; sourceTree = "<group>"; };
+		884C49D62576702E0049DF55 /* MockCoin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoin.swift; sourceTree = "<group>"; };
+		884C4A02257671200049DF55 /* MockCoinRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoinRegistry.swift; sourceTree = "<group>"; };
+		884C4A0F257678C70049DF55 /* MockAccountUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAccountUtils.swift; sourceTree = "<group>"; };
+		884C4A1B25767A680049DF55 /* TimeUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeUtils.swift; sourceTree = "<group>"; };
+		884C4A2C25767B3F0049DF55 /* MockTimeUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTimeUtils.swift; sourceTree = "<group>"; };
 		886FE8C025681E8E00178523 /* BeaconSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeaconSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		886FE8D025681E9200178523 /* BeaconSDKDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeaconSDKDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		886FE8DB25681E9200178523 /* BeaconSDKDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeaconSDKDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -292,11 +316,8 @@
 		88CC0A5A256D57B300F54056 /* ExtendedStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedStorage.swift; sourceTree = "<group>"; };
 		88CC0A5C256D57B300F54056 /* DecoratedStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecoratedStorage.swift; sourceTree = "<group>"; };
 		88CC0A5D256D57B300F54056 /* UserDefaultsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsStorage.swift; sourceTree = "<group>"; };
-		88CC0A60256D57B300F54056 /* ConnectionControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionControllerProtocol.swift; sourceTree = "<group>"; };
 		88CC0A61256D57B300F54056 /* ConnectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionController.swift; sourceTree = "<group>"; };
 		88CC0A63256D57B300F54056 /* MessageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageController.swift; sourceTree = "<group>"; };
-		88CC0A64256D57B300F54056 /* MessageControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageControllerProtocol.swift; sourceTree = "<group>"; };
-		88CC0A66256D57B300F54056 /* Date+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Additions.swift"; sourceTree = "<group>"; };
 		88CC0A67256D57B300F54056 /* Array+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Additions.swift"; sourceTree = "<group>"; };
 		88CC0A68256D57B300F54056 /* String+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		88CC0A69256D57B300F54056 /* Result+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Result+Additions.swift"; sourceTree = "<group>"; };
@@ -415,8 +436,17 @@
 		88CC0CA1256E911F00F54056 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		88CC0D21256FB22C00F54056 /* TryUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TryUtils.swift; sourceTree = "<group>"; };
 		88CC0D28256FB23A00F54056 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
-		88CC0D65256FF58700F54056 /* CachedCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedCompletion.swift; sourceTree = "<group>"; };
+		88CC0D65256FF58700F54056 /* SingleCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleCall.swift; sourceTree = "<group>"; };
 		88CC0D852570003800F54056 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		88FA681E2574F75100E94902 /* AccountUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountUtilsTests.swift; sourceTree = "<group>"; };
+		88FA682A257501E000E94902 /* SingleCallTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleCallTests.swift; sourceTree = "<group>"; };
+		88FA68902575176600E94902 /* DistinguishableListenerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistinguishableListenerTests.swift; sourceTree = "<group>"; };
+		88FA689C25751A1E00E94902 /* LazyWeakReferenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyWeakReferenceTests.swift; sourceTree = "<group>"; };
+		88FA68A8257520C700E94902 /* TryUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TryUtilsTests.swift; sourceTree = "<group>"; };
+		88FA68B02575251600E94902 /* DictionaryAdditionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryAdditionsTests.swift; sourceTree = "<group>"; };
+		88FA68BC2575282A00E94902 /* ResultAdditionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultAdditionsTests.swift; sourceTree = "<group>"; };
+		88FA68CD2575368400E94902 /* StringAdditionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringAdditionsTests.swift; sourceTree = "<group>"; };
+		88FA68D42575382C00E94902 /* ArrayAdditionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayAdditionsTests.swift; sourceTree = "<group>"; };
 		"BeaconSDK::BeaconSDK::Product" /* BeaconSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeaconSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"BeaconSDK::BeaconSDKTests::Product" /* BeaconSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = BeaconSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_17 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -466,6 +496,80 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		884C4978257656600049DF55 /* Transport */ = {
+			isa = PBXGroup;
+			children = (
+				884C4A0D257678B10049DF55 /* Mock */,
+			);
+			path = Transport;
+			sourceTree = "<group>";
+		};
+		884C4985257657440049DF55 /* Serializer */ = {
+			isa = PBXGroup;
+			children = (
+				884C4986257657560049DF55 /* MockSerializer.swift */,
+			);
+			path = Serializer;
+			sourceTree = "<group>";
+		};
+		884C49D5257670170049DF55 /* Coin */ = {
+			isa = PBXGroup;
+			children = (
+				884C4A09257678900049DF55 /* Mock */,
+			);
+			path = Coin;
+			sourceTree = "<group>";
+		};
+		884C4A09257678900049DF55 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				884C49D62576702E0049DF55 /* MockCoin.swift */,
+				884C4A02257671200049DF55 /* MockCoinRegistry.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
+		884C4A0A257678990049DF55 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				88CC0B97256D57CB00F54056 /* MockConnectionController.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
+		884C4A0B257678A00049DF55 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				88CC0B99256D57CB00F54056 /* MockMessageController.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
+		884C4A0C257678A80049DF55 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				88CC0B94256D57CB00F54056 /* MockStorage.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
+		884C4A0D257678B10049DF55 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				884C49792576568F0049DF55 /* MockTransport.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
+		884C4A0E257678BA0049DF55 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				884C4A0F257678C70049DF55 /* MockAccountUtils.swift */,
+				884C4A2C25767B3F0049DF55 /* MockTimeUtils.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
 		88BFEAF0255BDF6E0095F146 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -648,35 +752,16 @@
 		88CC0A5E256D57B300F54056 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				88CC0A5F256D57B300F54056 /* Connection */,
-				88CC0A62256D57B300F54056 /* Message */,
+				88CC0A61256D57B300F54056 /* ConnectionController.swift */,
+				88CC0A63256D57B300F54056 /* MessageController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		88CC0A5F256D57B300F54056 /* Connection */ = {
-			isa = PBXGroup;
-			children = (
-				88CC0A61256D57B300F54056 /* ConnectionController.swift */,
-				88CC0A60256D57B300F54056 /* ConnectionControllerProtocol.swift */,
-			);
-			path = Connection;
-			sourceTree = "<group>";
-		};
-		88CC0A62256D57B300F54056 /* Message */ = {
-			isa = PBXGroup;
-			children = (
-				88CC0A63256D57B300F54056 /* MessageController.swift */,
-				88CC0A64256D57B300F54056 /* MessageControllerProtocol.swift */,
-			);
-			path = Message;
 			sourceTree = "<group>";
 		};
 		88CC0A65256D57B300F54056 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				88CC0A67256D57B300F54056 /* Array+Additions.swift */,
-				88CC0A66256D57B300F54056 /* Date+Additions.swift */,
 				88CC0A6A256D57B300F54056 /* Dictionary+Additions.swift */,
 				88CC0A69256D57B300F54056 /* Result+Additions.swift */,
 				88CC0A68256D57B300F54056 /* String+Additions.swift */,
@@ -688,11 +773,12 @@
 			isa = PBXGroup;
 			children = (
 				88CC0A6E256D57B300F54056 /* AccountUtils.swift */,
-				88CC0D65256FF58700F54056 /* CachedCompletion.swift */,
 				88CC0A6C256D57B300F54056 /* DependencyRegistry.swift */,
 				88CC0A76256D57B300F54056 /* DistinguishableListener.swift */,
 				88CC0A6F256D57B300F54056 /* HexString.swift */,
 				88CC0A6D256D57B300F54056 /* LazyWeakReference.swift */,
+				88CC0D65256FF58700F54056 /* SingleCall.swift */,
+				884C4A1B25767A680049DF55 /* TimeUtils.swift */,
 				88CC0D21256FB22C00F54056 /* TryUtils.swift */,
 				88CC0A65256D57B300F54056 /* Extensions */,
 				88CC0A70256D57B300F54056 /* Model */,
@@ -1104,10 +1190,13 @@
 				88CC0B9D256D57CB00F54056 /* TestUtils.swift */,
 				88CC0B9A256D57CB00F54056 /* XCTestManifests.swift */,
 				88CC0B9E256D57CB00F54056 /* Beacon */,
+				884C49D5257670170049DF55 /* Coin */,
 				88CC0B9B256D57CB00F54056 /* Common */,
 				88CC0B95256D57CB00F54056 /* Controller */,
 				88CC0B90256D57CB00F54056 /* Crypto */,
+				884C4985257657440049DF55 /* Serializer */,
 				88CC0B93256D57CB00F54056 /* Storage */,
+				884C4978257656600049DF55 /* Transport */,
 			);
 			path = BeaconSDKTests;
 			sourceTree = "<group>";
@@ -1124,7 +1213,7 @@
 		88CC0B93256D57CB00F54056 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				88CC0B94256D57CB00F54056 /* MockStorage.swift */,
+				884C4A0C257678A80049DF55 /* Mock */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -1141,7 +1230,8 @@
 		88CC0B96256D57CB00F54056 /* Connection */ = {
 			isa = PBXGroup;
 			children = (
-				88CC0B97256D57CB00F54056 /* MockConnectionController.swift */,
+				884C4A0A257678990049DF55 /* Mock */,
+				884C4971257656110049DF55 /* ConnectionControllerTests.swift */,
 			);
 			path = Connection;
 			sourceTree = "<group>";
@@ -1149,7 +1239,8 @@
 		88CC0B98256D57CB00F54056 /* Message */ = {
 			isa = PBXGroup;
 			children = (
-				88CC0B99256D57CB00F54056 /* MockMessageController.swift */,
+				884C4A0B257678A00049DF55 /* Mock */,
+				884C49922576663A0049DF55 /* MessageControllerTests.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1157,7 +1248,14 @@
 		88CC0B9B256D57CB00F54056 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				884C4A0E257678BA0049DF55 /* Mock */,
+				88FA681E2574F75100E94902 /* AccountUtilsTests.swift */,
+				88FA68902575176600E94902 /* DistinguishableListenerTests.swift */,
 				88CC0B9C256D57CB00F54056 /* HexStringTests.swift */,
+				88FA689C25751A1E00E94902 /* LazyWeakReferenceTests.swift */,
+				88FA682A257501E000E94902 /* SingleCallTests.swift */,
+				88FA68A8257520C700E94902 /* TryUtilsTests.swift */,
+				88FA68AF257524DE00E94902 /* Extensions */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1224,6 +1322,17 @@
 				88CC0CA1256E911F00F54056 /* StorageManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		88FA68AF257524DE00E94902 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				88FA68D42575382C00E94902 /* ArrayAdditionsTests.swift */,
+				88FA68B02575251600E94902 /* DictionaryAdditionsTests.swift */,
+				88FA68BC2575282A00E94902 /* ResultAdditionsTests.swift */,
+				88FA68CD2575368400E94902 /* StringAdditionsTests.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		OBJ_14 /* Products */ = {
@@ -1341,6 +1450,8 @@
 				OBJ_45 /* PBXTargetDependency */,
 			);
 			name = BeaconSDKTests;
+			packageProductDependencies = (
+			);
 			productName = BeaconSDKTests;
 			productReference = "BeaconSDK::BeaconSDKTests::Product" /* BeaconSDKTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -1518,7 +1629,6 @@
 				88CC0B0E256D57B500F54056 /* Micheline.swift in Sources */,
 				88CC0B63256D57B500F54056 /* PermissionResponse.swift in Sources */,
 				88CC0AF7256D57B500F54056 /* Serializer.swift in Sources */,
-				88CC0B17256D57B500F54056 /* ConnectionControllerProtocol.swift in Sources */,
 				88CC0B6E256D57B500F54056 /* P2PConfiguration.swift in Sources */,
 				88CC0B6C256D57B500F54056 /* Request.swift in Sources */,
 				88CC0B1E256D57B500F54056 /* Result+Additions.swift in Sources */,
@@ -1527,6 +1637,7 @@
 				88CC0B7A256D57B500F54056 /* ErrorType.swift in Sources */,
 				88CC0B66256D57B500F54056 /* ErrorResponse.swift in Sources */,
 				88CC0B52256D57B500F54056 /* SignPayloadV1Request.swift in Sources */,
+				884C4A1C25767A680049DF55 /* TimeUtils.swift in Sources */,
 				88CC0B5E256D57B500F54056 /* V2Message.swift in Sources */,
 				88CC0B02256D57B500F54056 /* Endorsement.swift in Sources */,
 				88CC0B47256D57B500F54056 /* Store.swift in Sources */,
@@ -1581,7 +1692,6 @@
 				88CC0B27256D57B500F54056 /* DistinguishableListener.swift in Sources */,
 				88CC0AFB256D57B500F54056 /* HandshakeInfo.swift in Sources */,
 				88CC0B0B256D57B500F54056 /* InlinedEndorsement.swift in Sources */,
-				88CC0B1B256D57B500F54056 /* Date+Additions.swift in Sources */,
 				88CC0B01256D57B500F54056 /* Proposals.swift in Sources */,
 				88CC0B11256D57B500F54056 /* Tezos.swift in Sources */,
 				88CC0B30256D57B500F54056 /* Rooms.swift in Sources */,
@@ -1594,14 +1704,13 @@
 				88CC0B22256D57B500F54056 /* AccountUtils.swift in Sources */,
 				88CC0CA2256E911F00F54056 /* StorageManager.swift in Sources */,
 				88CC0B4B256D57B500F54056 /* PermissionV1Response.swift in Sources */,
-				88CC0D66256FF58700F54056 /* CachedCompletion.swift in Sources */,
+				88CC0D66256FF58700F54056 /* SingleCall.swift in Sources */,
 				88CC0B15256D57B500F54056 /* DecoratedStorage.swift in Sources */,
 				88CC0B42256D57B500F54056 /* Create.swift in Sources */,
 				88CC0B09256D57B500F54056 /* Reveal.swift in Sources */,
 				88CC0D862570003800F54056 /* Error.swift in Sources */,
 				88CC0B60256D57B500F54056 /* Message.swift in Sources */,
 				88CC0D22256FB22C00F54056 /* TryUtils.swift in Sources */,
-				88CC0B1A256D57B500F54056 /* MessageControllerProtocol.swift in Sources */,
 				88CC0B26256D57B500F54056 /* SerializedConnectionMessage.swift in Sources */,
 				88CC0B28256D57B500F54056 /* Coin.swift in Sources */,
 				88CC0B34256D57B500F54056 /* MessageStateEvent.swift in Sources */,
@@ -1625,14 +1734,31 @@
 			buildActionMask = 0;
 			files = (
 				88CC0C4F256D59C600F54056 /* XCTestManifests.swift in Sources */,
+				88FA68B12575251600E94902 /* DictionaryAdditionsTests.swift in Sources */,
+				88FA68A9257520C700E94902 /* TryUtilsTests.swift in Sources */,
 				88CC0C39256D59B600F54056 /* MockStorage.swift in Sources */,
+				88FA68CE2575368400E94902 /* StringAdditionsTests.swift in Sources */,
+				884C4987257657560049DF55 /* MockSerializer.swift in Sources */,
+				884C4972257656110049DF55 /* ConnectionControllerTests.swift in Sources */,
+				884C4A2D25767B3F0049DF55 /* MockTimeUtils.swift in Sources */,
 				88CC0C2E256D59B100F54056 /* CryptoTests.swift in Sources */,
+				88FA682B257501E000E94902 /* SingleCallTests.swift in Sources */,
+				884C4A10257678C70049DF55 /* MockAccountUtils.swift in Sources */,
 				88CC0C6C256D59DA00F54056 /* BeaconTests.swift in Sources */,
 				88CC0C65256D59D000F54056 /* TestUtils.swift in Sources */,
+				884C49932576663A0049DF55 /* MessageControllerTests.swift in Sources */,
 				88CC0C44256D59C100F54056 /* MockMessageController.swift in Sources */,
+				884C49D72576702E0049DF55 /* MockCoin.swift in Sources */,
+				88FA689D25751A1E00E94902 /* LazyWeakReferenceTests.swift in Sources */,
+				88FA68BD2575282A00E94902 /* ResultAdditionsTests.swift in Sources */,
+				88FA68912575176600E94902 /* DistinguishableListenerTests.swift in Sources */,
 				88CC0C6B256D59DA00F54056 /* ClientTests.swift in Sources */,
+				88FA681F2574F75100E94902 /* AccountUtilsTests.swift in Sources */,
+				88FA68D52575382C00E94902 /* ArrayAdditionsTests.swift in Sources */,
+				884C4A03257671200049DF55 /* MockCoinRegistry.swift in Sources */,
 				88CC0C27256D59A600F54056 /* MockConnectionController.swift in Sources */,
 				88CC0C5A256D59CC00F54056 /* HexStringTests.swift in Sources */,
+				884C497A2576568F0049DF55 /* MockTransport.swift in Sources */,
 				88CC0C2D256D59B100F54056 /* CryptoTestsUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

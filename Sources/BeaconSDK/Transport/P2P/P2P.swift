@@ -40,7 +40,7 @@ extension Transport {
                 }
 
                 self.listen(to: p2pPeers) { result in
-                    guard result.isSuccess(otherwise: completion) else { return }
+                    guard result.isSuccess(else: completion) else { return }
                     completion(.success(p2pPeers.map { .p2p($0) }))
                 }
             }
@@ -61,7 +61,7 @@ extension Transport {
         
         override func start(completion: @escaping (Result<(), Swift.Error>) -> ()) {
             client.start { [weak self] result in
-                guard result.isSuccess(otherwise: completion) else { return }
+                guard result.isSuccess(else: completion) else { return }
                 guard let selfStrong = self else {
                     completion(.failure(Beacon.Error.unknown))
                     return

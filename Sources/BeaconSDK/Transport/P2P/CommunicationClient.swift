@@ -18,6 +18,7 @@ extension Transport.P2P {
         private let replicationCount: Int
         private let crypto: Crypto
         private let keyPair: KeyPair
+        private let timeUtils: TimeUtilsProtocol
         
         private var eventListeners: [HexString: Matrix.EventListener] = [:]
         private var serverSessionKeyPair: [HexString: SessionKeyPair] = [:]
@@ -30,7 +31,8 @@ extension Transport.P2P {
             matrixClients: [Matrix],
             replicationCount: Int,
             crypto: Crypto,
-            keyPair: KeyPair
+            keyPair: KeyPair,
+            timeUtils: TimeUtilsProtocol
         ) {
             self.appName = appName
             self.communicationUtils = communicationUtils
@@ -39,11 +41,12 @@ extension Transport.P2P {
             self.replicationCount = replicationCount
             self.crypto = crypto
             self.keyPair = keyPair
+            self.timeUtils = timeUtils
         }
         
         func start(completion: @escaping (Result<(), Swift.Error>) -> ()) {
             do {
-                let loginDigest = try crypto.hash(message: "login:\(Date().currentTimeMillis / 1000 / (5 * 60))", size: 32)
+                let loginDigest = try crypto.hash(message: "login:\(timeUtils.currentTimeMillis / 1000 / (5 * 60))", size: 32)
                 let signature = HexString(from: try crypto.signDetached(message: loginDigest, with: keyPair.secretKey)).asString()
                 let publicKeyHex = HexString(from: keyPair.publicKey).asString()
                 let id = HexString(from: try crypto.hash(key: keyPair.publicKey)).asString()

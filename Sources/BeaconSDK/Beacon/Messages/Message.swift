@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon {
     
-    public enum Message {
+    public enum Message: Equatable {
         case request(Request)
         case response(Response)
         case disconnect(Disconnect)

@@ -194,7 +194,7 @@ class DecoratedStorage: ExtendedStorage {
         if let predicate = predicate {
             select { result in
                 guard let stored = result.get(ifFailure: completion) else { return }
-                insert(stored.filter(predicate), completion)
+                insert(stored.filter { !predicate($0) }, completion)
             }
         } else {
             removeAll(insert: insert, completion: completion)

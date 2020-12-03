@@ -15,15 +15,21 @@ class MockMessageController: MessageControllerProtocol {
     var dAppVersion: String
     var dAppID: String
     
+    var connectionKind: Beacon.Connection.Kind
+    
+    private(set) var onIncomingCalls: [(Beacon.Message.Versioned, Beacon.Origin)] = []
+    private(set) var onOutgoingCalls: [(Beacon.Message, String)] = []
+    
     private let storage: StorageManager
     
-    init(storage: StorageManager) {
+    init(storage: StorageManager, connectionKind: Beacon.Connection.Kind = .p2p) {
         isFailing = false
         
         dAppVersion = "1"
         dAppID = "mockDApp"
-        
+                
         self.storage = storage
+        self.connectionKind = connectionKind
     }
     
     func onIncoming(
@@ -31,6 +37,7 @@ class MockMessageController: MessageControllerProtocol {
         with origin: Beacon.Origin,
         completion: @escaping (Result<Beacon.Message, Swift.Error>) -> ()
     ) {
+        onIncomingCalls.append((message, origin))
         if isFailing {
             completion(.failure(Beacon.Error.unknown))
         } else {
@@ -45,11 +52,30 @@ class MockMessageController: MessageControllerProtocol {
         from senderID: String,
         completion: @escaping (Result<(Beacon.Origin, Beacon.Message.Versioned), Swift.Error>) -> ()
     ) {
+        onOutgoingCalls.append((message, senderID))
         if isFailing {
             completion(.failure(Beacon.Error.unknown))
         } else {
             let versionedMessage = Beacon.Message.Versioned(from: message, version: dAppVersion, senderID: senderID)
-            completion(.success((Beacon.Origin(kind: .p2p, id: senderID), versionedMessage)))
+            completion(.success((Beacon.Origin(kind: connectionKind, id: senderID), versionedMessage)))
         }
     }
+}
+
+typealias OnIncomingArguments = (Beacon.Message.Versioned, Beacon.Origin)
+func == (lhs: OnIncomingArguments, rhs: OnIncomingArguments) -> Bool {
+    lhs.0 == rhs.0 && lhs.1 == rhs.1
+}
+
+func == (lhs: [OnIncomingArguments], rhs: [OnIncomingArguments]) -> Bool {
+    lhs.elementsEqual(rhs, by: { $0 == $1 })
+}
+
+typealias OnOutgoingArguments = (Beacon.Message, String)
+func == (lhs: OnOutgoingArguments, rhs: OnOutgoingArguments) -> Bool {
+    lhs.0 == rhs.0 && lhs.1 == rhs.1
+}
+
+func == (lhs: [OnOutgoingArguments], rhs: [OnOutgoingArguments]) -> Bool {
+    lhs.elementsEqual(rhs, by: { $0 == $1 })
 }

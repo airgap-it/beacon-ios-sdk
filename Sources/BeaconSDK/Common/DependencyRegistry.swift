@@ -24,7 +24,7 @@ class DependencyRegistry {
     
     var messageController: MessageControllerProtocol { weakMessageController.value }
     private lazy var weakMessageController: LazyWeakReference<MessageController> = LazyWeakReference { [unowned self] in
-        MessageController(coinRegistry: self.coinRegistry, storage: self.storage, accountUtils: self.accountUtils)
+        MessageController(coinRegistry: self.coinRegistry, storage: self.storage, accountUtils: self.accountUtils, timeUtils: self.timeUtils)
     }
     
     // MARK: Transport
@@ -53,7 +53,8 @@ class DependencyRegistry {
                     matrixClients: matrixClients,
                     replicationCount: replicationCount,
                     crypto: crypto,
-                    keyPair: beacon.keyPair
+                    keyPair: beacon.keyPair,
+                    timeUtils: timeUtils
                 )
                 
                 return LazyWeakReference { [unowned self] in Transport.P2P(client: client, storage: self.storage) }
@@ -63,7 +64,7 @@ class DependencyRegistry {
     
     // MARK: Coin
     
-    var coinRegistry: CoinRegistry { weakCoinRegistry.value }
+    var coinRegistry: CoinRegistryProtocol { weakCoinRegistry.value }
     private lazy var weakCoinRegistry: LazyWeakReference<CoinRegistry> = LazyWeakReference { [unowned self] in
         CoinRegistry(crypto: self.crypto)
     }
@@ -102,7 +103,8 @@ class DependencyRegistry {
             store: Matrix.Store(storage: storage),
             userService: matrixUserService(baseURL: baseURL),
             eventService: matrixEventService(baseURL: baseURL),
-            roomService: matrixRoomService(baseURL: baseURL)
+            roomService: matrixRoomService(baseURL: baseURL),
+            timeUtils: timeUtils
         )
     }
     
@@ -129,8 +131,11 @@ class DependencyRegistry {
     
     // MARK: Other
     
-    private var accountUtils: AccountUtils { weakAccountUtils.value }
+    private var accountUtils: AccountUtilsProtocol { weakAccountUtils.value }
     private lazy var weakAccountUtils: LazyWeakReference<AccountUtils> = LazyWeakReference { [unowned self] in
         AccountUtils(crypto: self.crypto)
     }
+    
+    private var timeUtils: TimeUtilsProtocol { weakTimeUtils.value }
+    private lazy var weakTimeUtils: LazyWeakReference<TimeUtils> = LazyWeakReference { TimeUtils() }
 }

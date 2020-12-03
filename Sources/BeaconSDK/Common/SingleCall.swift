@@ -1,5 +1,5 @@
 //
-//  CachedCompletion.swift
+//  SingleCall.swift
 //  BeaconSDK
 //
 //  Created by Julia Samol on 26.11.20.
@@ -8,7 +8,7 @@
 
 import Foundation
     
-class CachedCompletion<T> {
+class SingleCall<T> {
     private var completions: [Completion<T>]?
     private let queue: DispatchQueue = .init(
         label: "it.airgap.beacon-sdk.CachedCompletion",
@@ -17,11 +17,15 @@ class CachedCompletion<T> {
         target: .global(qos: .default)
     )
     
-    func run(action: @escaping (@escaping Completion<T>) -> (), completion: @escaping Completion<T>) {
+    func run(
+        body: @escaping (@escaping Completion<T>) -> (),
+        onResult completion: @escaping Completion<T>,
+        callback: @escaping () -> () = {}
+    ) {
         queue.async {
             if self.completions?.append(completion) == nil {
                 self.completions = [completion]
-                action { [weak self] result in
+                body { [weak self] result in
                     self?.queue.async {
                         guard let cached = self?.completions else { return }
                         self?.completions = nil
@@ -29,6 +33,7 @@ class CachedCompletion<T> {
                     }
                 }
             }
+            callback()
         }
     }
     

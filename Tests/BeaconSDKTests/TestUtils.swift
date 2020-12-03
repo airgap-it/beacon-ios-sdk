@@ -9,7 +9,24 @@
 import Foundation
 @testable import BeaconSDK
 
-// MARK: factories
+// MARK: Functions
+
+func runAsync(with group: DispatchGroup = .init(), times n: Int, body: @escaping (@escaping () -> ()) -> (), completion: @escaping () -> ()) {
+    let queue = DispatchQueue(label: "it.airgap.beacon-sdk-tests.runAsync", qos: .default, attributes: [], target: .global(qos: .default))
+    
+    for _ in 0..<n {
+        group.enter()
+        body {
+            group.leave()
+        }
+    }
+    
+    group.notify(qos: .default, flags: [], queue: queue) {
+        completion()
+    }
+}
+
+// MARK: Factories
 
 func permissionBeaconRequest(
     id: String = "id",
@@ -91,7 +108,7 @@ func permissionBeaconResponse(
     network: Beacon.Network = Beacon.Network(type: .custom),
     scopes: [Beacon.PermissionScope] = []
 ) -> Beacon.Response.Permission {
-    Beacon.Response.Permission(id: id, publicKey: id, network: network, scopes: scopes)
+    Beacon.Response.Permission(id: id, publicKey: publicKey, network: network, scopes: scopes)
 }
 
 func operationBeaconResponse(
@@ -158,12 +175,14 @@ func beaconRequests(
     ]
 }
 
-let beaconResponses: [Beacon.Response] = [
-    .permission(permissionBeaconResponse()),
-    .operation(operationBeaconResponse()),
-    .signPayload(signPayloadBeaconResponse()),
-    .broadcast(broadcastBeaconResponse()),
-] + errorBeaconResponses().map { .error($0) }
+func beaconResponses(id: String = "id") -> [Beacon.Response] {
+    [
+        .permission(permissionBeaconResponse(id: id)),
+        .operation(operationBeaconResponse(id: id)),
+        .signPayload(signPayloadBeaconResponse(id: id)),
+        .broadcast(broadcastBeaconResponse(id: id)),
+    ] + errorBeaconResponses(id: id).map { .error($0) }
+}
 
 func beaconVersionedRequests(
     version: String = "version",
@@ -175,4 +194,23 @@ func beaconVersionedRequests(
     )
 ) -> [Beacon.Message.Versioned] {
     requests.map { Beacon.Message.Versioned(from: .request($0), version: version, senderID: senderID) }
+}
+
+func beaconVersionedResponses(
+    version: String = "version",
+    senderID: String = "senderID",
+    responses: [Beacon.Response] = beaconResponses()
+) -> [Beacon.Message.Versioned] {
+    responses.map { Beacon.Message.Versioned(from: .response($0), version: version, senderID: senderID) }
+}
+
+func p2pPeers(n: Int, version: String? = nil) -> [Beacon.P2PPeerInfo] {
+    (0..<n).map {
+        Beacon.P2PPeerInfo(
+            name: "name#\($0)",
+            publicKey: "publicKey#\($0)",
+            relayServer: "relayServer#\($0)",
+            version: version
+        )
+    }
 }
