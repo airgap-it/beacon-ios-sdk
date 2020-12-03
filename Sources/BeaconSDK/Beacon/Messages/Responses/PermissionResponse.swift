@@ -10,12 +10,24 @@ import Foundation
 
 extension Beacon.Response {
     
+    /// Body of the `Beacon.Response.permission` message.
     public struct Permission: ResponseProtocol, Equatable, Codable {
+        
+        /// The value that identifies the request to which the message is responding.
         public let id: String
+        
+        /// The public key of the account that is granting the permissions.
         public let publicKey: String
+        
+        /// The network to which the permissions apply.
         public let network: Beacon.Network
+        
+        /// The list of granted permissions.
         public let scopes: [Beacon.PermissionScope]
+        
+        /// An optional threshold configuration.
         public let threshold: Beacon.Threshold?
+        
         
         public init(
             id: String,

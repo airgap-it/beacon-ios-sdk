@@ -155,7 +155,7 @@
 		88CC0B6A256D57B500F54056 /* BroadcastRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0AD8256D57B400F54056 /* BroadcastRequest.swift */; };
 		88CC0B6B256D57B500F54056 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0AD9256D57B400F54056 /* Response.swift */; };
 		88CC0B6C256D57B500F54056 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0ADA256D57B400F54056 /* Request.swift */; };
-		88CC0B6D256D57B500F54056 /* BeaconConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0ADC256D57B400F54056 /* BeaconConnection.swift */; };
+		88CC0B6D256D57B500F54056 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0ADC256D57B400F54056 /* Connection.swift */; };
 		88CC0B6E256D57B500F54056 /* P2PConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0ADD256D57B400F54056 /* P2PConfiguration.swift */; };
 		88CC0B6F256D57B500F54056 /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0ADE256D57B400F54056 /* Beacon.swift */; };
 		88CC0B70256D57B500F54056 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0ADF256D57B400F54056 /* Client.swift */; };
@@ -399,7 +399,7 @@
 		88CC0AD8256D57B400F54056 /* BroadcastRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastRequest.swift; sourceTree = "<group>"; };
 		88CC0AD9256D57B400F54056 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		88CC0ADA256D57B400F54056 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
-		88CC0ADC256D57B400F54056 /* BeaconConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconConnection.swift; sourceTree = "<group>"; };
+		88CC0ADC256D57B400F54056 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 		88CC0ADD256D57B400F54056 /* P2PConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PConfiguration.swift; sourceTree = "<group>"; };
 		88CC0ADE256D57B400F54056 /* Beacon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
 		88CC0ADF256D57B400F54056 /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
@@ -1135,7 +1135,7 @@
 		88CC0ADB256D57B400F54056 /* Connection */ = {
 			isa = PBXGroup;
 			children = (
-				88CC0ADC256D57B400F54056 /* BeaconConnection.swift */,
+				88CC0ADC256D57B400F54056 /* Connection.swift */,
 				88CC0ADD256D57B400F54056 /* P2PConfiguration.swift */,
 			);
 			path = Connection;
@@ -1663,7 +1663,7 @@
 				88CC0B39256D57B500F54056 /* EventResponse.swift in Sources */,
 				88CC0B62256D57B500F54056 /* SignPayloadResponse.swift in Sources */,
 				88CC0B78256D57B500F54056 /* AppMetadata.swift in Sources */,
-				88CC0B6D256D57B500F54056 /* BeaconConnection.swift in Sources */,
+				88CC0B6D256D57B500F54056 /* Connection.swift in Sources */,
 				88CC0B56256D57B500F54056 /* PermissionV2Response.swift in Sources */,
 				88CC0B7D256D57B500F54056 /* Configuration.swift in Sources */,
 				88CC0AFA256D57B500F54056 /* ServerUtils.swift in Sources */,

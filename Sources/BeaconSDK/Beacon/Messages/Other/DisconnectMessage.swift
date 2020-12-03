@@ -10,8 +10,13 @@ import Foundation
 
 extension Beacon.Message {
     
+    /// Body of the `Beacon.Message.disconnect` message
     public struct Disconnect: MessageProtocol, Equatable, Codable {
+        
+        /// The value that identifies this message.
         public let id: String
+        
+        /// The value that identifies the sender of this message.
         public let senderID: String
     }
 }

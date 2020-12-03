@@ -10,6 +10,7 @@ import Foundation
     
 extension Tezos {
     
+    /// Types of Tezos operations supported in Beacon.
     public enum Operation: Codable, Equatable {
         case endorsement(Endorsement)
         case seedNonceRevelation(SeedNonceRevelation)

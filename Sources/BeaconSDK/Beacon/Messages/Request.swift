@@ -10,11 +10,45 @@ import Foundation
 
 extension Beacon {
     
+    /// Types of requests used in the Beacon connection.
     public enum Request: Equatable {
-        case permission(Permission)
-        case operation(Operation)
-        case signPayload(SignPayload)
-        case broadcast(Broadcast)
+        
+        ///
+        /// Message requesting the granting of the specified permissions to the sender dApp.
+        ///
+        /// Expects `Beacon.Response.permission` as a response.
+        ///
+        /// - permission: The body of the message.
+        ///
+        case permission(_ permission: Permission)
+        
+        ///
+        /// Message requesting the broadcast of the given Tezos operations.
+        ///
+        /// The operations may be only partially filled by the dApp and lack certain information.
+        /// Expects `Beacon.Response.operation` as a response.
+        ///
+        /// - operation: The body of the message.
+        ///
+        case operation(_ operation: Operation)
+        
+        ///
+        /// Message requesting the signature of the given payload.
+        ///
+        /// Expects `Beacon.Response.signPayload` as a response.
+        ///
+        /// - signPayload: The body of the message.
+        ///
+        case signPayload(_ signPayload: SignPayload)
+        
+        ///
+        /// Message requesting the broadcast of the given transaction.
+        ///
+        /// Expects `Beacon.Response.broadcast` as a response.
+        ///
+        /// - broadcast: The body of the message.
+        ///
+        case broadcast(_ broadcast: Broadcast)
         
         // MARK: Attributes
         

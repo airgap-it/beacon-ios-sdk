@@ -10,8 +10,13 @@ import Foundation
 
 extension Beacon.Response {
     
+    /// Body of the `Beacon.Response.broadcast` message.
     public struct Broadcast: ResponseProtocol, Equatable, Codable {
+        
+        /// The value that identifies the request to which the message is responding.
         public let id: String
+        
+        /// The hash of the broadcast transaction.
         public let transactionHash: String
     }
 }

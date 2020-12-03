@@ -10,23 +10,12 @@ import Foundation
 import BeaconSDK
 
 class BeaconViewModel: ObservableObject {
-    private static let examplePeerName = "Beacon Example Dapp"
-    private static let examplePeerPublicKey = "6813141cd8c028fe93bcc8e404e39f53eca7f966458271572f7669ed6cc16a0f"
-    private static let examplePeerRelayServer = "matrix.papers.tech"
-    
     private static let exampleTezosPublicKey = "edpktpzo8UZieYaJZgCHP6M6hKHPdWBSNqxvmEt6dwWRgxDh1EAFw9"
     
     @Published var beaconRequest: String? = nil
     private var awaitingRequest: Beacon.Request? = nil
     
     private var beaconClient: Beacon.Client?
-    
-    private lazy var exampleP2PPeer: Beacon.P2PPeerInfo =
-        Beacon.P2PPeerInfo(
-            name: BeaconViewModel.examplePeerName,
-            publicKey: BeaconViewModel.examplePeerPublicKey,
-            relayServer: BeaconViewModel.examplePeerRelayServer
-        )
     
     init() {
         startBeacon()
@@ -62,8 +51,31 @@ class BeaconViewModel: ObservableObject {
         }
     }
     
-    func removePeer() {
-        beaconClient?.remove([.p2p(exampleP2PPeer)]) { result in
+    func addPeer(name: String, publicKey: String, relayServer: String) {
+        let peer = Beacon.P2PPeerInfo(
+            name: name,
+            publicKey: publicKey,
+            relayServer: relayServer
+        )
+        
+        self.beaconClient?.add([.p2p(peer)]) { result in
+            switch result {
+            case .success(_):
+                print("Peer added")
+            case let .failure(error):
+                print("Could not add the peer, got error: \(error)")
+            }
+        }
+    }
+    
+    func removePeer(name: String, publicKey: String, relayServer: String) {
+        let peer = Beacon.P2PPeerInfo(
+            name: name,
+            publicKey: publicKey,
+            relayServer: relayServer
+        )
+        
+        beaconClient?.remove([.p2p(peer)]) { result in
             switch result {
             case .success(_):
                 print("Successfully removed peers")
@@ -90,14 +102,6 @@ class BeaconViewModel: ObservableObject {
             switch result {
             case .success(_):
                 self.beaconClient?.listen(onRequest: self.onBeaconRequest)
-                self.beaconClient?.add([.p2p(self.exampleP2PPeer)]) { result in
-                    switch result {
-                    case .success(_):
-                        print("Example peer added")
-                    case let .failure(error):
-                        print("Could not add the example peer, got error: \(error)")
-                    }
-                }
             case let .failure(error):
                 print("Error while connecting for messages \(error)")
             }
@@ -108,6 +112,8 @@ class BeaconViewModel: ObservableObject {
         switch result {
         case let .success(request):
             let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            
             let data = try? encoder.encode(request)
             
             DispatchQueue.main.async {
