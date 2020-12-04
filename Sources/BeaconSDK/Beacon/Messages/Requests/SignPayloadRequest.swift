@@ -22,6 +22,9 @@ extension Beacon.Request {
         /// The metadata describing the dApp asking for the signature. May be `nil` if the `senderID` is unknown.
         public let appMetadata: Beacon.AppMetadata?
         
+        /// The requested type of signature. The client MUST fail if cannot provide the specified signature.
+        public let signingType: Beacon.SigningType
+        
         /// The payload to be signed.
         public let payload: String
         
@@ -30,5 +33,27 @@ extension Beacon.Request {
         
         /// The origination data of this request.
         public let origin: Beacon.Origin
+        
+        let version: String
+        
+        init(
+            id: String,
+            senderID: String,
+            appMetadata: Beacon.AppMetadata?,
+            signingType: Beacon.SigningType,
+            payload: String,
+            sourceAddress: String,
+            origin: Beacon.Origin,
+            version: String
+        ) {
+            self.id = id
+            self.senderID = senderID
+            self.appMetadata = appMetadata
+            self.signingType = signingType
+            self.payload = payload
+            self.sourceAddress = sourceAddress
+            self.origin = origin
+            self.version = version
+        }
     }
 }

@@ -12,8 +12,8 @@ protocol Storage {
     
     // MARK: Peers
     
-    func getPeers(completion: @escaping (Result<[Beacon.PeerInfo], Error>) -> ())
-    func set(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ())
+    func getPeers(completion: @escaping (Result<[Beacon.Peer], Error>) -> ())
+    func set(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: AppMetadata
     
@@ -22,8 +22,8 @@ protocol Storage {
     
     // MARK: Permissions
     
-    func getPermissions(completion: @escaping (Result<[Beacon.PermissionInfo], Error>) -> ())
-    func set(_ permissions: [Beacon.PermissionInfo], completion: @escaping (Result<(), Error>) -> ())
+    func getPermissions(completion: @escaping (Result<[Beacon.Permission], Error>) -> ())
+    func set(_ permissions: [Beacon.Permission], completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: Matrix
     

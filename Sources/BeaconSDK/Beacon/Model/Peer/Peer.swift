@@ -1,5 +1,5 @@
 //
-//  PeerInfo.swift
+//  Peer.swift
 //  BeaconSDK
 //
 //  Created by Julia Samol on 19.11.20.
@@ -11,20 +11,28 @@ import Foundation
 extension Beacon {
     
     /// Types of peers supported in Beacon.
-    public enum PeerInfo: Equatable, Hashable, Codable {
+    public enum Peer: Equatable, Hashable, Codable {
         
         ///
         /// Peer details required in the P2P connection.
         ///
         /// - peers: The peer data.
-        case p2p(_ peers: P2PPeerInfo)
+        case p2p(_ peers: P2PPeer)
         
         // MARK: Attributes
         
-        func matches(appMetadata: AppMetadata) -> Bool {
+        var common: PeerProtocol {
             switch self {
             case let .p2p(content):
-                return content.publicKey == appMetadata.senderID
+                return content
+            }
+        }
+        
+        func matches(appMetadata: AppMetadata, using accountUtils: AccountUtilsProtocol) -> Bool {
+            do {
+                return try accountUtils.getSenderID(from: try HexString(from: common.publicKey)) == appMetadata.senderID
+            } catch {
+                return false
             }
         }
         
@@ -35,7 +43,7 @@ extension Beacon {
             let kind = try container.decode(Beacon.Connection.Kind.self, forKey: .kind)
             switch kind {
             case .p2p:
-                self = .p2p(try P2PPeerInfo(from: decoder))
+                self = .p2p(try P2PPeer(from: decoder))
             }
         }
         
@@ -50,4 +58,14 @@ extension Beacon {
             case kind
         }
     }
+}
+
+// MARK: Protocol
+
+protocol PeerProtocol {
+    var kind: Beacon.Connection.Kind { get }
+    var id: String? { get }
+    var name: String { get }
+    var publicKey: String { get }
+    var version: String { get }
 }

@@ -48,19 +48,30 @@ extension Transport.P2P {
         
         // MARK: Pairing Payload
         
-        func pairingPayload(from publicKey: [UInt8], on relayServer: String, appName: String, version: String?) throws -> String {
-            guard let version = version else {
-                return pairingPayloadV1(from: HexString(from: publicKey))
-            }
-            
-            switch version.prefix(before: ".") {
+        func pairingPayload(
+            for peer: Beacon.P2PPeer,
+            publicKey: [UInt8],
+            relayServer: String,
+            appName: String
+        ) throws -> String {
+            switch peer.version.prefix(before: ".") {
             case "1":
                 return pairingPayloadV1(from: HexString(from: publicKey))
             case "2":
-                return try pairingPayloadV2(from: HexString(from: publicKey), on: relayServer, appName: appName, version: version)
+                return try pairingPayloadV2(
+                    for: peer,
+                    publicKey: HexString(from: publicKey),
+                    relayServer: relayServer,
+                    appName: appName
+                )
             default:
                 // fallback to the newest version
-                return try pairingPayloadV2(from: HexString(from: publicKey), on: relayServer, appName: appName, version: version)
+                return try pairingPayloadV2(
+                    for: peer,
+                    publicKey: HexString(from: publicKey),
+                    relayServer: relayServer,
+                    appName: appName
+                )
             }
         }
         
@@ -68,11 +79,27 @@ extension Transport.P2P {
             publicKey.asString()
         }
         
-        private func pairingPayloadV2(from publicKey: HexString, on relayServer: String, appName: String, version: String) throws -> String {
-            let handshakeInfo = HandshakeInfo(name: appName, version: version, publicKey: publicKey.asString(), relayServer: relayServer)
+        private func pairingPayloadV2(
+            for peer: Beacon.P2PPeer,
+            publicKey: HexString,
+            relayServer: String,
+            appName: String
+        ) throws -> String {
+            guard let id = peer.id else {
+                throw Beacon.Error.invalidPeer(.p2p(peer), version: peer.version)
+            }
+            
+            let pairingResponse = PairingResponse(
+                id: id,
+                type: "p2p-pairing-response",
+                name: appName,
+                version: peer.version,
+                publicKey: publicKey.asString(),
+                relayServer: relayServer
+            )
             let encoder = JSONEncoder()
             
-            let json = String(data: try encoder.encode(handshakeInfo), encoding: .utf8)
+            let json = String(data: try encoder.encode(pairingResponse), encoding: .utf8)
             
             return json ?? ""
         }

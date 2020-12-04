@@ -17,7 +17,7 @@ extension Beacon.Message.Versioned.V1 {
         let beaconID: String
         let appMetadata: AppMetadata
         let network: Beacon.Network
-        let scopes: [Beacon.PermissionScope]
+        let scopes: [Beacon.Permission.Scope]
         
         init(
             version: String,
@@ -25,7 +25,7 @@ extension Beacon.Message.Versioned.V1 {
             beaconID: String,
             appMetadata: AppMetadata,
             network: Beacon.Network,
-            scopes: [Beacon.PermissionScope]
+            scopes: [Beacon.Permission.Scope]
         ) {
             type = .permissionRequest
             self.version = version
@@ -38,9 +38,9 @@ extension Beacon.Message.Versioned.V1 {
         
         // MARK: BeaconMessage Compatibility
         
-        init(from beaconMessage: Beacon.Request.Permission, version: String, senderID: String) {
+        init(from beaconMessage: Beacon.Request.Permission, senderID: String) {
             self.init(
-                version: version,
+                version: beaconMessage.version,
                 id: beaconMessage.id,
                 beaconID: senderID,
                 appMetadata: AppMetadata(from: beaconMessage.appMetadata),
@@ -49,29 +49,22 @@ extension Beacon.Message.Versioned.V1 {
             )
         }
         
-        func comesFrom(_ appMetadata: Beacon.AppMetadata) -> Bool {
-            appMetadata.senderID == beaconID
-        }
-        
         func toBeaconMessage(
             with origin: Beacon.Origin,
-            using storage: StorageManager,
+            using storageManager: StorageManager,
             completion: @escaping (Result<Beacon.Message, Error>) -> ()
         ) {
-            let message = Beacon.Message.request(
-                Beacon.Request.permission(
-                    Beacon.Request.Permission(
-                        id: id,
-                        senderID: beaconID,
-                        appMetadata: appMetadata.toAppMetadata(),
-                        network: network,
-                        scopes: scopes,
-                        origin: origin
-                    )
-                )
+            let message = Beacon.Request.Permission(
+                id: id,
+                senderID: beaconID,
+                appMetadata: appMetadata.toAppMetadata(),
+                network: network,
+                scopes: scopes,
+                origin: origin,
+                version: version
             )
             
-            completion(.success(message))
+            completion(.success(.request(.permission(message))))
         }
         
         // MARK: Codable

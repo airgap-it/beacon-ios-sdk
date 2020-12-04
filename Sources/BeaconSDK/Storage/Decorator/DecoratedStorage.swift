@@ -20,18 +20,18 @@ class DecoratedStorage: ExtendedStorage {
     
     // MARK: Peers
     
-    func getPeers(completion: @escaping (Result<[Beacon.PeerInfo], Error>) -> ()) {
+    func getPeers(completion: @escaping (Result<[Beacon.Peer], Error>) -> ()) {
         storage.getPeers(completion: completion)
     }
     
-    func set(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
+    func set(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
         storage.set(peers, completion: completion)
     }
     
     func add(
-        _ peers: [Beacon.PeerInfo],
+        _ peers: [Beacon.Peer],
         overwrite: Bool,
-        compareBy predicate: @escaping (Beacon.PeerInfo, Beacon.PeerInfo) -> Bool,
+        compareBy predicate: @escaping (Beacon.Peer, Beacon.Peer) -> Bool,
         completion: @escaping (Result<(), Error>) -> ()
     ) {
         add(
@@ -44,11 +44,23 @@ class DecoratedStorage: ExtendedStorage {
         )
     }
     
-    func removePeers(where predicate: ((Beacon.PeerInfo) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
+    func findPeers(where predicate: @escaping (Beacon.Peer) -> Bool, completion: @escaping (Result<Beacon.Peer?, Error>) -> ()) {
+        find(where: predicate, select: storage.getPeers, completion: completion)
+    }
+    
+    func removePeers(where predicate: ((Beacon.Peer) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
         remove(where: predicate, select: storage.getPeers, insert: storage.set, completion: completion)
     }
     
     // MARK: AppMetadata
+    
+    func getAppMetadata(completion: @escaping (Result<[Beacon.AppMetadata], Error>) -> ()) {
+        storage.getAppMetadata(completion: completion)
+    }
+    
+    func set(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Error>) -> ()) {
+        storage.set(appMetadata, completion: completion)
+    }
     
     func add(
         _ appMetadata: [Beacon.AppMetadata],
@@ -73,20 +85,24 @@ class DecoratedStorage: ExtendedStorage {
         find(where: predicate, select: storage.getAppMetadata, completion: completion)
     }
     
-    func getAppMetadata(completion: @escaping (Result<[Beacon.AppMetadata], Error>) -> ()) {
-        storage.getAppMetadata(completion: completion)
-    }
-    
-    func set(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Error>) -> ()) {
-        storage.set(appMetadata, completion: completion)
+    func removeAppMetadata(where predicate: ((Beacon.AppMetadata) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
+        remove(where: predicate, select: storage.getAppMetadata, insert: storage.set, completion: completion)
     }
     
     // MARK: Permissions
     
+    func getPermissions(completion: @escaping (Result<[Beacon.Permission], Error>) -> ()) {
+        storage.getPermissions(completion: completion)
+    }
+    
+    func set(_ permissions: [Beacon.Permission], completion: @escaping (Result<(), Error>) -> ()) {
+        storage.set(permissions, completion: completion)
+    }
+    
     func add(
-        _ permissions: [Beacon.PermissionInfo],
+        _ permissions: [Beacon.Permission],
         overwrite: Bool,
-        compareBy predicate: @escaping (Beacon.PermissionInfo, Beacon.PermissionInfo) -> Bool,
+        compareBy predicate: @escaping (Beacon.Permission, Beacon.Permission) -> Bool,
         completion: @escaping (Result<(), Error>) -> ()
     ) {
         add(
@@ -99,15 +115,14 @@ class DecoratedStorage: ExtendedStorage {
         )
     }
     
-    func getPermissions(completion: @escaping (Result<[Beacon.PermissionInfo], Error>) -> ()) {
-        storage.getPermissions(completion: completion)
+    func findPermissions(
+        where predicate: @escaping (Beacon.Permission) -> Bool,
+        completion: @escaping (Result<Beacon.Permission?, Error>) -> ()
+    ) {
+        find(where: predicate, select: storage.getPermissions, completion: completion)
     }
     
-    func set(_ permissions: [Beacon.PermissionInfo], completion: @escaping (Result<(), Error>) -> ()) {
-        storage.set(permissions, completion: completion)
-    }
-    
-    func removePermissions(where predicate: ((Beacon.PermissionInfo) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
+    func removePermissions(where predicate: ((Beacon.Permission) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
         remove(where: predicate, select: storage.getPermissions, insert: storage.set, completion: completion)
     }
     

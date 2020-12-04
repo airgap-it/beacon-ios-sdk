@@ -13,8 +13,8 @@ class MockTransport: Transport {
     var isFailing: Bool = false
     
     private(set) var startCalls: Int = 0
-    private(set) var connectPeersCalls: [[Beacon.PeerInfo]] = []
-    private(set) var disconnectPeersCalls: [[Beacon.PeerInfo]] = []
+    private(set) var connectPeersCalls: [[Beacon.Peer]] = []
+    private(set) var disconnectPeersCalls: [[Beacon.Peer]] = []
     private(set) var sendMessageCalls: [ConnectionMessage] = []
     
     override func start(completion: @escaping (Result<(), Error>) -> ()) {
@@ -22,7 +22,7 @@ class MockTransport: Transport {
         completion(isFailing ? .failure(Beacon.Error.unknown) : .success(()))
     }
     
-    override func connect(new peers: [Beacon.PeerInfo], completion: @escaping (Result<[Beacon.PeerInfo], Error>) -> ()) {
+    override func connect(new peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Error>) -> ()) {
         connectPeersCalls.append(peers)
         if isFailing {
             completion(.failure(Beacon.Error.unknown))
@@ -38,7 +38,7 @@ class MockTransport: Transport {
         }
     }
     
-    override func disconnect(from peers: [Beacon.PeerInfo], completion: @escaping (Result<[Beacon.PeerInfo], Error>) -> ()) {
+    override func disconnect(from peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Error>) -> ()) {
         disconnectPeersCalls.append(peers)
         if isFailing {
             completion(.failure(Beacon.Error.unknown))
@@ -54,7 +54,7 @@ class MockTransport: Transport {
         }
     }
     
-    override func send(_ message: ConnectionMessage, to recipient: String? = nil, completion: @escaping (Result<(), Error>) -> ()) {
+    override func send(_ message: ConnectionMessage, completion: @escaping (Result<(), Error>) -> ()) {
         sendMessageCalls.append(message)
         completion(.success(()))
     }

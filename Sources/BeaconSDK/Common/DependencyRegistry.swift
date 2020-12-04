@@ -9,10 +9,17 @@
 import Foundation
 
 class DependencyRegistry {
-    let storage: StorageManager
     
     init(storage: Storage) {
-        self.storage = StorageManager(storage: storage)
+        self.storage = storage
+    }
+    
+    // MARK: Storage
+    private let storage: Storage
+    
+    var storageManager: StorageManager { weakStorageManager.value }
+    private lazy var weakStorageManager: LazyWeakReference<StorageManager> = LazyWeakReference { [unowned self] in
+        StorageManager(storage: self.storage, accountUtils: self.accountUtils)
     }
     
     // MARK: Controller
@@ -24,7 +31,12 @@ class DependencyRegistry {
     
     var messageController: MessageControllerProtocol { weakMessageController.value }
     private lazy var weakMessageController: LazyWeakReference<MessageController> = LazyWeakReference { [unowned self] in
-        MessageController(coinRegistry: self.coinRegistry, storage: self.storage, accountUtils: self.accountUtils, timeUtils: self.timeUtils)
+        MessageController(
+            coinRegistry: self.coinRegistry,
+            storageManager: self.storageManager,
+            accountUtils: self.accountUtils,
+            timeUtils: self.timeUtils
+        )
     }
     
     // MARK: Transport
@@ -57,7 +69,7 @@ class DependencyRegistry {
                     timeUtils: timeUtils
                 )
                 
-                return LazyWeakReference { [unowned self] in Transport.P2P(client: client, storage: self.storage) }
+                return LazyWeakReference { [unowned self] in Transport.P2P(client: client, storageManager: self.storageManager) }
             }
         }.value
     }
@@ -100,7 +112,7 @@ class DependencyRegistry {
     
     private func matrix(baseURL: URL) -> Matrix {
         Matrix(
-            store: Matrix.Store(storage: storage),
+            store: Matrix.Store(storageManager: storageManager),
             userService: matrixUserService(baseURL: baseURL),
             eventService: matrixEventService(baseURL: baseURL),
             roomService: matrixRoomService(baseURL: baseURL),

@@ -43,6 +43,20 @@ class AccountUtilsTests: XCTestCase {
         }
     }
     
+    func testSenderHash() throws {
+        let testCases = [
+            ("ee590deb81701168f6cb235726a867a5089790a5a03337fd16aea86fcc0e94fd", "2NMqTc7BaZaJg"),
+            ("713225e96a9f002ee07d19d929053cdfa0701d44f393a82cc59739ed69d36a98", "22XoqkS7yDN5y")
+        ]
+        
+        try testCases.forEach { (id, expected) in
+            
+            let actual = try accountUtils.getSenderID(from: try HexString(from: id))
+            
+            XCTAssertEqual(expected, actual, "Expected \(expected) for id \(id), but got \(actual)")
+        }
+    }
+    
     private struct AccountIdentifierTestCase {
         let address: String
         let network: Beacon.Network
@@ -51,6 +65,7 @@ class AccountUtilsTests: XCTestCase {
     }
     
     static var allTests = [
-        ("testAccountIdentifier", testAccountIdentifier)
+        ("testAccountIdentifier", testAccountIdentifier),
+        ("testSenderHash", testSenderHash),
     ]
 }

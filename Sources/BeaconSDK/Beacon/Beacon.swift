@@ -76,7 +76,7 @@ public class Beacon {
     
     private static func generateKeyPair(using crypto: Crypto, savedIn storage: Storage, completion: @escaping (Result<KeyPair, Swift.Error>) -> ()) {
         do {
-            let seed = try crypto.randomSeed()
+            let seed = try crypto.guid()
             storage.setSDKSecretSeed(seed) { result in
                 guard result.isSuccess(else: completion) else { return }
                 

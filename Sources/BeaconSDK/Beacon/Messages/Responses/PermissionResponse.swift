@@ -23,24 +23,48 @@ extension Beacon.Response {
         public let network: Beacon.Network
         
         /// The list of granted permissions.
-        public let scopes: [Beacon.PermissionScope]
+        public let scopes: [Beacon.Permission.Scope]
         
         /// An optional threshold configuration.
         public let threshold: Beacon.Threshold?
         
+        let version: String
+        let requestOrigin: Beacon.Origin
         
         public init(
+            from request: Beacon.Request.Permission,
+            publicKey: String,
+            network: Beacon.Network? = nil,
+            scopes: [Beacon.Permission.Scope]? = nil,
+            threshold: Beacon.Threshold? = nil
+        ) {
+            self.init(
+                id: request.id,
+                publicKey: publicKey,
+                network: network ?? request.network,
+                scopes: scopes ?? request.scopes,
+                threshold: threshold,
+                version: request.version,
+                requestOrigin: request.origin
+            )
+        }
+        
+        init(
             id: String,
             publicKey: String,
             network: Beacon.Network,
-            scopes: [Beacon.PermissionScope],
-            threshold: Beacon.Threshold? = nil
+            scopes: [Beacon.Permission.Scope],
+            threshold: Beacon.Threshold? = nil,
+            version: String,
+            requestOrigin: Beacon.Origin
         ) {
             self.id = id
             self.publicKey = publicKey
             self.network = network
             self.scopes = scopes
             self.threshold = threshold
+            self.version = version
+            self.requestOrigin = requestOrigin
         }
     }
 }

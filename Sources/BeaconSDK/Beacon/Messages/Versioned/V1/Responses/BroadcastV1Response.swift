@@ -27,26 +27,17 @@ extension Beacon.Message.Versioned.V1 {
         
         // MARK: BeaconMessage Compatibility
         
-        init(from beaconMessage: Beacon.Response.Broadcast, version: String, senderID: String) {
-            self.init(version: version, id: beaconMessage.id, beaconID: senderID, transactionHash: beaconMessage.transactionHash)
-        }
-        
-        func comesFrom(_ appMetadata: Beacon.AppMetadata) -> Bool {
-            appMetadata.senderID == beaconID
+        init(from beaconMessage: Beacon.Response.Broadcast, senderID: String) {
+            self.init(version: beaconMessage.version, id: beaconMessage.id, beaconID: senderID, transactionHash: beaconMessage.transactionHash)
         }
         
         func toBeaconMessage(
             with origin: Beacon.Origin,
-            using storage: StorageManager,
+            using storageManager: StorageManager,
             completion: @escaping (Result<Beacon.Message, Error>) -> ()
         ) {
-            let message = Beacon.Message.response(
-                Beacon.Response.broadcast(
-                    Beacon.Response.Broadcast(id: id, transactionHash: transactionHash)
-                )
-            )
-            
-            completion(.success(message))
+            let message = Beacon.Response.Broadcast(id: id, transactionHash: transactionHash, version: version, requestOrigin: origin)
+            completion(.success(.response(.broadcast(message))))
         }
         
         // MARK: Codable

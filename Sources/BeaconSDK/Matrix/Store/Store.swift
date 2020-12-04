@@ -18,19 +18,19 @@ extension Matrix {
         
         private var eventsListeners: Set<EventsListener> = Set()
         
-        private let storage: StorageManager
+        private let storageManager: StorageManager
         
-        init(storage: StorageManager) {
-            self.storage = storage
+        init(storageManager: StorageManager) {
+            self.storageManager = storageManager
         }
         
         // MARK: Initialization
         
         private func whenReady(onReady callback: @escaping (Result<(), Swift.Error>) -> ()) {
-            storage.getMatrixSyncToken { result in
+            storageManager.getMatrixSyncToken { result in
                 guard let token = result.get(ifFailure: callback) else { return }
                 
-                self.storage.getMatrixRooms { result in
+                self.storageManager.getMatrixRooms { result in
                     guard let rooms = result.get(ifFailure: callback) else { return }
                     
                     self.state = State(
@@ -164,7 +164,7 @@ extension Matrix {
         
         private func updateStorage(with syncToken: String?, completion: @escaping (Result<(), Swift.Error>) -> ()) {
             if let syncToken = syncToken {
-                storage.setMatrixSyncToken(syncToken, completion: completion)
+                storageManager.setMatrixSyncToken(syncToken, completion: completion)
             } else {
                 completion(.success(()))
             }
@@ -172,7 +172,7 @@ extension Matrix {
         
         private func updateStorage(with rooms: [String: Matrix.Room]?, completion: @escaping (Result<(), Swift.Error>) -> ()) {
             if let rooms = rooms?.values {
-                storage.set(Array(rooms), completion: completion)
+                storageManager.set(Array(rooms), completion: completion)
             } else {
                 completion(.success(()))
             }

@@ -18,5 +18,19 @@ extension Beacon.Response {
         
         /// The hash of the broadcast transaction.
         public let transactionHash: String
+        
+        let version: String
+        let requestOrigin: Beacon.Origin
+        
+        public init(from request: Beacon.Request.Broadcast, transactionHash: String) {
+            self.init(id: request.id, transactionHash: transactionHash, version: request.version, requestOrigin: request.origin)
+        }
+        
+        init(id: String, transactionHash: String, version: String, requestOrigin: Beacon.Origin) {
+            self.id = id
+            self.transactionHash = transactionHash
+            self.version = version
+            self.requestOrigin = requestOrigin
+        }
     }
 }

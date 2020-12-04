@@ -36,6 +36,7 @@ extension Beacon {
         /// Disconnect message.
         ///
         /// Sent when a peer cancels the connection.
+        /// Used internally.
         ///
         /// - disconnect: The body of the message.
         ///
@@ -53,6 +54,17 @@ extension Beacon {
                 return content
             }
         }
+        
+        var associatedOrigin: Origin {
+            switch self {
+            case let .request(content):
+                return content.common.origin
+            case let .response(content):
+                return content.common.requestOrigin
+            case let.disconnect(content):
+                return content.origin
+            }
+        }
     }
 }
 
@@ -60,4 +72,5 @@ extension Beacon {
 
 protocol MessageProtocol {
     var id: String { get }
+    var version: String { get }
 }

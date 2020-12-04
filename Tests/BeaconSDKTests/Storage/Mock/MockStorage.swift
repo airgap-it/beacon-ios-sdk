@@ -9,19 +9,19 @@
 @testable import BeaconSDK
 
 class MockStorage: Storage {
-    var peers: [Beacon.PeerInfo] = []
+    var peers: [Beacon.Peer] = []
     var appMetadata: [Beacon.AppMetadata] = []
-    var permissions: [Beacon.PermissionInfo] = []
+    var permissions: [Beacon.Permission] = []
     var matrixSyncToken: String?
     var matrixRooms: [Matrix.Room] = []
     var sdkSecretSeed: String?
     var sdkVersion: String?
     
-    func getPeers(completion: @escaping (Result<[Beacon.PeerInfo], Error>) -> ()) {
+    func getPeers(completion: @escaping (Result<[Beacon.Peer], Error>) -> ()) {
         completion(.success(peers))
     }
     
-    func set(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
+    func set(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
         self.peers = peers
         completion(.success(()))
     }
@@ -35,11 +35,11 @@ class MockStorage: Storage {
         completion(.success(()))
     }
     
-    func getPermissions(completion: @escaping (Result<[Beacon.PermissionInfo], Error>) -> ()) {
+    func getPermissions(completion: @escaping (Result<[Beacon.Permission], Error>) -> ()) {
         completion(.success(permissions))
     }
     
-    func set(_ permissions: [Beacon.PermissionInfo], completion: @escaping (Result<(), Error>) -> ()) {
+    func set(_ permissions: [Beacon.Permission], completion: @escaping (Result<(), Error>) -> ()) {
         self.permissions = permissions
         completion(.success(()))
     }

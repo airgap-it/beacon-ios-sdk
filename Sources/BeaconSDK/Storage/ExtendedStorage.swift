@@ -13,13 +13,14 @@ protocol ExtendedStorage: Storage {
     // MARK: Peers
     
     func add(
-        _ peers: [Beacon.PeerInfo],
+        _ peers: [Beacon.Peer],
         overwrite: Bool,
-        compareBy predicate: @escaping (Beacon.PeerInfo, Beacon.PeerInfo) -> Bool,
+        compareBy predicate: @escaping (Beacon.Peer, Beacon.Peer) -> Bool,
         completion: @escaping (Result<(), Error>) -> ()
     )
     
-    func removePeers(where predicate: ((Beacon.PeerInfo) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    func findPeers(where predicate: @escaping (Beacon.Peer) -> Bool, completion: @escaping (Result<Beacon.Peer?, Error>) -> ())
+    func removePeers(where predicate: ((Beacon.Peer) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: AppMetadata
     
@@ -31,17 +32,23 @@ protocol ExtendedStorage: Storage {
     )
     
     func findAppMetadata(where predicate: @escaping (Beacon.AppMetadata) -> Bool, completion: @escaping (Result<Beacon.AppMetadata?, Error>) -> ())
+    func removeAppMetadata(where predicate: ((Beacon.AppMetadata) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: Permissions
     
     func add(
-        _ permissions: [Beacon.PermissionInfo],
+        _ permissions: [Beacon.Permission],
         overwrite: Bool,
-        compareBy predicate: @escaping (Beacon.PermissionInfo, Beacon.PermissionInfo) -> Bool,
+        compareBy predicate: @escaping (Beacon.Permission, Beacon.Permission) -> Bool,
         completion: @escaping (Result<(), Error>) -> ()
     )
     
-    func removePermissions(where predicate: ((Beacon.PermissionInfo) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    func findPermissions(
+        where predicate: @escaping (Beacon.Permission) -> Bool,
+        completion: @escaping (Result<Beacon.Permission?, Error>) -> ()
+    )
+    
+    func removePermissions(where predicate: ((Beacon.Permission) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
 }
 
 // MARK: Extensions

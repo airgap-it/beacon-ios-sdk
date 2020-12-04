@@ -14,8 +14,8 @@ class MockConnectionController: ConnectionControllerProtocol {
     
     private(set) var connectCalls: Int = 0
     private(set) var listenCalls: Int = 0
-    private(set) var onNewPeersCalls: [[Beacon.PeerInfo]] = []
-    private(set) var onDeletedPeerCalls: [[Beacon.PeerInfo]] = []
+    private(set) var onNewPeersCalls: [[Beacon.Peer]] = []
+    private(set) var onDeletedPeerCalls: [[Beacon.Peer]] = []
     private(set) var sendMessageCalls: [BeaconConnectionMessage] = []
     
     private var messages: [(Beacon.Origin, Beacon.Message.Versioned)] = []
@@ -36,12 +36,12 @@ class MockConnectionController: ConnectionControllerProtocol {
         }
     }
     
-    func onNew(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
+    func onNew(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
         onNewPeersCalls.append(peers)
         completion(isFailing ? .failure(Beacon.Error.unknown) : .success(()))
     }
     
-    func onDeleted(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
+    func onRemoved(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
         onDeletedPeerCalls.append(peers)
         completion(isFailing ? .failure(Beacon.Error.unknown) : .success(()))
     }

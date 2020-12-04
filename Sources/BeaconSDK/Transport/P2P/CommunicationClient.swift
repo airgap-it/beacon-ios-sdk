@@ -144,19 +144,18 @@ extension Transport.P2P {
             }
         }
         
-        func sendPairingRequest(
-            to publicKey: HexString,
-            on relayServer: String,
-            version: String?,
+        func sendPairingResponse(
+            to peer: Beacon.P2PPeer,
             completion: @escaping (Result<(), Swift.Error>) -> ()
         ) {
             do {
-                let recipient = try communicationUtils.recipientIdentifier(for: publicKey, on: relayServer)
+                let publicKey = try HexString(from: peer.publicKey)
+                let recipient = try communicationUtils.recipientIdentifier(for: publicKey, on: peer.relayServer)
                 let pairingPayload = try communicationUtils.pairingPayload(
-                    from: keyPair.publicKey,
-                    on: try serverUtils.relayServer(for: keyPair.publicKey).absoluteString,
-                    appName: appName,
-                    version: version
+                    for: peer,
+                    publicKey: keyPair.publicKey,
+                    relayServer: try serverUtils.relayServer(for: keyPair.publicKey).absoluteString,
+                    appName: appName
                 )
                 
                 let payload = HexString(from: try crypto.encrypt(message: pairingPayload, withPublicKey: try publicKey.asBytes())).asString()

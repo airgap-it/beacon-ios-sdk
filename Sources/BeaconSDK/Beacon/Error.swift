@@ -40,7 +40,7 @@ extension Beacon {
         /// - peers: An array of peers that failed to be paired.
         /// - causedBy: An array of the initial causes of the error, if known.
         ///
-        case peersNotPaired(_ peers: [PeerInfo], causedBy: [Swift.Error])
+        case peersNotPaired(_ peers: [Peer], causedBy: [Swift.Error])
         
         ///
         /// Could not connect with the peers.
@@ -48,7 +48,7 @@ extension Beacon {
         /// - peers: An array of peers which could not be connected.
         /// - causedBy: An array of the initial causes of the error, if known.
         ///
-        case peersNotConnected(_ peers: [PeerInfo], causedBy: [Swift.Error])
+        case peersNotConnected(_ peers: [Peer], causedBy: [Swift.Error])
         
         ///
         /// Could not disconnect from the peers.
@@ -56,7 +56,15 @@ extension Beacon {
         /// - peers: An array of peers which could not be disconnected.
         /// - causedBy: An array of the initial causes of the error, if known.
         ///
-        case peersNotDisconnected(_ peers: [PeerInfo], causedBy: [Swift.Error])
+        case peersNotDisconnected(_ peers: [Peer], causedBy: [Swift.Error])
+        
+        ///
+        /// Invalid peer data for the specified Beacon version.
+        ///
+        /// - peer: The invalid data.
+        /// - `version`: Beacon version of the peer.
+        ///
+        case invalidPeer(_ peer: Peer, version: String)
         
         ///
         /// Could not send the message.
@@ -66,7 +74,7 @@ extension Beacon {
         ///
         case sendFailed(_ kinds: [Connection.Kind], causedBy: [Swift.Error])
         
-        // MARK: Response
+        // MARK: Message
         
         ///
         /// No pending request that matches the provided response has been found.
@@ -81,7 +89,16 @@ extension Beacon {
         /// - peers: An array of peers to which the response could not be sent.
         /// - causedBy: An array of the initial causes of the error, if known.
         ///
-        case sendToPeersFailed(_ peers: [PeerInfo], causedBy: [Swift.Error])
+        case sendToPeersFailed(_ peers: [Peer], causedBy: [Swift.Error])
+        
+        
+        ///
+        /// The message is not supported in the target Beacon version.
+        ///
+        /// - message: The message that could not be processed
+        /// - `version`: The target message version
+        ///
+        case messageNotSupportedInVersion(message: Message, version: String)
         
         // MARK: P2P
         

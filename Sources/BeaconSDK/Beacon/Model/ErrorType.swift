@@ -72,6 +72,13 @@ extension Beacon {
         case transactionInvalid = "TRANSACTION_INVALID_ERROR"
         
         ///
+        /// Indicates that the requested type of signature is not supported in the client.
+        ///
+        /// Applicable to `Beacon.Request.signPayload`.
+        ///
+        case signatureTypeNotSupported = "SIGNATURE_TYPE_NOT_SUPPORTED"
+        
+        ///
         /// Indicates that the request execution has been aborted by the user or the wallet.
         ///
         /// Applicable to every `Beacon.Request`.

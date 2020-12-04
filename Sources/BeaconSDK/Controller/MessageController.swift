@@ -11,16 +11,16 @@ import Foundation
 class MessageController: MessageControllerProtocol {
     
     private let coinRegistry: CoinRegistryProtocol
-    private let storage: StorageManager
+    private let storageManager: StorageManager
     private let accountUtils: AccountUtilsProtocol
     private let timeUtils: TimeUtilsProtocol
     
-    private var pendingRequests: [String: (Beacon.Origin, Beacon.Message.Versioned)] = [:]
+    private var pendingRequests: [String: Beacon.Request] = [:]
     private let queue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.MessageController", attributes: [], target: .global(qos: .default))
     
-    init(coinRegistry: CoinRegistryProtocol, storage: StorageManager, accountUtils: AccountUtilsProtocol, timeUtils: TimeUtilsProtocol) {
+    init(coinRegistry: CoinRegistryProtocol, storageManager: StorageManager, accountUtils: AccountUtilsProtocol, timeUtils: TimeUtilsProtocol) {
         self.coinRegistry = coinRegistry
-        self.storage = storage
+        self.storageManager = storageManager
         self.accountUtils = accountUtils
         self.timeUtils = timeUtils
     }
@@ -32,16 +32,11 @@ class MessageController: MessageControllerProtocol {
         with origin: Beacon.Origin,
         completion: @escaping (Result<Beacon.Message, Swift.Error>) -> ()
     ) {
-        message.toBeaconMessage(with: origin, using: storage) { result in
+        message.toBeaconMessage(with: origin, using: storageManager) { result in
             guard let beaconMessage = result.get(ifFailure: completion) else { return }
             
             self.onIncoming(beaconMessage) { result in
                 guard result.isSuccess(else: completion) else { return }
-                
-                self.queue.async {
-                    self.pendingRequests[message.common.id] = (origin, message)
-                }
-
                 completion(.success(beaconMessage))
             }
         }
@@ -50,7 +45,10 @@ class MessageController: MessageControllerProtocol {
     private func onIncoming(_ message: Beacon.Message, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         switch message {
         case let .request(request):
-            onIncoming(request, completion: completion)
+            self.queue.async {
+                self.pendingRequests[message.common.id] = request
+                self.onIncoming(request, completion: completion)
+            }
         default:
             completion(.success(()))
         }
@@ -67,40 +65,46 @@ class MessageController: MessageControllerProtocol {
     }
         
     private func onIncoming(_ request: Beacon.Request.Permission, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-        storage.add([request.appMetadata], completion: completion)
+        storageManager.add([request.appMetadata], completion: completion)
     }
     
     // MARK: Outgoing Messages
     
     func onOutgoing(
         _ message: Beacon.Message,
-        from senderID: String,
+        with beaconID: String,
+        terminal: Bool,
         completion: @escaping (Result<(Beacon.Origin, Beacon.Message.Versioned), Swift.Error>) -> ()
     ) {
-        queue.async {
-            guard let (origin, request) = self.pendingRequests.removeValue(forKey: message.common.id) else {
-                completion(.failure(Beacon.Error.noPendingRequest(id: message.common.id)))
-                return
-            }
-            
-            self.onOutgoing(message, with: origin, respondingTo: request) { result in
+        self.onOutgoing(message, terminal: terminal) { result in
+            do {
                 guard result.isSuccess(else: completion) else { return }
                 
-                let versionedMessage = Beacon.Message.Versioned(from: message, version: request.common.version, senderID: senderID)
-                completion(.success((origin, versionedMessage)))
+                let senderHash = try self.accountUtils.getSenderID(from: try HexString(from: beaconID))
+                let versionedMessage = try Beacon.Message.Versioned(from: message, senderID: senderHash)
+                
+                completion(.success((message.associatedOrigin, versionedMessage)))
+            } catch {
+                completion(.failure(error))
             }
         }
     }
     
     private func onOutgoing(
         _ message: Beacon.Message,
-        with origin: Beacon.Origin,
-        respondingTo request: Beacon.Message.Versioned,
+        terminal: Bool,
         completion: @escaping (Result<(), Swift.Error>) -> ()
     ) {
         switch message {
         case let .response(response):
-            onOutgoing(response, with: origin, respondingTo: request, completion: completion)
+            queue.async {
+                guard let request = self.getPendingRequest(forID: message.common.id, keepEntry: !terminal) else {
+                    completion(.failure(Beacon.Error.noPendingRequest(id: message.common.id)))
+                    return
+                }
+                
+                self.onOutgoing(response, respondingTo: request, completion: completion)
+            }
         default:
             /* no action */
             completion(.success(()))
@@ -109,13 +113,12 @@ class MessageController: MessageControllerProtocol {
     
     private func onOutgoing(
         _ response: Beacon.Response,
-        with origin: Beacon.Origin,
-        respondingTo request: Beacon.Message.Versioned,
+        respondingTo request: Beacon.Request,
         completion: @escaping (Result<(), Swift.Error>) -> ()
     ) {
         switch response {
         case let .permission(response):
-            onOutgoing(response, with: origin, respondingTo: request, completion: completion)
+            onOutgoing(response, respondingTo: request, completion: completion)
         default:
             /* no action */
             completion(.success(()))
@@ -124,8 +127,7 @@ class MessageController: MessageControllerProtocol {
     
     private func onOutgoing(
         _ response: Beacon.Response.Permission,
-        with origin: Beacon.Origin,
-        respondingTo request: Beacon.Message.Versioned,
+        respondingTo request: Beacon.Request,
         completion: @escaping (Result<(), Swift.Error>) -> ()
     ) {
         do {
@@ -133,31 +135,45 @@ class MessageController: MessageControllerProtocol {
             let address = try coinRegistry.get(.tezos).getAddressFrom(publicKey: publicKey)
             let accountIdentifier = try accountUtils.getAccountIdentifier(forAddress: address, on: response.network)
             
-            storage.findAppMetadata(where: { request.common.comesFrom($0) }) { result in
-                guard let appMetadataOrNil = result.get(ifFailure: completion) else { return }
-                
-                guard let appMetadata = appMetadataOrNil else {
-                    completion(.failure(Error.noMatchingAppMetadata))
-                    return
+            storageManager.findAppMetadata(where: { request.common.senderID == $0.senderID }) { result in
+                do {
+                    guard let appMetadataOrNil = result.get(ifFailure: completion) else { return }
+                    
+                    guard let appMetadata = appMetadataOrNil else {
+                        completion(.failure(Error.noMatchingAppMetadata))
+                        return
+                    }
+                    
+                    let permissionInfo = Beacon.Permission(
+                        accountIdentifier: accountIdentifier,
+                        address: address,
+                        network: response.network,
+                        scopes: response.scopes,
+                        senderID: try self.accountUtils.getSenderID(from: try HexString(from: request.common.origin.id)),
+                        appMetadata: appMetadata,
+                        publicKey: publicKey,
+                        connectedAt: self.timeUtils.currentTimeMillis
+                    )
+                    
+                    self.storageManager.add([permissionInfo], completion: completion)
+                } catch {
+                    completion(.failure(error))
                 }
-                
-                let permissionInfo = Beacon.PermissionInfo(
-                    accountIdentifier: accountIdentifier,
-                    address: address,
-                    network: response.network,
-                    scopes: response.scopes,
-                    senderID: origin.id,
-                    appMetadata: appMetadata,
-                    publicKey: publicKey,
-                    connectedAt: self.timeUtils.currentTimeMillis
-                )
-                
-                self.storage.add([permissionInfo], completion: completion)
             }
         } catch {
             completion(.failure(error))
         }
     }
+    
+    private func getPendingRequest(forID id: String, keepEntry: Bool) -> Beacon.Request? {
+        if keepEntry {
+            return pendingRequests[id]
+        } else {
+            return pendingRequests.removeValue(forKey: id)
+        }
+    }
+    
+    // MARK: Types
     
     enum Error: Swift.Error {
         case noMatchingAppMetadata
@@ -175,7 +191,8 @@ protocol MessageControllerProtocol {
     
     func onOutgoing(
         _ message: Beacon.Message,
-        from senderID: String,
+        with beaconID: String,
+        terminal: Bool,
         completion: @escaping (Result<(Beacon.Origin, Beacon.Message.Versioned), Error>) -> ()
     )
 }

@@ -13,4 +13,8 @@ class MockAccountUtils: AccountUtilsProtocol {
     func getAccountIdentifier(forAddress address: String, on network: Beacon.Network) throws -> String {
         address
     }
+    
+    func getSenderID(from publicKey: HexString) throws -> String {
+        publicKey.asString()
+    }
 }

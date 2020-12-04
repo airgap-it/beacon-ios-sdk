@@ -26,7 +26,7 @@ class CryptoTests: XCTestCase {
     }
     
     func testRandomSeed() throws {
-        let seed = try! crypto.randomSeed()
+        let seed = try! crypto.guid()
         let matches = seed.range(of: CryptoTestsUtils.seedRegex, options: .regularExpression) != nil
         
         XCTAssertTrue(matches, "Seed doesn't match its pattern")

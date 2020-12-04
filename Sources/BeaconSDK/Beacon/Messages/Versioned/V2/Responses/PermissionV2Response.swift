@@ -17,7 +17,7 @@ extension Beacon.Message.Versioned.V2 {
         let senderID: String
         let publicKey: String
         let network: Beacon.Network
-        let scopes: [Beacon.PermissionScope]
+        let scopes: [Beacon.Permission.Scope]
         let threshold: Beacon.Threshold?
         
         public init(
@@ -26,7 +26,7 @@ extension Beacon.Message.Versioned.V2 {
             senderID: String,
             publicKey: String,
             network: Beacon.Network,
-            scopes: [Beacon.PermissionScope],
+            scopes: [Beacon.Permission.Scope],
             threshold: Beacon.Threshold?
         ) {
             type = .permissionResponse
@@ -41,9 +41,9 @@ extension Beacon.Message.Versioned.V2 {
         
         // MARK: BeaconMessage Compatibility
         
-        init(from beaconMessage: Beacon.Response.Permission, version: String, senderID: String) {
+        init(from beaconMessage: Beacon.Response.Permission, senderID: String) {
             self.init(
-                version: version,
+                version: beaconMessage.version,
                 id: beaconMessage.id,
                 senderID: senderID,
                 publicKey: beaconMessage.publicKey,
@@ -53,28 +53,22 @@ extension Beacon.Message.Versioned.V2 {
             )
         }
         
-        func comesFrom(_ appMetadata: Beacon.AppMetadata) -> Bool {
-            appMetadata.senderID == senderID
-        }
-        
         func toBeaconMessage(
             with origin: Beacon.Origin,
-            using storage: StorageManager,
+            using storageManager: StorageManager,
             completion: @escaping (Result<Beacon.Message, Error>) -> ()
         ) {
-            let message = Beacon.Message.response(
-                Beacon.Response.permission(
-                    Beacon.Response.Permission.init(
-                        id: id,
-                        publicKey: publicKey,
-                        network: network,
-                        scopes: scopes,
-                        threshold: threshold
-                    )
-                )
+            let message = Beacon.Response.Permission(
+                id: id,
+                publicKey: publicKey,
+                network: network,
+                scopes: scopes,
+                threshold: threshold,
+                version: version,
+                requestOrigin: origin
             )
             
-            completion(.success(message))
+            completion(.success(.response(.permission(message))))
         }
         
         // MARK: Codable

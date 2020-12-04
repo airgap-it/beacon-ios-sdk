@@ -17,10 +17,10 @@ class MessageControllerTests: XCTestCase {
     private var accountUtils: MockAccountUtils!
     private var timeUtils: MockTimeUtils!
     
-    private let dAppID = "dAppID"
+    private let dAppID = "01"
     private let dAppVersion = "2"
     
-    private let beaconID = "beaconID"
+    private let beaconID = "00"
 
     override func setUpWithError() throws {
         coinRegistry = MockCoinRegistry()
@@ -30,7 +30,7 @@ class MessageControllerTests: XCTestCase {
         
         messageController = MessageController(
             coinRegistry: coinRegistry,
-            storage: StorageManager(storage: storage),
+            storageManager: StorageManager(storage: storage, accountUtils: accountUtils),
             accountUtils: accountUtils,
             timeUtils: timeUtils
         )
@@ -77,28 +77,25 @@ class MessageControllerTests: XCTestCase {
     
     func testControllerConvertsOutgoingMessages() throws {
         let testExpectation = expectation(description: "MessageController converts outgoing messages")
-        let group = DispatchGroup()
         
         let appMetadata = Beacon.AppMetadata(senderID: dAppID, name: "mockApp")
         storage.appMetadata = [appMetadata]
         
         let requestOrigin = Beacon.Origin.p2p(id: dAppID)
-        let pendingRequest = permissionBeaconRequest()
-        let versionedPendingRequest = Beacon.Message.Versioned(
+        let pendingRequest = permissionBeaconRequest(version: dAppVersion)
+        let versionedPendingRequest = try Beacon.Message.Versioned(
             from: .request(.permission(pendingRequest)),
-            version: dAppVersion,
             senderID: dAppID
         )
         
-        let responses = beaconResponses(id: pendingRequest.id)
-        let versionedResponses = beaconVersionedResponses(version: dAppVersion, senderID: beaconID, responses: responses)
+        let responses = beaconResponses(id: pendingRequest.id, version: dAppVersion, requestOrigin: requestOrigin)
+        let versionedResponses = beaconVersionedResponses(senderID: beaconID, responses: responses)
         
         testExpectation.expectedFulfillmentCount = responses.count
         
         for (index, response) in responses.enumerated() {
-            group.enter()
             messageController.onIncoming(versionedPendingRequest, with: requestOrigin) { _ in
-                self.messageController.onOutgoing(.response(response), from: self.beaconID) { result in
+                self.messageController.onOutgoing(.response(response), with: self.beaconID, terminal: false) { result in
                     switch result {
                     case let .success((origin, versioned)):
                         XCTAssertEqual(requestOrigin, origin, "Expected returned origin to match the request origin")
@@ -111,11 +108,9 @@ class MessageControllerTests: XCTestCase {
                         XCTFail("Unexpected error: \(error)")
                     }
                     
-                    group.leave()
                     testExpectation.fulfill()
                 }
             }
-            group.wait()
         }
         
         waitForExpectations(timeout: 1) { error in
@@ -136,13 +131,13 @@ class MessageControllerTests: XCTestCase {
         testExpectation.expectedFulfillmentCount = responses.count
         
         for response in responses {
-            messageController.onOutgoing(.response(response), from: beaconID) { result in
+            messageController.onOutgoing(.response(response), with: beaconID, terminal: true) { result in
                 switch result {
                 case .success(_):
                     XCTFail("Expected error")
                 case let .failure(error):
                     switch error as? Beacon.Error {
-                    case let .noPendingRequest(withID: id):
+                    case let .noPendingRequest(id: id):
                         XCTAssertEqual(response.common.id, id, "Expected error to contain the response ID")
                     default:
                         XCTFail("Expected .noPendingRequest error")
@@ -167,10 +162,9 @@ class MessageControllerTests: XCTestCase {
         
         let origin = Beacon.Origin.p2p(id: dAppID)
         let appMetadata = Beacon.AppMetadata(senderID: dAppID, name: "mockApp")
-        let permissionRequest = permissionBeaconRequest(appMetadata: appMetadata)
-        let versionedRequest = Beacon.Message.Versioned.init(
+        let permissionRequest = permissionBeaconRequest(appMetadata: appMetadata, version: dAppVersion)
+        let versionedRequest = try Beacon.Message.Versioned.init(
             from: .request(.permission(permissionRequest)),
-            version: dAppVersion,
             senderID: dAppID
         )
         
@@ -196,23 +190,22 @@ class MessageControllerTests: XCTestCase {
         }
     }
     
-    func testControllerSavesPermissionInfoOnOutgoingPermissionResponse() throws {
-        let testExpectation = expectation(description: "MessageController saves PermissionInfo on outgoing PermissionResponse")
+    func testControllerSavesPermissionOnOutgoingPermissionResponse() throws {
+        let testExpectation = expectation(description: "MessageController saves Permission on outgoing PermissionResponse")
         
         storage.permissions = []
         
         let origin = Beacon.Origin.p2p(id: dAppID)
         let appMetadata = Beacon.AppMetadata(senderID: dAppID, name: "mockApp")
-        let permissionRequest = permissionBeaconRequest(appMetadata: appMetadata)
-        let versionedRequest = Beacon.Message.Versioned.init(
+        let permissionRequest = permissionBeaconRequest(appMetadata: appMetadata, version: dAppVersion)
+        let versionedRequest = try Beacon.Message.Versioned.init(
             from: .request(.permission(permissionRequest)),
-            version: dAppVersion,
             senderID: dAppID
         )
         
         let publicKey = "publicKey"
         let network = Beacon.Network(type: .custom, name: "custom", rpcURL: "customURL")
-        let scopes = [Beacon.PermissionScope.operationRequest]
+        let scopes = [Beacon.Permission.Scope.operationRequest]
         let permissionResponse = permissionBeaconResponse(
             id: permissionRequest.id,
             publicKey: publicKey,
@@ -221,11 +214,11 @@ class MessageControllerTests: XCTestCase {
         )
         
         messageController.onIncoming(versionedRequest, with: origin) { _ in
-            self.messageController.onOutgoing(.response(.permission(permissionResponse)), from: self.beaconID) { result in
+            self.messageController.onOutgoing(.response(.permission(permissionResponse)), with: self.beaconID, terminal: true) { result in
                 switch result {
                 case .success(_):
                     XCTAssertEqual(
-                        [Beacon.PermissionInfo(
+                        [Beacon.Permission(
                             accountIdentifier: publicKey,
                             address: publicKey,
                             network: network,
@@ -236,7 +229,7 @@ class MessageControllerTests: XCTestCase {
                             connectedAt: 0
                         )],
                         self.storage.permissions,
-                        "Expected PermissionInfo to be saved in the storage"
+                        "Expected Permission to be saved in the storage"
                     )
                 case let .failure(error):
                     XCTFail("Unexpected error: \(error)")
@@ -248,7 +241,7 @@ class MessageControllerTests: XCTestCase {
         
         waitForExpectations(timeout: 1) { error in
             if let error = error {
-                XCTFail("testControllerSavesPermissionInfoOnOutgoingPermissionResponse timeout: \(error)")
+                XCTFail("testControllerSavesPermissionOnOutgoingPermissionResponse timeout: \(error)")
             }
         }
     }
@@ -258,6 +251,6 @@ class MessageControllerTests: XCTestCase {
         ("testControllerConvertsOutgoingMessages", testControllerConvertsOutgoingMessages),
         ("testControllerFailsOnOutgoingMessageIfNoPendingRequests", testControllerFailsOnOutgoingMessageIfNoPendingRequests),
         ("testControllerSavesAppMetadataOnIncomingPermissionRequest", testControllerSavesAppMetadataOnIncomingPermissionRequest),
-        ("testControllerSavesPermissionInfoOnOutgoingPermissionResponse", testControllerSavesPermissionInfoOnOutgoingPermissionResponse),
+        ("testControllerSavesPermissionOnOutgoingPermissionResponse", testControllerSavesPermissionOnOutgoingPermissionResponse),
     ]
 }
