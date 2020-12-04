@@ -25,21 +25,17 @@ extension Beacon.Message.Versioned.V1 {
         
         // MARK: BeaconMessage Compatibility
         
-        init(from beaconMessage: Beacon.Message.Disconnect, version: String, senderID: String) {
-            self.init(version: version, id: beaconMessage.id, beaconID: senderID)
-        }
-        
-        func comesFrom(_ appMetadata: Beacon.AppMetadata) -> Bool {
-            appMetadata.senderID == beaconID
+        init(from beaconMessage: Beacon.Message.Disconnect, senderID: String) {
+            self.init(version: beaconMessage.version, id: beaconMessage.id, beaconID: beaconMessage.senderID)
         }
         
         func toBeaconMessage(
             with origin: Beacon.Origin,
-            using storage: StorageManager,
+            using storageManager: StorageManager,
             completion: @escaping (Result<Beacon.Message, Error>) -> ()
         ) {
-            let message = Beacon.Message.disconnect(Beacon.Message.Disconnect(id: id, senderID: beaconID))
-            completion(.success(message))
+            let message = Beacon.Message.Disconnect(id: id, senderID: beaconID, version: version, origin: origin)
+            completion(.success(.disconnect(message)))
         }
         
         // MARK: Codable

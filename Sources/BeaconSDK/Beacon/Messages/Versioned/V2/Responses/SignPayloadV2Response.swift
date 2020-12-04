@@ -15,38 +15,44 @@ extension Beacon.Message.Versioned.V2 {
         let version: String
         let id: String
         let senderID: String
+        let signingType: Beacon.SigningType
         let signature: String
         
-        init(version: String, id: String, senderID: String, signature: String) {
+        init(version: String, id: String, senderID: String, signingType: Beacon.SigningType, signature: String) {
             type = .signPayloadResponse
             self.version = version
             self.id = id
+            self.signingType = signingType
             self.senderID = senderID
             self.signature = signature
         }
         
         // MARK: BeaconMessage Compatibility
         
-        init(from beaconMessage: Beacon.Response.SignPayload, version: String, senderID: String) {
-            self.init(version: version, id: beaconMessage.id, senderID: senderID, signature: beaconMessage.signature)
-        }
-        
-        func comesFrom(_ appMetadata: Beacon.AppMetadata) -> Bool {
-            appMetadata.senderID == senderID
+        init(from beaconMessage: Beacon.Response.SignPayload, senderID: String) {
+            self.init(
+                version: beaconMessage.version,
+                id: beaconMessage.id,
+                senderID: senderID,
+                signingType: beaconMessage.signingType,
+                signature: beaconMessage.signature
+            )
         }
         
         func toBeaconMessage(
             with origin: Beacon.Origin,
-            using storage: StorageManager,
+            using storageManager: StorageManager,
             completion: @escaping (Result<Beacon.Message, Error>) -> ()
         ) {
-            let message = Beacon.Message.response(
-                Beacon.Response.signPayload(
-                    Beacon.Response.SignPayload(id: id, signature: signature)
-                )
+            let message = Beacon.Response.SignPayload(
+                id: id,
+                signingType: signingType,
+                signature: signature,
+                version: version,
+                requestOrigin: origin
             )
             
-            completion(.success(message))
+            completion(.success(.response(.signPayload(message))))
         }
         
         // MARK: Codable
@@ -56,6 +62,7 @@ extension Beacon.Message.Versioned.V2 {
             case version
             case id
             case senderID = "senderId"
+            case signingType
             case signature
         }
     }

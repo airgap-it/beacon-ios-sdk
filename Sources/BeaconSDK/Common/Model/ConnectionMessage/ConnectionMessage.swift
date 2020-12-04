@@ -19,4 +19,21 @@ enum ConnectionMessage: Equatable {
     static func beacon(originatedFrom origin: Beacon.Origin, withContent content: Beacon.Message.Versioned) -> ConnectionMessage {
         .beacon(BeaconConnectionMessage(origin: origin, content: content))
     }
+    
+    // MARK: Attributes
+    
+    var common: ConnectionMessageProtocol {
+        switch self {
+        case let .serialized(content):
+            return content
+        case let .beacon(content):
+            return content
+        }
+    }
+}
+
+// MARK: Protocol
+
+protocol ConnectionMessageProtocol {
+    var origin: Beacon.Origin { get }
 }

@@ -31,10 +31,11 @@ func runAsync(with group: DispatchGroup = .init(), times n: Int, body: @escaping
 func permissionBeaconRequest(
     id: String = "id",
     senderID: String = "senderID",
-    appMetadata: Beacon.AppMetadata = Beacon.AppMetadata(senderID: "senderID", name: "mockApp"),
-    network: Beacon.Network = Beacon.Network(type: .custom),
-    scopes: [Beacon.PermissionScope] = [],
-    origin: Beacon.Origin = .p2p(id: "senderID")
+    appMetadata: Beacon.AppMetadata = .init(senderID: "senderID", name: "mockApp"),
+    network: Beacon.Network = .init(type: .custom),
+    scopes: [Beacon.Permission.Scope] = [],
+    origin: Beacon.Origin = .p2p(id: "senderID"),
+    version: String = "2"
 ) -> Beacon.Request.Permission {
     Beacon.Request.Permission(
         id: id,
@@ -42,18 +43,20 @@ func permissionBeaconRequest(
         appMetadata: appMetadata,
         network: network,
         scopes: scopes,
-        origin: origin
+        origin: origin,
+        version: version
     )
 }
 
 func operationBeaconRequest(
     id: String = "id",
     senderID: String = "senderID",
-    appMetadata: Beacon.AppMetadata? = Beacon.AppMetadata(senderID: "senderID", name: "mockApp"),
-    network: Beacon.Network = Beacon.Network(type: .custom),
+    appMetadata: Beacon.AppMetadata? = .init(senderID: "senderID", name: "mockApp"),
+    network: Beacon.Network = .init(type: .custom),
     operationDetails: [Tezos.Operation] = [],
     sourceAddress: String = "sourceAddress",
-    origin: Beacon.Origin = .p2p(id: "senderID")
+    origin: Beacon.Origin = .p2p(id: "senderID"),
+    version: String = "2"
 ) -> Beacon.Request.Operation {
     Beacon.Request.Operation(
         id: id,
@@ -62,35 +65,41 @@ func operationBeaconRequest(
         network: network,
         operationDetails: operationDetails,
         sourceAddress: sourceAddress,
-        origin: origin
+        origin: origin,
+        version: version
     )
 }
 
 func signPayloadBeaconRequest(
     id: String = "id",
     senderID: String = "senderID",
-    appMetadata: Beacon.AppMetadata? = Beacon.AppMetadata(senderID: "senderID", name: "mockApp"),
+    appMetadata: Beacon.AppMetadata? = .init(senderID: "senderID", name: "mockApp"),
+    signingType: Beacon.SigningType = .raw,
     payload: String = "payload",
     sourceAddress: String = "sourceAddress",
-    origin: Beacon.Origin = .p2p(id: "senderID")
+    origin: Beacon.Origin = .p2p(id: "senderID"),
+    version: String = "2"
 ) -> Beacon.Request.SignPayload {
     Beacon.Request.SignPayload(
         id: id,
         senderID: senderID,
         appMetadata: appMetadata,
+        signingType: signingType,
         payload: payload,
         sourceAddress: sourceAddress,
-        origin: origin
+        origin: origin,
+        version: version
     )
 }
 
 func broadcastBeaconRequest(
     id: String = "id",
     senderID: String = "senderID",
-    appMetadata: Beacon.AppMetadata? = Beacon.AppMetadata(senderID: "senderID", name: "mockApp"),
-    network: Beacon.Network = Beacon.Network(type: .custom),
+    appMetadata: Beacon.AppMetadata? = .init(senderID: "senderID", name: "mockApp"),
+    network: Beacon.Network = .init(type: .custom),
     signedTransaction: String = "signedTransaction",
-    origin: Beacon.Origin = .p2p(id: "senderID")
+    origin: Beacon.Origin = .p2p(id: "senderID"),
+    version: String = "2"
 ) -> Beacon.Request.Broadcast {
     Beacon.Request.Broadcast(
         id: id,
@@ -98,74 +107,98 @@ func broadcastBeaconRequest(
         appMetadata: appMetadata,
         network: network,
         signedTransaction: signedTransaction,
-        origin: origin
+        origin: origin,
+        version: version
     )
 }
 
 func permissionBeaconResponse(
     id: String = "id",
     publicKey: String = "publicKey",
-    network: Beacon.Network = Beacon.Network(type: .custom),
-    scopes: [Beacon.PermissionScope] = []
+    network: Beacon.Network = .init(type: .custom),
+    scopes: [Beacon.Permission.Scope] = [],
+    version: String = "2",
+    requestOrigin: Beacon.Origin = .p2p(id: "senderID")
 ) -> Beacon.Response.Permission {
-    Beacon.Response.Permission(id: id, publicKey: publicKey, network: network, scopes: scopes)
+    Beacon.Response.Permission(id: id, publicKey: publicKey, network: network, scopes: scopes, version: version, requestOrigin: requestOrigin)
 }
 
 func operationBeaconResponse(
     id: String = "id",
-    transactionHash: String = "transactionHash"
+    transactionHash: String = "transactionHash",
+    version: String = "2",
+    requestOrigin: Beacon.Origin = .p2p(id: "senderID")
 ) -> Beacon.Response.Operation {
-    Beacon.Response.Operation(id: id, transactionHash: transactionHash)
+    Beacon.Response.Operation(id: id, transactionHash: transactionHash, version: version, requestOrigin: requestOrigin)
 }
 
 func signPayloadBeaconResponse(
     id: String = "id",
-    signature: String = "signature"
+    signingType: Beacon.SigningType = .raw,
+    signature: String = "signature",
+    version: String = "2",
+    requestOrigin: Beacon.Origin = .p2p(id: "senderID")
 ) -> Beacon.Response.SignPayload {
-    Beacon.Response.SignPayload(id: id, signature: signature)
+    Beacon.Response.SignPayload(id: id, signingType: signingType, signature: signature, version: version, requestOrigin: requestOrigin)
 }
 
 func broadcastBeaconResponse(
     id: String = "id",
-    transactionHash: String = "transactionHash"
+    transactionHash: String = "transactionHash",
+    version: String = "2",
+    requestOrigin: Beacon.Origin = .p2p(id: "senderID")
 ) -> Beacon.Response.Broadcast {
-    Beacon.Response.Broadcast(id: id, transactionHash: transactionHash)
+    Beacon.Response.Broadcast(id: id, transactionHash: transactionHash, version: version, requestOrigin: requestOrigin)
+}
+
+func acknowledgeBeaconResponse(
+    id: String = "id",
+    version: String = "2",
+    requestOrigin: Beacon.Origin = .p2p(id: "senderID")
+) -> Beacon.Response.Acknowledge {
+    Beacon.Response.Acknowledge(id: id, version: version, requestOrigin: requestOrigin)
 }
 
 func errorBeaconResponse(
     id: String = "id",
-    type: Beacon.ErrorType = .unknown
+    type: Beacon.ErrorType = .unknown,
+    version: String = "2",
+    requestOrigin: Beacon.Origin = .p2p(id: "senderID")
 ) -> Beacon.Response.Error {
-    Beacon.Response.Error(id: id, errorType: type)
+    Beacon.Response.Error(id: id, errorType: type, version: version, requestOrigin: requestOrigin)
 }
 
 func disconnectBeaconMessage(
     id: String = "id",
-    senderID: String = "senderID"
+    senderID: String = "senderID",
+    version: String = "2",
+    origin: Beacon.Origin = .p2p(id: "senderID")
 ) -> Beacon.Message.Disconnect {
-    Beacon.Message.Disconnect(id: id, senderID: senderID)
+    Beacon.Message.Disconnect(id: id, senderID: senderID, version: version, origin: origin)
 }
 
-func errorBeaconResponses(id: String = "id") -> [Beacon.Response.Error] {
+func errorBeaconResponses(id: String = "id", requestOrigin: Beacon.Origin = .p2p(id: "senderID")) -> [Beacon.Response.Error] {
     [
-        errorBeaconResponse(id: id, type: .broadcastError),
-        errorBeaconResponse(id: id, type: .networkNotSupported),
-        errorBeaconResponse(id: id, type: .noAddressError),
-        errorBeaconResponse(id: id, type: .noPrivateKeyFound),
-        errorBeaconResponse(id: id, type: .notGranted),
-        errorBeaconResponse(id: id, type: .parametersInvalid),
-        errorBeaconResponse(id: id, type: .tooManyOperations),
-        errorBeaconResponse(id: id, type: .transactionInvalid),
-        errorBeaconResponse(id: id, type: .aborted),
-        errorBeaconResponse(id: id, type: .unknown),
+        errorBeaconResponse(id: id, type: .broadcastError, requestOrigin: requestOrigin),
+        errorBeaconResponse(id: id, type: .networkNotSupported, requestOrigin: requestOrigin),
+        errorBeaconResponse(id: id, type: .noAddressError, requestOrigin: requestOrigin),
+        errorBeaconResponse(id: id, type: .noPrivateKeyFound, requestOrigin: requestOrigin),
+        errorBeaconResponse(id: id, type: .notGranted, requestOrigin: requestOrigin),
+        errorBeaconResponse(id: id, type: .parametersInvalid, requestOrigin: requestOrigin),
+        errorBeaconResponse(id: id, type: .tooManyOperations, requestOrigin: requestOrigin),
+        errorBeaconResponse(id: id, type: .transactionInvalid, requestOrigin: requestOrigin),
+        errorBeaconResponse(id: id, type: .signatureTypeNotSupported, requestOrigin: requestOrigin),
+        errorBeaconResponse(id: id, type: .aborted, requestOrigin: requestOrigin),
+        errorBeaconResponse(id: id, type: .unknown, requestOrigin: requestOrigin),
     ]
 }
 
 func beaconRequests(
     id: String = "id",
     senderID: String = "senderID",
-    appMetadata: Beacon.AppMetadata = Beacon.AppMetadata(senderID: "senderID", name: "mockApp"),
-    origin: Beacon.Origin = .p2p(id: "senderID")
+    appMetadata: Beacon.AppMetadata = .init(senderID: "senderID", name: "mockApp"),
+    origin: Beacon.Origin = .p2p(id: "senderID"),
+    version: String = "2"
 ) -> [Beacon.Request] {
     [
         .permission(permissionBeaconRequest(id: id, senderID: senderID, appMetadata: appMetadata, origin: origin)),
@@ -175,38 +208,38 @@ func beaconRequests(
     ]
 }
 
-func beaconResponses(id: String = "id") -> [Beacon.Response] {
+func beaconResponses(id: String = "id", version: String = "2", requestOrigin: Beacon.Origin = .p2p(id: "senderID")) -> [Beacon.Response] {
     [
-        .permission(permissionBeaconResponse(id: id)),
-        .operation(operationBeaconResponse(id: id)),
-        .signPayload(signPayloadBeaconResponse(id: id)),
-        .broadcast(broadcastBeaconResponse(id: id)),
-    ] + errorBeaconResponses(id: id).map { .error($0) }
+        .permission(permissionBeaconResponse(id: id, requestOrigin: requestOrigin)),
+        .operation(operationBeaconResponse(id: id, requestOrigin: requestOrigin)),
+        .signPayload(signPayloadBeaconResponse(id: id, requestOrigin: requestOrigin)),
+        .acknowledge(acknowledgeBeaconResponse(id: id, requestOrigin: requestOrigin)),
+        .broadcast(broadcastBeaconResponse(id: id, requestOrigin: requestOrigin)),
+    ] + errorBeaconResponses(id: id, requestOrigin: requestOrigin).map { .error($0) }
 }
 
 func beaconVersionedRequests(
-    version: String = "version",
     senderID: String = "senderID",
     requests: [Beacon.Request] = beaconRequests(
         senderID: "senderID",
-        appMetadata: Beacon.AppMetadata(senderID: "senderID", name: "mockApp"),
-        origin: .p2p(id: "senderID")
+        appMetadata: .init(senderID: "senderID", name: "mockApp"),
+        origin: .p2p(id: "senderID"),
+        version: "2"
     )
 ) -> [Beacon.Message.Versioned] {
-    requests.map { Beacon.Message.Versioned(from: .request($0), version: version, senderID: senderID) }
+    requests.compactMap { try? Beacon.Message.Versioned(from: .request($0), senderID: senderID) }
 }
 
 func beaconVersionedResponses(
-    version: String = "version",
     senderID: String = "senderID",
     responses: [Beacon.Response] = beaconResponses()
 ) -> [Beacon.Message.Versioned] {
-    responses.map { Beacon.Message.Versioned(from: .response($0), version: version, senderID: senderID) }
+    responses.compactMap { try? Beacon.Message.Versioned(from: .response($0), senderID: senderID) }
 }
 
-func p2pPeers(n: Int, version: String? = nil) -> [Beacon.P2PPeerInfo] {
+func p2pPeers(n: Int, version: String = "1") -> [Beacon.P2PPeer] {
     (0..<n).map {
-        Beacon.P2PPeerInfo(
+        Beacon.P2PPeer(
             name: "name#\($0)",
             publicKey: "publicKey#\($0)",
             relayServer: "relayServer#\($0)",

@@ -10,36 +10,38 @@ import Foundation
 import SwiftUI
 
 struct BeaconView: View {
-    private static let examplePeerName = "Beacon Example Dapp"
-    private static let examplePeerPublicKey = "6ea44166eb624b875ecb24100b426afba89fdd95eee7d95d8c8d8d6da38fe7fa"
-    private static let examplePeerRelayServer = "matrix.papers.tech"
-    
     @ObservedObject var viewModel = BeaconViewModel()
-    
-    @State var name: String = BeaconView.examplePeerName
-    @State var publicKey: String = BeaconView.examplePeerPublicKey
-    @State var relayServer: String = BeaconView.examplePeerRelayServer
     
     var body: some View {
         VStack(alignment: .trailing, spacing: 10) {
             HStack {
+                Text("ID:").bold()
+                TextField("ID", text: $viewModel.id)
+            }
+            
+            HStack {
                 Text("Name:").bold()
-                TextField("dApp", text: $name)
+                TextField("dApp", text: $viewModel.name)
             }
             
             HStack {
                 Text("Public Key:").bold()
-                TextField("0x", text: $publicKey)
+                TextField("0x", text: $viewModel.publicKey)
             }
             
             HStack {
                 Text("Relay Server:").bold()
-                TextField("https://", text: $relayServer)
+                TextField("https://", text: $viewModel.relayServer)
             }
             
             HStack {
-                Button("Remove Peer") { viewModel.removePeer(name: name, publicKey: publicKey, relayServer: relayServer) }
-                Button("Add Peer") { viewModel.addPeer(name: name, publicKey: publicKey, relayServer: relayServer) }
+                Text("Version:").bold()
+                TextField("version", text: $viewModel.version)
+            }
+            
+            HStack {
+                Button("Remove Peer") { viewModel.removePeer() }
+                Button("Add Peer") { viewModel.addPeer() }
             }.frame(maxWidth: .infinity, alignment: .trailing)
             
             Button("Respond") { viewModel.sendResponse() }

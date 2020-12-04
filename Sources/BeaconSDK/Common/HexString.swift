@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct HexString: Hashable, Equatable {
+struct HexString: Hashable, Equatable, Codable {
     static let prefix: String = "0x"
     
     private let value: String

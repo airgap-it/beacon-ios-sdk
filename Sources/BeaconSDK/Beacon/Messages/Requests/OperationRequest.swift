@@ -33,5 +33,27 @@ extension Beacon.Request {
         
         /// The origination data of this request.
         public let origin: Beacon.Origin
+        
+        let version: String
+        
+        init(
+            id: String,
+            senderID: String,
+            appMetadata: Beacon.AppMetadata?,
+            network: Beacon.Network,
+            operationDetails: [Tezos.Operation],
+            sourceAddress: String,
+            origin: Beacon.Origin,
+            version: String
+        ) {
+            self.id = id
+            self.senderID = senderID
+            self.appMetadata = appMetadata
+            self.network = network
+            self.operationDetails = operationDetails
+            self.sourceAddress = sourceAddress
+            self.origin = origin
+            self.version = version
+        }
     }
 }

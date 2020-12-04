@@ -32,104 +32,8 @@ class ArrayAdditionsTests: XCTestCase {
         XCTAssertEqual(["1", "2", "3", "4"], strings)
     }
     
-    func testForEachAsyncResultCompletes() throws {
-        let n = 3
-        
-        let testExpectation = expectation(description: "forEachAsync returns an array of combined resuts on completion")
-        testExpectation.expectedFulfillmentCount = n + 1
-        
-        let array = Array(0..<n)
-        array.forEachAsync(
-            body: { (index, completion) in
-                DispatchQueue.init(
-                    label: "it.airgap.beacon-sdk-tests.testForEachAsyncResultCompletes#\(index)",
-                    qos: .default,
-                    target: .global(qos: .default)
-                ).async {
-                    testExpectation.fulfill()
-                    completion(.success(()))
-                }
-            },
-            completion: { results in
-                XCTAssertEqual(array.count, results.count, "Expected results to be the size of the collection")
-                XCTAssertTrue(results.allSatisfy { $0.isSuccess }, "Expected all combined results to be a success")
-                testExpectation.fulfill()
-            }
-        )
-        
-        waitForExpectations(timeout: 1) { error in
-            if let error = error {
-                XCTFail("testForEachAsyncResult timeout: \(error)")
-            }
-        }
-    }
     
-    func testForEachAsyncResultKeepsOrder() throws {
-        let n = 3
-        
-        let testExpectation = expectation(description: "forEachAsync returns an array of combined resuts on completion")
-        testExpectation.expectedFulfillmentCount = n + 1
-        
-        let array = Array(0..<n)
-        array.forEachAsync(
-            body: { (index, completion) in
-                DispatchQueue.init(
-                    label: "it.airgap.beacon-sdk-tests.testForEachAsyncResultCompletes#\(index)",
-                    qos: .default,
-                    target: .global(qos: .default)
-                ).async {
-                    testExpectation.fulfill()
-                    completion(.failure(Error.unknown(id: index)))
-                }
-            },
-            completion: { results in
-                let ids: [Int] = results.compactMap {
-                    switch $0.error as? Error {
-                    case let .unknown(id: id):
-                        return id
-                    default:
-                        return nil
-                    }
-                }
-                XCTAssertEqual(array, ids, "Expected forEachAsync to return results in the same order as the collection's elements")
-                testExpectation.fulfill()
-            }
-        )
-        
-        waitForExpectations(timeout: 1) { error in
-            if let error = error {
-                XCTFail("testForEachAsyncResult timeout: \(error)")
-            }
-        }
-    }
-    
-    func testForEachAsyncResultCatchesAndReturnsErrorAsResult() throws {
-        let n = 3
-        
-        let testExpectation = expectation(description: "forEachAsync returns an array of combined resuts on completion")
-        testExpectation.expectedFulfillmentCount = n + 1
-        
-        let array = Array(0..<n)
-        array.forEachAsync(
-            body: { (index, _) in
-                testExpectation.fulfill()
-                throw Error.unknown(id: index)
-            },
-            completion: { results in
-                let errors = results.compactMap { $0.error }
-                XCTAssertEqual(array.count, errors.count, "Expected errors to be the size of the collection")
-                testExpectation.fulfill()
-            }
-        )
-        
-        waitForExpectations(timeout: 1) { error in
-            if let error = error {
-                XCTFail("testForEachAsyncResult timeout: \(error)")
-            }
-        }
-    }
-    
-    func testForEachAsyncValue() throws {
+    func testForEachAsync() throws {
         let n = 3
         
         let testExpectation = expectation(description: "forEachAsync returns an array of combined result values on completion")
@@ -178,10 +82,7 @@ class ArrayAdditionsTests: XCTestCase {
     static var allTests = [
         ("testPartitioned", testPartitioned),
         ("testUnzip", testUnzip),
-        ("testForEachAsyncResultCompletes", testForEachAsyncResultCompletes),
-        ("testForEachAsyncResultKeepsOrder", testForEachAsyncResultKeepsOrder),
-        ("testForEachAsyncResultCatchesAndReturnsErrorAsResult", testForEachAsyncResultCatchesAndReturnsErrorAsResult),
-        ("testForEachAsyncValue", testForEachAsyncValue),
+        ("testForEachAsync", testForEachAsync),
         ("testDistinct", testDistinct),
     ]
 

@@ -10,7 +10,7 @@ import Foundation
 
 extension Beacon {
     
-    /// Connection types supported in Beacon
+    /// Connection types supported in Beacon.
     public enum Connection: Equatable, Hashable {
         
         ///

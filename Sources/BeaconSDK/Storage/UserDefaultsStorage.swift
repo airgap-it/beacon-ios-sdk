@@ -18,15 +18,15 @@ class UserDefaultsStorage: Storage {
     
     // MARK: Peers
     
-    func getPeers(completion: @escaping (Result<[Beacon.PeerInfo], Error>) -> ()) {
+    func getPeers(completion: @escaping (Result<[Beacon.Peer], Error>) -> ()) {
         do {
-            completion(.success(try userDefaults.get([Beacon.PeerInfo].self, forKey: .peers) ?? []))
+            completion(.success(try userDefaults.get([Beacon.Peer].self, forKey: .peers) ?? []))
         } catch {
             completion(.failure(error))
         }
     }
     
-    func set(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
+    func set(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
         do {
             try userDefaults.set(peers, forKey: .peers)
             completion(.success(()))
@@ -56,15 +56,15 @@ class UserDefaultsStorage: Storage {
     
     // MARK: Permissions
     
-    func getPermissions(completion: @escaping (Result<[Beacon.PermissionInfo], Error>) -> ()) {
+    func getPermissions(completion: @escaping (Result<[Beacon.Permission], Error>) -> ()) {
         do {
-            completion(.success(try userDefaults.get([Beacon.PermissionInfo].self, forKey: .permissions) ?? []))
+            completion(.success(try userDefaults.get([Beacon.Permission].self, forKey: .permissions) ?? []))
         } catch {
             completion(.failure(error))
         }
     }
     
-    func set(_ permissions: [Beacon.PermissionInfo], completion: @escaping (Result<(), Error>) -> ()) {
+    func set(_ permissions: [Beacon.Permission], completion: @escaping (Result<(), Error>) -> ()) {
         do {
             try userDefaults.set(permissions, forKey: .permissions)
             completion(.success(()))

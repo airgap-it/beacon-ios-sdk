@@ -113,7 +113,7 @@ class Matrix {
                     selfStrong.store.intent(
                         action: .onSyncSuccess(
                             syncToken: response.nextBatch,
-                            pollingTimeout: 3000,
+                            pollingTimeout: 30000,
                             rooms: response.rooms,
                             events: response.events
                         )

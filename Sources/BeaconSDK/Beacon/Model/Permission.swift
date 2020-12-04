@@ -1,5 +1,5 @@
 //
-//  PermissionInfo.swift
+//  Permission.swift
 //  BeaconSDK
 //
 //  Created by Julia Samol on 24.11.20.
@@ -11,7 +11,7 @@ import Foundation
 extension Beacon {
     
     /// Granted permissions data.
-    public struct PermissionInfo: Codable, Equatable {
+    public struct Permission: Codable, Equatable {
         
         /// The value that identifies the account which granted the permissions.
         public let accountIdentifier: String
@@ -23,7 +23,7 @@ extension Beacon {
         public let network: Network
         
         /// The list of granted permission types.
-        public let scopes: [PermissionScope]
+        public let scopes: [Permission.Scope]
         
         /// The value that identifies the sender to whom the permissions were granted.
         public let senderID: String
@@ -44,7 +44,7 @@ extension Beacon {
             accountIdentifier: String,
             address: String,
             network: Network,
-            scopes: [PermissionScope],
+            scopes: [Permission.Scope],
             senderID: String,
             appMetadata: AppMetadata,
             publicKey: String,
@@ -60,6 +60,15 @@ extension Beacon {
             self.publicKey = publicKey
             self.connectedAt = connectedAt
             self.threshold = threshold
+        }
+        
+        // MARK: Scope
+        
+        /// Types of permissions supported in Beacon.
+        public enum Scope: String, Codable, Equatable {
+            case sign
+            case operationRequest = "operation_request"
+            case threshold
         }
     }
 }

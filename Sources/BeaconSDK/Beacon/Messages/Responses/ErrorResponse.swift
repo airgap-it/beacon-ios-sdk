@@ -18,5 +18,19 @@ extension Beacon.Response {
         
         /// The type of the error.
         public let errorType: Beacon.ErrorType
+        
+        let version: String
+        let requestOrigin: Beacon.Origin
+        
+        public init(from request: Beacon.Request, errorType: Beacon.ErrorType) {
+            self.init(id: request.common.id, errorType: errorType, version: request.common.version, requestOrigin: request.common.origin)
+        }
+        
+        init(id: String, errorType: Beacon.ErrorType, version: String, requestOrigin: Beacon.Origin) {
+            self.id = id
+            self.errorType = errorType
+            self.version = version
+            self.requestOrigin = requestOrigin
+        }
     }
 }

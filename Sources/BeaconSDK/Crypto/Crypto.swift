@@ -23,6 +23,10 @@ class Crypto {
         try cryptoProvider.hash(message: message, size: size)
     }
     
+    func hash(message: HexString, size: Int) throws -> [UInt8] {
+        try hash(message: try message.asBytes(), size: size)
+    }
+    
     func hash(message: [UInt8], size: Int) throws -> [UInt8] {
         try cryptoProvider.hash(message: message, size: size)
     }
@@ -37,7 +41,7 @@ class Crypto {
     
     // MARK: Random
     
-    func randomSeed() throws -> String {
+    func guid() throws -> String {
         let bytes = try cryptoProvider.randomBytes(length: Crypto.seedBytes)
         
         return [bytes[0..<4], bytes[4..<6], bytes[6..<8], bytes[8..<10], bytes[10...]]

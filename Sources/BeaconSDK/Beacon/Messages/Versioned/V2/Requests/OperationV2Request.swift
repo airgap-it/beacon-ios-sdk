@@ -38,9 +38,9 @@ extension Beacon.Message.Versioned.V2 {
         
         // MARK: BeaconMessage Compatibility
         
-        init(from beaconMessage: Beacon.Request.Operation, version: String, senderID: String) {
+        init(from beaconMessage: Beacon.Request.Operation, senderID: String) {
             self.init(
-                version: version,
+                version: beaconMessage.version,
                 id: beaconMessage.id,
                 senderID: senderID,
                 network: beaconMessage.network,
@@ -49,27 +49,24 @@ extension Beacon.Message.Versioned.V2 {
             )
         }
         
-        func comesFrom(_ appMetadata: Beacon.AppMetadata) -> Bool {
-            appMetadata.senderID == senderID
-        }
-        
         func toBeaconMessage(
             with origin: Beacon.Origin,
-            using storage: StorageManager,
+            using storageManager: StorageManager,
             completion: @escaping (Result<Beacon.Message, Error>) -> ()
         ) {
-            storage.findAppMetadata(where: { $0.senderID == senderID }) { result in
-                let message = result.map { appMetadata in
-                    Beacon.Message.request(
-                        Beacon.Request.operation(
-                            Beacon.Request.Operation(
+            storageManager.findAppMetadata(where: { $0.senderID == senderID }) { result in
+                let message: Result<Beacon.Message, Error> = result.map { appMetadata in
+                    .request(
+                        .operation(
+                            .init(
                                 id: id,
                                 senderID: senderID,
                                 appMetadata: appMetadata,
                                 network: network,
                                 operationDetails: operationDetails,
                                 sourceAddress: sourceAddress,
-                                origin: origin
+                                origin: origin,
+                                version: version
                             )
                         )
                     )

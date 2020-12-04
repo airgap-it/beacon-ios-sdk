@@ -13,7 +13,7 @@ class Transport {
     
     private var status: Status = .notConnected
     private var listeners: Set<Listener> = Set()
-    private var connectedPeers: Set<Beacon.PeerInfo> = Set()
+    private var connectedPeers: Set<Beacon.Peer> = Set()
     
     private let queue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.Transport", attributes: [], target: .global(qos: .default))
     
@@ -29,7 +29,7 @@ class Transport {
         }
     }
     
-    final func connectedPeers(completion: @escaping (Set<Beacon.PeerInfo>) -> ()) {
+    final func connectedPeers(completion: @escaping (Set<Beacon.Peer>) -> ()) {
         queue.async {
             completion(self.connectedPeers)
         }
@@ -51,8 +51,8 @@ class Transport {
         }
     }
     
-    final func connect(new peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
-        connect(new: peers) { (result: Result<[Beacon.PeerInfo], Error>) in
+    final func connect(new peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
+        connect(new: peers) { (result: Result<[Beacon.Peer], Error>) in
             self.queue.async {
                 guard let connected = result.get(ifFailure: completion) else { return }
                 self.connectedPeers.formUnion(connected)
@@ -62,13 +62,13 @@ class Transport {
         }
     }
     
-    func connect(new peers: [Beacon.PeerInfo], completion: @escaping (Result<[Beacon.PeerInfo], Error>) -> ()) {
+    func connect(new peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Error>) -> ()) {
         /* no action */
         completion(.success([]))
     }
     
-    final func disconnect(from peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
-        disconnect(from: peers) { (result: Result<[Beacon.PeerInfo], Error>) in
+    final func disconnect(from peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
+        disconnect(from: peers) { (result: Result<[Beacon.Peer], Error>) in
             self.queue.async {
                 guard let disconnected = result.get(ifFailure: completion) else { return }
                 
@@ -80,7 +80,7 @@ class Transport {
         }
     }
     
-    func disconnect(from peers: [Beacon.PeerInfo], completion: @escaping (Result<[Beacon.PeerInfo], Error>) -> ()) {
+    func disconnect(from peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Error>) -> ()) {
         /* no action */
         completion(.success([]))
     }
@@ -90,7 +90,7 @@ class Transport {
         completion(.success(()))
     }
     
-    func send(_ message: ConnectionMessage, to recipient: String? = nil, completion: @escaping (Result<(), Error>) -> ()) {
+    func send(_ message: ConnectionMessage, completion: @escaping (Result<(), Error>) -> ()) {
         /* no action */
         completion(.success(()))
     }

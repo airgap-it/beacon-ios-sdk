@@ -16,6 +16,8 @@ class ClientTests: XCTestCase {
     private var storageManager: StorageManager!
     private var connectionController: MockConnectionController!
     private var messageController: MockMessageController!
+    private var accountUtils: MockAccountUtils!
+    private var crypto: Crypto!
     
     private let dAppVersion: String = "2"
     private let dAppID: String = "dAppID"
@@ -23,11 +25,14 @@ class ClientTests: XCTestCase {
     private let beaconID: String = "beaconID"
     
     override func setUpWithError() throws {
+        accountUtils = MockAccountUtils()
+        crypto = Crypto(provider: SodiumCryptoProvider())
+        
         storage = MockStorage()
-        storageManager = StorageManager(storage: storage)
+        storageManager = StorageManager(storage: storage, accountUtils: accountUtils)
         
         connectionController = MockConnectionController()
-        messageController = MockMessageController(storage: storageManager, connectionKind: connectionKind)
+        messageController = MockMessageController(storageManager: storageManager, connectionKind: connectionKind)
         
         messageController.dAppID = dAppID
         messageController.dAppVersion = dAppVersion
@@ -35,9 +40,10 @@ class ClientTests: XCTestCase {
         beaconClient = Beacon.Client(
             name: "mockApp",
             beaconID: beaconID,
-            storage: storageManager,
+            storageManager: storageManager,
             connectionController: connectionController,
-            messageController: messageController
+            messageController: messageController,
+            crypto: crypto
         )
     }
     
@@ -163,8 +169,8 @@ class ClientTests: XCTestCase {
     func testClientResponds() throws {
         let testExpectation = expectation(description: "Client responds with a response message")
         
-        let responses = beaconResponses()
-        let versioned = beaconVersionedResponses(version: dAppVersion, senderID: beaconID, responses: responses)
+        let responses = beaconResponses(version: dAppVersion)
+        let versioned = beaconVersionedResponses(senderID: beaconID, responses: responses)
         
         responses.forEachAsync(body: { self.beaconClient.respond(with: $0, completion: $1) }) { results in
             XCTAssertTrue(
@@ -190,7 +196,7 @@ class ClientTests: XCTestCase {
         let testExpectation = expectation(description: "Client adds new peers")
         
         storage.peers = []
-        let newPeers = p2pPeers(n: 2).map { Beacon.PeerInfo.p2p($0) }
+        let newPeers = p2pPeers(n: 2).map { Beacon.Peer.p2p($0) }
         
         beaconClient.add(newPeers) { result in
             switch result {
@@ -217,7 +223,7 @@ class ClientTests: XCTestCase {
     func testClientRemovesPeers() throws {
         let testExpectation = expectation(description: "Client removes peers")
         
-        let peers = p2pPeers(n: 4).map { Beacon.PeerInfo.p2p($0) }
+        let peers = p2pPeers(n: 4).map { Beacon.Peer.p2p($0) }
         let toKeep = Array(peers[0..<2])
         let toRemove = Array(peers[2...])
         storage.peers = peers

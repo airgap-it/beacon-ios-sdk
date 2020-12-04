@@ -39,49 +39,13 @@ extension Array {
         }
     }
     
-    func forEachAsync(
-        with group: DispatchGroup = .init(),
-        body: @escaping (Element, @escaping (Result<(), Error>) -> ()) throws -> (),
-        completion: @escaping ([Result<(), Error>]) -> ()
-    ) {
-        var results: [Result<(), Error>] = map { _ in .success(()) }
-        let queue = DispatchQueue(label: "it.airgap.beacon-sdk.forEachAsync_result", qos: .default, attributes: [], target: .global(qos: .default))
-        
-        func save(error: Error, at index: Int) {
-            queue.async {
-                results[index] = .failure(error)
-                group.leave()
-            }
-        }
-        
-        for item in self.enumerated() {
-            group.enter()
-            do {
-                try body(item.element) { result in
-                    switch result {
-                    case .success(_):
-                        group.leave()
-                    case let .failure(error):
-                        save(error: error, at: item.offset)
-                    }
-                }
-            } catch {
-                save(error: error, at: item.offset)
-            }
-        }
-        
-        group.notify(qos: .default, flags: [], queue: queue) {
-            completion(results)
-        }
-    }
-    
     func forEachAsync<T>(
         with group: DispatchGroup = .init(),
         body: @escaping (Element, @escaping (T) -> ()) -> (),
         completion: @escaping ([T]) -> ()
     ) {
         var results = [T?](repeating: nil, count: count)
-        let queue = DispatchQueue(label: "it.airgap.beacon-sdk.forEachAsync_value", qos: .default, attributes: [], target: .global(qos: .default))
+        let queue = DispatchQueue(label: "it.airgap.beacon-sdk.forEachAsync", qos: .default, attributes: [], target: .global(qos: .default))
         
         for item in self.enumerated() {
             group.enter()

@@ -16,24 +16,24 @@ extension Beacon.Message {
         
         // MARK: BeaconMessage Compatibility
         
-        init(from beaconMessage: Beacon.Message, version: String, senderID: String) {
-            switch version.major {
+        init(from beaconMessage: Beacon.Message, senderID: String) throws {
+            switch beaconMessage.common.version.major {
             case "1":
-                self = .v1(V1(from: beaconMessage, version: version, senderID: senderID))
+                self = .v1(try V1(from: beaconMessage, senderID: senderID))
             case "2":
-                self = .v2(V2(from: beaconMessage, version: version, senderID: senderID))
+                self = .v2(V2(from: beaconMessage, senderID: senderID))
             default:
                 // fallback to the newest version
-                self = .v2(V2(from: beaconMessage, version: version, senderID: senderID))
+                self = .v2(V2(from: beaconMessage, senderID: senderID))
             }
         }
         
         func toBeaconMessage(
             with origin: Beacon.Origin,
-            using storage: StorageManager,
+            using storageManager: StorageManager,
             completion: @escaping (Result<Beacon.Message, Error>) -> ()
         ) {
-            common.toBeaconMessage(with: origin, using: storage, completion: completion)
+            common.toBeaconMessage(with: origin, using: storageManager, completion: completion)
         }
         
         // MARK: Attributes
@@ -84,8 +84,11 @@ protocol VersionedMessageProtocol {
     var version: String { get }
     var id: String { get }
     
-    func comesFrom(_ appMetadata: Beacon.AppMetadata) -> Bool
-    func toBeaconMessage(with origin: Beacon.Origin, using storage: StorageManager, completion: @escaping (Result<Beacon.Message, Error>) -> ())
+    func toBeaconMessage(
+        with origin: Beacon.Origin,
+        using storageManager: StorageManager,
+        completion: @escaping (Result<Beacon.Message, Error>) -> ()
+    )
 }
 
 // MARK: Extensions

@@ -10,7 +10,9 @@ import Foundation
 
 extension Transport.P2P {
     
-    struct HandshakeInfo: Codable {
+    struct PairingResponse: Codable {
+        let id: String
+        let type: String
         let name: String
         let version: String
         let publicKey: String

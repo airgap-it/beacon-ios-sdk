@@ -19,70 +19,52 @@ extension Beacon.Message.Versioned {
         case operationResponse(OperationResponse)
         case signPayloadResponse(SignPayloadResponse)
         case broadcastResponse(BroadcastResponse)
+        case acknowledgeResponse(AcknowledgeResponse)
         case errorResponse(ErrorResponse)
         case disconnectMessage(Disconnect)
         
         
         // MARK: BeaconMessage Compatibility
         
-        init(from beaconMessage: Beacon.Message, version: String, senderID: String) {
+        init(from beaconMessage: Beacon.Message, senderID: String) {
             switch beaconMessage {
             case let .request(request):
                 switch request {
                 case let .permission(content):
-                    self = .permissionRequest(PermissionRequest(from: content, version: version, senderID: senderID))
+                    self = .permissionRequest(PermissionRequest(from: content, senderID: senderID))
                 case let .operation(content):
-                    self = .operationRequest(OperationRequest(from: content, version: version, senderID: senderID))
+                    self = .operationRequest(OperationRequest(from: content, senderID: senderID))
                 case let .signPayload(content):
-                    self = .signPayloadRequest(SignPayloadRequest(from: content, version: version, senderID: senderID))
+                    self = .signPayloadRequest(SignPayloadRequest(from: content, senderID: senderID))
                 case let .broadcast(content):
-                    self = .broadcastRequest(BroadcastRequest(from: content, version: version, senderID: senderID))
+                    self = .broadcastRequest(BroadcastRequest(from: content, senderID: senderID))
                 }
             case let .response(response):
                 switch response {
                 case let .permission(content):
-                    self = .permissionResponse(PermissionResponse(from: content, version: version, senderID: senderID))
+                    self = .permissionResponse(PermissionResponse(from: content, senderID: senderID))
                 case let .operation(content):
-                    self = .operationResponse(OperationResponse(from: content, version: version, senderID: senderID))
+                    self = .operationResponse(OperationResponse(from: content, senderID: senderID))
                 case let .signPayload(content):
-                    self = .signPayloadResponse(SignPayloadResponse(from: content, version: version, senderID: senderID))
+                    self = .signPayloadResponse(SignPayloadResponse(from: content, senderID: senderID))
                 case let .broadcast(content):
-                    self = .broadcastResponse(BroadcastResponse(from: content, version: version, senderID: senderID))
+                    self = .broadcastResponse(BroadcastResponse(from: content, senderID: senderID))
+                case let .acknowledge(content):
+                    self = .acknowledgeResponse(AcknowledgeResponse(from: content, senderID: senderID))
                 case let .error(content):
-                    self = .errorResponse(ErrorResponse(from: content, version: version, senderID: senderID))
+                    self = .errorResponse(ErrorResponse(from: content, senderID: senderID))
                 }
             case let .disconnect(content):
-                self = .disconnectMessage(Disconnect(from: content, version: version, senderID: senderID))
+                self = .disconnectMessage(Disconnect(from: content, senderID: senderID))
             }
         }
         
         func toBeaconMessage(
             with origin: Beacon.Origin,
-            using storage: StorageManager,
+            using storageManager: StorageManager,
             completion: @escaping (Result<Beacon.Message, Error>) -> ()
         ) {
-            switch self {
-            case let .permissionRequest(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .operationRequest(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .signPayloadRequest(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .broadcastRequest(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .permissionResponse(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .operationResponse(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .signPayloadResponse(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .broadcastResponse(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .errorResponse(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            case let .disconnectMessage(content):
-                content.toBeaconMessage(with: origin, using: storage, completion: completion)
-            }
+            common.toBeaconMessage(with: origin, using: storageManager, completion: completion)
         }
         
         // MARK: Attributes
@@ -104,6 +86,8 @@ extension Beacon.Message.Versioned {
             case let .signPayloadResponse(content):
                 return content
             case let .broadcastResponse(content):
+                return content
+            case let .acknowledgeResponse(content):
                 return content
             case let .errorResponse(content):
                 return content
@@ -134,6 +118,8 @@ extension Beacon.Message.Versioned {
                 self = .signPayloadResponse(try SignPayloadResponse(from: decoder))
             case .broadcastResponse:
                 self = .broadcastResponse(try BroadcastResponse(from: decoder))
+            case .acknowledgeResponse:
+                self = .acknowledgeResponse(try AcknowledgeResponse(from: decoder))
             case .errorResponse:
                 self = .errorResponse(try ErrorResponse(from: decoder))
             case .disconnectMessage:
@@ -159,6 +145,8 @@ extension Beacon.Message.Versioned {
                 try content.encode(to: encoder)
             case let .broadcastResponse(content):
                 try content.encode(to: encoder)
+            case let .acknowledgeResponse(content):
+                try content.encode(to: encoder)
             case let .errorResponse(content):
                 try content.encode(to: encoder)
             case let .disconnectMessage(content):
@@ -180,6 +168,7 @@ extension Beacon.Message.Versioned {
             case operationResponse = "operation_response"
             case signPayloadResponse = "sign_payload_response"
             case broadcastResponse = "broadcast_response"
+            case acknowledgeResponse = "acknowledge"
             case errorResponse = "error"
             case disconnectMessage = "disconnect"
         }

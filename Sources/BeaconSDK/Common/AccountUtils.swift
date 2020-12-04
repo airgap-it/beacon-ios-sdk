@@ -10,6 +10,8 @@ import Foundation
 import Base58Swift
 
 class AccountUtils: AccountUtilsProtocol {
+    private static let senderHashSize = 5
+    
     private let crypto: Crypto
     
     init(crypto: Crypto) {
@@ -31,10 +33,16 @@ class AccountUtils: AccountUtilsProtocol {
         
         return Base58.base58CheckEncode(hash)
     }
+    
+    func getSenderID(from publicKey: HexString) throws -> String {
+        let hash = try crypto.hash(message: publicKey, size: AccountUtils.senderHashSize)
+        return Base58.base58CheckEncode(hash)
+    }
 }
 
 // MARK: Protocol
 
 protocol AccountUtilsProtocol {
     func getAccountIdentifier(forAddress address: String, on network: Beacon.Network) throws -> String
+    func getSenderID(from publicKey: HexString) throws -> String
 }

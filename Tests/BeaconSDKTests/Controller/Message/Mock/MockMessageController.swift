@@ -20,15 +20,15 @@ class MockMessageController: MessageControllerProtocol {
     private(set) var onIncomingCalls: [(Beacon.Message.Versioned, Beacon.Origin)] = []
     private(set) var onOutgoingCalls: [(Beacon.Message, String)] = []
     
-    private let storage: StorageManager
+    private let storageManager: StorageManager
     
-    init(storage: StorageManager, connectionKind: Beacon.Connection.Kind = .p2p) {
+    init(storageManager: StorageManager, connectionKind: Beacon.Connection.Kind = .p2p) {
         isFailing = false
         
         dAppVersion = "1"
         dAppID = "mockDApp"
                 
-        self.storage = storage
+        self.storageManager = storageManager
         self.connectionKind = connectionKind
     }
     
@@ -41,7 +41,7 @@ class MockMessageController: MessageControllerProtocol {
         if isFailing {
             completion(.failure(Beacon.Error.unknown))
         } else {
-            message.toBeaconMessage(with: origin, using: storage) { beaconMessage in
+            message.toBeaconMessage(with: origin, using: storageManager) { beaconMessage in
                 completion(beaconMessage)
             }
         }
@@ -49,15 +49,19 @@ class MockMessageController: MessageControllerProtocol {
     
     func onOutgoing(
         _ message: Beacon.Message,
-        from senderID: String,
+        with beaconID: String,
+        terminal: Bool,
         completion: @escaping (Result<(Beacon.Origin, Beacon.Message.Versioned), Swift.Error>) -> ()
     ) {
-        onOutgoingCalls.append((message, senderID))
+        onOutgoingCalls.append((message, beaconID))
         if isFailing {
             completion(.failure(Beacon.Error.unknown))
         } else {
-            let versionedMessage = Beacon.Message.Versioned(from: message, version: dAppVersion, senderID: senderID)
-            completion(.success((Beacon.Origin(kind: connectionKind, id: senderID), versionedMessage)))
+            let result = catchResult {
+                try Beacon.Message.Versioned(from: message, senderID: beaconID)
+            }.map { ((Beacon.Origin(kind: connectionKind, id: beaconID), $0)) }
+            
+            completion(result)
         }
     }
 }

@@ -24,34 +24,36 @@ extension Beacon.Message.Versioned {
         
         // MARK: BeaconMessage Compatibility
         
-        init(from beaconMessage: Beacon.Message, version: String, senderID: String) {
+        init(from beaconMessage: Beacon.Message, senderID: String) throws {
             switch beaconMessage {
             case let .request(request):
                 switch request {
                 case let .permission(content):
-                    self = .permissionRequest(PermissionRequest(from: content, version: version, senderID: senderID))
+                    self = .permissionRequest(PermissionRequest(from: content, senderID: senderID))
                 case let .operation(content):
-                    self = .operationRequest(OperationRequest(from: content, version: version, senderID: senderID))
+                    self = .operationRequest(OperationRequest(from: content, senderID: senderID))
                 case let .signPayload(content):
-                    self = .signPayloadRequest(SignPayloadRequest(from: content, version: version, senderID: senderID))
+                    self = .signPayloadRequest(SignPayloadRequest(from: content, senderID: senderID))
                 case let .broadcast(content):
-                    self = .broadcastRequest(BroadcastRequest(from: content, version: version, senderID: senderID))
+                    self = .broadcastRequest(BroadcastRequest(from: content, senderID: senderID))
                 }
             case let .response(response):
                 switch response {
                 case let .permission(content):
-                    self = .permissionResponse(PermissionResponse(from: content, version: version, senderID: senderID))
+                    self = .permissionResponse(PermissionResponse(from: content, senderID: senderID))
                 case let .operation(content):
-                    self = .operationResponse(OperationResponse(from: content, version: version, senderID: senderID))
+                    self = .operationResponse(OperationResponse(from: content, senderID: senderID))
                 case let .signPayload(content):
-                    self = .signPayloadResponse(SignPayloadResponse(from: content, version: version, senderID: senderID))
+                    self = .signPayloadResponse(SignPayloadResponse(from: content, senderID: senderID))
                 case let .broadcast(content):
-                    self = .broadcastResponse(BroadcastResponse(from: content, version: version, senderID: senderID))
+                    self = .broadcastResponse(BroadcastResponse(from: content, senderID: senderID))
+                case let .acknowledge(content):
+                    throw Beacon.Error.messageNotSupportedInVersion(message: beaconMessage, version: content.version)
                 case let .error(content):
-                    self = .errorResponse(ErrorResponse(from: content, version: version, senderID: senderID))
+                    self = .errorResponse(ErrorResponse(from: content, senderID: senderID))
                 }
             case let .disconnect(content):
-                self = .disconnectMessage(Disconnect(from: content, version: version, senderID: senderID))
+                self = .disconnectMessage(Disconnect(from: content, senderID: senderID))
             }
         }
         

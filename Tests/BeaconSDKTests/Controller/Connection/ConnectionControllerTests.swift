@@ -137,7 +137,7 @@ class ConnectionControllerTests: XCTestCase {
     func testControllerConnectsNewPeers() throws {
         let testExpectation = expectation(description: "ConnectionController connects new peers")
         
-        let peers = p2pPeers(n: 4).map { Beacon.PeerInfo.p2p($0) }
+        let peers = p2pPeers(n: 4).map { Beacon.Peer.p2p($0) }
         
         connectionController.onNew(peers) { result in
             switch result {
@@ -163,9 +163,9 @@ class ConnectionControllerTests: XCTestCase {
     func testControllerDisconnectsPeers() throws {
         let testExpectation = expectation(description: "ConnectionController disconnects peers")
         
-        let peers = p2pPeers(n: 4).map { Beacon.PeerInfo.p2p($0) }
+        let peers = p2pPeers(n: 4).map { Beacon.Peer.p2p($0) }
         
-        connectionController.onDeleted(peers) { result in
+        connectionController.onRemoved(peers) { result in
             switch result {
             case .success(_):
                 XCTAssertTrue(

@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		883CCEA2257779D300DD8696 /* AcknowledgeV2Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883CCEA1257779D300DD8696 /* AcknowledgeV2Response.swift */; };
+		883CCEAF25777EC200DD8696 /* AcknowledgeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883CCEAE25777EC200DD8696 /* AcknowledgeResponse.swift */; };
 		884C4972257656110049DF55 /* ConnectionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C4971257656110049DF55 /* ConnectionControllerTests.swift */; };
 		884C497A2576568F0049DF55 /* MockTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C49792576568F0049DF55 /* MockTransport.swift */; };
 		884C4987257657560049DF55 /* MockSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C4986257657560049DF55 /* MockSerializer.swift */; };
@@ -35,6 +37,7 @@
 		88AA004625657137003B18F5 /* Base58Swift in Frameworks */ = {isa = PBXBuildFile; productRef = 88AA004525657137003B18F5 /* Base58Swift */; };
 		88BFEB1E255BE2FB0095F146 /* libsodium.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88BFEAF1255BDF6E0095F146 /* libsodium.xcframework */; };
 		88BFEB1F255BE2FB0095F146 /* libsodium.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88BFEAF1255BDF6E0095F146 /* libsodium.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		88C5B7AF2577BC3900E845DA /* SigningType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C5B7AE2577BC3900E845DA /* SigningType.swift */; };
 		88CC0AF2256D57B500F54056 /* CryptoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A2D256D57B300F54056 /* CryptoProvider.swift */; };
 		88CC0AF3256D57B500F54056 /* SodiumCryptoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A2E256D57B300F54056 /* SodiumCryptoProvider.swift */; };
 		88CC0AF4256D57B500F54056 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A2F256D57B300F54056 /* Crypto.swift */; };
@@ -44,7 +47,7 @@
 		88CC0AF8256D57B500F54056 /* Transport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A36256D57B300F54056 /* Transport.swift */; };
 		88CC0AF9256D57B500F54056 /* P2P.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A38256D57B300F54056 /* P2P.swift */; };
 		88CC0AFA256D57B500F54056 /* ServerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A39256D57B300F54056 /* ServerUtils.swift */; };
-		88CC0AFB256D57B500F54056 /* HandshakeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A3B256D57B300F54056 /* HandshakeInfo.swift */; };
+		88CC0AFB256D57B500F54056 /* PairingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A3B256D57B300F54056 /* PairingResponse.swift */; };
 		88CC0AFC256D57B500F54056 /* CommunicationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A3C256D57B300F54056 /* CommunicationUtils.swift */; };
 		88CC0AFD256D57B500F54056 /* CommunicationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A3D256D57B300F54056 /* CommunicationClient.swift */; };
 		88CC0AFE256D57B500F54056 /* BlockHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0A40256D57B300F54056 /* BlockHeader.swift */; };
@@ -159,13 +162,12 @@
 		88CC0B6E256D57B500F54056 /* P2PConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0ADD256D57B400F54056 /* P2PConfiguration.swift */; };
 		88CC0B6F256D57B500F54056 /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0ADE256D57B400F54056 /* Beacon.swift */; };
 		88CC0B70256D57B500F54056 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0ADF256D57B400F54056 /* Client.swift */; };
-		88CC0B75256D57B500F54056 /* PermissionScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0AE7256D57B400F54056 /* PermissionScope.swift */; };
-		88CC0B76256D57B500F54056 /* P2PPeerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0AEA256D57B500F54056 /* P2PPeerInfo.swift */; };
-		88CC0B77256D57B500F54056 /* PeerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0AEB256D57B500F54056 /* PeerInfo.swift */; };
+		88CC0B76256D57B500F54056 /* P2PPeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0AEA256D57B500F54056 /* P2PPeer.swift */; };
+		88CC0B77256D57B500F54056 /* Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0AEB256D57B500F54056 /* Peer.swift */; };
 		88CC0B78256D57B500F54056 /* AppMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0AEC256D57B500F54056 /* AppMetadata.swift */; };
 		88CC0B79256D57B500F54056 /* Threshold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0AED256D57B500F54056 /* Threshold.swift */; };
 		88CC0B7A256D57B500F54056 /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0AEE256D57B500F54056 /* ErrorType.swift */; };
-		88CC0B7B256D57B500F54056 /* PermissionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0AEF256D57B500F54056 /* PermissionInfo.swift */; };
+		88CC0B7B256D57B500F54056 /* Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0AEF256D57B500F54056 /* Permission.swift */; };
 		88CC0B7C256D57B500F54056 /* Origin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0AF0256D57B500F54056 /* Origin.swift */; };
 		88CC0B7D256D57B500F54056 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0AF1256D57B500F54056 /* Configuration.swift */; };
 		88CC0BE9256D593D00F54056 /* BeaconSDKDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CC0BB7256D586A00F54056 /* BeaconSDKDemoApp.swift */; };
@@ -266,6 +268,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		883CCEA1257779D300DD8696 /* AcknowledgeV2Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgeV2Response.swift; sourceTree = "<group>"; };
+		883CCEAE25777EC200DD8696 /* AcknowledgeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgeResponse.swift; sourceTree = "<group>"; };
 		884C4971257656110049DF55 /* ConnectionControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionControllerTests.swift; sourceTree = "<group>"; };
 		884C49792576568F0049DF55 /* MockTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTransport.swift; sourceTree = "<group>"; };
 		884C4986257657560049DF55 /* MockSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSerializer.swift; sourceTree = "<group>"; };
@@ -279,6 +283,7 @@
 		886FE8D025681E9200178523 /* BeaconSDKDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeaconSDKDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		886FE8DB25681E9200178523 /* BeaconSDKDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeaconSDKDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		88BFEAF1255BDF6E0095F146 /* libsodium.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = libsodium.xcframework; sourceTree = "<group>"; };
+		88C5B7AE2577BC3900E845DA /* SigningType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigningType.swift; sourceTree = "<group>"; };
 		88CC0A2D256D57B300F54056 /* CryptoProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoProvider.swift; sourceTree = "<group>"; };
 		88CC0A2E256D57B300F54056 /* SodiumCryptoProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SodiumCryptoProvider.swift; sourceTree = "<group>"; };
 		88CC0A2F256D57B300F54056 /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
@@ -288,7 +293,7 @@
 		88CC0A36256D57B300F54056 /* Transport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transport.swift; sourceTree = "<group>"; };
 		88CC0A38256D57B300F54056 /* P2P.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2P.swift; sourceTree = "<group>"; };
 		88CC0A39256D57B300F54056 /* ServerUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerUtils.swift; sourceTree = "<group>"; };
-		88CC0A3B256D57B300F54056 /* HandshakeInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandshakeInfo.swift; sourceTree = "<group>"; };
+		88CC0A3B256D57B300F54056 /* PairingResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PairingResponse.swift; sourceTree = "<group>"; };
 		88CC0A3C256D57B300F54056 /* CommunicationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationUtils.swift; sourceTree = "<group>"; };
 		88CC0A3D256D57B300F54056 /* CommunicationClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationClient.swift; sourceTree = "<group>"; };
 		88CC0A40256D57B300F54056 /* BlockHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockHeader.swift; sourceTree = "<group>"; };
@@ -403,13 +408,12 @@
 		88CC0ADD256D57B400F54056 /* P2PConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PConfiguration.swift; sourceTree = "<group>"; };
 		88CC0ADE256D57B400F54056 /* Beacon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
 		88CC0ADF256D57B400F54056 /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
-		88CC0AE7256D57B400F54056 /* PermissionScope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionScope.swift; sourceTree = "<group>"; };
-		88CC0AEA256D57B500F54056 /* P2PPeerInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPeerInfo.swift; sourceTree = "<group>"; };
-		88CC0AEB256D57B500F54056 /* PeerInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerInfo.swift; sourceTree = "<group>"; };
+		88CC0AEA256D57B500F54056 /* P2PPeer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P2PPeer.swift; sourceTree = "<group>"; };
+		88CC0AEB256D57B500F54056 /* Peer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Peer.swift; sourceTree = "<group>"; };
 		88CC0AEC256D57B500F54056 /* AppMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppMetadata.swift; sourceTree = "<group>"; };
 		88CC0AED256D57B500F54056 /* Threshold.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Threshold.swift; sourceTree = "<group>"; };
 		88CC0AEE256D57B500F54056 /* ErrorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
-		88CC0AEF256D57B500F54056 /* PermissionInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionInfo.swift; sourceTree = "<group>"; };
+		88CC0AEF256D57B500F54056 /* Permission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Permission.swift; sourceTree = "<group>"; };
 		88CC0AF0256D57B500F54056 /* Origin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Origin.swift; sourceTree = "<group>"; };
 		88CC0AF1256D57B500F54056 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		88CC0B8E256D57CB00F54056 /* LinuxMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
@@ -665,7 +669,7 @@
 		88CC0A3A256D57B300F54056 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				88CC0A3B256D57B300F54056 /* HandshakeInfo.swift */,
+				88CC0A3B256D57B300F54056 /* PairingResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1081,6 +1085,7 @@
 		88CC0ABE256D57B400F54056 /* Responses */ = {
 			isa = PBXGroup;
 			children = (
+				883CCEA1257779D300DD8696 /* AcknowledgeV2Response.swift */,
 				88CC0AC1256D57B400F54056 /* BroadcastV2Response.swift */,
 				88CC0ABF256D57B400F54056 /* ErrorV2Response.swift */,
 				88CC0AC3256D57B400F54056 /* OperationV2Response.swift */,
@@ -1112,6 +1117,7 @@
 		88CC0ACE256D57B400F54056 /* Responses */ = {
 			isa = PBXGroup;
 			children = (
+				883CCEAE25777EC200DD8696 /* AcknowledgeResponse.swift */,
 				88CC0AD1256D57B400F54056 /* BroadcastResponse.swift */,
 				88CC0AD3256D57B400F54056 /* ErrorResponse.swift */,
 				88CC0AD2256D57B400F54056 /* OperationResponse.swift */,
@@ -1148,8 +1154,8 @@
 				88CC0AEE256D57B500F54056 /* ErrorType.swift */,
 				88CC0D28256FB23A00F54056 /* Network.swift */,
 				88CC0AF0256D57B500F54056 /* Origin.swift */,
-				88CC0AEF256D57B500F54056 /* PermissionInfo.swift */,
-				88CC0AE7256D57B400F54056 /* PermissionScope.swift */,
+				88CC0AEF256D57B500F54056 /* Permission.swift */,
+				88C5B7AE2577BC3900E845DA /* SigningType.swift */,
 				88CC0AED256D57B500F54056 /* Threshold.swift */,
 				88CC0AE8256D57B400F54056 /* Peer */,
 			);
@@ -1159,7 +1165,7 @@
 		88CC0AE8256D57B400F54056 /* Peer */ = {
 			isa = PBXGroup;
 			children = (
-				88CC0AEB256D57B500F54056 /* PeerInfo.swift */,
+				88CC0AEB256D57B500F54056 /* Peer.swift */,
 				88CC0AE9256D57B500F54056 /* Types */,
 			);
 			path = Peer;
@@ -1168,7 +1174,7 @@
 		88CC0AE9256D57B500F54056 /* Types */ = {
 			isa = PBXGroup;
 			children = (
-				88CC0AEA256D57B500F54056 /* P2PPeerInfo.swift */,
+				88CC0AEA256D57B500F54056 /* P2PPeer.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -1636,6 +1642,7 @@
 				88CC0B14256D57B500F54056 /* ExtendedStorage.swift in Sources */,
 				88CC0B7A256D57B500F54056 /* ErrorType.swift in Sources */,
 				88CC0B66256D57B500F54056 /* ErrorResponse.swift in Sources */,
+				88C5B7AF2577BC3900E845DA /* SigningType.swift in Sources */,
 				88CC0B52256D57B500F54056 /* SignPayloadV1Request.swift in Sources */,
 				884C4A1C25767A680049DF55 /* TimeUtils.swift in Sources */,
 				88CC0B5E256D57B500F54056 /* V2Message.swift in Sources */,
@@ -1643,6 +1650,8 @@
 				88CC0B47256D57B500F54056 /* Store.swift in Sources */,
 				88CC0B4C256D57B500F54056 /* OperationV1Response.swift in Sources */,
 				88CC0B3A256D57B500F54056 /* LoginRequest.swift in Sources */,
+				883CCEA2257779D300DD8696 /* AcknowledgeV2Response.swift in Sources */,
+				883CCEAF25777EC200DD8696 /* AcknowledgeResponse.swift in Sources */,
 				88CC0B40256D57B500F54056 /* Join.swift in Sources */,
 				88CC0B44256D57B500F54056 /* EventService.swift in Sources */,
 				88CC0B13256D57B500F54056 /* Storage.swift in Sources */,
@@ -1656,10 +1665,10 @@
 				88CC0B3E256D57B500F54056 /* Password.swift in Sources */,
 				88CC0B3B256D57B500F54056 /* LoginResponse.swift in Sources */,
 				88CC0B51256D57B500F54056 /* BroadcastV1Request.swift in Sources */,
-				88CC0B76256D57B500F54056 /* P2PPeerInfo.swift in Sources */,
+				88CC0B76256D57B500F54056 /* P2PPeer.swift in Sources */,
 				88CC0AF6256D57B500F54056 /* Base58CheckSerializer.swift in Sources */,
 				88CC0AF5256D57B500F54056 /* Key.swift in Sources */,
-				88CC0B7B256D57B500F54056 /* PermissionInfo.swift in Sources */,
+				88CC0B7B256D57B500F54056 /* Permission.swift in Sources */,
 				88CC0B39256D57B500F54056 /* EventResponse.swift in Sources */,
 				88CC0B62256D57B500F54056 /* SignPayloadResponse.swift in Sources */,
 				88CC0B78256D57B500F54056 /* AppMetadata.swift in Sources */,
@@ -1679,18 +1688,17 @@
 				88CC0B00256D57B500F54056 /* Origination.swift in Sources */,
 				88CC0B53256D57B500F54056 /* PermissionV1Request.swift in Sources */,
 				88CC0B07256D57B500F54056 /* DoubleEndorsementEvidence.swift in Sources */,
-				88CC0B77256D57B500F54056 /* PeerInfo.swift in Sources */,
+				88CC0B77256D57B500F54056 /* Peer.swift in Sources */,
 				88CC0B61256D57B500F54056 /* DisconnectMessage.swift in Sources */,
 				88CC0B0D256D57B500F54056 /* MichelinePrim.swift in Sources */,
 				88CC0B2C256D57B500F54056 /* Sync.swift in Sources */,
 				88CC0B70256D57B500F54056 /* Client.swift in Sources */,
 				88CC0B6F256D57B500F54056 /* Beacon.swift in Sources */,
-				88CC0B75256D57B500F54056 /* PermissionScope.swift in Sources */,
 				88CC0B37256D57B500F54056 /* StateEvent.swift in Sources */,
 				88CC0B3C256D57B500F54056 /* User.swift in Sources */,
 				88CC0B6B256D57B500F54056 /* Response.swift in Sources */,
 				88CC0B27256D57B500F54056 /* DistinguishableListener.swift in Sources */,
-				88CC0AFB256D57B500F54056 /* HandshakeInfo.swift in Sources */,
+				88CC0AFB256D57B500F54056 /* PairingResponse.swift in Sources */,
 				88CC0B0B256D57B500F54056 /* InlinedEndorsement.swift in Sources */,
 				88CC0B01256D57B500F54056 /* Proposals.swift in Sources */,
 				88CC0B11256D57B500F54056 /* Tezos.swift in Sources */,

@@ -59,7 +59,7 @@ class ConnectionController: ConnectionControllerProtocol {
         transports.forEach { $0.add(listener) }
     }
     
-    func onNew(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
+    func onNew(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
         transports.forEachAsync(body: { $0.connect(new: peers, completion: $1) }) { (results: [Result<(), Error>]) in
             guard results.allSatisfy({ $0.isSuccess }) else {
                 self.transports.forEachAsync(body: { $0.connectedPeers(completion: $1) }) { connectedPeers in
@@ -76,7 +76,7 @@ class ConnectionController: ConnectionControllerProtocol {
         }
     }
     
-    func onDeleted(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ()) {
+    func onRemoved(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
         transports.forEachAsync(body: { $0.disconnect(from: peers, completion: $1) }) { (results: [Result<(), Error>]) in
             guard results.allSatisfy({ $0.isSuccess }) else {
                 self.transports.forEachAsync(body: { $0.connectedPeers(completion: $1) }) { connectedPeers in
@@ -127,6 +127,6 @@ protocol ConnectionControllerProtocol {
     func listen(onRequest listener: @escaping (Result<BeaconConnectionMessage, Error>) -> ())
     func send(_ message: BeaconConnectionMessage, completion: @escaping (Result<(), Error>) -> ())
     
-    func onNew(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ())
-    func onDeleted(_ peers: [Beacon.PeerInfo], completion: @escaping (Result<(), Error>) -> ())
+    func onNew(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ())
+    func onRemoved(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ())
 }

@@ -19,6 +19,15 @@ extension Beacon {
         /// The unique value that identifies the origin.
         public let id: String
         
+        init(kind: Connection.Kind, id: String) {
+            self.kind = kind
+            self.id = id
+        }
+        
+        init(from origin: Origin, id: String) {
+            self.init(kind: origin.kind, id: id)
+        }
+        
         ///
         /// Creates a P2P origin.
         ///

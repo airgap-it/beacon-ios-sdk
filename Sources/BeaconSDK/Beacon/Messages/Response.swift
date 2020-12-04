@@ -42,8 +42,18 @@ extension Beacon {
         case broadcast(_ broadcast: Broadcast)
         
         ///
+        /// Message responding to every `Beacon.Request`,
+        /// sent to confirm receiving of the request.
+        ///
+        /// Used internally.
+        ///
+        /// - acknowledge: The body of the message.
+        ///
+        case acknowledge(_ acknowledge: Acknowledge)
+        
+        ///
         /// Message responding to every `Beacon.Request`
-        /// informing that the request could not be completed due to an error.
+        /// and informing that the request could not be completed due to an error.
         ///
         /// - error: The body of the message.
         ///
@@ -61,6 +71,8 @@ extension Beacon {
                 return content
             case let .broadcast(content):
                 return content
+            case let .acknowledge(content):
+                return content
             case let .error(content):
                 return content
             }
@@ -70,4 +82,6 @@ extension Beacon {
 
 // MARK: Protocol
 
-protocol ResponseProtocol: MessageProtocol {}
+protocol ResponseProtocol: MessageProtocol {
+    var requestOrigin: Beacon.Origin { get }
+}
