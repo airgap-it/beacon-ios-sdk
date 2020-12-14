@@ -20,8 +20,9 @@ class BeaconTests: XCTestCase {
         
         let appName = "mockApp"
         let storage = MockStorage()
+        let secureStorage = MockSecureStorage()
         
-        Beacon.initialize(appName: appName, storage: storage) { result in
+        Beacon.initialize(appName: appName, storage: storage, secureStorage: secureStorage) { result in
             switch result {
             case .success(_):
                 XCTAssertNotNil(Beacon.shared, "Beacon instance has not been initialized")
@@ -29,7 +30,7 @@ class BeaconTests: XCTestCase {
                 let sdkVersion = storage.sdkVersion
                 XCTAssertEqual(Beacon.Configuration.sdkVersion, sdkVersion, "Storage has not been initialized with a valid SDK version")
                 
-                guard let seed = storage.sdkSecretSeed else {
+                guard let seed = secureStorage.sdkSecretSeed else {
                     XCTFail("Storage has not been initialized with a seed")
                     break
                 }
@@ -63,12 +64,13 @@ class BeaconTests: XCTestCase {
         
         let appName = "mockApp"
         let storage = MockStorage()
+        let secureStorage = MockSecureStorage()
         
         let storageSeed = "seed"
-        storage.sdkSecretSeed = storageSeed
+        secureStorage.sdkSecretSeed = storageSeed
         storage.sdkVersion = "oldVersion"
         
-        Beacon.initialize(appName: appName, storage: storage) { result in
+        Beacon.initialize(appName: appName, storage: storage, secureStorage: secureStorage) { result in
             switch result {
             case .success(_):
                 XCTAssertNotNil(Beacon.shared, "Beacon instance has not been initialized")
@@ -76,7 +78,7 @@ class BeaconTests: XCTestCase {
                 let sdkVersion = storage.sdkVersion
                 XCTAssertEqual(Beacon.Configuration.sdkVersion, sdkVersion, "Storage has not been initialized with a valid SDK version")
                 
-                guard let seed = storage.sdkSecretSeed else {
+                guard let seed = secureStorage.sdkSecretSeed else {
                     XCTFail("Storage has not been initialized with a seed")
                     break
                 }

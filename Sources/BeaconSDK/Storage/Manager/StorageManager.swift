@@ -8,17 +8,19 @@
 
 import Foundation
     
-class StorageManager: ExtendedStorage {
+class StorageManager: ExtendedStorage, SecureStorage {
     private let storage: ExtendedStorage
+    private let secureStorage: SecureStorage
     private let accountUtils: AccountUtilsProtocol
     
-    init(storage: ExtendedStorage, accountUtils: AccountUtilsProtocol) {
+    init(storage: ExtendedStorage, secureStorage: SecureStorage, accountUtils: AccountUtilsProtocol) {
         self.storage = storage
+        self.secureStorage = secureStorage
         self.accountUtils = accountUtils
     }
     
-    convenience init(storage: Storage, accountUtils: AccountUtilsProtocol) {
-        self.init(storage: storage.extend(), accountUtils: accountUtils)
+    convenience init(storage: Storage, secureStorage: SecureStorage, accountUtils: AccountUtilsProtocol) {
+        self.init(storage: storage.extend(), secureStorage: secureStorage, accountUtils: accountUtils)
     }
     
     // MARK: Peers
@@ -153,11 +155,11 @@ class StorageManager: ExtendedStorage {
     // MARK: SDK
     
     func getSDKSecretSeed(completion: @escaping (Result<String?, Error>) -> ()) {
-        storage.getSDKSecretSeed(completion: completion)
+        secureStorage.getSDKSecretSeed(completion: completion)
     }
     
     func setSDKSecretSeed(_ seed: String, completion: @escaping (Result<(), Error>) -> ()) {
-        storage.setSDKSecretSeed(seed, completion: completion)
+        secureStorage.setSDKSecretSeed(seed, completion: completion)
     }
     
     func getSDKVersion(completion: @escaping (Result<String?, Error>) -> ()) {

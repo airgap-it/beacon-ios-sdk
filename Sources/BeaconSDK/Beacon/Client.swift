@@ -51,8 +51,9 @@ extension Beacon {
         ///
         public static func create(with configuration: Configuration, completion: @escaping (_ result: Result<Client, Error>) -> ()) {
             let storage = UserDefaultsStorage()
+            let secureStorage = UserDefaultsSecureStorage()
             
-            Beacon.initialize(appName: configuration.name, storage: storage) { result in
+            Beacon.initialize(appName: configuration.name, storage: storage, secureStorage: secureStorage) { result in
                 guard let beacon = result.get(ifFailure: completion) else { return }
                 
                 do {

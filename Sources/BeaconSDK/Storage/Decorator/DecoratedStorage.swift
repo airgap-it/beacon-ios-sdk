@@ -146,14 +146,6 @@ class DecoratedStorage: ExtendedStorage {
     
     // MARK: SDK
     
-    func getSDKSecretSeed(completion: @escaping (Result<String?, Error>) -> ()) {
-        storage.getSDKSecretSeed(completion: completion)
-    }
-    
-    func setSDKSecretSeed(_ seed: String, completion: @escaping (Result<(), Error>) -> ()) {
-        storage.setSDKSecretSeed(seed, completion: completion)
-    }
-    
     func getSDKVersion(completion: @escaping (Result<String?, Error>) -> ()) {
         storage.getSDKVersion(completion: completion)
     }

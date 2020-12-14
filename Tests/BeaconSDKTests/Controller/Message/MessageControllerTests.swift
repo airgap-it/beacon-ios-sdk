@@ -14,6 +14,7 @@ class MessageControllerTests: XCTestCase {
     private var messageController: MessageController!
     private var coinRegistry: MockCoinRegistry!
     private var storage: MockStorage!
+    private var secureStorage: MockSecureStorage!
     private var accountUtils: MockAccountUtils!
     private var timeUtils: MockTimeUtils!
     
@@ -25,12 +26,13 @@ class MessageControllerTests: XCTestCase {
     override func setUpWithError() throws {
         coinRegistry = MockCoinRegistry()
         storage = MockStorage()
+        secureStorage = MockSecureStorage()
         accountUtils = MockAccountUtils()
         timeUtils = MockTimeUtils()
         
         messageController = MessageController(
             coinRegistry: coinRegistry,
-            storageManager: StorageManager(storage: storage, accountUtils: accountUtils),
+            storageManager: StorageManager(storage: storage, secureStorage: secureStorage, accountUtils: accountUtils),
             accountUtils: accountUtils,
             timeUtils: timeUtils
         )

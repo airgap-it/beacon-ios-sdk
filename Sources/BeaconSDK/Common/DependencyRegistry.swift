@@ -10,16 +10,18 @@ import Foundation
 
 class DependencyRegistry {
     
-    init(storage: Storage) {
+    init(storage: Storage, secureStorage: SecureStorage) {
         self.storage = storage
+        self.secureStorage = secureStorage
     }
     
     // MARK: Storage
     private let storage: Storage
+    private let secureStorage: SecureStorage
     
     var storageManager: StorageManager { weakStorageManager.value }
     private lazy var weakStorageManager: LazyWeakReference<StorageManager> = LazyWeakReference { [unowned self] in
-        StorageManager(storage: self.storage, accountUtils: self.accountUtils)
+        StorageManager(storage: self.storage, secureStorage: self.secureStorage, accountUtils: self.accountUtils)
     }
     
     // MARK: Controller

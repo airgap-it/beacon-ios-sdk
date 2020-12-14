@@ -35,9 +35,6 @@ protocol Storage {
     
     // MARK: SDK
     
-    func getSDKSecretSeed(completion: @escaping (Result<String?, Error>) -> ())
-    func setSDKSecretSeed(_ seed: String, completion: @escaping (Result<(), Error>) -> ())
-    
     func getSDKVersion(completion: @escaping (Result<String?, Error>) -> ())
     func setSDKVersion(_ version: String, completion: @escaping (Result<(), Error>) -> ())
 }

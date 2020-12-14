@@ -13,6 +13,7 @@ class ClientTests: XCTestCase {
     
     private var beaconClient: Beacon.Client!
     private var storage: MockStorage!
+    private var secureStorage: SecureStorage!
     private var storageManager: StorageManager!
     private var connectionController: MockConnectionController!
     private var messageController: MockMessageController!
@@ -29,7 +30,8 @@ class ClientTests: XCTestCase {
         crypto = Crypto(provider: SodiumCryptoProvider())
         
         storage = MockStorage()
-        storageManager = StorageManager(storage: storage, accountUtils: accountUtils)
+        secureStorage = MockSecureStorage()
+        storageManager = StorageManager(storage: storage, secureStorage: secureStorage, accountUtils: accountUtils)
         
         connectionController = MockConnectionController()
         messageController = MockMessageController(storageManager: storageManager, connectionKind: connectionKind)
