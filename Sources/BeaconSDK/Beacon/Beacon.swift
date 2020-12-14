@@ -31,6 +31,7 @@ public class Beacon {
     static func initialize(
         appName: String,
         storage: Storage,
+        secureStorage: SecureStorage,
         completion: @escaping (Result<(Beacon), Swift.Error>) -> ()
     ) {
         if let beacon = shared {
@@ -38,13 +39,14 @@ public class Beacon {
             return
         }
         
-        let dependencyRegistry = DependencyRegistry(storage: storage)
+        let dependencyRegistry = DependencyRegistry(storage: storage, secureStorage: secureStorage)
         let crypto = dependencyRegistry.crypto
+        let storageManager = dependencyRegistry.storageManager
         
-        setSDKVersion(savedIn: storage) { result in
+        setSDKVersion(savedWith: storageManager) { result in
             guard result.isSuccess(else: completion) else { return }
             
-            self.loadOrGenerateKeyPair(using: crypto, savedIn: storage) { result in
+            self.loadOrGenerateKeyPair(using: crypto, savedWith: storageManager) { result in
                 guard let keyPair = result.get(ifFailure: completion) else { return }
                 let beacon = Beacon(dependencyRegistry: dependencyRegistry, appName: appName, keyPair: keyPair)
                 shared = beacon
@@ -54,30 +56,34 @@ public class Beacon {
         }
     }
     
-    private static func setSDKVersion(savedIn storage: Storage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    private static func setSDKVersion(savedWith storage: StorageManager, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         storage.setSDKVersion(Beacon.Configuration.sdkVersion, completion: completion)
     }
     
     private static func loadOrGenerateKeyPair(
         using crypto: Crypto,
-        savedIn storage: Storage,
+        savedWith storageManager: StorageManager,
         completion: @escaping (Result<KeyPair, Swift.Error>) -> ()
     ) {
-        storage.getSDKSecretSeed { result in
+        storageManager.getSDKSecretSeed { result in
             guard let storageSeed = result.get(ifFailure: completion) else { return }
             
             if let seed = storageSeed {
                 completion(catchResult { try crypto.keyPairFrom(seed: seed) })
             } else {
-                self.generateKeyPair(using: crypto, savedIn: storage, completion: completion)
+                self.generateKeyPair(using: crypto, savedWith: storageManager, completion: completion)
             }
         }
     }
     
-    private static func generateKeyPair(using crypto: Crypto, savedIn storage: Storage, completion: @escaping (Result<KeyPair, Swift.Error>) -> ()) {
+    private static func generateKeyPair(
+        using crypto: Crypto,
+        savedWith storageManager: StorageManager,
+        completion: @escaping (Result<KeyPair, Swift.Error>) -> ()
+    ) {
         do {
             let seed = try crypto.guid()
-            storage.setSDKSecretSeed(seed) { result in
+            storageManager.setSDKSecretSeed(seed) { result in
                 guard result.isSuccess(else: completion) else { return }
                 
                 completion(catchResult { try crypto.keyPairFrom(seed: seed) })

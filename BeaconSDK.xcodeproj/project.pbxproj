@@ -21,6 +21,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		880BB62A257EAEE5006A1D01 /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880BB629257EAEE5006A1D01 /* SecureStorage.swift */; };
+		880BB632257EAF60006A1D01 /* UserDefaultsSecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880BB631257EAF60006A1D01 /* UserDefaultsSecureStorage.swift */; };
+		880BB639257EAFA8006A1D01 /* MockSecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880BB638257EAFA8006A1D01 /* MockSecureStorage.swift */; };
+		880BB646257F5DB6006A1D01 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880BB645257F5DB6006A1D01 /* Keychain.swift */; };
 		883CCEA2257779D300DD8696 /* AcknowledgeV2Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883CCEA1257779D300DD8696 /* AcknowledgeV2Response.swift */; };
 		883CCEAF25777EC200DD8696 /* AcknowledgeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883CCEAE25777EC200DD8696 /* AcknowledgeResponse.swift */; };
 		884C4972257656110049DF55 /* ConnectionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884C4971257656110049DF55 /* ConnectionControllerTests.swift */; };
@@ -268,6 +272,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		880BB629257EAEE5006A1D01 /* SecureStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
+		880BB631257EAF60006A1D01 /* UserDefaultsSecureStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSecureStorage.swift; sourceTree = "<group>"; };
+		880BB638257EAFA8006A1D01 /* MockSecureStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSecureStorage.swift; sourceTree = "<group>"; };
+		880BB645257F5DB6006A1D01 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		883CCEA1257779D300DD8696 /* AcknowledgeV2Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgeV2Response.swift; sourceTree = "<group>"; };
 		883CCEAE25777EC200DD8696 /* AcknowledgeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgeResponse.swift; sourceTree = "<group>"; };
 		884C4971257656110049DF55 /* ConnectionControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionControllerTests.swift; sourceTree = "<group>"; };
@@ -500,6 +508,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		880BB630257EAF41006A1D01 /* UserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				88CC0A5D256D57B300F54056 /* UserDefaultsStorage.swift */,
+				880BB631257EAF60006A1D01 /* UserDefaultsSecureStorage.swift */,
+			);
+			path = UserDefaults;
+			sourceTree = "<group>";
+		};
+		880BB644257F5D7E006A1D01 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				880BB645257F5DB6006A1D01 /* Keychain.swift */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
 		884C4978257656600049DF55 /* Transport */ = {
 			isa = PBXGroup;
 			children = (
@@ -553,6 +578,7 @@
 			isa = PBXGroup;
 			children = (
 				88CC0B94256D57CB00F54056 /* MockStorage.swift */,
+				880BB638257EAFA8006A1D01 /* MockSecureStorage.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -736,9 +762,10 @@
 		88CC0A58256D57B300F54056 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
+				880BB630257EAF41006A1D01 /* UserDefaults */,
 				88CC0A5A256D57B300F54056 /* ExtendedStorage.swift */,
+				880BB629257EAEE5006A1D01 /* SecureStorage.swift */,
 				88CC0A59256D57B300F54056 /* Storage.swift */,
-				88CC0A5D256D57B300F54056 /* UserDefaultsStorage.swift */,
 				88CC0A5B256D57B300F54056 /* Decorator */,
 				88CC0CA0256E910900F54056 /* Manager */,
 			);
@@ -786,6 +813,7 @@
 				88CC0D21256FB22C00F54056 /* TryUtils.swift */,
 				88CC0A65256D57B300F54056 /* Extensions */,
 				88CC0A70256D57B300F54056 /* Model */,
+				880BB644257F5D7E006A1D01 /* Security */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1593,6 +1621,7 @@
 				88CC0B5F256D57B500F54056 /* VersionedMessage.swift in Sources */,
 				88CC0AFE256D57B500F54056 /* BlockHeader.swift in Sources */,
 				88CC0B79256D57B500F54056 /* Threshold.swift in Sources */,
+				880BB639257EAFA8006A1D01 /* MockSecureStorage.swift in Sources */,
 				88CC0AFF256D57B500F54056 /* Parameters.swift in Sources */,
 				88CC0B64256D57B500F54056 /* BroadcastResponse.swift in Sources */,
 				88CC0B10256D57B500F54056 /* MichelineLiteral.swift in Sources */,
@@ -1601,6 +1630,7 @@
 				88CC0B45256D57B500F54056 /* RoomService.swift in Sources */,
 				88CC0B5A256D57B500F54056 /* SignPayloadV2Request.swift in Sources */,
 				88CC0B41256D57B500F54056 /* Invite.swift in Sources */,
+				880BB646257F5DB6006A1D01 /* Keychain.swift in Sources */,
 				88CC0B58256D57B500F54056 /* SignPayloadV2Response.swift in Sources */,
 				88CC0AFD256D57B500F54056 /* CommunicationClient.swift in Sources */,
 				88CC0B5C256D57B500F54056 /* BroadcastV2Request.swift in Sources */,
@@ -1669,6 +1699,8 @@
 				88CC0AF6256D57B500F54056 /* Base58CheckSerializer.swift in Sources */,
 				88CC0AF5256D57B500F54056 /* Key.swift in Sources */,
 				88CC0B7B256D57B500F54056 /* Permission.swift in Sources */,
+				880BB62A257EAEE5006A1D01 /* SecureStorage.swift in Sources */,
+				880BB632257EAF60006A1D01 /* UserDefaultsSecureStorage.swift in Sources */,
 				88CC0B39256D57B500F54056 /* EventResponse.swift in Sources */,
 				88CC0B62256D57B500F54056 /* SignPayloadResponse.swift in Sources */,
 				88CC0B78256D57B500F54056 /* AppMetadata.swift in Sources */,

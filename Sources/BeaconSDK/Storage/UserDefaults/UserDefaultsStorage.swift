@@ -104,16 +104,6 @@ class UserDefaultsStorage: Storage {
     
     // MARK: SDK
     
-    func getSDKSecretSeed(completion: @escaping (Result<String?, Error>) -> ()) {
-        let seed = userDefaults.string(forKey: .sdkSecretSeed)
-        completion(.success(seed))
-    }
-    
-    func setSDKSecretSeed(_ seed: String, completion: @escaping (Result<(), Error>) -> ()) {
-        userDefaults.set(seed, forKey: .sdkSecretSeed)
-        completion(.success(()))
-    }
-    
     func getSDKVersion(completion: @escaping (Result<String?, Error>) -> ()) {
         let version = userDefaults.string(forKey: .sdkVersion)
         completion(.success(version))
@@ -132,7 +122,6 @@ class UserDefaultsStorage: Storage {
         case permissions
         case matrixSyncToken
         case matrixRooms
-        case sdkSecretSeed
         case sdkVersion
     }
 }

@@ -97,7 +97,7 @@ class BeaconViewModel: ObservableObject {
                 self.beaconClient = client
                 self.listenForRequests()
             case let .failure(error):
-                print("Could not create Beacon clinet, got error: \(error)")
+                print("Could not create Beacon client, got error: \(error)")
             }
         }
     }

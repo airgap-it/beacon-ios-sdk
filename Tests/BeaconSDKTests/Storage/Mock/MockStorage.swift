@@ -14,7 +14,6 @@ class MockStorage: Storage {
     var permissions: [Beacon.Permission] = []
     var matrixSyncToken: String?
     var matrixRooms: [Matrix.Room] = []
-    var sdkSecretSeed: String?
     var sdkVersion: String?
     
     func getPeers(completion: @escaping (Result<[Beacon.Peer], Error>) -> ()) {
@@ -59,15 +58,6 @@ class MockStorage: Storage {
     
     func set(_ rooms: [Matrix.Room], completion: @escaping (Result<(), Error>) -> ()) {
         self.matrixRooms = rooms
-        completion(.success(()))
-    }
-    
-    func getSDKSecretSeed(completion: @escaping (Result<String?, Error>) -> ()) {
-        completion(.success(sdkSecretSeed))
-    }
-    
-    func setSDKSecretSeed(_ seed: String, completion: @escaping (Result<(), Error>) -> ()) {
-        sdkSecretSeed = seed
         completion(.success(()))
     }
     
