@@ -7,6 +7,7 @@
 //
 
 import Foundation
+@testable import BeaconSDK
 
 class MockSecureStorage: SecureStorage {
     var sdkSecretSeed: String?
