@@ -14,7 +14,11 @@ The `Beacon iOS SDK` provides iOS developers with tools useful for setting up co
 
 <!-- TODO: ## Documentation -->
 
-<!-- TODO: ## Project Overview -->
+## Project Overview
+
+The project is divided into the following targets:
+    - `BeaconSDK` - the main library target
+    - `BeaconSDKDemo` - an example application
 
 ## Examples
 
