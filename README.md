@@ -10,7 +10,26 @@
 
 The `Beacon iOS SDK` provides iOS developers with tools useful for setting up communication between native wallets supporting Tezos and dApps that implement [`beacon-sdk`](https://github.com/airgap-it/beacon-sdk).
 
-<!-- TODO: once published ## Installation -->
+## Installation
+
+To add `Beacon iOS SDK` into your project, add the `Beacon iOS SDK` package dependency:
+
+### Xcode
+
+Open the `Add Package Dependency` window* and enter the `Beacon iOS SDK` GitHub repository URL:
+```
+https://github.com/airgap-it/beacon-ios-sdk
+```
+
+*follow [the official guide](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app)
+
+### Package.swift file
+
+Add the following dependency in your `Package.swift` file:
+
+```
+.package(url: "https://github.com/airgap-it/beacon-ios-sdk", from: "1.0.0")
+```
 
 <!-- TODO: ## Documentation -->
 
