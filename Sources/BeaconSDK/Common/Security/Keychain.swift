@@ -54,16 +54,19 @@ enum Keychain {
                 throw Keychain.Error(error?.autorelease().takeUnretainedValue())
             }
 
-            let attributes: [String: Any] = [
+            var attributes: [String: Any] = [
                 kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
                 kSecAttrKeySizeInBits as String: 256,
-                kSecAttrTokenID as String: kSecAttrTokenIDSecureEnclave,
                 kSecPrivateKeyAttrs as String: [
                     kSecAttrIsPermanent as String: true,
                     kSecAttrApplicationTag as String: tag,
                     kSecAttrAccessControl as String: access
                 ]
             ]
+
+            #if !targetEnvironment(simulator)
+            attributes[kSecAttrTokenID as String] = kSecAttrTokenIDSecureEnclave
+            #endif
 
             guard let key = SecKeyCreateRandomKey(attributes as CFDictionary, &error) else {
                 throw Keychain.Error(error?.autorelease().takeUnretainedValue())
