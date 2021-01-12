@@ -1,6 +1,6 @@
 # Beacon iOS SDK
 
-<!-- TODO: badges -->
+[![release]](https://img.shields.io/github/v/tag/airgap-it/beacon-ios-sdk?include_prereleases)
 
 > Connect Wallets with dApps on Tezos
 
@@ -16,7 +16,48 @@ The `Beacon iOS SDK` provides iOS developers with tools useful for setting up co
 
 <!-- TODO: ## Project Overview -->
 
-<!-- TODO: ## Examples -->
+## Examples
+
+The snippets below show how to quickly setup listening for incoming Beacon messages.
+
+For more examples please see our `demo` app (WIP).
+
+### Create a Beacon client and listen for incoming messages
+
+```swift
+import BeaconSDK
+
+class BeaconController {
+    private var client: Beacon.Client?
+    
+    ...
+    
+    func startBeacon() {
+        Beacon.Client.create(with: Beacon.Client.Configuration(name: "My App")) { result in
+            switch result {
+            case let .success(client):
+                self.client = client
+                self.listenForBeaconMessages()
+            case let .failure(error):
+                /* handle error */
+            }
+        }
+    }
+    
+    func listenForBeaconMessages() {
+        client?.connect { result in
+            switch result {
+            case .success(_):
+                self.client?.listen { request in 
+                    /* process messages */ 
+                }
+            case let .failure(error):
+                /* handle error */
+            }
+        }
+    }
+}
+```
 
 <!-- TODO: ## Development -->
 
