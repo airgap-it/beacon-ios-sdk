@@ -32,6 +32,7 @@ class LazyWeakReferenceTests: XCTestCase {
         var value: Stub?
         for _ in 0..<n {
             value = reference.value
+            XCTAssertNotNil(value)
             value = nil
         }
         
