@@ -1,6 +1,6 @@
 # Beacon iOS SDK
 
-[![release]](https://img.shields.io/github/v/tag/airgap-it/beacon-ios-sdk?include_prereleases)
+[![release](https://img.shields.io/github/v/tag/airgap-it/beacon-ios-sdk?include_prereleases)](https://github.com/airgap-it/beacon-ios-sdk/releases)
 
 > Connect Wallets with dApps on Tezos
 
@@ -16,18 +16,16 @@ To add `Beacon iOS SDK` into your project, add the `Beacon iOS SDK` package depe
 
 ### Xcode
 
-Open the `Add Package Dependency` window* and enter the `Beacon iOS SDK` GitHub repository URL:
+Open the `Add Package Dependency` window (as described in [the official guide](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app)) and enter the `Beacon iOS SDK` GitHub repository URL:
 ```
 https://github.com/airgap-it/beacon-ios-sdk
 ```
-
-*follow [the official guide](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app)
 
 ### Package.swift file
 
 Add the following dependency in your `Package.swift` file:
 
-```
+```swift
 .package(url: "https://github.com/airgap-it/beacon-ios-sdk", from: "1.0.0")
 ```
 
@@ -36,8 +34,9 @@ Add the following dependency in your `Package.swift` file:
 ## Project Overview
 
 The project is divided into the following targets:
-    - `BeaconSDK` - the main library target
-    - `BeaconSDKDemo` - an example application
+
+- `BeaconSDK` - the main library target
+- `BeaconSDKDemo` - an example application
 
 ## Examples
 
