@@ -49,6 +49,7 @@ extension Beacon.Message.Versioned.V2 {
                     .request(
                         .broadcast(
                             .init(
+                                type: type.rawValue,
                                 id: id,
                                 senderID: senderID,
                                 appMetadata: appMetadata,

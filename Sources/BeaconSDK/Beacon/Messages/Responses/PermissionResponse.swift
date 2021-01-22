@@ -49,7 +49,7 @@ extension Beacon.Response {
             )
         }
         
-        init(
+        public init(
             id: String,
             publicKey: String,
             network: Beacon.Network,

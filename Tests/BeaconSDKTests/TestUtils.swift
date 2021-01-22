@@ -29,6 +29,7 @@ func runAsync(with group: DispatchGroup = .init(), times n: Int, body: @escaping
 // MARK: Factories
 
 func permissionBeaconRequest(
+    type: String = "permission_request",
     id: String = "id",
     senderID: String = "senderID",
     appMetadata: Beacon.AppMetadata = .init(senderID: "senderID", name: "mockApp"),
@@ -38,6 +39,7 @@ func permissionBeaconRequest(
     version: String = "2"
 ) -> Beacon.Request.Permission {
     Beacon.Request.Permission(
+        type: type,
         id: id,
         senderID: senderID,
         appMetadata: appMetadata,
@@ -49,6 +51,7 @@ func permissionBeaconRequest(
 }
 
 func operationBeaconRequest(
+    type: String = "operation_request",
     id: String = "id",
     senderID: String = "senderID",
     appMetadata: Beacon.AppMetadata? = .init(senderID: "senderID", name: "mockApp"),
@@ -59,6 +62,7 @@ func operationBeaconRequest(
     version: String = "2"
 ) -> Beacon.Request.Operation {
     Beacon.Request.Operation(
+        type: type,
         id: id,
         senderID: senderID,
         appMetadata: appMetadata,
@@ -71,6 +75,7 @@ func operationBeaconRequest(
 }
 
 func signPayloadBeaconRequest(
+    type: String = "sign_payload_request",
     id: String = "id",
     senderID: String = "senderID",
     appMetadata: Beacon.AppMetadata? = .init(senderID: "senderID", name: "mockApp"),
@@ -81,6 +86,7 @@ func signPayloadBeaconRequest(
     version: String = "2"
 ) -> Beacon.Request.SignPayload {
     Beacon.Request.SignPayload(
+        type: type,
         id: id,
         senderID: senderID,
         appMetadata: appMetadata,
@@ -93,6 +99,7 @@ func signPayloadBeaconRequest(
 }
 
 func broadcastBeaconRequest(
+    type: String = "broadcast_request",
     id: String = "id",
     senderID: String = "senderID",
     appMetadata: Beacon.AppMetadata? = .init(senderID: "senderID", name: "mockApp"),
@@ -102,6 +109,7 @@ func broadcastBeaconRequest(
     version: String = "2"
 ) -> Beacon.Request.Broadcast {
     Beacon.Request.Broadcast(
+        type: type,
         id: id,
         senderID: senderID,
         appMetadata: appMetadata,

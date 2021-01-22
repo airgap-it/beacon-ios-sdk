@@ -55,6 +55,7 @@ extension Beacon.Message.Versioned.V1 {
             completion: @escaping (Result<Beacon.Message, Error>) -> ()
         ) {
             let message = Beacon.Request.Permission(
+                type: type.rawValue,
                 id: id,
                 senderID: beaconID,
                 appMetadata: appMetadata.toAppMetadata(),
