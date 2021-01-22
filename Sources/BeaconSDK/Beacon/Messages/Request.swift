@@ -70,6 +70,7 @@ extension Beacon {
 // MARK: Protocol
 
 protocol RequestProtocol: MessageProtocol {
+    var type: String { get }
     var senderID: String { get }
     var origin: Beacon.Origin { get }
 }

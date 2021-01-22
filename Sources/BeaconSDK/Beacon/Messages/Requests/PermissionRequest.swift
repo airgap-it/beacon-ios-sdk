@@ -13,6 +13,9 @@ extension Beacon.Request {
     /// Body of the `Beacon.Request.permission` message.
     public struct Permission: RequestProtocol, Equatable, Codable {
         
+        /// The type of this request.
+        public let type: String
+        
         /// The value that identifies this request.
         public let id: String
         
@@ -34,6 +37,7 @@ extension Beacon.Request {
         let version: String
         
         init(
+            type: String,
             id: String,
             senderID: String,
             appMetadata: Beacon.AppMetadata,
@@ -42,6 +46,7 @@ extension Beacon.Request {
             origin: Beacon.Origin,
             version: String
         ) {
+            self.type = type
             self.id = id
             self.senderID = senderID
             self.appMetadata = appMetadata

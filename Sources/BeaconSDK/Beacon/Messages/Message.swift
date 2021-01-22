@@ -28,7 +28,7 @@ extension Beacon {
         /// Sent in reply to a request. An attempt to send a response
         /// with no matching pending request will result in an error.
         ///
-        /// - resposnse: The body of the message.
+        /// - response: The body of the message.
         ///
         case response(_ response: Response)
         

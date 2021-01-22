@@ -52,6 +52,7 @@ extension Beacon.Message.Versioned.V2 {
                     .request(
                         .signPayload(
                             .init(
+                                type: type.rawValue,
                                 id: id,
                                 senderID: senderID,
                                 appMetadata: appMetadata,

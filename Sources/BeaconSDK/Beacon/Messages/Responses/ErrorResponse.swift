@@ -26,7 +26,7 @@ extension Beacon.Response {
             self.init(id: request.common.id, errorType: errorType, version: request.common.version, requestOrigin: request.common.origin)
         }
         
-        init(id: String, errorType: Beacon.ErrorType, version: String, requestOrigin: Beacon.Origin) {
+        public init(id: String, errorType: Beacon.ErrorType, version: String, requestOrigin: Beacon.Origin) {
             self.id = id
             self.errorType = errorType
             self.version = version

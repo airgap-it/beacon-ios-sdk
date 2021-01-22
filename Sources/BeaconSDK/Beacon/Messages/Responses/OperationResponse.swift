@@ -26,7 +26,7 @@ extension Beacon.Response {
             self.init(id: request.id, transactionHash: transactionHash, version: request.version, requestOrigin: request.origin)
         }
         
-        init(id: String, transactionHash: String, version: String, requestOrigin: Beacon.Origin) {
+        public init(id: String, transactionHash: String, version: String, requestOrigin: Beacon.Origin) {
             self.id = id
             self.transactionHash = transactionHash
             self.version = version
