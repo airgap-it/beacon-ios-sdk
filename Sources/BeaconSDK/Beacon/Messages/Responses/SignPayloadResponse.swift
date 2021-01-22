@@ -35,7 +35,7 @@ extension Beacon.Response {
             )
         }
         
-        init(id: String, signingType: Beacon.SigningType, signature: String, version: String, requestOrigin: Beacon.Origin) {
+        public init(id: String, signingType: Beacon.SigningType, signature: String, version: String, requestOrigin: Beacon.Origin) {
             self.id = id
             self.signingType = signingType
             self.signature = signature
