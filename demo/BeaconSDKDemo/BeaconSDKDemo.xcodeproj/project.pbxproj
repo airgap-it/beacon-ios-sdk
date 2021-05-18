@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49C8DCE62627390C0019EBD4 /* BeaconSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 49C8DCE52627390C0019EBD4 /* BeaconSDK */; };
+		49C8DCE82627390C0019EBD4 /* libsodium in Frameworks */ = {isa = PBXBuildFile; productRef = 49C8DCE72627390C0019EBD4 /* libsodium */; };
+		49C8DCF226273A040019EBD4 /* BeaconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97FAD25ADB0F8002F6366 /* BeaconView.swift */; };
 		49C97F7E25ADB07E002F6366 /* BeaconSDKDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97F7D25ADB07E002F6366 /* BeaconSDKDemoApp.swift */; };
 		49C97F8225ADB07F002F6366 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49C97F8125ADB07F002F6366 /* Assets.xcassets */; };
 		49C97F8525ADB07F002F6366 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49C97F8425ADB07F002F6366 /* Preview Assets.xcassets */; };
 		49C97F9025ADB07F002F6366 /* BeaconSDKDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97F8F25ADB07F002F6366 /* BeaconSDKDemoTests.swift */; };
 		49C97F9B25ADB07F002F6366 /* BeaconSDKDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97F9A25ADB07F002F6366 /* BeaconSDKDemoUITests.swift */; };
 		49C97FAE25ADB0F8002F6366 /* BeaconViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97FAC25ADB0F8002F6366 /* BeaconViewModel.swift */; };
-		49C97FAF25ADB0F8002F6366 /* BeaconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97FAD25ADB0F8002F6366 /* BeaconView.swift */; };
-		49C980DB25ADB3FC002F6366 /* BeaconSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 49C980DA25ADB3FC002F6366 /* BeaconSDK */; };
-		49C980DD25ADB3FC002F6366 /* libsodium in Frameworks */ = {isa = PBXBuildFile; productRef = 49C980DC25ADB3FC002F6366 /* libsodium */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,8 +56,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49C980DB25ADB3FC002F6366 /* BeaconSDK in Frameworks */,
-				49C980DD25ADB3FC002F6366 /* libsodium in Frameworks */,
+				49C8DCE62627390C0019EBD4 /* BeaconSDK in Frameworks */,
+				49C8DCE82627390C0019EBD4 /* libsodium in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,8 +170,8 @@
 			);
 			name = BeaconSDKDemo;
 			packageProductDependencies = (
-				49C980DA25ADB3FC002F6366 /* BeaconSDK */,
-				49C980DC25ADB3FC002F6366 /* libsodium */,
+				49C8DCE52627390C0019EBD4 /* BeaconSDK */,
+				49C8DCE72627390C0019EBD4 /* libsodium */,
 			);
 			productName = BeaconSDKDemo;
 			productReference = 49C97F7A25ADB07E002F6366 /* BeaconSDKDemo.app */;
@@ -244,6 +244,9 @@
 				Base,
 			);
 			mainGroup = 49C97F7125ADB07E002F6366;
+			packageReferences = (
+				49C8DCE42627390C0019EBD4 /* XCRemoteSwiftPackageReference "beacon-ios-sdk" */,
+			);
 			productRefGroup = 49C97F7B25ADB07E002F6366 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -286,7 +289,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49C97FAF25ADB0F8002F6366 /* BeaconView.swift in Sources */,
+				49C8DCF226273A040019EBD4 /* BeaconView.swift in Sources */,
 				49C97FAE25ADB0F8002F6366 /* BeaconViewModel.swift in Sources */,
 				49C97F7E25ADB07E002F6366 /* BeaconSDKDemoApp.swift in Sources */,
 			);
@@ -609,13 +612,26 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		49C8DCE42627390C0019EBD4 /* XCRemoteSwiftPackageReference "beacon-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airgap-it/beacon-ios-sdk.git";
+			requirement = {
+				branch = develop;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
-		49C980DA25ADB3FC002F6366 /* BeaconSDK */ = {
+		49C8DCE52627390C0019EBD4 /* BeaconSDK */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 49C8DCE42627390C0019EBD4 /* XCRemoteSwiftPackageReference "beacon-ios-sdk" */;
 			productName = BeaconSDK;
 		};
-		49C980DC25ADB3FC002F6366 /* libsodium */ = {
+		49C8DCE72627390C0019EBD4 /* libsodium */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 49C8DCE42627390C0019EBD4 /* XCRemoteSwiftPackageReference "beacon-ios-sdk" */;
 			productName = libsodium;
 		};
 /* End XCSwiftPackageProductDependency section */
