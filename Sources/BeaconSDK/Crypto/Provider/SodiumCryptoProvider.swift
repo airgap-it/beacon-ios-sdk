@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Sodium
+import Clibsodium
 
 class SodiumCryptoProvider: CryptoProvider {
     
