@@ -17,5 +17,20 @@ extension Transport.P2P {
         let version: String
         let publicKey: String
         let relayServer: String
+        let icon: String?
+        let appURL: String?
+        
+        // MARK: Codable
+        
+        enum CodingKeys: String, CodingKey {
+            case id
+            case type
+            case name
+            case version
+            case publicKey
+            case relayServer
+            case icon
+            case appURL = "appUrl"
+        }
     }
 }

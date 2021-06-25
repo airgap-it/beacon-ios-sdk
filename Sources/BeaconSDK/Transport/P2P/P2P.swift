@@ -72,15 +72,26 @@ extension Transport {
         }
         
         override func send(_ message: ConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-            switch message {
-            case let .serialized(serialized):
-                switch serialized.origin.kind {
-                case .p2p:
-                    send(serialized.content, to: serialized.origin.id, completion: completion)
+            storageManager.findPeers(where: { $0.common.publicKey == message.common.origin.id }) { result in
+                guard let found = result.get(ifFailure: completion) else { return }
+                guard let peer = found else {
+                    completion(.failure(Error.unknownRecipient))
+                    return
                 }
-            default:
-                /* ignore other messages */
-                completion(.success(()))
+                
+                switch peer {
+                case let .p2p(p2pPeer):
+                    switch message {
+                    case let .serialized(serialized):
+                        switch serialized.origin.kind {
+                        case .p2p:
+                            self.send(serialized.content, to: p2pPeer, completion: completion)
+                        }
+                    default:
+                        /* ignore other messages */
+                        completion(.success(()))
+                    }
+                }
             }
         }
         
@@ -109,12 +120,8 @@ extension Transport {
             }
         }
         
-        private func send(_ message: String, to recipient: String, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-            do {
-                self.client.send(message: message, to: try HexString(from: recipient), completion: completion)
-            } catch {
-                completion(.failure(error))
-            }
+        private func send(_ message: String, to recipient: Beacon.P2PPeer, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+            self.client.send(message: message, to: recipient, completion: completion)
         }
         
         // MARK: Types

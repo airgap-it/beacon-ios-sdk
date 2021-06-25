@@ -15,7 +15,7 @@ extension Beacon.Connection {
         let kind: Kind
         
         /// URLs of the servers used in the P2P connection.
-        public let nodes: [URL]
+        public let nodes: [String]
         
         ///
         /// Creates a default P2P configuration.
@@ -33,7 +33,7 @@ extension Beacon.Connection {
         ///
         /// - Parameter nodes: The URLs to be used in the P2P connection.
         ///
-        public init(nodes: [URL]) throws {
+        public init(nodes: [String]) throws {
             guard !nodes.isEmpty else {
                 throw Beacon.Error.emptyNodes
             }

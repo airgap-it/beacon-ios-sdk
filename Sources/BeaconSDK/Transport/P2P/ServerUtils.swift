@@ -12,26 +12,26 @@ extension Transport.P2P {
     
     class ServerUtils {
         let crypto: Crypto
-        let nodes: [URL]
+        let nodes: [String]
         
-        init(crypto: Crypto, nodes: [URL]) {
+        init(crypto: Crypto, nodes: [String]) {
             self.crypto = crypto
             self.nodes = nodes
         }
         
         // MARK: Relay Server
         
-        func relayServer(for publicKey: HexString, nonce: HexString? = nil) throws -> URL {
+        func relayServer(for publicKey: HexString, nonce: HexString? = nil) throws -> String {
             try relayServer(for: try publicKey.asBytes(), nonce: nonce)
         }
         
-        func relayServer(for publicKey: [UInt8], nonce: HexString? = nil) throws -> URL {
+        func relayServer(for publicKey: [UInt8], nonce: HexString? = nil) throws -> String {
             let hash = try crypto.hash(key: publicKey)
             let nonceValue = nonce?.asString() ?? ""
             
             let relayServer = try nodes.min { (first, second) in
-                let firstDistance = try distance(from: hash, to: first.absoluteString + nonceValue)
-                let secondDistance = try distance(from: hash, to: second.absoluteString + nonceValue)
+                let firstDistance = try distance(from: hash, to: first + nonceValue)
+                let secondDistance = try distance(from: hash, to: second + nonceValue)
                 
                 return firstDistance <= secondDistance
             }

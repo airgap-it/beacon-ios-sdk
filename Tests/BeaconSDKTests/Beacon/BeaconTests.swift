@@ -22,7 +22,7 @@ class BeaconTests: XCTestCase {
         let storage = MockStorage()
         let secureStorage = MockSecureStorage()
         
-        Beacon.initialize(appName: appName, storage: storage, secureStorage: secureStorage) { result in
+        Beacon.initialize(appName: appName, appIcon: nil, appURL: nil, storage: storage, secureStorage: secureStorage) { result in
             switch result {
             case .success(_):
                 XCTAssertNotNil(Beacon.shared, "Beacon instance has not been initialized")
@@ -70,7 +70,7 @@ class BeaconTests: XCTestCase {
         secureStorage.sdkSecretSeed = storageSeed
         storage.sdkVersion = "oldVersion"
         
-        Beacon.initialize(appName: appName, storage: storage, secureStorage: secureStorage) { result in
+        Beacon.initialize(appName: appName, appIcon: nil, appURL: nil, storage: storage, secureStorage: secureStorage) { result in
             switch result {
             case .success(_):
                 XCTAssertNotNil(Beacon.shared, "Beacon instance has not been initialized")

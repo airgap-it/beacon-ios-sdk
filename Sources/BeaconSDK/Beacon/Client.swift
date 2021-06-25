@@ -53,7 +53,13 @@ extension Beacon {
             let storage = UserDefaultsStorage()
             let secureStorage = UserDefaultsSecureStorage()
             
-            Beacon.initialize(appName: configuration.name, storage: storage, secureStorage: secureStorage) { result in
+            Beacon.initialize(
+                appName: configuration.name,
+                appIcon: configuration.iconURL,
+                appURL: configuration.appURL,
+                storage: storage,
+                secureStorage: secureStorage
+            ) { result in
                 guard let beacon = result.get(ifFailure: completion) else { return }
                 
                 do {
@@ -357,6 +363,12 @@ extension Beacon {
             /// The name of the application.
             public let name: String
             
+            /// A URL to the application's webpage.
+            public let appURL: String?
+            
+            /// A URL to the application's icon.
+            public let iconURL: String?
+            
             /// Connection types that will be supported by the configured client.
             public let connections: [Beacon.Connection]
             
@@ -366,8 +378,10 @@ extension Beacon {
             /// - Parameter name: The name of the application.
             /// - Parameter connections: Supported connection types, P2P by default.
             ///
-            public init(name: String, connections: [Beacon.Connection] = [.p2p()]) {
+            public init(name: String, appURL: String? = nil, iconURL: String? = nil, connections: [Beacon.Connection] = [.p2p()]) {
                 self.name = name
+                self.appURL = appURL
+                self.iconURL = iconURL
                 self.connections = connections
             }
         }
