@@ -172,7 +172,7 @@ class Matrix {
                 return
             }
             
-            let roomRequest = RoomService.CreateRequest(invite: members, preset: .trustedPrivateChat, isDirect: true)
+            let roomRequest = RoomService.CreateRequest(invite: members, roomVersion: "5", preset: .trustedPrivateChat, isDirect: true)
             self.roomService.createRoom(withToken: accessToken, configuredWith: roomRequest) { result in
                 completion(result.map { $0.roomID.map { Matrix.Room.init(status: .unknown, id: $0) } })
             }

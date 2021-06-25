@@ -52,7 +52,9 @@ extension Transport.P2P {
             for peer: Beacon.P2PPeer,
             publicKey: [UInt8],
             relayServer: String,
-            appName: String
+            appName: String,
+            appIcon: String?,
+            appURL: String?
         ) throws -> String {
             switch peer.version.prefix(before: ".") {
             case "1":
@@ -62,7 +64,9 @@ extension Transport.P2P {
                     for: peer,
                     publicKey: HexString(from: publicKey),
                     relayServer: relayServer,
-                    appName: appName
+                    appName: appName,
+                    appIcon: appIcon,
+                    appURL: appURL
                 )
             default:
                 // fallback to the newest version
@@ -70,7 +74,9 @@ extension Transport.P2P {
                     for: peer,
                     publicKey: HexString(from: publicKey),
                     relayServer: relayServer,
-                    appName: appName
+                    appName: appName,
+                    appIcon: appIcon,
+                    appURL: appURL
                 )
             }
         }
@@ -83,7 +89,9 @@ extension Transport.P2P {
             for peer: Beacon.P2PPeer,
             publicKey: HexString,
             relayServer: String,
-            appName: String
+            appName: String,
+            appIcon: String?,
+            appURL: String?
         ) throws -> String {
             guard let id = peer.id else {
                 throw Beacon.Error.invalidPeer(.p2p(peer), version: peer.version)
@@ -95,7 +103,9 @@ extension Transport.P2P {
                 name: appName,
                 version: peer.version,
                 publicKey: publicKey.asString(),
-                relayServer: relayServer
+                relayServer: relayServer,
+                icon: appIcon,
+                appURL: appURL
             )
             let encoder = JSONEncoder()
             

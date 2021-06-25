@@ -14,15 +14,19 @@ public class Beacon {
     
     let dependencyRegistry: DependencyRegistry
     let appName: String
+    let appIcon: String?
+    let appURL: String?
     let keyPair: KeyPair
     
     var beaconID: String {
         HexString(from: keyPair.publicKey).asString()
     }
     
-    private init(dependencyRegistry: DependencyRegistry, appName: String, keyPair: KeyPair) {
+    private init(dependencyRegistry: DependencyRegistry, appName: String, appIcon: String?, appURL: String?, keyPair: KeyPair) {
         self.dependencyRegistry = dependencyRegistry
         self.appName = appName
+        self.appIcon = appIcon
+        self.appURL = appURL
         self.keyPair = keyPair
     }
     
@@ -30,6 +34,8 @@ public class Beacon {
     
     static func initialize(
         appName: String,
+        appIcon: String?,
+        appURL: String?,
         storage: Storage,
         secureStorage: SecureStorage,
         completion: @escaping (Result<(Beacon), Swift.Error>) -> ()
@@ -48,7 +54,13 @@ public class Beacon {
             
             self.loadOrGenerateKeyPair(using: crypto, savedWith: storageManager) { result in
                 guard let keyPair = result.get(ifFailure: completion) else { return }
-                let beacon = Beacon(dependencyRegistry: dependencyRegistry, appName: appName, keyPair: keyPair)
+                let beacon = Beacon(
+                    dependencyRegistry: dependencyRegistry,
+                    appName: appName,
+                    appIcon: appIcon,
+                    appURL: appURL,
+                    keyPair: keyPair
+                )
                 shared = beacon
                 
                 completion(.success(beacon))

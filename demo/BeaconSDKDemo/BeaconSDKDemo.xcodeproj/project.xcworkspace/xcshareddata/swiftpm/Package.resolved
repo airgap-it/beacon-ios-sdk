@@ -11,21 +11,21 @@
         }
       },
       {
-        "package": "BeaconSDK",
-        "repositoryURL": "https://github.com/airgap-it/beacon-ios-sdk.git",
-        "state": {
-          "branch": "develop",
-          "revision": "e2ab1f969aba52063ec64ffaebd7882b9dd3b8fe",
-          "version": null
-        }
-      },
-      {
         "package": "BigInt",
         "repositoryURL": "https://github.com/attaswift/BigInt.git",
         "state": {
           "branch": null,
           "revision": "889a1ecacd73ccc189c5cb29288048f186c44ed9",
           "version": "5.2.1"
+        }
+      },
+      {
+        "package": "Sodium",
+        "repositoryURL": "https://github.com/jedisct1/swift-sodium.git",
+        "state": {
+          "branch": null,
+          "revision": "4f9164a0a2c9a6a7ff53a2833d54a5c79c957342",
+          "version": "0.9.1"
         }
       }
     ]

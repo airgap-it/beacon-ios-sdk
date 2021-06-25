@@ -33,8 +33,9 @@ extension Beacon {
         
         static let matrixAPI: String = "/_matrix/client/r0"
         static let matrixMaxSyncRetries: Int = 3
-        static let defaultRelayServers: [URL] = [
-            URL(string: "https://matrix.papers.tech"),
+        static let defaultRelayServers: [String] = [
+            "beacon-node-1.sky.papers.tech",
+//            "beacon-node-0.papers.tech:8448",
         ].compactMap { $0 }
         
         static let p2pReplicationCount: Int = 1

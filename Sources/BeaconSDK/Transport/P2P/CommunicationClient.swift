@@ -12,10 +12,11 @@ extension Transport.P2P {
     
     class CommunicationClient {
         private let appName: String
+        private let appIcon: String?
+        private let appURL: String?
         private let communicationUtils: CommunicationUtils
         private let serverUtils: ServerUtils
         private let matrixClients: [Matrix]
-        private let replicationCount: Int
         private let crypto: Crypto
         private let keyPair: KeyPair
         private let timeUtils: TimeUtilsProtocol
@@ -26,19 +27,21 @@ extension Transport.P2P {
         
         init(
             appName: String,
+            appIcon: String?,
+            appURL: String?,
             communicationUtils: CommunicationUtils,
             serverUtils: ServerUtils,
             matrixClients: [Matrix],
-            replicationCount: Int,
             crypto: Crypto,
             keyPair: KeyPair,
             timeUtils: TimeUtilsProtocol
         ) {
             self.appName = appName
+            self.appIcon = appIcon
+            self.appURL = appURL
             self.communicationUtils = communicationUtils
             self.serverUtils = serverUtils
             self.matrixClients = matrixClients
-            self.replicationCount = replicationCount
             self.crypto = crypto
             self.keyPair = keyPair
             self.timeUtils = timeUtils
@@ -123,21 +126,19 @@ extension Transport.P2P {
         
         // MARK: Outgoing Messages
         
-        func send(message: String, to publicKey: HexString, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        func send(message: String, to peer: Beacon.P2PPeer, completion: @escaping (Result<(), Swift.Error>) -> ()) {
             do {
+                let publicKey = try HexString(from: peer.publicKey)
+                let recipient = try communicationUtils.recipientIdentifier(for: publicKey, on: peer.relayServer)
                 let encrypted = HexString(from: try encrypt(message: message, with: publicKey)).asString()
-                for i in 0..<replicationCount {
-                    let relayServer = try serverUtils.relayServer(for: publicKey, nonce: try HexString(from: i))
-                    let recipient = try communicationUtils.recipientIdentifier(for: publicKey, on: relayServer)
-                    
-                    matrixClients.forEachAsync(body: { $0.send(textMessage: encrypted, to: recipient, completion: $1) }) { results in
-                        guard results.contains(where: { $0.isSuccess }) else {
-                            completion(.failure(Error.sendFailed(causedBy: results.compactMap { $0.error })))
-                            return
-                        }
-                        
-                        completion(.success(()))
+                
+                matrixClients.forEachAsync(body: { $0.send(textMessage: encrypted, to: recipient, completion: $1) }) { results in
+                    guard results.contains(where: { $0.isSuccess }) else {
+                        completion(.failure(Error.sendFailed(causedBy: results.compactMap { $0.error })))
+                        return
                     }
+                    
+                    completion(.success(()))
                 }
             } catch {
                 completion(.failure(error))
@@ -154,8 +155,10 @@ extension Transport.P2P {
                 let pairingPayload = try communicationUtils.pairingPayload(
                     for: peer,
                     publicKey: keyPair.publicKey,
-                    relayServer: try serverUtils.relayServer(for: keyPair.publicKey).absoluteString,
-                    appName: appName
+                    relayServer: try serverUtils.relayServer(for: keyPair.publicKey),
+                    appName: appName,
+                    appIcon: appIcon,
+                    appURL: appURL
                 )
                 
                 let payload = HexString(from: try crypto.encrypt(message: pairingPayload, withPublicKey: try publicKey.asBytes())).asString()
@@ -219,8 +222,41 @@ private extension Matrix {
             if let room = joined.first(where: { $0.members.contains(member) }) {
                 completion(.success(room))
             } else {
-                self.createTrustedPrivateRoom(invitedMembers: [member], completion: completion)
+                self.createTrustedPrivateRoom(invitedMembers: [member]) { roomResult in
+                    guard let roomOrNil = roomResult.get(ifFailure: completion) else { return }
+                    guard let room = roomOrNil else {
+                        completion(.success(nil))
+                        return
+                    }
+                    
+                    self.waitForMember(member, joining: room) { waitResult in
+                        guard waitResult.get(ifFailure: completion) != nil else { return }
+                        completion(.success(room))
+                    }
+                }
             }
         }
+    }
+    
+    func waitForMember(_ member: String, joining room: Room, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        if room.members.contains(member) {
+            completion(.success(()))
+            return
+        }
+    
+        var joinEventListener: EventListener!
+        joinEventListener = EventListener { [weak self] event in
+            switch event {
+            case let .join(join):
+                if join.roomID == room.id && join.userID == member {
+                    self?.unsubscribe(joinEventListener)
+                    completion(.success(()))
+                }
+            default:
+                break
+            }
+            
+        }
+        subscribe(for: .join, with: joinEventListener)
     }
 }

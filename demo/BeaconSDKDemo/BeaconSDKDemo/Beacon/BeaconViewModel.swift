@@ -10,10 +10,10 @@ import Foundation
 import BeaconSDK
 
 class BeaconViewModel: ObservableObject {
-    private static let examplePeerID = "a59fb446-7913-2fdc-3267-02149f0b1c4e"
+    private static let examplePeerID = "31de19f4-713e-a0a0-31dc-67f9bc5a0b81"
     private static let examplePeerName = "Beacon Example Dapp"
-    private static let examplePeerPublicKey = "100247a23a014e5b005d4e6406bfce1cfa7d7ed4f0e4ee63f0ce566fca996551"
-    private static let examplePeerRelayServer = "matrix.papers.tech"
+    private static let examplePeerPublicKey = "4fb3f40c7a59884fe82ac4bc15743178c5869df27ed46641a610fbd6572ddd10"
+    private static let examplePeerRelayServer = "beacon-node-0.papers.tech:8448"
     private static let examplePeerVersion = "2"
     
     private static let exampleTezosPublicKey = "edpktpzo8UZieYaJZgCHP6M6hKHPdWBSNqxvmEt6dwWRgxDh1EAFw9"
