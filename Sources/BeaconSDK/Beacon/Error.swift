@@ -74,6 +74,13 @@ extension Beacon {
         ///
         case sendFailed(_ kinds: [Connection.Kind], causedBy: [Swift.Error])
         
+        ///
+        /// Relay server URL is invalid.
+        ///
+        /// - url: Invalid value.
+        ///
+        case invalidURL(_ url: String)
+    
         // MARK: Message
         
         ///

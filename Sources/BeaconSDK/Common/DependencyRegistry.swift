@@ -57,15 +57,26 @@ class DependencyRegistry {
                 let p2pServerUtils = Transport.P2P.ServerUtils(crypto: crypto, nodes: configuration.nodes)
                 let matrixClients: [Matrix] = try (0..<replicationCount).map {
                     let relayServer = try p2pServerUtils.relayServer(for: beacon.keyPair.publicKey, nonce: HexString(from: $0))
-                    return matrix(baseURL: relayServer.appendingPathComponent(Beacon.Configuration.matrixAPI))
+
+                    var urlComponents = URLComponents()
+                    urlComponents.scheme = "https"
+                    urlComponents.host = relayServer
+                    urlComponents.path = Beacon.Configuration.matrixAPI
+                    
+                    guard let baseURL = urlComponents.url else {
+                        throw Beacon.Error.invalidURL(urlComponents.description)
+                    }
+    
+                    return matrix(baseURL: baseURL)
                 }
                 
                 let client = Transport.P2P.CommunicationClient(
                     appName: beacon.appName,
+                    appIcon: beacon.appIcon,
+                    appURL: beacon.appURL,
                     communicationUtils: Transport.P2P.CommunicationUtils(crypto: crypto),
                     serverUtils: p2pServerUtils,
                     matrixClients: matrixClients,
-                    replicationCount: replicationCount,
                     crypto: crypto,
                     keyPair: beacon.keyPair,
                     timeUtils: timeUtils
