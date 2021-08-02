@@ -44,6 +44,9 @@ extension Beacon {
             case mainnet
             case carthagenet
             case delphinet
+            case edonet
+            case florencenet
+            case granadanet
             case custom
         }
     }
