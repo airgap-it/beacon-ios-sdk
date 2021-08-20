@@ -48,15 +48,10 @@ extension Array {
         let queue = DispatchQueue(label: "it.airgap.beacon-sdk.forEachAsync", qos: .default, attributes: [], target: .global(qos: .default))
         
         for item in self.enumerated() {
-//            group.enter()
             body(item.element) { value in
                 queue.async(group: group){
                     results[item.offset] = value
                 }
-//                queue.async {
-//                    results[item.offset] = value
-////                    group.leave()
-//                }
             }
         }
         
