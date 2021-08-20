@@ -47,20 +47,18 @@ extension Array {
         var results = [T?](repeating: nil, count: count)
         let queue = DispatchQueue(label: "it.airgap.beacon-sdk.forEachAsync", qos: .default, attributes: [], target: .global(qos: .default))
         
-        //        group.enter()
         for item in self.enumerated() {
-            //            groupEnterCounter += 1;
+//            group.enter()
             body(item.element) { value in
-                //                queue.async {
-                results[item.offset] = value
-                //                    if (groupEnterCounter > 0){
-                //                        group.leave()
-                //                        groupEnterCounter -= 1;
-                //                    }
+                queue.async(group: group){
+                    results[item.offset] = value
+                }
+//                queue.async {
+//                    results[item.offset] = value
+////                    group.leave()
+//                }
             }
-            //            }
         }
-        //        group.leave()
         
         group.notify(qos: .default, flags: [], queue: queue) {
             completion(results.compactMap { $0 })
