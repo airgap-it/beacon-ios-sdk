@@ -52,7 +52,7 @@ extension Array {
             body(item.element) { value in
                 queue.async {
                     results[item.offset] = value
-                    group.leave()
+//                    group.leave()
                 }
             }
         }
