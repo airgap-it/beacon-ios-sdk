@@ -49,7 +49,7 @@ extension Array {
           
         group.enter()
         for item in self.enumerated() {
-            groupEnterCounter += 1;
+//            groupEnterCounter += 1;
             body(item.element) { value in
                 queue.async {
                     results[item.offset] = value
