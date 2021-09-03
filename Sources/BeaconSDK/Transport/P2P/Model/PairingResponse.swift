@@ -1,5 +1,5 @@
 //
-//  HandshakeInfo.swift
+//  PairingResponse.swift
 //  BeaconSDK
 //
 //  Created by Julia Samol on 19.11.20.

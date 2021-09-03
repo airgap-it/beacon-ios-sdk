@@ -13,21 +13,15 @@ public class Beacon {
     private(set) static var shared: Beacon? = nil
     
     let dependencyRegistry: DependencyRegistry
-    let appName: String
-    let appIcon: String?
-    let appURL: String?
-    let keyPair: KeyPair
+    let app: Application
     
     var beaconID: String {
-        HexString(from: keyPair.publicKey).asString()
+        HexString(from: app.keyPair.publicKey).asString()
     }
     
-    private init(dependencyRegistry: DependencyRegistry, appName: String, appIcon: String?, appURL: String?, keyPair: KeyPair) {
+    private init(dependencyRegistry: DependencyRegistry, app: Application) {
         self.dependencyRegistry = dependencyRegistry
-        self.appName = appName
-        self.appIcon = appIcon
-        self.appURL = appURL
-        self.keyPair = keyPair
+        self.app = app
     }
     
     // MARK: Initialization
@@ -56,10 +50,7 @@ public class Beacon {
                 guard let keyPair = result.get(ifFailure: completion) else { return }
                 let beacon = Beacon(
                     dependencyRegistry: dependencyRegistry,
-                    appName: appName,
-                    appIcon: appIcon,
-                    appURL: appURL,
-                    keyPair: keyPair
+                    app: Application(keyPair: keyPair, name: appName, icon: appIcon, url: appURL)
                 )
                 shared = beacon
                 
@@ -81,7 +72,7 @@ public class Beacon {
             guard let storageSeed = result.get(ifFailure: completion) else { return }
             
             if let seed = storageSeed {
-                completion(catchResult { try crypto.keyPairFrom(seed: seed) })
+                completion(runCatching { try crypto.keyPairFrom(seed: seed) })
             } else {
                 self.generateKeyPair(using: crypto, savedWith: storageManager, completion: completion)
             }
@@ -98,7 +89,7 @@ public class Beacon {
             storageManager.setSDKSecretSeed(seed) { result in
                 guard result.isSuccess(else: completion) else { return }
                 
-                completion(catchResult { try crypto.keyPairFrom(seed: seed) })
+                completion(runCatching { try crypto.keyPairFrom(seed: seed) })
             }
         } catch {
             completion(.failure(error))

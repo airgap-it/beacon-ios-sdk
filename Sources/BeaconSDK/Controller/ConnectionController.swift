@@ -45,7 +45,7 @@ class ConnectionController: ConnectionControllerProtocol {
             let result: Result<BeaconConnectionMessage, Error> = connectionMessage.flatMap {
                 switch $0 {
                 case let .serialized(message):
-                    let versioned = catchResult { try selfStrong.serializer.deserialize(message: message.content, to: Beacon.Message.Versioned.self) }
+                    let versioned = runCatching { try selfStrong.serializer.deserialize(message: message.content, to: Beacon.Message.Versioned.self) }
                     
                     return versioned.map { BeaconConnectionMessage(origin: message.origin, content: $0) }
                 case let .beacon(message):

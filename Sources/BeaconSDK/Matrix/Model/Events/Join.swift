@@ -10,13 +10,15 @@ import Foundation
 
 extension Matrix.Event {
     
-    struct Join {
+    struct Join: EventProtocol {
         let kind: Kind
+        let node: String
         let roomID: String
         let userID: String
         
-        init(roomID: String, userID: String) {
+        init(node: String, roomID: String, userID: String) {
             kind = .join
+            self.node = node
             self.roomID = roomID
             self.userID = userID
         }

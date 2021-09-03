@@ -64,7 +64,7 @@ extension Beacon {
                 
                 do {
                     let beaconClient = Client(
-                        name: beacon.appName,
+                        name: beacon.app.name,
                         beaconID: beacon.beaconID,
                         storageManager: beacon.dependencyRegistry.storageManager,
                         connectionController: try beacon.dependencyRegistry.connectionController(configuredWith: configuration.connections),

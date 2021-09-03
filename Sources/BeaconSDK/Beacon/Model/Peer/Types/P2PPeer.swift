@@ -81,5 +81,28 @@ extension Beacon {
             case icon
             case appURL
         }
+        
+        // MARK: Internal
+        
+        init(
+            from peer: P2PPeer,
+            id: String?? = nil,
+            name: String? = nil,
+            publicKey: String? = nil,
+            relayServer: String? = nil,
+            version: String? = nil,
+            icon: String?? = nil,
+            appURL: URL?? = nil
+        ) {
+            self.init(
+                id: id ?? peer.id,
+                name: name ?? peer.name,
+                publicKey: publicKey ?? peer.publicKey,
+                relayServer: relayServer ?? peer.relayServer,
+                version: version ?? peer.version,
+                icon: icon ?? peer.icon,
+                appURL: appURL ?? peer.appURL
+            )
+        }
     }
 }

@@ -17,4 +17,17 @@ extension String {
     func prefix(before separator: Character) -> String {
         String(prefix { $0 != separator })
     }
+    
+    func removing(prefix: String) -> String {
+        guard hasPrefix(prefix) else {
+            return self
+        }
+        
+        let index = index(startIndex, offsetBy: prefix.count)
+        return String(self[index...])
+    }
+    
+    func removing(prefix: Character) -> String {
+        removing(prefix: String(prefix))
+    }
 }
