@@ -1,5 +1,5 @@
 //
-//  MatrixClient.swift
+//  Matrix.swift
 //  BeaconSDK
 //
 //  Created by Julia Samol on 16.11.20.
@@ -10,15 +10,27 @@ import Foundation
 
 class Matrix {
     private let store: Store
+    private let nodeService: NodeService
     private let userService: UserService
     private let eventService: EventService
     private let roomService: RoomService
     private let timeUtils: TimeUtilsProtocol
     
-    private let pollQueue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.Matrix.poll", target: .global(qos: .default))
+    private let guardQueue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.Matrix.guard", attributes: [], target: .global(qos: .default))
     
-    init(store: Store, userService: UserService, eventService: EventService, roomService: RoomService, timeUtils: TimeUtilsProtocol) {
+    private var pollQueues: [String: DispatchQueue] = [:]
+    private var cancelledQueues: Set<String> = []
+    
+    init(
+        store: Store,
+        nodeService: NodeService,
+        userService: UserService,
+        eventService: EventService,
+        roomService: RoomService,
+        timeUtils: TimeUtilsProtocol
+    ) {
         self.store = store
+        self.nodeService = nodeService
         self.userService = userService
         self.eventService = eventService
         self.roomService = roomService
@@ -59,10 +71,16 @@ class Matrix {
         store.remove(listenerWithID: listener.id)
     }
     
+    // MARK: Node
+    
+    func isUp(_ node: String, completion: @escaping (Result<Bool, Swift.Error>) -> ()) {
+        nodeService.isUp(node, completion: completion)
+    }
+    
     // MARK: Sync
     
-    func start(userID: String, password: String, deviceID: String, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-        userService.login(user: userID, password: password, deviceID: deviceID) { [weak self] result in
+    func start(on node: String, userID: String, password: String, deviceID: String, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        userService.login(on: node, user: userID, password: password, deviceID: deviceID) { [weak self] result in
             guard let response = result.get(ifFailure: completion) else { return }
             
             guard let accessToken = response.accessToken else {
@@ -77,12 +95,29 @@ class Matrix {
             
             selfStrong.store.intent(action: .initialize(userID: userID, deviceID: deviceID, accessToken: accessToken)) { result in
                 guard result.isSuccess(else: completion) else { return }
-                selfStrong.poll(completion: completion)
+                selfStrong.poll(on: node, completion: completion)
             }
         }
     }
     
-    func sync(completion: @escaping (Result<Sync, Swift.Error>) -> ()) {
+    func stop(on node: String? = nil, completion: @escaping () -> () = {}) {
+        guardQueue.async {
+            if let node = node {
+                self.cancelledQueues.insert(node)
+            } else {
+                self.cancelledQueues.formUnion(self.pollQueues.keys)
+            }
+            completion()
+        }
+    }
+    
+    func resetHard(on node: String? = nil, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        stop(on: node) {
+            self.store.intent(action: .hardReset, completion: completion)
+        }
+    }
+    
+    func sync(on node: String, completion: @escaping (Result<Sync, Swift.Error>) -> ()) {
         store.state {
             guard let state = $0.get(ifFailure: completion) else { return }
             guard let accessToken = state.accessToken else {
@@ -90,14 +125,14 @@ class Matrix {
                 return
             }
             
-            self.eventService.sync(withToken: accessToken, since: state.syncToken, timeout: state.pollingTimeout) { result in
-                completion(result.map { Sync(from: $0) })
+            self.eventService.sync(on: node, withToken: accessToken, since: state.syncToken, timeout: state.pollingTimeout) { result in
+                completion(result.map { Sync(from: $0, node: node) })
             }
         }
     }
     
-    private func poll(completion: @escaping (Result<(), Swift.Error>) -> ()) {
-        poll { [weak self] (result, callbackReturn) in
+    private func poll(on node: String, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        poll(on: node) { [weak self] (result, callbackReturn) in
             guard let selfStrong = self else {
                 completion(.failure(Beacon.Error.unknown))
                 return
@@ -132,25 +167,28 @@ class Matrix {
     }
     
     private func poll(
+        on node: String,
         every interval: DispatchTimeInterval = .milliseconds(0),
         onResult callback: @escaping (Result<Sync, Swift.Error>, @escaping () -> ()) -> ()
     ) {
-        pollQueue.async {
-            self.sync { result in
-                callback(result) { [weak self] in
-                    switch result {
-                    case .success(_):
-                        self?.schedule(after: interval) {
-                            self?.poll(every: interval, onResult: callback)
-                        }
-                    case .failure(_):
-                        self?.store.state { [weak self] in
-                            guard let state = try? $0.get() else { return }
-                            if state.pollingRetries < Beacon.Configuration.matrixMaxSyncRetries {
-                                self?.schedule(after: interval) {
-                                    self?.poll(every: interval, onResult: callback)
-                                }
-                            } /* else: max retries exceeded */
+        pollQueue(for: node) {
+            $0.async {
+                self.sync(on: node) { result in
+                    callback(result) { [weak self] in
+                        switch result {
+                        case .success(_):
+                            self?.schedule(on: node, after: interval) {
+                                self?.poll(on: node, every: interval, onResult: callback)
+                            }
+                        case .failure(_):
+                            self?.store.state { [weak self] in
+                                guard let state = try? $0.get() else { return }
+                                if state.pollingRetries < Beacon.Configuration.matrixMaxSyncRetries {
+                                    self?.schedule(on: node, after: interval) {
+                                        self?.poll(on: node, every: interval, onResult: callback)
+                                    }
+                                } /* else: max retries exceeded */
+                            }
                         }
                     }
                 }
@@ -158,13 +196,50 @@ class Matrix {
         }
     }
     
-    private func schedule(after delay: DispatchTimeInterval, action: @escaping () -> ()) {
-        pollQueue.asyncAfter(deadline: .now() + delay, execute: action)
+    private func schedule(on node: String, after delay: DispatchTimeInterval, action: @escaping () -> ()) {
+        pollQueue(for: node) {
+            $0.asyncAfter(deadline: .now() + delay) {
+                self.guardQueue.async {
+                    guard !self.cancelledQueues.contains(node) else {
+                        self.removePollQueue(for: node)
+                        return
+                    }
+                    action()
+                }
+            }
+        }
+    }
+    
+    private func cancelScheduled(on node: String, completion: @escaping () -> ()) {
+        guardQueue.async {
+            self.cancelledQueues.insert(node)
+            completion()
+        }
+    }
+    
+    private func pollQueue(for node: String, completion: @escaping (DispatchQueue) -> ()) {
+        guardQueue.async {
+            let queue = self.pollQueues.getOrSet(node) {
+                .init(label: "it.airgap.beacon-sdk.Matrix.poll#\(node)", target: .global(qos: .default))
+            }
+            completion(queue)
+        }
+    }
+    
+    private func removePollQueue(for node: String, completion: @escaping () -> () = {}) {
+        guardQueue.async {
+            self.pollQueues.removeValue(forKey: node)
+            if self.pollQueues.isEmpty {
+                self.store.intent(action: .reset) { _ in completion() }
+            } else {
+                completion()
+            }
+        }
     }
     
     // MARK: Room Management
     
-    func createTrustedPrivateRoom(invitedMembers members: [String], completion: @escaping (Result<Room?, Swift.Error>) -> ()) {
+    func createTrustedPrivateRoom(on node: String, invitedMembers members: [String], completion: @escaping (Result<Room?, Swift.Error>) -> ()) {
         store.state {
             guard let state = $0.get(ifFailure: completion) else { return }
             guard let accessToken = state.accessToken else {
@@ -172,16 +247,35 @@ class Matrix {
                 return
             }
             
-            let roomRequest = RoomService.CreateRequest(invite: members, roomVersion: "5", preset: .trustedPrivateChat, isDirect: true)
-            self.roomService.createRoom(withToken: accessToken, configuredWith: roomRequest) { result in
-                completion(result.map { $0.roomID.map { Matrix.Room.init(status: .unknown, id: $0) } })
+            let roomRequest = RoomService.CreateRequest(
+                invite: members,
+                roomVersion: Beacon.Configuration.matrixClientRoomVersion,
+                preset: .trustedPrivateChat,
+                isDirect: true
+            )
+            self.roomService.createRoom(on: node, withToken: accessToken, configuredWith: roomRequest) { result in
+                completion(result.map { $0.roomID.map { Matrix.Room(status: .unknown, id: $0) } })
+            }
+        }
+    }
+    
+    func joinRoom(on node: String, roomID: String, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        store.state {
+            guard let state = $0.get(ifFailure: completion) else { return }
+            guard let accessToken = state.accessToken else {
+                completion(.failure(Error.requiresAuthorization("joinRoom")))
+                return
+            }
+            
+            self.roomService.joinRoom(on: node, withToken: accessToken, roomID: roomID) { result in
+                completion(result.map({ _ in () }))
             }
         }
     }
     
     // MARK: Event Management
     
-    func send(message: String, to room: Matrix.Room, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    func send(on node: String, message: String, to room: String, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         store.state {
             guard let state = $0.get(ifFailure: completion) else { return }
             guard let accessToken = state.accessToken else {
@@ -191,7 +285,7 @@ class Matrix {
             
             self.createTxnID { result in
                 guard let txnID = result.get(ifFailure: completion) else { return }
-                self.eventService.send(withToken: accessToken, textMessage: message, to: room.id, txnID: txnID) { result in
+                self.eventService.send(on: node, withToken: accessToken, textMessage: message, to: room, txnID: txnID) { result in
                     completion(result.map { _ in () })
                 }
             }

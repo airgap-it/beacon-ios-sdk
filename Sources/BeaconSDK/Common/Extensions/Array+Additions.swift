@@ -39,6 +39,29 @@ extension Array {
         }
     }
     
+    func grouped<Key: Hashable>(by selectKey: (Element) -> Key) -> [Key: Element] {
+        var dictionary = [Key: Element]()
+        forEach { dictionary[selectKey($0)] = $0 }
+        
+        return dictionary
+    }
+    
+    func grouped<Key: Hashable>(by selectKey: (Element) -> Key) -> [Key: [Element]] {
+        var dictionary = [Key: [Element]]()
+        forEach {
+            let key = selectKey($0)
+            let elements = dictionary[key] ?? [Element]()
+            dictionary[key] = elements + [$0]
+        }
+        
+        return dictionary
+    }
+    
+    func shifted(by offset: Int) -> [Element] {
+        let offset = offset % count
+        return Array(self[offset...] + self[0..<offset])
+    }
+    
     func forEachAsync<T>(
         with group: DispatchGroup = .init(),
         body: @escaping (Element, @escaping (T) -> ()) -> (),

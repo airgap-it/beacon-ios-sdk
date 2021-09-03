@@ -43,7 +43,7 @@ class BeaconTests: XCTestCase {
                 }
                 
                 let expectedKeyPair = try! crypto.keyPairFrom(seed: seed)
-                XCTAssertEqual(expectedKeyPair, Beacon.shared?.keyPair, "BeaconApp has been initialzied with an invalid keyPair")
+                XCTAssertEqual(expectedKeyPair, Beacon.shared?.app.keyPair, "BeaconApp has been initialzied with an invalid keyPair")
                 XCTAssertEqual(HexString(from: expectedKeyPair.publicKey).asString(), Beacon.shared?.beaconID, "beaconID is invalid")
             case .failure(let error):
                 XCTFail("Unexpected error: \(error)")
@@ -89,7 +89,7 @@ class BeaconTests: XCTestCase {
                 }
                 
                 let expectedKeyPair = try! crypto.keyPairFrom(seed: seed)
-                XCTAssertEqual(expectedKeyPair, Beacon.shared?.keyPair, "BeaconApp has been initialzied with an invalid keyPair")
+                XCTAssertEqual(expectedKeyPair, Beacon.shared?.app.keyPair, "BeaconApp has been initialzied with an invalid keyPair")
                 XCTAssertEqual(HexString(from: expectedKeyPair.publicKey).asString(), Beacon.shared?.beaconID, "beaconID is invalid")
             case .failure(let error):
                 XCTFail("Unexpected error: \(error)")

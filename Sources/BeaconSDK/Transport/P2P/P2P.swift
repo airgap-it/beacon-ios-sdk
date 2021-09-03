@@ -12,10 +12,10 @@ extension Transport {
     
     class P2P: Transport {
         
-        private let client: CommunicationClient
+        private let client: Client
         private let storageManager: StorageManager
         
-        init(client: CommunicationClient, storageManager: StorageManager) {
+        init(client: Client, storageManager: StorageManager) {
             self.client = client
             self.storageManager = storageManager
             super.init(kind: .p2p)
@@ -105,7 +105,7 @@ extension Transport {
         
         private func listen(to peers: [Beacon.P2PPeer], completion: @escaping (Result<(), Swift.Error>) -> ()) {
             do {
-                let publicKeys = try peers.map { try HexString(from: $0.publicKey) }
+                let publicKeys = try peers.map { try HexString(from: $0.publicKey).asBytes() }
                 publicKeys.forEach { self.listen(to: $0) }
                 completion(.success(()))
             } catch {
@@ -113,9 +113,11 @@ extension Transport {
             }
         }
         
-        private func listen(to publicKey: HexString) {
+        private func listen(to publicKey: [UInt8]) {
             client.listen(to: publicKey) { [weak self] result in
-                let message = result.map { ConnectionMessage.serialized(originatedFrom: .p2p(id: publicKey), withContent: $0) }
+                let message = result.map {
+                    ConnectionMessage.serialized(originatedFrom: .p2p(id: HexString(from: publicKey).asString()), withContent: $0)
+                }
                 self?.notify(with: message)
             }
         }

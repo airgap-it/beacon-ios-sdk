@@ -21,12 +21,12 @@ extension Matrix {
             self.events = events
         }
         
-        init(from sync: EventService.SyncResponse) {
+        init(from sync: EventService.SyncResponse, node: String) {
             self.nextBatch = sync.nextBatch
             
             self.rooms = {
                 if let rooms = sync.rooms {
-                    return Room.from(sync: rooms)
+                    return Room.from(sync: rooms, node: node)
                 } else {
                     return []
                 }
@@ -34,7 +34,7 @@ extension Matrix {
             
             self.events = {
                 if let rooms = sync.rooms {
-                    return Event.from(syncRooms: rooms)
+                    return Event.from(syncRooms: rooms, node: node)
                 } else {
                     return []
                 }

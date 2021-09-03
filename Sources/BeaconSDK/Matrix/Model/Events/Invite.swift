@@ -10,12 +10,16 @@ import Foundation
 
 extension Matrix.Event {
     
-    struct Invite {
+    struct Invite: EventProtocol {
         let kind: Kind
+        let node: String
+        let sender: String
         let roomID: String
         
-        init(roomID: String) {
+        init(node: String, sender: String, roomID: String) {
             kind = .invite
+            self.node = node
+            self.sender = sender
             self.roomID = roomID
         }
     }

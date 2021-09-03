@@ -9,7 +9,7 @@
 import Foundation
 
 class UserDefaultsStorage: Storage {
-        
+    
     private let userDefaults: UserDefaults
     
     init(userDefaults: UserDefaults = .standard) {
@@ -19,61 +19,73 @@ class UserDefaultsStorage: Storage {
     // MARK: Peers
     
     func getPeers(completion: @escaping (Result<[Beacon.Peer], Error>) -> ()) {
-        do {
-            completion(.success(try userDefaults.get([Beacon.Peer].self, forKey: .peers) ?? []))
-        } catch {
-            completion(.failure(error))
+        completeCatching(completion: completion) {
+            try userDefaults.get([Beacon.Peer].self, forKey: .peers) ?? []
         }
     }
     
     func set(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
-        do {
+        completeCatching(completion: completion) {
             try userDefaults.set(peers, forKey: .peers)
-            completion(.success(()))
-        } catch {
-            completion(.failure(error))
         }
     }
     
     // MARK: AppMetadata
     
     func getAppMetadata(completion: @escaping (Result<[Beacon.AppMetadata], Error>) -> ()) {
-        do {
-            completion(.success(try userDefaults.get([Beacon.AppMetadata].self, forKey: .appMetadata) ?? []))
-        } catch {
-            completion(.failure(error))
+        completeCatching(completion: completion) {
+            try userDefaults.get([Beacon.AppMetadata].self, forKey: .appMetadata) ?? []
         }
     }
     
     func set(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Error>) -> ()) {
-        do {
+        completeCatching(completion: completion) {
             try userDefaults.set(appMetadata, forKey: .appMetadata)
-            completion(.success(()))
-        } catch {
-            completion(.failure(error))
         }
     }
     
     // MARK: Permissions
     
     func getPermissions(completion: @escaping (Result<[Beacon.Permission], Error>) -> ()) {
-        do {
-            completion(.success(try userDefaults.get([Beacon.Permission].self, forKey: .permissions) ?? []))
-        } catch {
-            completion(.failure(error))
+        completeCatching(completion: completion) {
+            try userDefaults.get([Beacon.Permission].self, forKey: .permissions) ?? []
         }
     }
     
     func set(_ permissions: [Beacon.Permission], completion: @escaping (Result<(), Error>) -> ()) {
-        do {
+        completeCatching(completion: completion) {
             try userDefaults.set(permissions, forKey: .permissions)
-            completion(.success(()))
-        } catch {
-            completion(.failure(error))
         }
     }
     
     // MARK: Matrix
+    
+    func getMatrixRelayServer(completion: @escaping (Result<String?, Error>) -> ()) {
+        let relayServer = userDefaults.string(forKey: .matrixRelayServer)
+        completion(.success(relayServer))
+    }
+    
+    func setMatrixRelayServer(_ relayServer: String?, completion: @escaping (Result<(), Error>) -> ()) {
+        if let relayServer = relayServer {
+            userDefaults.set(relayServer, forKey: .matrixRelayServer)
+        } else {
+            userDefaults.removeObject(forKey: .matrixRelayServer)
+        }
+        
+        completion(.success(()))
+    }
+    
+    func getMatrixChannels(completion: @escaping (Result<[String : String], Error>) -> ()) {
+        completeCatching(completion: completion) {
+            try userDefaults.get([String: String].self, forKey: .matrixChannels) ?? [:]
+        }
+    }
+    
+    func setMatrixChannels(_ channels: [String : String], completion: @escaping (Result<(), Error>) -> ()) {
+        completeCatching(completion: completion) {
+            try userDefaults.set(channels, forKey: .matrixChannels)
+        }
+    }
     
     func getMatrixSyncToken(completion: @escaping (Result<String?, Error>) -> ()) {
         let token = userDefaults.string(forKey: .matrixSyncToken)
@@ -86,19 +98,14 @@ class UserDefaultsStorage: Storage {
     }
     
     func getMatrixRooms(completion: @escaping (Result<[Matrix.Room], Error>) -> ()) {
-        do {
-            completion(.success(try userDefaults.get([Matrix.Room].self, forKey: .matrixRooms) ?? []))
-        } catch {
-            completion(.failure(error))
+        completeCatching(completion: completion) {
+            try userDefaults.get([Matrix.Room].self, forKey: .matrixRooms) ?? []
         }
     }
     
     func set(_ rooms: [Matrix.Room], completion: @escaping (Result<(), Error>) -> ()) {
-        do {
+        completeCatching(completion: completion) {
             try userDefaults.set(rooms, forKey: .matrixRooms)
-            completion(.success(()))
-        } catch {
-            completion(.failure(error))
         }
     }
     
@@ -114,15 +121,30 @@ class UserDefaultsStorage: Storage {
         completion(.success(()))
     }
     
+    func getMigrations(completion: @escaping (Result<Set<String>, Error>) -> ()) {
+        completeCatching(completion: completion) {
+            try userDefaults.get(Set<String>.self, forKey: .migrations) ?? []
+        }
+    }
+    
+    func setMigrations(_ migrations: Set<String>, completion: @escaping (Result<(), Error>) -> ()) {
+        completeCatching(completion: completion) {
+            try userDefaults.set(migrations, forKey: .migrations)
+        }
+    }
+    
     // MARK: Types
     
     enum Key: String {
         case peers
         case appMetadata
         case permissions
+        case matrixRelayServer
+        case matrixChannels
         case matrixSyncToken
         case matrixRooms
         case sdkVersion
+        case migrations
     }
 }
 
@@ -149,5 +171,9 @@ private extension UserDefaults {
         } else {
             return nil
         }
+    }
+    
+    func removeObject(forKey key: UserDefaultsStorage.Key) {
+        removeObject(forKey: key.rawValue)
     }
 }

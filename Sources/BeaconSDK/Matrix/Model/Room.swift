@@ -27,9 +27,9 @@ extension Matrix {
             self.members = members ?? room.members
         }
         
-        static func from(sync rooms: EventService.SyncResponse.Rooms) -> [Room] {
+        static func from(sync rooms: EventService.SyncResponse.Rooms, node: String) -> [Room] {
             let joined: [Room] = rooms.join?.map { (id, room) in
-                let members: [String] = Event.from(syncJoin: room, roomID: id).compactMap { event in
+                let members: [String] = Event.from(syncJoin: room, node: node, roomID: id).compactMap { event in
                     switch event {
                     case let .join(content):
                         return content.userID
@@ -42,7 +42,7 @@ extension Matrix {
             } ?? []
             
             let invited: [Room] = rooms.invite?.map { (id, room) in
-                let members: [String] = Event.from(syncInvite: room, roomID: id).compactMap { event in
+                let members: [String] = Event.from(syncInvite: room, node: node, roomID: id).compactMap { event in
                     switch event {
                     case let .join(content):
                         return content.userID
@@ -55,7 +55,7 @@ extension Matrix {
             } ?? []
             
             let left: [Room] = rooms.leave?.map { (id, room) in
-                let members: [String] = Event.from(syncLeave: room, roomID: id).compactMap { event in
+                let members: [String] = Event.from(syncLeave: room, node: node, roomID: id).compactMap { event in
                     switch event {
                     case let .join(content):
                         return content.userID
@@ -68,6 +68,10 @@ extension Matrix {
             } ?? []
             
             return joined + invited + left
+        }
+        
+        func hasMember(_ member: String) -> Bool {
+            members.contains(member)
         }
         
         func update(withMembers members: [String]) -> Room {

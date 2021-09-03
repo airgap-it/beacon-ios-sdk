@@ -49,6 +49,17 @@ protocol ExtendedStorage: Storage {
     )
     
     func removePermissions(where predicate: ((Beacon.Permission) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    
+    // MARK: Matrix
+    
+    func removeMatrixRelayServer(completion: @escaping (Result<(), Error>) -> ())
+    func removeMatrixChannels(completion: @escaping (Result<(), Error>) -> ())
+    func removeMatrixRooms(completion: @escaping (Result<(), Error>) -> ())
+    
+    
+    // MARK: SDK
+    
+    func addMigrations(_ migrations: Set<String>, completion: @escaping (Result<(), Error>) -> ())
 }
 
 // MARK: Extensions

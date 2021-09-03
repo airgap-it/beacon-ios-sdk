@@ -12,8 +12,8 @@ class Transport {
     let kind: Beacon.Connection.Kind
     
     private var status: Status = .notConnected
-    private var listeners: Set<Listener> = Set()
-    private var connectedPeers: Set<Beacon.Peer> = Set()
+    private var listeners: Set<Listener> = []
+    private var connectedPeers: Set<Beacon.Peer> = []
     
     private let queue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.Transport", attributes: [], target: .global(qos: .default))
     
@@ -38,6 +38,7 @@ class Transport {
     final func connect(completion: @escaping (Result<(), Error>) -> ()) {
         queue.async {
             guard self.status != .connected && self.status != .connecting else {
+                completion(.success(()))
                 return
             }
             
@@ -45,8 +46,8 @@ class Transport {
             self.start { result in
                 self.queue.async {
                     self.status = result.isSuccess ? .connected : .notConnected
+                    completion(result)
                 }
-                completion(result)
             }
         }
     }
