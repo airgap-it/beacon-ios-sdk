@@ -15,8 +15,8 @@ class TryUtilsTests: XCTestCase {
         let value = "value"
         let error = Error.unknown
         
-        let expectedSuccess = catchResult(throwing: { try returnOrFail(value, failWith: error) })
-        let expectedFailure = catchResult(throwing: { try returnOrFail(value, failWith: error, fail: true) })
+        let expectedSuccess = runCatching(throwing: { try returnOrFail(value, failWith: error) })
+        let expectedFailure = runCatching(throwing: { try returnOrFail(value, failWith: error, fail: true) })
         
         switch expectedSuccess {
         case let .success(success):

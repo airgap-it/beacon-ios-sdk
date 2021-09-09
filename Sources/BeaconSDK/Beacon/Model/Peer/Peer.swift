@@ -16,8 +16,8 @@ extension Beacon {
         ///
         /// Peer details required in the P2P connection.
         ///
-        /// - peers: The peer data.
-        case p2p(_ peers: P2PPeer)
+        /// - peer: The peer data.
+        case p2p(_ peer: P2PPeer)
         
         // MARK: Attributes
         

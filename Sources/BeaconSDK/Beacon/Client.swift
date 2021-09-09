@@ -64,7 +64,7 @@ extension Beacon {
                 
                 do {
                     let beaconClient = Client(
-                        name: beacon.appName,
+                        name: beacon.app.name,
                         beaconID: beacon.beaconID,
                         storageManager: beacon.dependencyRegistry.storageManager,
                         connectionController: try beacon.dependencyRegistry.connectionController(configuredWith: configuration.connections),
@@ -89,6 +89,42 @@ extension Beacon {
         ///
         public func connect(completion: @escaping (_ result: Result<(), Error>) -> ()) {
             connectionController.connect { result in
+                completion(result.withBeaconError())
+            }
+        }
+        
+        ///
+        /// Stops Beacon.
+        ///
+        /// - Parameter completion: The closure called when the call completes.
+        /// - Parameter result: The result of the call represented as either `Void` if the call was succesful or `Beacon.Error` if it failed.
+        ///
+        public func disconnect(completion: @escaping (_ result: Result<(), Error>) -> ()) {
+            connectionController.disconnect { result in
+                completion(result.withBeaconError())
+            }
+        }
+        
+        ///
+        /// Pauses Beacon. It can be later resumed with a call to `Beacon.Client#resume`.
+        ///
+        /// - Parameter completion: The closure called when the call completes.
+        /// - Parameter result: The result of the call represented as either `Void` if the call was succesful or `Beacon.Error` if it failed.
+        ///
+        public func pause(completion: @escaping (_ result: Result<(), Error>) -> ()) {
+            connectionController.pause { result in
+                completion(result.withBeaconError())
+            }
+        }
+        
+        ///
+        /// Resumes Beacon if paused.
+        ///
+        /// - Parameter completion: The closure called when the call completes.
+        /// - Parameter result: The result of the call represented as either `Void` if the call was succesful or `Beacon.Error` if it failed.
+        ///
+        public func resume(completion: @escaping (_ result: Result<(), Error>) -> ()) {
+            connectionController.resume { result in
                 completion(result.withBeaconError())
             }
         }

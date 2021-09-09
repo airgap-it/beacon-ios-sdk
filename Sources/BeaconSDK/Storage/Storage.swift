@@ -27,6 +27,12 @@ protocol Storage {
     
     // MARK: Matrix
     
+    func getMatrixRelayServer(completion: @escaping (Result<String?, Error>) -> ())
+    func setMatrixRelayServer(_ relayServer: String?, completion: @escaping (Result<(), Error>) -> ())
+    
+    func getMatrixChannels(completion: @escaping (Result<[String: String], Swift.Error>) -> ())
+    func setMatrixChannels(_ channels: [String: String], completion: @escaping (Result<(), Swift.Error>) -> ())
+    
     func getMatrixSyncToken(completion: @escaping (Result<String?, Error>) -> ())
     func setMatrixSyncToken(_ token: String, completion: @escaping (Result<(), Error>) -> ())
     
@@ -37,6 +43,9 @@ protocol Storage {
     
     func getSDKVersion(completion: @escaping (Result<String?, Error>) -> ())
     func setSDKVersion(_ version: String, completion: @escaping (Result<(), Error>) -> ())
+    
+    func getMigrations(completion: @escaping (Result<Set<String>, Error>) -> ())
+    func setMigrations(_ migrations: Set<String>, completion: @escaping (Result<(), Error>) -> ())
 }
 
 // MARK: Extensions

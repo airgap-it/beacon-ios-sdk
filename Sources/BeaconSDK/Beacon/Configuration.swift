@@ -14,9 +14,7 @@ extension Beacon {
         
         // MARK: SDK
         
-        static var sdkVersion: String {
-            Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
-        }
+        static let sdkVersion: String = "2.0.0"
         
         static let cryptoProvider: CryptoProvider = .sodium
         static let serializer: Serializer = .base58check
@@ -32,12 +30,19 @@ extension Beacon {
         // MARK: P2P
         
         static let matrixAPI: String = "/_matrix/client/r0"
+        
+        static let matrixClientAPIBase: String = "/_matrix/client"
+        static let matrixClientAPIVersion: String = "r0"
+        static let matrixClientRoomVersion: String = "5"
+        
         static let matrixMaxSyncRetries: Int = 3
+        
+        static let p2pJoinDelaysMs: Int = 200
+        static let p2pMaxJoinRetries: Int = 10
+        
         static let defaultRelayServers: [String] = [
             "beacon-node-1.sky.papers.tech",
-//            "beacon-node-0.papers.tech:8448",
+            "beacon-node-0.papers.tech:8448",
         ].compactMap { $0 }
-        
-        static let p2pReplicationCount: Int = 1
     }
 }

@@ -9,80 +9,115 @@
 import Foundation
 
 class HTTP {
-    
-    let baseURL: URL
     private let session: URLSession
     
-    init(baseURL: URL, session: URLSession = .shared) {
-        self.baseURL = baseURL
+    private var ongoingTasks: [String: Set<URLSessionTask>] = [:]
+    
+    init(session: URLSession) {
         self.session = session
     }
     
     // MARK: Methods
     
-    func get<R: Codable>(
-        at path: String,
+    func get<R: Codable, E: Codable & Swift.Error>(
+        at url: URL,
         headers: [Header] = [],
         parameters: [(String, String?)] = [],
+        throwing errorType: E.Type,
         completion: @escaping (Result<R, Swift.Error>) -> ()
     ) {
         do {
-            var request = try createRequest(for: .get, at: path, parameters: parameters)
+            var request = try createRequest(for: .get, at: url, parameters: parameters)
             request.set(headers: headers)
-            send(request: request, completion: completion)
+            send(request: request, throwing: errorType, completion: completion)
         } catch {
             completion(.failure(Error(error)))
         }
     }
     
-    func post<R: Codable, B: Codable>(
-        at path: String,
+    func post<R: Codable, B: Codable, E: Codable & Swift.Error>(
+        at url: URL,
         body: B,
         headers: [Header] = [],
         parameters: [(String, String?)] = [],
+        throwing errorType: E.Type,
         completion: @escaping (Result<R, Swift.Error>) -> ()
     ) {
         do {
-            var request = try createRequest(for: .post, at: path, parameters: parameters)
+            var request = try createRequest(for: .post, at: url, parameters: parameters)
             let encoder = JSONEncoder()
             request.httpBody = try encoder.encode(body)
             request.set(headers: headers + [.contentType("application/json")])
-            send(request: request, completion: completion)
+            send(request: request, throwing: errorType, completion: completion)
         } catch {
             completion(.failure(Error(error)))
         }
     }
     
-    func put<R: Codable, B: Codable>(
-        at path: String,
+    func put<R: Codable, B: Codable, E: Codable & Swift.Error>(
+        at url: URL,
         body: B,
         headers: [Header] = [],
         parameters: [(String, String?)] = [],
+        throwing errorType: E.Type,
         completion: @escaping (Result<R, Swift.Error>) -> ()
     ) {
         do {
-            var request = try createRequest(for: .put, at: path, parameters: parameters)
+            var request = try createRequest(for: .put, at: url, parameters: parameters)
             let encoder = JSONEncoder()
             request.httpBody = try encoder.encode(body)
             request.set(headers: headers + [.contentType("application/json")])
-            send(request: request, completion: completion)
+            send(request: request, throwing: errorType, completion: completion)
         } catch {
             completion(.failure(Error(error)))
         }
+    }
+    
+    // MARK: Task Management
+    
+    func cancelTasks(for url: URL, and method: HTTP.Method) {
+        guard let tasks = ongoingTasks.get(for: url, and: method) else { return }
+        
+        tasks.forEach { $0.cancel() }
+        ongoingTasks.removeTasks(for: url, and: method)
+    }
+    
+    func cancelAllTasks() {
+        ongoingTasks.values.flatMap { $0 }.forEach { $0.cancel() }
+        ongoingTasks.removeAll()
+    }
+    
+    func suspendTasks(for url: URL, and method: HTTP.Method) {
+        guard let tasks = ongoingTasks.get(for: url, and: method) else { return }
+        
+        tasks.forEach { $0.suspend() }
+    }
+    
+    func suspendAllTasks() {
+        ongoingTasks.values.flatMap { $0 }.forEach { $0.suspend() }
+    }
+    
+    func resumeTasks(for url: URL, and method: HTTP.Method) {
+        guard let tasks = ongoingTasks.get(for: url, and: method) else { return }
+        
+        tasks.forEach { $0.resume() }
+    }
+    
+    func resumeAllTasks() {
+        ongoingTasks.values.flatMap { $0 }.forEach { $0.resume() }
     }
     
     // MARK: Call Handlers
     
-    private func createRequest(for method: Method, at path: String, parameters: [(String, String?)] = []) throws -> URLRequest {
-        let urlPath = baseURL.appendingPathComponent(path)
-        var urlComponents = URLComponents(url: urlPath, resolvingAgainstBaseURL: false)
+    private func createRequest(for method: Method, at url: URL, parameters: [(String, String?)] = []) throws -> URLRequest {
+        var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
         
         if !parameters.isEmpty {
             urlComponents?.queryItems = parameters.map { (name, value) in URLQueryItem(name: name, value: value) }
         }
         
         guard let url = urlComponents?.url else {
-            throw Error.invalidURL(urlPath)
+            throw Error.invalidURL(url)
         }
         
         var request = URLRequest(url: url)
@@ -92,19 +127,37 @@ class HTTP {
         return request
     }
     
-    private func send<R: Codable>(request: URLRequest, completion: @escaping (Result<R, Swift.Error>) -> ()) {
-        let dataTask = session.dataTask(with: request) { [weak self] result in
+    private func send<R: Codable, E: Codable & Swift.Error>(
+        request: URLRequest,
+        throwing errorType: E.Type,
+        completion: @escaping (Result<R, Swift.Error>) -> ()
+    ) {
+        var dataTask: URLSessionTask!
+        dataTask = session.dataTask(with: request) { [weak self] result in
             guard let selfStrong = self else {
                 completion(.failure(Beacon.Error.unknown))
                 return
             }
+            
+            selfStrong.ongoingTasks.remove(for: request, element: dataTask)
+            
             switch result {
             case let .success((data, _)):
                 completion(selfStrong.parse(data: data))
             case let .failure(error):
-                completion(.failure(Error(error)))
+                switch error {
+                case let Error.http(data, _):
+                    guard let parsedError: E = try? selfStrong.parse(data: data).get() else {
+                        fallthrough
+                    }
+                    completion(.failure(parsedError))
+                default:
+                    completion(.failure(Error(error)))
+                }
             }
         }
+        
+        ongoingTasks.append(for: request, element: dataTask)
         dataTask.resume()
     }
     
@@ -152,7 +205,7 @@ class HTTP {
     
     enum Error: Swift.Error {
         case invalidURL(URL)
-        case http(Int)
+        case http(Data, Int)
         
         case other(Swift.Error)
         
@@ -177,7 +230,7 @@ private extension URLSession {
                 return
             }
             guard (200..<300).contains(response.statusCode) else {
-                completion(.failure(HTTP.Error.http(response.statusCode)))
+                completion(.failure(HTTP.Error.http(data, response.statusCode)))
                 return
             }
             completion(.success((data, response)))
@@ -194,5 +247,52 @@ private extension URLRequest {
     
     mutating func set(headers: [HTTP.Header]) {
         headers.forEach { set(header: $0) }
+    }
+}
+
+private extension Dictionary where Key == String, Value == Set<URLSessionTask> {
+    func get(for url: URL, and method: HTTP.Method) -> Value? {
+        get(for: url, andMethod: method.rawValue)
+    }
+    
+    func get(for url: URL, andMethod method: String) -> Value? {
+        self[key(from: url, andMethod: method)]
+    }
+    
+    mutating func append(for request: URLRequest, element: URLSessionTask) {
+        guard let key = key(from: request) else { return }
+        
+        append(forKey: key, element: element)
+    }
+    
+    mutating func remove(for request: URLRequest, element: URLSessionTask) {
+        guard let key = key(from: request) else { return }
+        
+        let difference = (self[key] ?? []).subtracting([element])
+        
+        if difference.isEmpty {
+            self.removeValue(forKey: key)
+        } else {
+            self[key] = difference
+        }
+    }
+    
+    mutating func removeTasks(for url: URL, and method: HTTP.Method) {
+        removeTasks(for: url, andMethod: method.rawValue)
+    }
+    
+    mutating func removeTasks(for url: URL, andMethod method: String) {
+        removeValue(forKey: key(from: url, andMethod: method))
+    }
+    
+    private func key(from request: URLRequest) -> String? {
+        guard let url = request.url else { return nil }
+        guard let method = request.httpMethod else { return nil }
+        
+        return key(from: url, andMethod: method)
+    }
+    
+    private func key(from url: URL, andMethod method: String) -> String {
+        "\(method.lowercased()):\(url.absoluteString)"
     }
 }

@@ -32,6 +32,18 @@ class ArrayAdditionsTests: XCTestCase {
         XCTAssertEqual(["1", "2", "3", "4"], strings)
     }
     
+    func testShifted() throws {
+        let elements = [1, 2, 3, 4, 5]
+        
+        let shifted0 = elements.shifted(by: 0)
+        let shiftedInSize = elements.shifted(by: 1)
+        let shiftedExceedsSize = elements.shifted(by: 9)
+        
+        XCTAssertEqual([1, 2, 3, 4, 5], shifted0)
+        XCTAssertEqual([2, 3, 4, 5, 1], shiftedInSize)
+        XCTAssertEqual([5, 1, 2, 3, 4], shiftedExceedsSize)
+    }
+    
     
     func testForEachAsync() throws {
         let n = 3

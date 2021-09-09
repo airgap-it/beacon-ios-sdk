@@ -136,6 +136,30 @@ class StorageManager: ExtendedStorage, SecureStorage {
     
     // MARK: Matrix
     
+    func getMatrixRelayServer(completion: @escaping (Result<String?, Error>) -> ()) {
+        storage.getMatrixRelayServer(completion: completion)
+    }
+    
+    func setMatrixRelayServer(_ relayServer: String?, completion: @escaping (Result<(), Error>) -> ()) {
+        storage.setMatrixRelayServer(relayServer, completion: completion)
+    }
+    
+    func removeMatrixRelayServer(completion: @escaping (Result<(), Error>) -> ()) {
+        storage.removeMatrixRelayServer(completion: completion)
+    }
+    
+    func getMatrixChannels(completion: @escaping (Result<[String : String], Error>) -> ()) {
+        storage.getMatrixChannels(completion: completion)
+    }
+    
+    func setMatrixChannels(_ channels: [String : String], completion: @escaping (Result<(), Error>) -> ()) {
+        storage.setMatrixChannels(channels, completion: completion)
+    }
+    
+    func removeMatrixChannels(completion: @escaping (Result<(), Error>) -> ()) {
+        storage.removeMatrixChannels(completion: completion)
+    }
+    
     func getMatrixSyncToken(completion: @escaping (Result<String?, Error>) -> ()) {
         storage.getMatrixSyncToken(completion: completion)
     }
@@ -150,6 +174,10 @@ class StorageManager: ExtendedStorage, SecureStorage {
     
     func set(_ rooms: [Matrix.Room], completion: @escaping (Result<(), Error>) -> ()) {
         storage.set(rooms, completion: completion)
+    }
+    
+    func removeMatrixRooms(completion: @escaping (Result<(), Error>) -> ()) {
+        storage.removeMatrixRooms(completion: completion)
     }
     
     // MARK: SDK
@@ -168,6 +196,18 @@ class StorageManager: ExtendedStorage, SecureStorage {
     
     func setSDKVersion(_ version: String, completion: @escaping (Result<(), Error>) -> ()) {
         storage.setSDKVersion(version, completion: completion)
+    }
+    
+    func getMigrations(completion: @escaping (Result<Set<String>, Error>) -> ()) {
+        storage.getMigrations(completion: completion)
+    }
+    
+    func setMigrations(_ migrations: Set<String>, completion: @escaping (Result<(), Error>) -> ()) {
+        storage.setMigrations(migrations, completion: completion)
+    }
+    
+    func addMigrations(_ migrations: Set<String>, completion: @escaping (Result<(), Error>) -> ()) {
+        storage.addMigrations(migrations, completion: completion)
     }
 }
 

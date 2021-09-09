@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol Serializer: class {
+protocol Serializer: AnyObject {
     func serialize<T: Codable>(message: T) throws -> String
     func deserialize<T: Codable>(message: String, to type: T.Type) throws -> T
 }

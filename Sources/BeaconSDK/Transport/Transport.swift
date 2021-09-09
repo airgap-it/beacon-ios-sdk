@@ -11,64 +11,117 @@ import Foundation
 class Transport {
     let kind: Beacon.Connection.Kind
     
-    private var status: Status = .notConnected
-    private var listeners: Set<Listener> = Set()
-    private var connectedPeers: Set<Beacon.Peer> = Set()
+    private let wrapped: TransportProtocol
+    
+    private var status: Status = .disconnected
+    
+    @Disposable private var savedMessages: [Result<ConnectionMessage, Swift.Error>]?
+    private var listeners: Set<Listener> = []
+    
+    private var connectedPeers: Set<Beacon.Peer> = []
     
     private let queue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.Transport", attributes: [], target: .global(qos: .default))
     
-    init(kind: Beacon.Connection.Kind) {
+    init(kind: Beacon.Connection.Kind, wrapped: TransportProtocol) {
         self.kind = kind
+        self.wrapped = wrapped
     }
     
     // MARK: Connection
     
-    final func status(completion: @escaping (Status) -> ()) {
+    func status(completion: @escaping (Status) -> ()) {
         queue.async {
             completion(self.status)
         }
     }
     
-    final func connectedPeers(completion: @escaping (Set<Beacon.Peer>) -> ()) {
+    func connectedPeers(completion: @escaping (Set<Beacon.Peer>) -> ()) {
         queue.async {
             completion(self.connectedPeers)
         }
     }
     
-    final func connect(completion: @escaping (Result<(), Error>) -> ()) {
+    func start(completion: @escaping (Result<(), Swift.Error>) -> ()) {
         queue.async {
             guard self.status != .connected && self.status != .connecting else {
+                completion(.success(()))
+                return
+            }
+            
+            guard self.status != .paused else {
+                self.resume(completion: completion)
                 return
             }
             
             self.status = .connecting
-            self.start { result in
+            self.wrapped.start { result in
                 self.queue.async {
-                    self.status = result.isSuccess ? .connected : .notConnected
+                    self.status = result.isSuccess ? .connected : .disconnected
+                    completion(result)
                 }
-                completion(result)
             }
         }
     }
     
-    final func connect(new peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
-        connect(new: peers) { (result: Result<[Beacon.Peer], Error>) in
-            self.queue.async {
-                guard let connected = result.get(ifFailure: completion) else { return }
-                self.connectedPeers.formUnion(connected)
-            
+    func stop(completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        queue.async {
+            guard self.status != .disconnected else {
                 completion(.success(()))
+                return
+            }
+            
+            self.wrapped.stop { result in
+                self.queue.async {
+                    if result.isSuccess {
+                        self.status = .disconnected
+                        self.listeners.removeAll()
+                    }
+                    completion(result)
+                }
             }
         }
     }
     
-    func connect(new peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Error>) -> ()) {
-        /* no action */
-        completion(.success([]))
+    func pause(completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        queue.async {
+            guard self.status == .connected else {
+                completion(.success(()))
+                return
+            }
+            
+            self.wrapped.pause { result in
+                self.queue.async {
+                    if result.isSuccess {
+                        self.status = .paused
+                    }
+                    completion(result)
+                }
+                
+            }
+        }
     }
     
-    final func disconnect(from peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
-        disconnect(from: peers) { (result: Result<[Beacon.Peer], Error>) in
+    func resume(completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        queue.async {
+            guard self.status == .paused else {
+                completion(.success(()))
+                return
+            }
+            
+            self.status = .connecting
+            self.wrapped.resume { result in
+                self.queue.async {
+                    if result.isSuccess {
+                        self.status = .connected
+                    }
+                    completion(result)
+                }
+            }
+        }
+    }
+    
+    func disconnect(from peers: [Beacon.Peer], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        wrapped.disconnect(from: peers) { (result: Result<[Beacon.Peer], Swift.Error>) in
             self.queue.async {
                 guard let disconnected = result.get(ifFailure: completion) else { return }
                 
@@ -80,19 +133,22 @@ class Transport {
         }
     }
     
-    func disconnect(from peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Error>) -> ()) {
-        /* no action */
-        completion(.success([]))
+    func connect(new peers: [Beacon.Peer], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        start { startResult in
+            guard startResult.isSuccess(else: completion) else { return }
+            self.wrapped.connect(new: peers) { (connectResult: Result<[Beacon.Peer], Swift.Error>) in
+                self.queue.async {
+                    guard let connected = connectResult.get(ifFailure: completion) else { return }
+                    self.connectedPeers.formUnion(connected)
+                
+                    completion(.success(()))
+                }
+            }
+        }
     }
     
-    func start(completion: @escaping (Result<(), Error>) -> ()) {
-        /* no action */
-        completion(.success(()))
-    }
-    
-    func send(_ message: ConnectionMessage, completion: @escaping (Result<(), Error>) -> ()) {
-        /* no action */
-        completion(.success(()))
+    func send(_ message: ConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        wrapped.send(message, completion: completion)
     }
     
     // MARK: Subscription
@@ -105,17 +161,42 @@ class Transport {
         listeners.remove(listener)
     }
     
-    final func notify(with result: Result<ConnectionMessage, Error>) {
-        listeners.forEach { $0.notify(with: result) }
+    final func notify(with result: Result<ConnectionMessage, Swift.Error>) {
+        queue.async {
+            guard self.status == .connected || self.status == .connecting else {
+                self.savedMessages = (self.savedMessages ?? []) + [result]
+                return
+            }
+            
+            self.listeners.forEach { listener in
+                self.savedMessages?.forEach { listener.notify(with: $0) }
+                listener.notify(with: result)
+            }
+        }
     }
     
     // MARK: Types
     
     enum Status {
-        case notConnected
+        case disconnected
         case connecting
         case connected
+        case paused
     }
     
     typealias Listener = DistinguishableListener<Result<ConnectionMessage, Swift.Error>>
+}
+
+// MARK: Protocol
+
+protocol TransportProtocol {
+    func start(completion: @escaping (Result<(), Swift.Error>) -> ())
+    func stop(completion: @escaping (Result<(), Swift.Error>) -> ())
+    func pause(completion: @escaping (Result<(), Swift.Error>) -> ())
+    func resume(completion: @escaping (Result<(), Swift.Error>) -> ())
+    
+    func connect(new peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Swift.Error>) -> ())
+    func disconnect(from peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Swift.Error>) -> ())
+    
+    func send(_ message: ConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ())
 }

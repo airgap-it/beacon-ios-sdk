@@ -110,7 +110,7 @@ class UserDefaultsSecureStorage: SecureStorage {
             completion(.success(key))
         } catch {
             DispatchQueue.global(qos: .default).async {
-                completion(catchResult { try self.generateNewBiometricSecuredKey(tag: tag) })
+                completion(runCatching { try self.generateNewBiometricSecuredKey(tag: tag) })
             }
         }
     }

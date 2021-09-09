@@ -13,6 +13,9 @@ class MockConnectionController: ConnectionControllerProtocol {
     var isFailing: Bool = false
     
     private(set) var connectCalls: Int = 0
+    private(set) var disconnectCalls: Int = 0
+    private(set) var pauseCalls: Int = 0
+    private(set) var resumeCalls: Int = 0
     private(set) var listenCalls: Int = 0
     private(set) var onNewPeersCalls: [[Beacon.Peer]] = []
     private(set) var onDeletedPeerCalls: [[Beacon.Peer]] = []
@@ -22,6 +25,21 @@ class MockConnectionController: ConnectionControllerProtocol {
     
     func connect(completion: @escaping (Result<(), Error>) -> ()) {
         connectCalls += 1
+        completion(isFailing ? .failure(Beacon.Error.unknown) : .success(()))
+    }
+    
+    func disconnect(completion: @escaping (Result<(), Error>) -> ()) {
+        disconnectCalls += 1
+        completion(isFailing ? .failure(Beacon.Error.unknown) : .success(()))
+    }
+    
+    func pause(completion: @escaping (Result<(), Error>) -> ()) {
+        pauseCalls += 1
+        completion(isFailing ? .failure(Beacon.Error.unknown) : .success(()))
+    }
+    
+    func resume(completion: @escaping (Result<(), Error>) -> ()) {
+        resumeCalls += 1
         completion(isFailing ? .failure(Beacon.Error.unknown) : .success(()))
     }
     

@@ -10,13 +10,15 @@ import Foundation
 
 extension Matrix.Event {
     
-    struct Create {
+    struct Create: EventProtocol {
         let kind: Kind
+        let node: String
         let roomID: String
         let creator: String
         
-        init(roomID: String, creator: String) {
+        init(node: String, roomID: String, creator: String) {
             kind = .create
+            self.node = node
             self.roomID = roomID
             self.creator = creator
         }

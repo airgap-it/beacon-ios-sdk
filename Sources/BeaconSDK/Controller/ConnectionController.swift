@@ -20,18 +20,66 @@ class ConnectionController: ConnectionControllerProtocol {
     // MARK: Subscription
     
     func connect(completion: @escaping (Result<(), Error>) -> ()) {
-        transports.forEachAsync(body: { $0.connect(completion: $1) }) { results in
+        transports.forEachAsync(body: { $0.start(completion: $1) }) { results in
             guard results.allSatisfy({ $0.isSuccess }) else {
                 let (notConnected, errors) = results.enumerated()
                     .map { (index, result) in (self.transports[index].kind, result.error) }
                     .filter { (_, error) in error != nil }
                     .unzip()
                 
-                completion(.failure(Beacon.Error.connectionFailed(notConnected, causedBy: errors.compactMap { $0 })))
+                completion(.failure(Beacon.Error.connectionFailed(notConnected, causedBy: errors.compactMap({ $0 }))))
                 
                 return
             }
             
+            completion(.success(()))
+        }
+    }
+    
+    func disconnect(completion: @escaping (Result<(), Error>) -> ()) {
+        transports.forEachAsync(body: { $0.stop(completion: $1) }) { results in
+            guard results.allSatisfy({ $0.isSuccess }) else {
+                let (stillConnected, errors) = results.enumerated()
+                    .map { (index, result) in (self.transports[index].kind, result.error) }
+                    .filter { (_, error) in error != nil }
+                    .unzip()
+                
+                completion(.failure(Beacon.Error.stopConnectionFailed(stillConnected, causedBy: errors.compactMap({ $0 }))))
+                
+                return
+            }
+            completion(.success(()))
+        }
+    }
+    
+    func pause(completion: @escaping (Result<(), Error>) -> ()) {
+        transports.forEachAsync(body: { $0.pause(completion: $1) }) { results in
+            guard results.allSatisfy({ $0.isSuccess }) else {
+                let (stillConnected, errors) = results.enumerated()
+                    .map { (index, result) in (self.transports[index].kind, result.error) }
+                    .filter { (_, error) in error != nil }
+                    .unzip()
+                
+                completion(.failure(Beacon.Error.pauseConnectionFailed(stillConnected, causedBy: errors.compactMap({ $0 }))))
+                
+                return
+            }
+            completion(.success(()))
+        }
+    }
+    
+    func resume(completion: @escaping (Result<(), Error>) -> ()) {
+        transports.forEachAsync(body: { $0.resume(completion: $1) }) { results in
+            guard results.allSatisfy({ $0.isSuccess }) else {
+                let (stillConnected, errors) = results.enumerated()
+                    .map { (index, result) in (self.transports[index].kind, result.error) }
+                    .filter { (_, error) in error != nil }
+                    .unzip()
+                
+                completion(.failure(Beacon.Error.resumeConnectionFailed(stillConnected, causedBy: errors.compactMap({ $0 }))))
+                
+                return
+            }
             completion(.success(()))
         }
     }
@@ -45,7 +93,7 @@ class ConnectionController: ConnectionControllerProtocol {
             let result: Result<BeaconConnectionMessage, Error> = connectionMessage.flatMap {
                 switch $0 {
                 case let .serialized(message):
-                    let versioned = catchResult { try selfStrong.serializer.deserialize(message: message.content, to: Beacon.Message.Versioned.self) }
+                    let versioned = runCatching { try selfStrong.serializer.deserialize(message: message.content, to: Beacon.Message.Versioned.self) }
                     
                     return versioned.map { BeaconConnectionMessage(origin: message.origin, content: $0) }
                 case let .beacon(message):
@@ -124,6 +172,10 @@ class ConnectionController: ConnectionControllerProtocol {
 
 protocol ConnectionControllerProtocol {
     func connect(completion: @escaping (Result<(), Error>) -> ())
+    func disconnect(completion: @escaping (Result<(), Error>) -> ())
+    func pause(completion: @escaping (Result<(), Error>) -> ())
+    func resume(completion: @escaping (Result<(), Error>) -> ())
+    
     func listen(onRequest listener: @escaping (Result<BeaconConnectionMessage, Error>) -> ())
     func send(_ message: BeaconConnectionMessage, completion: @escaping (Result<(), Error>) -> ())
     

@@ -128,6 +128,30 @@ class DecoratedStorage: ExtendedStorage {
     
     // MARK: Matrix
     
+    func getMatrixRelayServer(completion: @escaping (Result<String?, Error>) -> ()) {
+        storage.getMatrixRelayServer(completion: completion)
+    }
+    
+    func setMatrixRelayServer(_ relayServer: String?, completion: @escaping (Result<(), Error>) -> ()) {
+        storage.setMatrixRelayServer(relayServer, completion: completion)
+    }
+    
+    func removeMatrixRelayServer(completion: @escaping (Result<(), Error>) -> ()) {
+        storage.setMatrixRelayServer(nil, completion: completion)
+    }
+    
+    func getMatrixChannels(completion: @escaping (Result<[String : String], Error>) -> ()) {
+        storage.getMatrixChannels(completion: completion)
+    }
+    
+    func setMatrixChannels(_ channels: [String : String], completion: @escaping (Result<(), Error>) -> ()) {
+        storage.setMatrixChannels(channels, completion: completion)
+    }
+    
+    func removeMatrixChannels(completion: @escaping (Result<(), Error>) -> ()) {
+        storage.setMatrixChannels([:], completion: completion)
+    }
+    
     func getMatrixSyncToken(completion: @escaping (Result<String?, Error>) -> ()) {
         storage.getMatrixSyncToken(completion: completion)
     }
@@ -144,6 +168,10 @@ class DecoratedStorage: ExtendedStorage {
         storage.set(rooms, completion: completion)
     }
     
+    func removeMatrixRooms(completion: @escaping (Result<(), Error>) -> ()) {
+        storage.set([Matrix.Room](), completion: completion)
+    }
+    
     // MARK: SDK
     
     func getSDKVersion(completion: @escaping (Result<String?, Error>) -> ()) {
@@ -152,6 +180,21 @@ class DecoratedStorage: ExtendedStorage {
     
     func setSDKVersion(_ version: String, completion: @escaping (Result<(), Error>) -> ()) {
         storage.setSDKVersion(version, completion: completion)
+    }
+    
+    func getMigrations(completion: @escaping (Result<Set<String>, Error>) -> ()) {
+        storage.getMigrations(completion: completion)
+    }
+    
+    func setMigrations(_ migrations: Set<String>, completion: @escaping (Result<(), Error>) -> ()) {
+        storage.setMigrations(migrations, completion: completion)
+    }
+    
+    func addMigrations(_ migrations: Set<String>, completion: @escaping (Result<(), Error>) -> ()) {
+        storage.getMigrations { result in
+            guard let oldMigrations = result.get(ifFailure: completion) else { return }
+            self.storage.setMigrations(oldMigrations.union(migrations), completion: completion)
+        }
     }
     
     // MARK: Utils

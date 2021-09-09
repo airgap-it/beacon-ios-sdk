@@ -57,7 +57,7 @@ class MockMessageController: MessageControllerProtocol {
         if isFailing {
             completion(.failure(Beacon.Error.unknown))
         } else {
-            let result = catchResult {
+            let result = runCatching {
                 try Beacon.Message.Versioned(from: message, senderID: beaconID)
             }.map { ((Beacon.Origin(kind: connectionKind, id: beaconID), $0)) }
             
