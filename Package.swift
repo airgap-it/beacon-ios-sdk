@@ -18,14 +18,22 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/keefertaylor/Base58Swift.git", "2.1.14"..<"3.0.0"),
-        .package(name: "Sodium", url: "https://github.com/jedisct1/swift-sodium.git", "0.9.1"..<"1.0.0"),
+        
+        // .package(name: "Sodium", url: "https://github.com/jedisct1/swift-sodium.git", "0.9.1"..<"1.0.0"),
+        // Workaround for https://github.com/jedisct1/swift-sodium/issues/233
+        .package(name: "Sodium", url: "https://github.com/junelife/swift-sodium.git", .branch("spm")),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "BeaconSDK",
-            dependencies: ["Sodium", .product(name: "Clibsodium", package: "Sodium"), "Base58Swift"]),
+            dependencies: [
+                "Sodium",
+                // .product(name: "Clibsodium", package: "Sodium"),
+                "Base58Swift"
+            ]
+        ),
         .testTarget(
             name: "BeaconSDKTests",
             dependencies: ["BeaconSDK"]),
