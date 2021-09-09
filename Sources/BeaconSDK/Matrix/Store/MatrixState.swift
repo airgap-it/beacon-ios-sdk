@@ -17,10 +17,10 @@ extension Matrix.Store {
         
         let transactionCounter: Int
         
-        let isPolling: Bool
+        let isPolling: [String: Bool]
         let syncToken: String?
         let pollingTimeout: Int64?
-        let pollingRetries: Int
+        let pollingRetries: [String: Int]
         
         let rooms: [String: Matrix.Room]
         
@@ -29,10 +29,10 @@ extension Matrix.Store {
             deviceID: String? = nil,
             accessToken: String? = nil,
             transactionCounter: Int = 0,
-            isPolling: Bool = false,
+            isPolling: [String: Bool] = [:],
             syncToken: String? = nil,
             pollingTimeout: Int64? = nil,
-            pollingRetries: Int = 0,
+            pollingRetries: [String: Int] = [:],
             rooms: [String: Matrix.Room] = [:]
         ) {
             self.userID = userID
@@ -52,10 +52,10 @@ extension Matrix.Store {
             deviceID: String?? = nil,
             accessToken: String?? = nil,
             transactionCounter: Int? = nil,
-            isPolling: Bool? = nil,
+            isPolling: [String: Bool]? = nil,
             syncToken: String?? = nil,
             pollingTimeout: Int64?? = nil,
-            pollingRetries: Int? = nil,
+            pollingRetries: [String: Int]? = nil,
             rooms: [String: Matrix.Room]? = nil
         ) {
             self.init(

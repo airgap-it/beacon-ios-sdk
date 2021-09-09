@@ -9,16 +9,18 @@ import Foundation
 
 extension Matrix {
     
-    struct NodeService: MatrixService {
-        private let http: HTTP
+    class NodeService: Service {
         
-        init(http: HTTP) {
-            self.http = http
-        }
+        // MARK: API Calls
         
         func isUp(_ node: String, completion: @escaping (Result<Bool, Swift.Error>) -> ()) {
             runCatching(completion: completion) {
-                http.get(at: try apiBase(from: node, at: "/versions"), throwing: ErrorResponse.self) { (result: Result<VersionsResponse, Swift.Error>) in
+                let url = try apiBase(from: node, at: "/versions")
+                let call = OngoingCall(method: .get, url: url)
+                addOngoing(call)
+                
+                http.get(at: url, throwing: ErrorResponse.self) { (result: Result<VersionsResponse, Swift.Error>) in
+                    self.removeOngoing(call)
                     switch result {
                     case .success(_):
                         completion(.success(true))

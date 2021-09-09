@@ -10,12 +10,7 @@ import Foundation
 
 extension Matrix {
     
-    class UserService: MatrixService {
-        private let http: HTTP
-        
-        init(http: HTTP) {
-            self.http = http
-        }
+    class UserService: Service {
         
         func login(
             on node: String,
@@ -25,12 +20,18 @@ extension Matrix {
             completion: @escaping (Result<LoginResponse, Swift.Error>) -> ()
         ) {
             runCatching(completion: completion) {
+                let url = try apiURL(from: node, at: "/login")
+                let call = OngoingCall(method: .post, url: url)
+                addOngoing(call)
+                
                 http.post(
-                    at: try apiURL(from: node, at: "/login"),
+                    at: url,
                     body: LoginRequest.password(user: user, password: password, deviceID: deviceID),
-                    throwing: ErrorResponse.self,
-                    completion: completion
-                )
+                    throwing: ErrorResponse.self
+                ) { (result: Result<LoginResponse, Swift.Error>) in
+                    self.removeOngoing(call)
+                    completion(result)
+                }
             }
         }
     }

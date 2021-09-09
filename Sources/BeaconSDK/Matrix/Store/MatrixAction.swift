@@ -12,10 +12,14 @@ extension Matrix.Store {
     
     enum Action {
         case initialize(userID: String?, deviceID: String?, accessToken: String?)
-        case onSyncSuccess(syncToken: String?, pollingTimeout: Int64, rooms: [Matrix.Room]?, events: [Matrix.Event]?)
-        case onSyncFailure
+        case stop(nodes: [String])
+        case resume(nodes: [String])
+        
+        case onSyncSuccess(node: String, syncToken: String?, pollingTimeout: Int64, rooms: [Matrix.Room]?, events: [Matrix.Event]?)
+        case onSyncFailure(node: String)
+        
         case onTxnIDCreated
-        case reset
+        
         case hardReset
     }
 }

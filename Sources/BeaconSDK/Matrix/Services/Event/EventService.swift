@@ -10,13 +10,8 @@ import Foundation
 
 extension Matrix {
     
-    class EventService: MatrixService {
-        private let http: HTTP
+    class EventService: Service {
         private lazy var syncSingle: SingleCall<SyncResponse> = SingleCall()
-        
-        init(http: HTTP) {
-            self.http = http
-        }
         
         // MARK: Sync
         
@@ -35,17 +30,21 @@ extension Matrix {
                 parameters.append(("timeout", String(timeout)))
             }
             
-            guard let apiURL = runCatching(completion: completion, throwing: { try apiURL(from: node, at: "/sync") }) else { return}
+            guard let url = runCatching(completion: completion, throwing: { try apiURL(from: node, at: "/sync") }) else { return }
+            let call = OngoingCall(method: .get, url: url)
             
             syncSingle.run(
-                body: {
+                body: { continuation in
+                    self.addOngoing(call)
                     self.http.get(
-                        at: apiURL,
+                        at: url,
                         headers: [.bearer(token: accessToken)],
                         parameters: parameters,
-                        throwing: ErrorResponse.self,
-                        completion: $0
-                    )
+                        throwing: ErrorResponse.self
+                    ) { (result: Result<SyncResponse, Swift.Error>) in
+                        self.removeOngoing(call)
+                        continuation(result)
+                    }
                 },
                 onResult: completion
             )
@@ -82,13 +81,19 @@ extension Matrix {
             completion: @escaping (Result<EventResponse, Swift.Error>) -> ()) {
             
             runCatching(completion: completion) {
+                let url = try apiURL(from: node, at: "/rooms/\(roomID)/send/\(eventType.rawValue)/\(txnID)")
+                let call = OngoingCall(method: .put, url: url)
+                addOngoing(call)
+                
                 http.put(
-                    at: try apiURL(from: node, at: "/rooms/\(roomID)/send/\(eventType.rawValue)/\(txnID)"),
+                    at: url,
                     body: content,
                     headers: [.bearer(token: accessToken)],
-                    throwing: ErrorResponse.self,
-                    completion: completion
-                )
+                    throwing: ErrorResponse.self
+                ) { (result: Result<EventResponse, Swift.Error>) in
+                    self.removeOngoing(call)
+                    completion(result)
+                }
             }
         }
     }

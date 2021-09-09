@@ -11,6 +11,8 @@ import Foundation
 class HTTP {
     private let session: URLSession
     
+    private var ongoingTasks: [String: Set<URLSessionTask>] = [:]
+    
     init(session: URLSession) {
         self.session = session
     }
@@ -71,6 +73,40 @@ class HTTP {
         }
     }
     
+    // MARK: Task Management
+    
+    func cancelTasks(for url: URL, and method: HTTP.Method) {
+        guard let tasks = ongoingTasks.get(for: url, and: method) else { return }
+        
+        tasks.forEach { $0.cancel() }
+        ongoingTasks.removeTasks(for: url, and: method)
+    }
+    
+    func cancelAllTasks() {
+        ongoingTasks.values.flatMap { $0 }.forEach { $0.cancel() }
+        ongoingTasks.removeAll()
+    }
+    
+    func suspendTasks(for url: URL, and method: HTTP.Method) {
+        guard let tasks = ongoingTasks.get(for: url, and: method) else { return }
+        
+        tasks.forEach { $0.suspend() }
+    }
+    
+    func suspendAllTasks() {
+        ongoingTasks.values.flatMap { $0 }.forEach { $0.suspend() }
+    }
+    
+    func resumeTasks(for url: URL, and method: HTTP.Method) {
+        guard let tasks = ongoingTasks.get(for: url, and: method) else { return }
+        
+        tasks.forEach { $0.resume() }
+    }
+    
+    func resumeAllTasks() {
+        ongoingTasks.values.flatMap { $0 }.forEach { $0.resume() }
+    }
+    
     // MARK: Call Handlers
     
     private func createRequest(for method: Method, at url: URL, parameters: [(String, String?)] = []) throws -> URLRequest {
@@ -94,13 +130,17 @@ class HTTP {
     private func send<R: Codable, E: Codable & Swift.Error>(
         request: URLRequest,
         throwing errorType: E.Type,
-        completion: @escaping (Result<R, Swift.Error>
-    ) -> ()) {
-        let dataTask = session.dataTask(with: request) { [weak self] result in
+        completion: @escaping (Result<R, Swift.Error>) -> ()
+    ) {
+        var dataTask: URLSessionTask!
+        dataTask = session.dataTask(with: request) { [weak self] result in
             guard let selfStrong = self else {
                 completion(.failure(Beacon.Error.unknown))
                 return
             }
+            
+            selfStrong.ongoingTasks.remove(for: request, element: dataTask)
+            
             switch result {
             case let .success((data, _)):
                 completion(selfStrong.parse(data: data))
@@ -116,6 +156,8 @@ class HTTP {
                 }
             }
         }
+        
+        ongoingTasks.append(for: request, element: dataTask)
         dataTask.resume()
     }
     
@@ -205,5 +247,52 @@ private extension URLRequest {
     
     mutating func set(headers: [HTTP.Header]) {
         headers.forEach { set(header: $0) }
+    }
+}
+
+private extension Dictionary where Key == String, Value == Set<URLSessionTask> {
+    func get(for url: URL, and method: HTTP.Method) -> Value? {
+        get(for: url, andMethod: method.rawValue)
+    }
+    
+    func get(for url: URL, andMethod method: String) -> Value? {
+        self[key(from: url, andMethod: method)]
+    }
+    
+    mutating func append(for request: URLRequest, element: URLSessionTask) {
+        guard let key = key(from: request) else { return }
+        
+        append(forKey: key, element: element)
+    }
+    
+    mutating func remove(for request: URLRequest, element: URLSessionTask) {
+        guard let key = key(from: request) else { return }
+        
+        let difference = (self[key] ?? []).subtracting([element])
+        
+        if difference.isEmpty {
+            self.removeValue(forKey: key)
+        } else {
+            self[key] = difference
+        }
+    }
+    
+    mutating func removeTasks(for url: URL, and method: HTTP.Method) {
+        removeTasks(for: url, andMethod: method.rawValue)
+    }
+    
+    mutating func removeTasks(for url: URL, andMethod method: String) {
+        removeValue(forKey: key(from: url, andMethod: method))
+    }
+    
+    private func key(from request: URLRequest) -> String? {
+        guard let url = request.url else { return nil }
+        guard let method = request.httpMethod else { return nil }
+        
+        return key(from: url, andMethod: method)
+    }
+    
+    private func key(from url: URL, andMethod method: String) -> String {
+        "\(method.lowercased()):\(url.absoluteString)"
     }
 }

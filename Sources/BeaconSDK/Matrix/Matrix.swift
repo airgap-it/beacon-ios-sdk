@@ -10,16 +10,20 @@ import Foundation
 
 class Matrix {
     private let store: Store
+    
     private let nodeService: NodeService
     private let userService: UserService
     private let eventService: EventService
     private let roomService: RoomService
+    
+    private var services: [Service] {
+        [nodeService, userService, eventService, roomService]
+    }
+    
     private let timeUtils: TimeUtilsProtocol
     
     private let guardQueue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.Matrix.guard", attributes: [], target: .global(qos: .default))
-    
-    private var pollQueues: [String: DispatchQueue] = [:]
-    private var cancelledQueues: Set<String> = []
+    private var pollers: [String: Poller<Sync>] = [:]
     
     init(
         store: Store,
@@ -71,6 +75,10 @@ class Matrix {
         store.remove(listenerWithID: listener.id)
     }
     
+    func unsubscribeAll() {
+        store.removeAllListeners()
+    }
+    
     // MARK: Node
     
     func isUp(_ node: String, completion: @escaping (Result<Bool, Swift.Error>) -> ()) {
@@ -100,19 +108,67 @@ class Matrix {
         }
     }
     
-    func stop(on node: String? = nil, completion: @escaping () -> () = {}) {
+    func stop(on node: String? = nil, completion: @escaping (Result<(), Swift.Error>) -> () = { _ in }) {
         guardQueue.async {
-            if let node = node {
-                self.cancelledQueues.insert(node)
-            } else {
-                self.cancelledQueues.formUnion(self.pollQueues.keys)
+            let nodes: [String] = {
+                if let node = node {
+                    return [node]
+                } else {
+                    return Array(self.pollers.keys)
+                }
+            }()
+            
+            nodes.forEach {
+                self.pollers[$0]?.cancel()
+                self.pollers.removeValue(forKey: $0)
             }
-            completion()
+            
+            self.services.forEach { $0.cancelAll() }
+            self.store.intent(action: .stop(nodes: nodes), completion: completion)
+        }
+    }
+    
+    func pause(on node: String? = nil, completion: @escaping (Result<(), Swift.Error>) -> () = { _ in }) {
+        guardQueue.async {
+            let nodes: [String] = {
+                if let node = node {
+                    return [node]
+                } else {
+                    return Array(self.pollers.keys)
+                }
+            }()
+            
+            nodes.forEach {
+                self.pollers[$0]?.suspend()
+            }
+            
+            self.services.forEach { $0.suspendAll() }
+            self.store.intent(action: .stop(nodes: nodes), completion: completion)
+        }
+    }
+    
+    func resume(on node: String? = nil, completion: @escaping (Result<(), Swift.Error>) -> () = { _ in }) {
+        guardQueue.async {
+            let nodes: [String] = {
+                if let node = node {
+                    return [node]
+                } else {
+                    return Array(self.pollers.keys)
+                }
+            }()
+            
+            nodes.forEach {
+                self.pollers[$0]?.resume()
+            }
+            
+            self.services.forEach { $0.resumeAll() }
+            self.store.intent(action: .resume(nodes: nodes), completion: completion)
         }
     }
     
     func resetHard(on node: String? = nil, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-        stop(on: node) {
+        stop(on: node) { result in
+            guard result.isSuccess(else: completion) else { return }
             self.store.intent(action: .hardReset, completion: completion)
         }
     }
@@ -132,35 +188,42 @@ class Matrix {
     }
     
     private func poll(on node: String, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-        poll(on: node) { [weak self] (result, callbackReturn) in
+        var _completion: ((Result<(), Swift.Error>) -> ())? = completion
+        let disposableCompletion: (Result<(), Swift.Error>) -> () = {
+            _completion?($0)
+            _completion = nil
+        }
+        
+        poll(on: node) { [weak self] result, continuation in
             guard let selfStrong = self else {
-                completion(.failure(Beacon.Error.unknown))
+                disposableCompletion(.success(()))
                 return
             }
             
             switch result {
             case let .success(response):
                 selfStrong.store.state {
-                    if let state = $0.get(ifFailure: completion), !state.isPolling {
-                        completion(.success(()))
+                    if let state = $0.get(ifFailure: disposableCompletion), !state.isPolling.get(node, orDefault: false) {
+                        disposableCompletion(.success(()))
                     }
                 
                     selfStrong.store.intent(
                         action: .onSyncSuccess(
+                            node: node,
                             syncToken: response.nextBatch,
                             pollingTimeout: 30000,
                             rooms: response.rooms,
                             events: response.events
                         )
-                    ) { _ in callbackReturn() }
+                    ) { _ in continuation() }
                 }
             case let .failure(error):
                 selfStrong.store.state {
-                    if let state = $0.get(ifFailure: completion), !state.isPolling {
-                        completion(.failure(error))
+                    if let state = $0.get(ifFailure: disposableCompletion), !state.isPolling.get(node, orDefault: false) {
+                        disposableCompletion(.failure(error))
                     }
                     
-                    selfStrong.store.intent(action: .onSyncFailure) { _ in callbackReturn() }
+                    selfStrong.store.intent(action: .onSyncFailure(node: node)) { _ in continuation() }
                 }
             }
         }
@@ -171,24 +234,25 @@ class Matrix {
         every interval: DispatchTimeInterval = .milliseconds(0),
         onResult callback: @escaping (Result<Sync, Swift.Error>, @escaping () -> ()) -> ()
     ) {
-        pollQueue(for: node) {
-            $0.async {
-                self.sync(on: node) { result in
-                    callback(result) { [weak self] in
-                        switch result {
-                        case .success(_):
-                            self?.schedule(on: node, after: interval) {
-                                self?.poll(on: node, every: interval, onResult: callback)
+        poller(for: node) {
+            $0.run(every: interval) { result, continuation in
+                callback(result) { [weak self] in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
+                    switch result {
+                    case .success(_):
+                        continuation(.success(()))
+                    case let .failure(error):
+                        strongSelf.store.state {
+                            guard let state = try? $0.get(), state.pollingRetries.get(node, orDefault: 0) < Beacon.Configuration.matrixMaxSyncRetries else {
+                                /* max retries exceeded */
+                                continuation(.failure(error))
+                                return
                             }
-                        case .failure(_):
-                            self?.store.state { [weak self] in
-                                guard let state = try? $0.get() else { return }
-                                if state.pollingRetries < Beacon.Configuration.matrixMaxSyncRetries {
-                                    self?.schedule(on: node, after: interval) {
-                                        self?.poll(on: node, every: interval, onResult: callback)
-                                    }
-                                } /* else: max retries exceeded */
-                            }
+                            
+                            continuation(.success(()))
                         }
                     }
                 }
@@ -196,44 +260,12 @@ class Matrix {
         }
     }
     
-    private func schedule(on node: String, after delay: DispatchTimeInterval, action: @escaping () -> ()) {
-        pollQueue(for: node) {
-            $0.asyncAfter(deadline: .now() + delay) {
-                self.guardQueue.async {
-                    guard !self.cancelledQueues.contains(node) else {
-                        self.removePollQueue(for: node)
-                        return
-                    }
-                    action()
-                }
-            }
-        }
-    }
-    
-    private func cancelScheduled(on node: String, completion: @escaping () -> ()) {
+    private func poller(for node: String, completion: @escaping (Poller<Sync>) -> ()) {
         guardQueue.async {
-            self.cancelledQueues.insert(node)
-            completion()
-        }
-    }
-    
-    private func pollQueue(for node: String, completion: @escaping (DispatchQueue) -> ()) {
-        guardQueue.async {
-            let queue = self.pollQueues.getOrSet(node) {
-                .init(label: "it.airgap.beacon-sdk.Matrix.poll#\(node)", target: .global(qos: .default))
+            let queue = self.pollers.get(node) {
+                .init { [weak self] in self?.sync(on: node, completion: $0) }
             }
             completion(queue)
-        }
-    }
-    
-    private func removePollQueue(for node: String, completion: @escaping () -> () = {}) {
-        guardQueue.async {
-            self.pollQueues.removeValue(forKey: node)
-            if self.pollQueues.isEmpty {
-                self.store.intent(action: .reset) { _ in completion() }
-            } else {
-                completion()
-            }
         }
     }
     

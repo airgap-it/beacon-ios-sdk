@@ -18,7 +18,7 @@ class CoinRegistry: CoinRegistryProtocol {
     }
     
     func get(_ type: CoinType) -> Coin {
-        coins.getOrSet(type) {
+        coins.get(type) {
             switch type {
             case .tezos:
                 return Tezos(crypto: crypto)

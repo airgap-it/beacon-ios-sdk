@@ -74,8 +74,10 @@ extension Array {
             group.enter()
             body(item.element) { value in
                 queue.async {
-                    results[item.offset] = value
-                    group.leave()
+                    if results[item.offset] == nil {
+                        results[item.offset] = value
+                        group.leave()
+                    }
                 }
             }
         }

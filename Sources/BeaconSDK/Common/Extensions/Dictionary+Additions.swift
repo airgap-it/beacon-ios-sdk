@@ -10,7 +10,7 @@ import Foundation
 
 extension Dictionary {
     
-    mutating func getOrSet(_ key: Key, setter: () throws -> Value) rethrows -> Value {
+    mutating func get(_ key: Key, orSet setter: () throws -> Value) rethrows -> Value {
         if let value = self[key] {
             return value
         } else {
@@ -19,5 +19,13 @@ extension Dictionary {
             
             return value
         }
+    }
+    
+    func get(_ key: Key, orDefault defaultValue: Value) -> Value {
+        self[key] ?? defaultValue
+    }
+    
+    mutating func append<T>(forKey key: Key, element: T) where Value == Set<T> {
+        self[key] = (self[key] ?? []).union([element])
     }
 }
