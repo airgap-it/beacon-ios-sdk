@@ -14,7 +14,7 @@ extension Beacon {
         
         // MARK: SDK
         
-        static let sdkVersion: String = "beacon-iOS:1.0.4"
+        static let sdkVersion: String = "2.0.0"
         
         static let cryptoProvider: CryptoProvider = .sodium
         static let serializer: Serializer = .base58check
