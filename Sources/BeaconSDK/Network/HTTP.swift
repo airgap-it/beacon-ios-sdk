@@ -11,7 +11,7 @@ import Foundation
 class HTTP {
     private let session: URLSession
     
-    init(session: URLSession = .shared) {
+    init(session: URLSession) {
         self.session = session
     }
     

@@ -43,36 +43,35 @@ class DependencyRegistry {
     
     // MARK: Transport
     
-    private var transports: [Beacon.Connection: LazyWeakReference<Transport>] = [:]
     func transport(configuredWith connection: Beacon.Connection) throws -> Transport {
-        try transports.getOrSet(connection) {
-            switch connection {
-            case let .p2p(configuration):
-                guard let beacon = Beacon.shared else {
-                    throw Beacon.Error.uninitialized
-                }
-                
-                let communicationUtils = Transport.P2P.CommunicationUtils(app: beacon.app, crypto: crypto)
-                let store = Transport.P2P.Store(
-                    app: beacon.app,
-                    communicationUtils: communicationUtils,
-                    matrixClient: matrix,
-                    matrixNodes: configuration.nodes,
-                    storageManager: storageManager,
-                    migration: migration
-                )
-                let cryptoUtils = Transport.P2P.CryptoUtils(app: beacon.app, crypto: crypto, timeUtils: timeUtils)
-                
-                let client = Transport.P2P.Client(
-                    matrixClient: matrix,
-                    store: store,
-                    cryptoUtils: cryptoUtils,
-                    communicationUtils: communicationUtils
-                )
-                
-                return LazyWeakReference { [unowned self] in Transport.P2P(client: client, storageManager: self.storageManager) }
+        switch connection {
+        case let .p2p(configuration):
+            guard let beacon = Beacon.shared else {
+                throw Beacon.Error.uninitialized
             }
-        }.value
+            
+            let matrixClient = matrix(urlSession: configuration.urlSession)
+            
+            let communicationUtils = Transport.P2P.CommunicationUtils(app: beacon.app, crypto: crypto)
+            let store = Transport.P2P.Store(
+                app: beacon.app,
+                communicationUtils: communicationUtils,
+                matrixClient: matrixClient,
+                matrixNodes: configuration.nodes,
+                storageManager: storageManager,
+                migration: migration
+            )
+            let cryptoUtils = Transport.P2P.CryptoUtils(app: beacon.app, crypto: crypto, timeUtils: timeUtils)
+            
+            let client = Transport.P2P.Client(
+                matrixClient: matrixClient,
+                store: store,
+                cryptoUtils: cryptoUtils,
+                communicationUtils: communicationUtils
+            )
+            
+            return Transport.P2P(client: client, storageManager: self.storageManager)
+        }
     }
     
     // MARK: Coin
@@ -111,19 +110,24 @@ class DependencyRegistry {
     
     // MARK: Network
     
-    private var http: HTTP { weakHttp.value }
-    private lazy var weakHttp: LazyWeakReference<HTTP> = LazyWeakReference { HTTP() }
+    private var https: [Int: LazyWeakReference<HTTP>] = [:]
+    private func http(urlSession: URLSession) -> HTTP {
+        https.getOrSet(urlSession.hashValue) {
+            LazyWeakReference { HTTP(session: urlSession) }
+        }.value
+    }
     
     // MARK: Matrix
     
-    private var matrix: Matrix { weakMatrix.value }
-    private lazy var weakMatrix: LazyWeakReference<Matrix> = LazyWeakReference { [unowned self] in
-        Matrix(
+    private func matrix(urlSession: URLSession) -> Matrix {
+        let http = self.http(urlSession: urlSession)
+        
+        return Matrix(
             store: Matrix.Store(storageManager: self.storageManager),
-            nodeService: Matrix.NodeService(http: self.http),
-            userService: Matrix.UserService(http: self.http),
-            eventService: Matrix.EventService(http: self.http),
-            roomService: Matrix.RoomService(http: self.http),
+            nodeService: Matrix.NodeService(http: http),
+            userService: Matrix.UserService(http: http),
+            eventService: Matrix.EventService(http: http),
+            roomService: Matrix.RoomService(http: http),
             timeUtils: self.timeUtils
         )
     }
