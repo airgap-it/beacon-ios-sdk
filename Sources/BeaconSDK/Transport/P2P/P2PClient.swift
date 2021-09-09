@@ -46,7 +46,7 @@ extension Transport.P2P {
                     guard let state = $0.get(ifFailure: completion) else { return }
                     
                     self.startRepeat(userID: userID, deviceID: deviceID, retrying: state.availableNodes) { result in
-                        guard result.get(ifFailure: completion) != nil else { return }
+                        guard result.isSuccess(else: completion) else { return }
                     
                         let inviteListener = Matrix.EventListener { [weak self] event in
                             guard let selfStrong = self else { return }
@@ -67,6 +67,25 @@ extension Transport.P2P {
                     }
                 }
             }
+        }
+        
+        func stop(completion: @escaping (Result<(), Swift.Error>) -> ()) {
+            self.matrixClient.stop { result in
+                guard result.isSuccess(else: completion) else { return }
+                
+                self.matrixClient.unsubscribeAll()
+                self.eventListeners.removeAll()
+                self.internalListeners.removeAll()
+                completion(.success(()))
+            }
+        }
+        
+        func pause(completion: @escaping (Result<(), Swift.Error>) -> ()) {
+            self.matrixClient.pause(completion: completion)
+        }
+        
+        func resume(completion: @escaping (Result<(), Swift.Error>) -> ()) {
+            self.matrixClient.resume(completion: completion)
         }
         
         private func startRepeat(
@@ -98,7 +117,7 @@ extension Transport.P2P {
                         }
                         
                         self.resetHard { result in
-                            guard result.get(ifFailure: completion) != nil else { return }
+                            guard result.isSuccess(else: completion) else { return }
                             self.startRepeat(userID: userID, deviceID: deviceID, retrying: retry, carrying: error, completion: completion)
                         }
                     }
@@ -108,7 +127,7 @@ extension Transport.P2P {
         
         private func resetHard(completion: @escaping (Result<(), Swift.Error>) -> ()) {
             store.intent(action: .hardReset) { result in
-                guard result.get(ifFailure: completion) != nil else { return }
+                guard result.isSuccess(else: completion) else { return }
                 self.matrixClient.resetHard(completion: completion)
             }
         }
@@ -138,10 +157,6 @@ extension Transport.P2P {
         func removeListener(for publicKey: HexString) {
             guard let listener = eventListeners.removeValue(forKey: publicKey) else { return }
             matrixClient.unsubscribe(listener)
-            
-            if eventListeners.isEmpty {
-                matrixClient.stop()
-            }
         }
         
         private func textMessage(from event: Matrix.Event, sender publicKey: [UInt8]) -> Matrix.Event.TextMessage? {
@@ -296,7 +311,7 @@ private extension Matrix {
                     }
                     
                     store.intent(action: .onChannelClosed(channelID: roomID)) { intentResult in
-                        guard intentResult.get(ifFailure: completion) != nil else { return }
+                        guard intentResult.isSuccess(else: completion) else { return }
                         
                         self.roomID(withMember: recipient, using: store) { newRoomResult in
                             guard let newRoomIDOrNil = newRoomResult.get(ifFailure: completion) else { return }
@@ -362,7 +377,7 @@ private extension Matrix {
                 
                 self.waitForMember(member, joining: room, using: store) {
                     store.intent(action: .onChannelCreated(recipient: member, channelID: room.id)) { intentResult in
-                        guard intentResult.get(ifFailure: completion) != nil else { return }
+                        guard intentResult.isSuccess(else: completion) else { return }
                         completion(.success(room))
                     }
                 }

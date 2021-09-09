@@ -98,10 +98,17 @@ class ConnectionControllerTests: XCTestCase {
     func testControllerListensForSerializedMessages() throws {
         let testExpectation = expectation(description: "ConnectionController listens for messages")
         
+        let queue = DispatchQueue(
+            label: "it.airgap.beacon-sdk.test.ConnectionControllerTest.testControllerListensForSerializedMessages",
+            qos: .default,
+            attributes: [],
+            target: .global(qos: .default)
+        )
+        
         let versioned = beaconVersionedRequests()
         
-        let beaconConnectionMessages = versioned.map {
-            BeaconConnectionMessage(origin: .p2p(id: "id"), content: $0)
+        let beaconConnectionMessages = versioned.enumerated().map { (index, message) in
+            BeaconConnectionMessage(origin: .p2p(id: "id#\(index)"), content: message)
         }
         
         let serializedConnectionMessages = try beaconConnectionMessages.map {
@@ -109,22 +116,30 @@ class ConnectionControllerTests: XCTestCase {
         }
         
         var received: [BeaconConnectionMessage] = []
-        connectionController.listen { result in
-            switch result {
-            case let .success(message):
-                received.append(message)
-                if received.count == beaconConnectionMessages.count {
-                    XCTAssertEqual(beaconConnectionMessages, received, "Expected controller to be notified with the specified messages")
+        connectionController.connect { _ in
+            self.connectionController.listen { result in
+                switch result {
+                case let .success(message):
+                    queue.async(flags: .barrier) {
+                        received.append(message)
+                        if received.count == beaconConnectionMessages.count {
+                            XCTAssertEqual(
+                                beaconConnectionMessages.sorted(by: { lhs, rhs in lhs.origin.id < rhs.origin.id }),
+                                received.sorted(by: { lhs, rhs in lhs.origin.id < rhs.origin.id }),
+                                "Expected controller to be notified with the specified messages"
+                            )
+                            testExpectation.fulfill()
+                        }
+                    }
+                case let .failure(error):
+                    XCTFail("Unexpected error: \(error)")
                     testExpectation.fulfill()
                 }
-            case let .failure(error):
-                XCTFail("Unexpected error: \(error)")
-                testExpectation.fulfill()
             }
-        }
-        
-        serializedConnectionMessages.enumerated().forEach { (index, message) in
-            transports[index % transports.count].notify(with: .success(.serialized(message)))
+            
+            serializedConnectionMessages.enumerated().forEach { (index, message) in
+                self.transports[index % self.transports.count].notify(with: .success(.serialized(message)))
+            }
         }
         
         waitForExpectations(timeout: 1) { error in

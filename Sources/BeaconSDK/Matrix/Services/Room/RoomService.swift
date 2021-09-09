@@ -10,12 +10,7 @@ import Foundation
 
 extension Matrix {
     
-    class RoomService: MatrixService {
-        private let http: HTTP
-        
-        init(http: HTTP) {
-            self.http = http
-        }
+    class RoomService: Service {
         
         func createRoom(
             on node: String,
@@ -24,13 +19,19 @@ extension Matrix {
             completion: @escaping (Result<CreateResponse, Swift.Error>) -> ()
         ) {
             runCatching(completion: completion) {
+                let url = try apiURL(from: node, at: "/createRoom")
+                let call = OngoingCall(method: .post, url: url)
+                addOngoing(call)
+                
                 http.post(
-                    at: try apiURL(from: node, at: "/createRoom"),
+                    at: url,
                     body: createRequest,
                     headers: [.bearer(token: accessToken)],
-                    throwing: ErrorResponse.self,
-                    completion: completion
-                )
+                    throwing: ErrorResponse.self
+                ) { (result: Result<CreateResponse, Swift.Error>) in
+                    self.removeOngoing(call)
+                    completion(result)
+                }
             }
         }
         
@@ -41,13 +42,19 @@ extension Matrix {
             completion: @escaping (Result<JoinResponse, Swift.Error>) -> ()
         ) {
             runCatching(completion: completion) {
+                let url = try apiURL(from: node, at: "/rooms/\(roomID)/join")
+                let call = OngoingCall(method: .post, url: url)
+                addOngoing(call)
+                
                 http.post(
-                    at: try apiURL(from: node, at: "/rooms/\(roomID)/join"),
+                    at: url,
                     body: JoinRequest(),
                     headers: [.bearer(token: accessToken)],
-                    throwing: ErrorResponse.self,
-                    completion: completion
-                )
+                    throwing: ErrorResponse.self
+                ) { (result: Result<JoinResponse, Swift.Error>) in
+                    self.removeOngoing(call)
+                    completion(result)
+                }
             }
         }
     }

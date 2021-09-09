@@ -75,7 +75,7 @@ extension Transport.P2P {
             
             private func findRelayServer(completion: @escaping (Result<String, Swift.Error>) -> ()) {
                 migration.migrateMatrixRelayServer(withNodes: matrixNodes) { migrationResult in
-                    guard migrationResult.get(ifFailure: completion) != nil else { return }
+                    guard migrationResult.isSuccess(else: completion) else { return }
                     
                     self.storageManager.getMatrixRelayServer { relayServerResult in
                         guard let relayServer = relayServerResult.get(ifFailure: completion) else { return }
@@ -151,7 +151,7 @@ extension Transport.P2P {
                 completion: @escaping (Result<(), Swift.Error>) -> ()
             ) {
                 updatePeerRelayServer(forSender: sender) { updatePeerResult in
-                    guard updatePeerResult.get(ifFailure: completion) != nil else { return }
+                    guard updatePeerResult.isSuccess(else: completion) else { return }
                     self.onActiveChannelUpdate(user: sender, channelID: channelID, completion: completion)
                 }
             }
@@ -164,7 +164,7 @@ extension Transport.P2P {
                     let inactiveChannels = state.inactiveChannels.union([channelID])
                     
                     self.storageManager.setMatrixChannels(activeChannels) { setChannelsResult in
-                        guard setChannelsResult.get(ifFailure: completion) != nil else { return }
+                        guard setChannelsResult.isSuccess(else: completion) else { return }
                         
                         if state.activeChannels != activeChannels || state.inactiveChannels != inactiveChannels {
                             self.state = .init(from: state, activeChannels: activeChannels, inactiveChannels: inactiveChannels)
@@ -177,9 +177,9 @@ extension Transport.P2P {
             
             private func resetHard(completion: @escaping (Result<(), Swift.Error>) -> ()) {
                 storageManager.removeMatrixRelayServer { relayServerResult in
-                    guard relayServerResult.get(ifFailure: completion) != nil else { return }
+                    guard relayServerResult.isSuccess(else: completion) else { return }
                     self.storageManager.removeMatrixChannels { channelsResult in
-                        guard channelsResult.get(ifFailure: completion) != nil else { return }
+                        guard channelsResult.isSuccess(else: completion) else { return }
                         self.state = nil
                         completion(.success(()))
                     }
@@ -217,7 +217,7 @@ extension Transport.P2P {
                 let inactiveChannels = state.inactiveChannels.union([assignedChannel].compactMap { $0 }).subtracting([channelID])
                 
                 storageManager.setMatrixChannels(activeChannels) { result in
-                    guard result.get(ifFailure: completion) != nil else { return }
+                    guard result.isSuccess(else: completion) else { return }
                     completion(.success((activeChannels, inactiveChannels)))
                 }
             }

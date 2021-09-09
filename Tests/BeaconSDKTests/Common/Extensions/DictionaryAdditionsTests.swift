@@ -20,7 +20,7 @@ class DictionaryAdditionsTests: XCTestCase {
         
         var setterCalled = 0
         for _ in 0..<n {
-            let value = dictionary.getOrSet("key") {
+            let value = dictionary.get("key") {
                 setterCalled += 1
                 return defaultValue
             }

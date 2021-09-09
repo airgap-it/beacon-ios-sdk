@@ -66,13 +66,13 @@ extension Transport.P2P {
         }
         
         private func getOrCreateClientSessionKeyPair(for publicKey: [UInt8]) throws -> SessionKeyPair {
-            try clientSessionKeyPair.getOrSet(HexString(from: publicKey)) {
+            try clientSessionKeyPair.get(HexString(from: publicKey)) {
                 try crypto.clientSessionKeyPair(publicKey: publicKey, secretKey: keyPair.secretKey)
             }
         }
         
         private func getOrCreateServerSessionKeyPair(for publicKey: [UInt8]) throws -> SessionKeyPair {
-            try serverSessionKeyPair.getOrSet(HexString(from: publicKey)) {
+            try serverSessionKeyPair.get(HexString(from: publicKey)) {
                 try crypto.serverSessionKeyPair(publicKey: publicKey, secretKey: keyPair.secretKey)
             }
         }
@@ -84,6 +84,6 @@ extension Transport.P2P {
 private extension Dictionary where Key == HexString {
     
     mutating func getOrSet(_ key: [UInt8], setter: () throws -> Value) rethrows -> Value {
-        try getOrSet(HexString(from: key), setter: setter)
+        try get(HexString(from: key), orSet: setter)
     }
 }

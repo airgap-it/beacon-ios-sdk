@@ -28,6 +28,10 @@ extension Matrix {
             associated.remove(listenerWithID: listenerID)
         }
         
+        func removeAllListeners() {
+            associated.removeAllListeners()
+        }
+        
         // MARK: Associated
         
         class Associated: StoreProtocol {
@@ -55,20 +59,23 @@ extension Matrix {
                 switch action {
                 case let .initialize(userID, deviceID, accessToken):
                     initialize(userID: userID, deviceID: deviceID, accessToken: accessToken, completion: completion)
-                case let .onSyncSuccess(syncToken, pollingTimeout, rooms, events):
+                case let .stop(nodes: nodes):
+                    stop(nodes: nodes, completion: completion)
+                case let .resume(nodes: nodes):
+                    resume(nodes: nodes, completion: completion)
+                case let .onSyncSuccess(node, syncToken, pollingTimeout, rooms, events):
                     onSyncSuccess(
+                        node: node,
                         syncToken: syncToken,
                         pollingTimeout: pollingTimeout,
                         rooms: rooms,
                         events: events,
                         completion: completion
                     )
-                case .onSyncFailure:
-                    onSyncFailure(completion: completion)
+                case let .onSyncFailure(node):
+                    onSyncFailure(node: node, completion: completion)
                 case .onTxnIDCreated:
                     onTxnIDCreated(completion: completion)
-                case .reset:
-                    reset(completion: completion)
                 case .hardReset:
                     resetHard(completion: completion)
                 }
@@ -91,6 +98,10 @@ extension Matrix {
             func remove(listenerWithID listenerID: String) {
                 guard let listener = eventsListeners.first(where: { $0.id == listenerID }) else { return }
                 eventsListeners.remove(listener)
+            }
+            
+            func removeAllListeners() {
+                eventsListeners.removeAll()
             }
             
             private func notify(with events: [Event]) {
@@ -127,7 +138,24 @@ extension Matrix {
                 }
             }
             
+            private func stop(nodes: [String], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+                state = State(
+                    from: self.state,
+                    isPolling: state.isPolling.merging(nodes.map({ ($0, false) }), uniquingKeysWith: { lhs, rhs in rhs })
+                )
+                completion(.success(()))
+            }
+            
+            private func resume(nodes: [String], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+                state = State(
+                    from: self.state,
+                    isPolling: state.isPolling.merging(nodes.map({ ($0, true) }), uniquingKeysWith: { lhs, rhs in rhs })
+                )
+                completion(.success(()))
+            }
+            
             private func onSyncSuccess(
+                node: String,
                 syncToken: String?,
                 pollingTimeout: Int64,
                 rooms: [Room]?,
@@ -144,10 +172,10 @@ extension Matrix {
                
                     self.state = State(
                         from: self.state,
-                        isPolling: true,
+                        isPolling: self.state.isPolling.merging([node: true], uniquingKeysWith: { lhs, rhs in rhs }),
                         syncToken: .some(syncToken),
                         pollingTimeout: pollingTimeout,
-                        pollingRetries: 0,
+                        pollingRetries: self.state.pollingRetries.merging([node: 0], uniquingKeysWith: { lhs, rhs in rhs }),
                         rooms: mergedRooms ?? self.state.rooms
                     )
                     
@@ -155,8 +183,15 @@ extension Matrix {
                 }
             }
             
-            private func onSyncFailure(completion: @escaping (Result<(), Swift.Error>) -> ()) {
-                state = State(from: state, isPolling: false, pollingRetries: state.pollingRetries + 1)
+            private func onSyncFailure(node: String, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+                state = State(
+                    from: state,
+                    isPolling: state.isPolling.merging([node: false], uniquingKeysWith: { lhs, rhs in rhs }),
+                    pollingRetries: state.pollingRetries.merging(
+                        [node: state.pollingRetries.get(node, orDefault: 0)],
+                        uniquingKeysWith: { lhs, rhs in rhs }
+                    )
+                )
                 completion(.success(()))
             }
             
@@ -165,16 +200,13 @@ extension Matrix {
                 completion(.success(()))
             }
             
-            private func reset(completion: @escaping (Result<(), Swift.Error>) -> ()) {
-                state = State(syncToken: state.syncToken)
-            }
-            
             private func resetHard(completion: @escaping (Result<(), Swift.Error>) -> ()) {
                 storageManager.removeMatrixRooms { result in
-                    guard result.get(ifFailure: completion) != nil else { return }
+                    guard result.isSuccess(else: completion) else { return }
                     
                     self.eventsListeners.removeAll()
-                    self.reset(completion: completion)
+                    self.state = State(syncToken: self.state.syncToken)
+                    completion(.success(()))
                 }
             }
             

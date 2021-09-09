@@ -35,6 +35,30 @@ extension Beacon {
         case connectionFailed(_ kinds: [Connection.Kind], causedBy: [Swift.Error])
         
         ///
+        /// Could not stop connections.
+        ///
+        /// - kinds: Types of connections that failed to stop.
+        /// - causedBy: An array of the initial causes of the error, if known.
+        ///
+        case stopConnectionFailed(_ kinds: [Connection.Kind], causedBy: [Swift.Error])
+        
+        ///
+        /// Could not pause connections.
+        ///
+        /// - kinds: Types of connections that failed to pause.
+        /// - causedBy: An array of the initial causes of the error, if known.
+        ///
+        case pauseConnectionFailed(_ kinds: [Connection.Kind], causedBy: [Swift.Error])
+        
+        ///
+        /// Could not resume connections.
+        ///
+        /// - kinds: Types of connections that failed to resume.
+        /// - causedBy: An array of the initial causes of the error, if known.
+        ///
+        case resumeConnectionFailed(_ kinds: [Connection.Kind], causedBy: [Swift.Error])
+        
+        ///
         /// Could not pair with the peers.
         ///
         /// - peers: An array of peers that failed to be paired.

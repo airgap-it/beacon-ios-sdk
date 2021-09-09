@@ -43,35 +43,38 @@ class DependencyRegistry {
     
     // MARK: Transport
     
+    private var transports: [Beacon.Connection: LazyWeakReference<Transport>] = [:]
     func transport(configuredWith connection: Beacon.Connection) throws -> Transport {
-        switch connection {
-        case let .p2p(configuration):
-            guard let beacon = Beacon.shared else {
-                throw Beacon.Error.uninitialized
+        try transports.get(connection) {
+            switch connection {
+            case let .p2p(configuration):
+                guard let beacon = Beacon.shared else {
+                    throw Beacon.Error.uninitialized
+                }
+                
+                let matrix = matrix(urlSession: configuration.urlSession)
+                
+                let communicationUtils = Transport.P2P.CommunicationUtils(app: beacon.app, crypto: crypto)
+                let store = Transport.P2P.Store(
+                    app: beacon.app,
+                    communicationUtils: communicationUtils,
+                    matrixClient: matrix,
+                    matrixNodes: configuration.nodes,
+                    storageManager: storageManager,
+                    migration: migration
+                )
+                let cryptoUtils = Transport.P2P.CryptoUtils(app: beacon.app, crypto: crypto, timeUtils: timeUtils)
+                
+                let client = Transport.P2P.Client(
+                    matrixClient: matrix,
+                    store: store,
+                    cryptoUtils: cryptoUtils,
+                    communicationUtils: communicationUtils
+                )
+                
+                return LazyWeakReference { [unowned self] in Transport.P2P(client: client, storageManager: self.storageManager) }
             }
-            
-            let matrixClient = matrix(urlSession: configuration.urlSession)
-            
-            let communicationUtils = Transport.P2P.CommunicationUtils(app: beacon.app, crypto: crypto)
-            let store = Transport.P2P.Store(
-                app: beacon.app,
-                communicationUtils: communicationUtils,
-                matrixClient: matrixClient,
-                matrixNodes: configuration.nodes,
-                storageManager: storageManager,
-                migration: migration
-            )
-            let cryptoUtils = Transport.P2P.CryptoUtils(app: beacon.app, crypto: crypto, timeUtils: timeUtils)
-            
-            let client = Transport.P2P.Client(
-                matrixClient: matrixClient,
-                store: store,
-                cryptoUtils: cryptoUtils,
-                communicationUtils: communicationUtils
-            )
-            
-            return Transport.P2P(client: client, storageManager: self.storageManager)
-        }
+        }.value
     }
     
     // MARK: Coin
@@ -112,7 +115,7 @@ class DependencyRegistry {
     
     private var https: [Int: LazyWeakReference<HTTP>] = [:]
     private func http(urlSession: URLSession) -> HTTP {
-        https.getOrSet(urlSession.hashValue) {
+        https.get(urlSession.hashValue) {
             LazyWeakReference { HTTP(session: urlSession) }
         }.value
     }
