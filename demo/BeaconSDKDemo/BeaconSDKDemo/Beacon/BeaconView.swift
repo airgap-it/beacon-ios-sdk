@@ -46,6 +46,13 @@ struct BeaconView: View {
             
             Button("Respond") { viewModel.sendResponse() }
             
+            HStack {
+                Button("Start") { viewModel.startBeacon() }
+                Button("Stop") { viewModel.stop() }
+                Button("Pause") { viewModel.pause() }
+                Button("Resume") { viewModel.resume() }
+            }
+            
             ScrollView(.vertical) {
                 Text(viewModel.beaconRequest ?? "-- Request --")
             }.frame(maxWidth: .infinity)

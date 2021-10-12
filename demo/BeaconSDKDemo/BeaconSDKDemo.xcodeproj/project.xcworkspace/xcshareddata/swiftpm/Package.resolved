@@ -15,26 +15,17 @@
         "repositoryURL": "https://github.com/attaswift/BigInt.git",
         "state": {
           "branch": null,
-          "revision": "889a1ecacd73ccc189c5cb29288048f186c44ed9",
-          "version": "5.2.1"
-        }
-      },
-      {
-        "package": "Clibsodium",
-        "repositoryURL": "https://github.com/junelife/clibsodium-xcframework",
-        "state": {
-          "branch": null,
-          "revision": "7d07eaac8f6fc7ad3248b1a8c601e0c098c552dc",
-          "version": "0.9.2"
+          "revision": "0ed110f7555c34ff468e72e1686e59721f2b0da6",
+          "version": "5.3.0"
         }
       },
       {
         "package": "Sodium",
-        "repositoryURL": "https://github.com/junelife/swift-sodium.git",
+        "repositoryURL": "https://github.com/jedisct1/swift-sodium.git",
         "state": {
-          "branch": "spm",
-          "revision": "7487d6239c90d3f609de891782d0596d39beddb8",
-          "version": null
+          "branch": null,
+          "revision": "4f9164a0a2c9a6a7ff53a2833d54a5c79c957342",
+          "version": "0.9.1"
         }
       }
     ]

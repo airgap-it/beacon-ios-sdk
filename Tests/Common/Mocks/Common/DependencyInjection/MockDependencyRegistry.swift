@@ -1,0 +1,45 @@
+//
+//  MockDependencyRegistry.swift
+//  
+//
+//  Created by Julia Samol on 11.10.21.
+//
+
+import Foundation
+@testable import BeaconCore
+
+public struct MockDependencyRegistry: DependencyRegistry {
+    private let coreDependencyRegistry: CoreDependencyRegistry
+    
+    public init() {
+        self.coreDependencyRegistry = CoreDependencyRegistry(
+            blockchainFactories: [MockBlockchainFactory()],
+            storage: MockStorage(),
+            secureStorage: MockSecureStorage()
+        )
+    }
+    
+    public var storageManager: StorageManager { coreDependencyRegistry.storageManager }
+    
+    public func connectionController(configuredWith connections: [Beacon.Connection]) throws -> ConnectionControllerProtocol {
+        MockConnectionController()
+    }
+    
+    public var messageController: MessageControllerProtocol { MockMessageController(storageManager: self.storageManager) }
+    
+    public func transport(configuredWith connection: Beacon.Connection) throws -> Transport {
+        MockTransport(kind: connection.kind)
+    }
+    
+    public var blockchainRegistry: BlockchainRegistryProtocol { MockBlockchainRegistry() }
+    public var crypto: Crypto { coreDependencyRegistry.crypto }
+    public var serializer: Serializer { coreDependencyRegistry.serializer }
+    
+    public func http(urlSession: URLSession) -> HTTP {
+        coreDependencyRegistry.http(urlSession: urlSession)
+    }
+    
+    public var migration: Migration { coreDependencyRegistry.migration }
+    public var identifierCreator: IdentifierCreatorProtocol { MockIdentifierCreator() }
+    public var time: TimeProtocol { MockTime() }
+}
