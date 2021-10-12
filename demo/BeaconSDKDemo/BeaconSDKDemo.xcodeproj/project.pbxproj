@@ -14,7 +14,10 @@
 		49C97F9025ADB07F002F6366 /* BeaconSDKDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97F8F25ADB07F002F6366 /* BeaconSDKDemoTests.swift */; };
 		49C97F9B25ADB07F002F6366 /* BeaconSDKDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97F9A25ADB07F002F6366 /* BeaconSDKDemoUITests.swift */; };
 		49C97FAE25ADB0F8002F6366 /* BeaconViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97FAC25ADB0F8002F6366 /* BeaconViewModel.swift */; };
-		88B042362683368800979229 /* BeaconSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 88B042352683368800979229 /* BeaconSDK */; };
+		88BCEA792705FEC300C7F5A9 /* BeaconBlockchainTezos in Frameworks */ = {isa = PBXBuildFile; productRef = 88BCEA782705FEC300C7F5A9 /* BeaconBlockchainTezos */; };
+		88BCEA7B2705FEC300C7F5A9 /* BeaconClientWallet in Frameworks */ = {isa = PBXBuildFile; productRef = 88BCEA7A2705FEC300C7F5A9 /* BeaconClientWallet */; };
+		88BCEA7D2705FEC300C7F5A9 /* BeaconCore in Frameworks */ = {isa = PBXBuildFile; productRef = 88BCEA7C2705FEC300C7F5A9 /* BeaconCore */; };
+		88BCEA7F2705FEC300C7F5A9 /* BeaconTransportP2PMatrix in Frameworks */ = {isa = PBXBuildFile; productRef = 88BCEA7E2705FEC300C7F5A9 /* BeaconTransportP2PMatrix */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,7 @@
 		49C97FAC25ADB0F8002F6366 /* BeaconViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconViewModel.swift; sourceTree = "<group>"; };
 		49C97FAD25ADB0F8002F6366 /* BeaconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconView.swift; sourceTree = "<group>"; };
 		88B042342683367400979229 /* beacon-ios-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "beacon-ios-sdk"; path = ../..; sourceTree = "<group>"; };
+		88BC03AC2705FD130095C508 /* beacon-ios-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "beacon-ios-sdk"; path = ../..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +60,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88B042362683368800979229 /* BeaconSDK in Frameworks */,
+				88BCEA7F2705FEC300C7F5A9 /* BeaconTransportP2PMatrix in Frameworks */,
+				88BCEA7B2705FEC300C7F5A9 /* BeaconClientWallet in Frameworks */,
+				88BCEA792705FEC300C7F5A9 /* BeaconBlockchainTezos in Frameworks */,
+				88BCEA7D2705FEC300C7F5A9 /* BeaconCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +87,7 @@
 		49C97F7125ADB07E002F6366 = {
 			isa = PBXGroup;
 			children = (
+				88BC03AB2705FD130095C508 /* Packages */,
 				88B042342683367400979229 /* beacon-ios-sdk */,
 				49C97F7C25ADB07E002F6366 /* BeaconSDKDemo */,
 				49C97F8E25ADB07F002F6366 /* BeaconSDKDemoTests */,
@@ -153,6 +161,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		88BC03AB2705FD130095C508 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				88BC03AC2705FD130095C508 /* beacon-ios-sdk */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -170,7 +186,10 @@
 			);
 			name = BeaconSDKDemo;
 			packageProductDependencies = (
-				88B042352683368800979229 /* BeaconSDK */,
+				88BCEA782705FEC300C7F5A9 /* BeaconBlockchainTezos */,
+				88BCEA7A2705FEC300C7F5A9 /* BeaconClientWallet */,
+				88BCEA7C2705FEC300C7F5A9 /* BeaconCore */,
+				88BCEA7E2705FEC300C7F5A9 /* BeaconTransportP2PMatrix */,
 			);
 			productName = BeaconSDKDemo;
 			productReference = 49C97F7A25ADB07E002F6366 /* BeaconSDKDemo.app */;
@@ -611,9 +630,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		88B042352683368800979229 /* BeaconSDK */ = {
+		88BCEA782705FEC300C7F5A9 /* BeaconBlockchainTezos */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = BeaconSDK;
+			productName = BeaconBlockchainTezos;
+		};
+		88BCEA7A2705FEC300C7F5A9 /* BeaconClientWallet */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BeaconClientWallet;
+		};
+		88BCEA7C2705FEC300C7F5A9 /* BeaconCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BeaconCore;
+		};
+		88BCEA7E2705FEC300C7F5A9 /* BeaconTransportP2PMatrix */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BeaconTransportP2PMatrix;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

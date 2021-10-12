@@ -1,0 +1,23 @@
+//
+//  MockBlockchainRegistry.swift
+//  Mocks
+//
+//  Created by Julia Samol on 01.12.20.
+//  Copyright © 2020 Papers AG. All rights reserved.
+//
+
+import Foundation
+@testable import BeaconCore
+@testable import BeaconBlockchainTezos
+
+public struct MockBlockchainRegistry: BlockchainRegistryProtocol {
+    public init() {}
+    
+    public func get<T: Blockchain>() -> T? {
+        get(ofType: T.identifier)?.unbox()
+    }
+    
+    public func get(ofType identifier: String) -> AnyBlockchain? {
+        MockBlockchain().box()
+    }
+}
