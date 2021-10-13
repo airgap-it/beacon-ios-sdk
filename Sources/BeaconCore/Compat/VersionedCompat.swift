@@ -10,5 +10,5 @@ import Foundation
 public protocol VersionedCompat {
     var withVersion: String { get }
     
-    func blockchain() throws -> AnyBlockchain
+    func blockchain() throws -> ShadowBlockchain
 }

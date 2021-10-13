@@ -14,10 +14,10 @@ public struct MockBlockchainRegistry: BlockchainRegistryProtocol {
     public init() {}
     
     public func get<T: Blockchain>() -> T? {
-        get(ofType: T.identifier)?.unbox()
+        get(ofType: T.identifier) as? T
     }
     
-    public func get(ofType identifier: String) -> AnyBlockchain? {
-        MockBlockchain().box()
+    public func get(ofType identifier: String) -> ShadowBlockchain? {
+        MockBlockchain()
     }
 }

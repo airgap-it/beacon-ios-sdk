@@ -8,7 +8,15 @@
 
 import Foundation
 
-public protocol Blockchain {
+public protocol ShadowBlockchain {
+    static var identifier: String { get }
+    
+    var wallet: BlockchainWallet { get }
+    var creator: Any { get }
+    var decoder: BlockchainDecoder { get }
+}
+
+public protocol Blockchain: ShadowBlockchain {
     associatedtype Creator: BlockchainCreator where Creator.ConcreteBlockchain == Self
     
     associatedtype Request: BlockchainRequest
@@ -25,43 +33,8 @@ public protocol Blockchain {
     var decoder: BlockchainDecoder { get }
 }
 
-// MARK: Any
-
-public struct AnyBlockchain: Blockchain {
-    public typealias Creator = AnyBlockchainCreator
-    
-    public typealias Request = AnyBlockchainRequest
-    public typealias Response = AnyBlockchainResponse
-    public typealias VersionedMessage = AnyBlockchainVersionedMessage
-    
-    public typealias Permission = AnyPermission
-    public typealias ErrorType = AnyErrorType
-    
-    public static var identifier: String = "unknown"
-    
-    public let wallet: BlockchainWallet
-    public let creator: Creator
-    public let decoder: BlockchainDecoder
-    
-    private let base: Any
-    
-    fileprivate init<T: Blockchain>(_ blockchain: T) {
-        self.base = blockchain
-        
-        self.wallet = blockchain.wallet
-        self.creator = blockchain.creator.box()
-        self.decoder = blockchain.decoder
-    }
-    
-    public func unbox<T: Blockchain>() -> T? {
-        base as? T
-    }
-}
-
 // MARK: Extensions
 
 extension Blockchain {
-    public func box() -> AnyBlockchain {
-        AnyBlockchain(self)
-    }
+    public var creator: Any { self.creator }
 }

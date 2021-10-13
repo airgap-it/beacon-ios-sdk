@@ -13,7 +13,7 @@ extension Micheline {
     
     public enum Literal: Codable, Hashable, Equatable {
         case string(String)
-        case int(Int)
+        case int(String)
         case bytes([UInt8])
         
         public init(from decoder: Decoder) throws {
@@ -23,10 +23,7 @@ extension Micheline {
                 return
             }
             if let value = try container.decodeIfPresent(String.self, forKey: .int) {
-                guard let integerValue = Int(value) else {
-                    throw SerializationError.invalidType
-                }
-                self = .int(integerValue)
+                self = .int(value)
                 return
             }
             if let value = try container.decodeIfPresent(String.self, forKey: .bytes) {
@@ -42,9 +39,9 @@ extension Micheline {
             case let .string(value):
                 try container.encode(value, forKey: .string)
             case let .int(value):
-                try container.encode(String(value, radix: 10), forKey: .int)
+                try container.encode(value, forKey: .int)
             case let .bytes(value):
-                try container.encode(value, forKey: .bytes)
+                try container.encode(HexString(from: value).asString(withPrefix: true), forKey: .bytes)
             }
         }
         

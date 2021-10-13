@@ -214,7 +214,7 @@ extension Beacon {
         
         private func acknowledge<T: Blockchain>(_ request: BeaconRequest<T>, completion: @escaping (Result<(), Error>) -> ()) {
             let message = AcknowledgeBeaconResponse(from: request)
-            send(BeaconMessage<AnyBlockchain>.response(.acknowledge(message)), terminalMessage: false, completion: completion)
+            send(BeaconMessage<T>.response(.acknowledge(message)), terminalMessage: false, completion: completion)
         }
      
         // MARK: Types

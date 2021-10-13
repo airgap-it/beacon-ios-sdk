@@ -28,10 +28,14 @@ public enum V1BeaconMessage: V1BeaconMessageProtocol, Equatable, Codable {
                 self = .blockchainMessage(try T.VersionedMessage.V1(from: beaconMessage, senderID: senderID))
             }
         case let .disconnect(content):
-            self = .disconnectMessage(DisconnectV1BeaconMessage(from: content, senderID: senderID))
+            try self.init(from: content, senderID: senderID)
         default:
             self = .blockchainMessage(try T.VersionedMessage.V1(from: beaconMessage, senderID: senderID))
         }
+    }
+    
+    init(from disconnectMessage: DisconnectBeaconMessage, senderID: String) throws {
+        self = .disconnectMessage(DisconnectV1BeaconMessage(from: disconnectMessage, senderID: senderID))
     }
     
     public func toBeaconMessage<T: Blockchain>(

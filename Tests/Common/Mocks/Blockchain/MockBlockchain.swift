@@ -17,7 +17,7 @@ public struct MockBlockchain: Blockchain {
     public typealias VersionedMessage = MockVersionedMessage
     
     public typealias Permission = AnyPermission
-    public typealias ErrorType = AnyErrorType
+    public typealias ErrorType = MockErrorType
     
     public static var identifier: String = "mock"
     
@@ -46,8 +46,8 @@ public struct MockBlockchainFactory: BlockchainFactory {
         }
     }
     
-    public func createBoxed(with dependencyRegistry: DependencyRegistry) -> AnyBlockchain {
-        MockBlockchain().box()
+    public func createShadow(with dependencyRegistry: DependencyRegistry) -> ShadowBlockchain {
+        MockBlockchain()
     }
 }
 
@@ -316,3 +316,27 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
         }
     }
 }
+
+public struct MockErrorType: ErrorTypeProtocol, Equatable, Codable {
+    public let rawValue: String
+    
+    fileprivate init(_ errorType: ErrorTypeProtocol) {
+        self.rawValue = errorType.rawValue
+    }
+    
+    public init?(rawValue: String) {
+        self.rawValue = rawValue
+    }
+    
+    // MARK: Codable
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.rawValue = try container.decode(String.self)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        try rawValue.encode(to: encoder)
+    }
+}
+

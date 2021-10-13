@@ -9,5 +9,5 @@ import Foundation
 
 public protocol BlockchainFactory {
     static var identifier: String { get }
-    func createBoxed(with dependencyRegistry: DependencyRegistry) -> AnyBlockchain
+    func createShadow(with dependencyRegistry: DependencyRegistry) -> ShadowBlockchain
 }

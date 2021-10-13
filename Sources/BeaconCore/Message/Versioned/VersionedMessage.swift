@@ -27,6 +27,18 @@ public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, C
         }
     }
     
+    init(from disconnectMessage: DisconnectBeaconMessage, senderID: String) throws {
+        switch disconnectMessage.version.major {
+        case "1":
+            self = .v1(try V1BeaconMessage(from: disconnectMessage, senderID: senderID))
+        case "2":
+            self = .v2(try V2BeaconMessage(from: disconnectMessage, senderID: senderID))
+        default:
+            // fallback to the newest version
+            self = .v2(try V2BeaconMessage(from: disconnectMessage, senderID: senderID))
+        }
+    }
+    
     public func toBeaconMessage<T: Blockchain>(
         with origin: Beacon.Origin,
         using storageManager: StorageManager,

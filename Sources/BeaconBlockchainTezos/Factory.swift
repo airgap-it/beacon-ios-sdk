@@ -27,8 +27,8 @@ extension Tezos {
             return Tezos(wallet: wallet, creator: creator, decoder: decoder)
         }
         
-        public func createBoxed(with dependencyRegistry: DependencyRegistry) -> AnyBlockchain {
-            create(with: dependencyRegistry).box()
+        public func createShadow(with dependencyRegistry: DependencyRegistry) -> ShadowBlockchain {
+            create(with: dependencyRegistry)
         }
     }
 }

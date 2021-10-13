@@ -90,6 +90,13 @@ class MessageController: MessageControllerProtocol {
         }
     }
     
+    func onOutgoing(_ message: DisconnectBeaconMessage, with beaconID: String) throws -> (Beacon.Origin, VersionedBeaconMessage) {
+        let senderHash = try self.identifierCreator.senderIdentifier(from: try HexString(from: beaconID))
+        let versionedMessage = try VersionedBeaconMessage(from: message, senderID: senderHash)
+        
+        return (message.origin, versionedMessage)
+    }
+    
     private func onOutgoing<T: Blockchain>(
         _ message: BeaconMessage<T>,
         terminal: Bool,
@@ -191,4 +198,6 @@ public protocol MessageControllerProtocol {
         terminal: Bool,
         completion: @escaping (Result<(Beacon.Origin, VersionedBeaconMessage), Error>) -> ()
     )
+    
+    func onOutgoing(_ message: DisconnectBeaconMessage, with beaconID: String) throws -> (Beacon.Origin, VersionedBeaconMessage)
 }
