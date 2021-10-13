@@ -30,11 +30,12 @@ let package = Package(
                 "Sodium",
                  .product(name: "Clibsodium", package: "Sodium"),
                 "Base58Swift"
-            ]
+            ],
+            path: "Sources/Core"
         ),
-        .target(name: "BeaconBlockchainTezos", dependencies: ["BeaconCore"]),
-        .target(name: "BeaconClientWallet", dependencies: ["BeaconCore"]),
-        .target(name: "BeaconTransportP2PMatrix", dependencies: ["BeaconCore"]),
+        .target(name: "BeaconBlockchainTezos", dependencies: ["BeaconCore"], path: "Sources/BlockchainTezos"),
+        .target(name: "BeaconClientWallet", dependencies: ["BeaconCore"], path: "Sources/ClientWallet"),
+        .target(name: "BeaconTransportP2PMatrix", dependencies: ["BeaconCore"], path: "Sources/TransportP2PMatrix"),
         
         // Tests
         .target(

@@ -12,22 +12,38 @@ The `Beacon iOS SDK` provides iOS developers with tools useful for setting up co
 
 ## Installation
 
-To add `Beacon iOS SDK` into your project, add the `Beacon iOS SDK` package dependency:
+See the below guides to learn how to add Beacon into your project.
 
-### Xcode
+### SPM
+
+To add `Beacon iOS SDK` with [the Swift Package Manager](https://swift.org/package-manager/), add the `Beacon iOS SDK` package dependency:
+
+#### Xcode
 
 Open the `Add Package Dependency` window (as described in [the official guide](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app)) and enter the `Beacon iOS SDK` GitHub repository URL:
 ```
 https://github.com/airgap-it/beacon-ios-sdk
 ```
 
-### Package.swift file
+#### Package.swift file
 
 Add the following dependency in your `Package.swift` file:
 
 ```swift
 .package(url: "https://github.com/airgap-it/beacon-ios-sdk", from: "3.0.0")
 ```
+
+<!-- ### CocoaPods
+
+To add `Beacon iOS SDK` using [CocoaPods](https://cocoapods.org/), add the `Beacon iOS SDK` pod to your `Podfile`:
+
+```ruby
+pod 'BeaconSDK', '~> 3.0.0'
+
+---
+# Alternatively, download individual packages separately
+pod `BeaconSDK`, :subspecs => ['BeaconCore', 'BeaconClientWallet', 'BeaconTransportP2PMatrix', 'BeaconBlockchainTezos']
+``` -->
 
 <!-- TODO: ## Documentation -->
 
