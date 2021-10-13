@@ -7,13 +7,17 @@
 //
 
 import Foundation
-import BeaconSDK
+
+import BeaconCore
+import BeaconBlockchainTezos
+import BeaconClientWallet
+import BeaconTransportP2PMatrix
 
 class BeaconViewModel: ObservableObject {
-    private static let examplePeerID = "31de19f4-713e-a0a0-31dc-67f9bc5a0b81"
+    private static let examplePeerID = "2af90f39-824f-b70c-bcc2-c71c1a22e6f8"
     private static let examplePeerName = "Beacon Example Dapp"
-    private static let examplePeerPublicKey = "4fb3f40c7a59884fe82ac4bc15743178c5869df27ed46641a610fbd6572ddd10"
-    private static let examplePeerRelayServer = "beacon-node-0.papers.tech:8448"
+    private static let examplePeerPublicKey = "c7eb69b769cb1971ebbc8574993b1b68a8f1e4c72912edb68644c0bccc817a6a"
+    private static let examplePeerRelayServer = "beacon-node-1.sky.papers.tech"
     private static let examplePeerVersion = "2"
     
     private static let exampleTezosPublicKey = "edpktpzo8UZieYaJZgCHP6M6hKHPdWBSNqxvmEt6dwWRgxDh1EAFw9"
@@ -26,7 +30,7 @@ class BeaconViewModel: ObservableObject {
     @Published var relayServer: String = BeaconViewModel.examplePeerRelayServer
     @Published var version: String = BeaconViewModel.examplePeerVersion
     
-    private var awaitingRequest: Beacon.Request? = nil
+    private var awaitingRequest: BeaconRequest<Tezos>? = nil
     private var peer: Beacon.P2PPeer {
         Beacon.P2PPeer(
             id: id,
@@ -37,7 +41,7 @@ class BeaconViewModel: ObservableObject {
         )
     }
     
-    private var beaconClient: Beacon.Client?
+    private var beaconClient: Beacon.WalletClient?
     
     init() {
         startBeacon()
@@ -51,20 +55,13 @@ class BeaconViewModel: ObservableObject {
         beaconRequest = nil
         awaitingRequest = nil
         
-        switch request {
-        case let .permission(permission):
-            let response = Beacon.Response.Permission(from: permission, publicKey: BeaconViewModel.exampleTezosPublicKey)
-            beaconClient?.respond(with: .permission(response)) { result in
-                switch result {
-                case .success(_):
-                    print("Sent the response")
-                case let .failure(error):
-                    print("Failed to send the response, got error: \(error)")
-                }
+        beaconClient?.respond(with: response(from: request)) { result in
+            switch result {
+            case .success(_):
+                print("Sent the response")
+            case let .failure(error):
+                print("Failed to send the response, got error: \(error)")
             }
-        default:
-            // TODO
-            return
         }
     }
     
@@ -90,15 +87,49 @@ class BeaconViewModel: ObservableObject {
         }
     }
     
-    private func startBeacon() {
-        Beacon.Client.create(with: Beacon.Client.Configuration(name: "iOS Beacon SDK Demo")) { result in
-            switch result {
-            case let .success(client):
-                self.beaconClient = client
-                self.listenForRequests()
-            case let .failure(error):
-                print("Could not create Beacon client, got error: \(error)")
+    func stop() {
+        beaconClient?.disconnect {
+            print("disconnected \($0)")
+        }
+    }
+    
+    func pause() {
+        beaconClient?.pause {
+            print("paused \($0)")
+        }
+    }
+    
+    func resume() {
+        beaconClient?.resume {
+            print("resumed \($0)")
+        }
+    }
+    
+    func startBeacon() {
+        guard beaconClient == nil else {
+            listenForRequests()
+            return
+        }
+        
+        do {
+            Beacon.WalletClient.create(
+                with: .init(
+                    name: "iOS Beacon SDK Demo",
+                    blockchains: [Tezos.factory],
+                    connections: [.p2p(.init(client: try Transport.P2P.Matrix.factory()))]
+                )
+            ) { result in
+                switch result {
+                case let .success(client):
+                    print("Beacon client created")
+                    self.beaconClient = client
+                    self.listenForRequests()
+                case let .failure(error):
+                    print("Could not create Beacon client, got error: \(error)")
+                }
             }
+        } catch {
+            print("Could not create Beacon client, got error: \(error)")
         }
     }
     
@@ -106,6 +137,7 @@ class BeaconViewModel: ObservableObject {
         beaconClient?.connect { result in
             switch result {
             case .success(_):
+                print("Beacon client connected")
                 self.beaconClient?.listen(onRequest: self.onBeaconRequest)
             case let .failure(error):
                 print("Error while connecting for messages \(error)")
@@ -113,7 +145,7 @@ class BeaconViewModel: ObservableObject {
         }
     }
     
-    private func onBeaconRequest(result: Result<Beacon.Request, Beacon.Error>) {
+    private func onBeaconRequest(result: Result<BeaconRequest<Tezos>, Beacon.Error>) {
         switch result {
         case let .success(request):
             let encoder = JSONEncoder()
@@ -130,20 +162,39 @@ class BeaconViewModel: ObservableObject {
             break
         }
     }
+        
+    private func response(from request: BeaconRequest<Tezos>) -> BeaconResponse<Tezos> {
+        switch request {
+        case let .permission(content):
+            return .permission(
+                PermissionTezosResponse(from: content, publicKey: BeaconViewModel.exampleTezosPublicKey)
+            )
+        case let .blockchain(blockchain):
+            switch blockchain {
+            case let .signPayload(content):
+                return .error(ErrorBeaconResponse(from: content, errorType: .blockchain(.signatureTypeNotSupported)))
+            default:
+                return .error(ErrorBeaconResponse(from: blockchain, errorType: .aborted))
+            }
+        }
+    }
 }
 
-extension Beacon.Request: Encodable {
+extension BeaconRequest: Encodable where T == Tezos {
     
     public func encode(to encoder: Encoder) throws {
         switch self {
         case let .permission(content):
             try content.encode(to: encoder)
-        case let .operation(content):
-            try content.encode(to: encoder)
-        case let .signPayload(content):
-            try content.encode(to: encoder)
-        case let .broadcast(content):
-            try content.encode(to: encoder)
+        case let .blockchain(blockchain):
+            switch blockchain {
+            case let .operation(content):
+                try content.encode(to: encoder)
+            case let .signPayload(content):
+                try content.encode(to: encoder)
+            case let .broadcast(content):
+                try content.encode(to: encoder)
+            }
         }
     }
 }
