@@ -10,7 +10,25 @@ Pod::Spec.new do |spec|
   spec.author             = { "Julia Samol" => "j.samol@papers.ch" }
   spec.ios.deployment_target = '13.0'
   spec.source       = { :git => "https://github.com/airgap-it/beacon-ios-sdk.git", :tag => "#{spec.version}" }
-  spec.source_files  = "Sources/**/*.{swift}"
-  spec.dependency  'Sodium', '~> 0.9.1'
-  spec.dependency  'Base58Swift', '~> 2.1.0'
+  
+  spec.subspec 'BeaconCore' do |subspec|
+    subspec.dependency  'Sodium', '~> 0.9.1'
+    subspec.dependency  'Base58Swift', '~> 2.1.0'
+    subspec.source_files = 'Sources/Core/**/*.{swift}'
+  end
+
+  spec.subspec 'BeaconBlockchainTezos' do |subspec|
+    subspec.dependency 'BeaconSDK/BeaconCore'
+    subspec.source_files = 'Sources/BlockchainTezos/**/*.{swift}'
+  end
+  
+  spec.subspec 'BeaconClientWallet' do |subspec|
+    subspec.dependency 'BeaconSDK/BeaconCore'
+    subspec.source_files = 'Sources/ClientWallet/**/*.{swift}'
+  end
+
+  spec.subspec 'BeaconTransportP2PMatrix' do |subspec|
+    subspec.dependency 'BeaconSDK/BeaconCore'
+    subspec.source_files = 'Sources/TransportP2PMatrix/**/*.{swift}'
+  end
 end
