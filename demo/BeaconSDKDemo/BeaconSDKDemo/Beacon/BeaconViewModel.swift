@@ -167,7 +167,7 @@ class BeaconViewModel: ObservableObject {
         switch request {
         case let .permission(content):
             return .permission(
-                Tezos.Response.Permission(from: content, publicKey: BeaconViewModel.exampleTezosPublicKey)
+                PermissionTezosResponse(from: content, publicKey: BeaconViewModel.exampleTezosPublicKey)
             )
         case let .blockchain(blockchain):
             switch blockchain {

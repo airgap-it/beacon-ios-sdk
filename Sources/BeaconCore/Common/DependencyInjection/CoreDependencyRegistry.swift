@@ -58,7 +58,7 @@ class CoreDependencyRegistry: DependencyRegistry {
     private lazy var weakBlockchainRegistry: LazyWeakReference<BlockchainRegistry> = LazyWeakReference { [unowned self] in
         let factories = self.blockchainFactories
             .grouped(by: { type(of: $0).identifier })
-            .mapValues { factory in { factory.createBoxed(with: self) } }
+            .mapValues { factory in { factory.createShadow(with: self) } }
         
         return BlockchainRegistry(factories: factories)
     }

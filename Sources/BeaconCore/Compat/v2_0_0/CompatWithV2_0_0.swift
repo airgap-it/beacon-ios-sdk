@@ -17,7 +17,7 @@ struct CompatWith2_0_0: VersionedCompat {
     }
     
     private static let chainIdentifier: String = "tezos"
-    func blockchain() throws -> AnyBlockchain {
+    func blockchain() throws -> ShadowBlockchain {
         guard let blockchain = blockchainRegistry.get(ofType: CompatWith2_0_0.chainIdentifier) else {
             throw Beacon.Error.blockchainNotFound(CompatWith2_0_0.chainIdentifier)
         }

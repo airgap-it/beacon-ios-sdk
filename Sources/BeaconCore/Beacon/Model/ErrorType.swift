@@ -87,31 +87,6 @@ public protocol ErrorTypeProtocol {
     var rawValue: String { get }
 }
 
-// MARK: Any
-
-public struct AnyErrorType: ErrorTypeProtocol, Equatable, Codable {
-    public let rawValue: String
-    
-    fileprivate init(_ errorType: ErrorTypeProtocol) {
-        self.rawValue = errorType.rawValue
-    }
-    
-    public init?(rawValue: String) {
-        self.rawValue = rawValue
-    }
-    
-    // MARK: Codable
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        self.rawValue = try container.decode(String.self)
-    }
-    
-    public func encode(to encoder: Encoder) throws {
-        try rawValue.encode(to: encoder)
-    }
-}
-
 // MARK: Extensions
 
 extension Beacon.ErrorType {

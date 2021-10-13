@@ -9,18 +9,18 @@
 import Foundation
 
 class BlockchainRegistry: BlockchainRegistryProtocol {
-    private var blockchains: [String: AnyBlockchain] = [:]
-    private var factories: [String: () -> AnyBlockchain]
+    private var blockchains: [String: ShadowBlockchain] = [:]
+    private var factories: [String: () -> ShadowBlockchain]
     
-    init(factories: [String: () -> AnyBlockchain]) {
+    init(factories: [String: () -> ShadowBlockchain]) {
         self.factories = factories
     }
     
     func get<T: Blockchain>() -> T? {
-        get(ofType: T.identifier)?.unbox()
+        get(ofType: T.identifier) as? T
     }
     
-    func get(ofType identifier: String) -> AnyBlockchain? {
+    func get(ofType identifier: String) -> ShadowBlockchain? {
         blockchains.get(identifier) {
             factories.getAndDispose(identifier)?()
         }
@@ -30,5 +30,5 @@ class BlockchainRegistry: BlockchainRegistryProtocol {
 
 public protocol BlockchainRegistryProtocol {
     func get<T: Blockchain>() -> T?
-    func get(ofType identifier: String) -> AnyBlockchain?
+    func get(ofType identifier: String) -> ShadowBlockchain?
 }

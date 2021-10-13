@@ -71,6 +71,16 @@ public class MockMessageController: MessageControllerProtocol {
             completion(result)
         }
     }
+    
+    public func onOutgoing(_ message: DisconnectBeaconMessage, with beaconID: String) throws -> (Beacon.Origin, VersionedBeaconMessage) {
+        anyOnOutgoingCalls.append((BeaconMessage<MockBlockchain>.disconnect(message), beaconID))
+        if isFailing {
+            throw Beacon.Error.unknown
+        } else {
+            let versioned = try VersionedBeaconMessage(from: message, senderID: beaconID)
+            return (Beacon.Origin(kind: connectionKind, id: beaconID), versioned)
+        }
+    }
 }
 
 public typealias OnIncomingArguments = (VersionedBeaconMessage, Beacon.Origin)
