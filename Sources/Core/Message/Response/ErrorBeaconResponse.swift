@@ -14,23 +14,49 @@ public struct ErrorBeaconResponse<T: Blockchain>: BeaconResponseProtocol, Equata
     /// The value that identifies the request to which the message is responding.
     public let id: String
     
-    /// The type of the error.
-    public let errorType: Beacon.ErrorType<T>
-    
     /// The version of the message.
     public let version: String
     
     /// The originiation data of the request.
     public let requestOrigin: Beacon.Origin
     
-    public init(from request: BeaconRequestProtocol, errorType: Beacon.ErrorType<T>) {
-        self.init(id: request.id, errorType: errorType, version: request.version, requestOrigin: request.origin)
+    /// The type of the error.
+    public let errorType: Beacon.ErrorType<T>
+    
+    /// Additional and optional details.
+    public let description: String?
+    
+    public init(from request: T.Request.Permission, errorType: Beacon.ErrorType<T>, description: String? = nil) {
+        self.init(
+            id: request.id,
+            version: request.version,
+            requestOrigin: request.origin,
+            errorType: errorType,
+            description: description
+        )
     }
     
-    public init(id: String, errorType: Beacon.ErrorType<T>, version: String, requestOrigin: Beacon.Origin) {
+    public init(from request: T.Request.Blockchain, errorType: Beacon.ErrorType<T>, description: String? = nil) {
+        self.init(
+            id: request.id,
+            version: request.version,
+            requestOrigin: request.origin,
+            errorType: errorType,
+            description: description
+        )
+    }
+    
+    public init(
+        id: String,
+        version: String,
+        requestOrigin: Beacon.Origin,
+        errorType: Beacon.ErrorType<T>,
+        description: String? = nil
+    ) {
         self.id = id
-        self.errorType = errorType
         self.version = version
         self.requestOrigin = requestOrigin
+        self.errorType = errorType
+        self.description = description
     }
 }

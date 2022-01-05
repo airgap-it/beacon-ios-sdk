@@ -65,10 +65,10 @@ public struct OperationV1TezosResponse: V1BeaconMessageProtocol, Equatable, Coda
                         .operation(
                             .init(
                                 id: id,
-                                blockchainIdentifier: T.identifier,
-                                transactionHash: transactionHash,
                                 version: version,
-                                requestOrigin: origin
+                                requestOrigin: origin,
+                                blockchainIdentifier: T.identifier,
+                                transactionHash: transactionHash
                             )
                         )
                     )

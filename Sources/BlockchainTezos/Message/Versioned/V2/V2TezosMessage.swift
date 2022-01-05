@@ -8,7 +8,7 @@
 import Foundation
 import BeaconCore
     
-public enum V2TezosMessage: V2BeaconMessageProtocol, Equatable, Codable {
+public enum V2TezosMessage: BlockchainV2Message {
     case permissionRequest(PermissionV2TezosRequest)
     case operationRequest(OperationV2TezosRequest)
     case signPayloadRequest(SignPayloadV2TezosRequest)

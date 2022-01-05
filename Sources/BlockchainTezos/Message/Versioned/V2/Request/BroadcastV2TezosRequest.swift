@@ -72,15 +72,15 @@ public struct BroadcastV2TezosRequest: V2BeaconMessageProtocol, Equatable, Codab
                     .blockchain(
                         .broadcast(
                             .init(
-                                type: type,
                                 id: id,
+                                version: version,
                                 blockchainIdentifier: T.identifier,
                                 senderID: senderID,
                                 appMetadata: appMetadata,
-                                network: network,
-                                signedTransaction: signedTransaction,
                                 origin: origin,
-                                version: version
+                                accountID: nil,
+                                network: network,
+                                signedTransaction: signedTransaction
                             )
                         )
                     )

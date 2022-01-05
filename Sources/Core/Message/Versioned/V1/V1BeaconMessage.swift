@@ -28,7 +28,7 @@ public enum V1BeaconMessage: V1BeaconMessageProtocol, Equatable, Codable {
                 self = .blockchainMessage(try T.VersionedMessage.V1(from: beaconMessage, senderID: senderID))
             }
         case let .disconnect(content):
-            try self.init(from: content, senderID: senderID)
+            self = .disconnectMessage(DisconnectV1BeaconMessage(from: content, senderID: senderID))
         default:
             self = .blockchainMessage(try T.VersionedMessage.V1(from: beaconMessage, senderID: senderID))
         }
@@ -89,12 +89,8 @@ public enum V1BeaconMessage: V1BeaconMessageProtocol, Equatable, Codable {
         case DisconnectV1BeaconMessage.type:
             self = .disconnectMessage(try DisconnectV1BeaconMessage(from: decoder))
         default:
-            guard let compat = Compat.shared else {
-                throw Beacon.Error.uninitialized
-            }
-            
-            let blockchain = try compat.versioned().blockchain()
-            self = .blockchainMessage(try blockchain.decoder.v1(from: decoder))
+            let blockchain = try compat().versioned().blockchain()
+            self = .blockchainMessage(try blockchain.decoder.v1.message(from: decoder))
         }
     }
     
@@ -116,4 +112,7 @@ public enum V1BeaconMessage: V1BeaconMessageProtocol, Equatable, Codable {
 
 // MARK: Protocol
 
-public protocol V1BeaconMessageProtocol: VersionedBeaconMessageProtocol {}
+public protocol V1BeaconMessageProtocol: VersionedBeaconMessageProtocol {
+    var id: String { get }
+    var type: String { get }
+}

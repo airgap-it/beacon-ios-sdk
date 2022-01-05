@@ -9,6 +9,7 @@
 import Foundation
     
 public enum V2BeaconMessage: V2BeaconMessageProtocol, Equatable, Codable {
+    
     case acknowledgeResponse(AcknowledgeV2BeaconResponse)
     case errorResponse(ErrorV2BeaconResponse)
     case disconnectMessage(DisconnectV2BeaconMessage)
@@ -29,7 +30,7 @@ public enum V2BeaconMessage: V2BeaconMessageProtocol, Equatable, Codable {
                 self = .blockchainMessage(try T.VersionedMessage.V2(from: beaconMessage, senderID: senderID))
             }
         case let .disconnect(content):
-            try self.init(from: content, senderID: senderID)
+            self = .disconnectMessage(DisconnectV2BeaconMessage(from: content, senderID: senderID))
         default:
             self = .blockchainMessage(try T.VersionedMessage.V2(from: beaconMessage, senderID: senderID))
         }
@@ -96,12 +97,8 @@ public enum V2BeaconMessage: V2BeaconMessageProtocol, Equatable, Codable {
         case DisconnectV2BeaconMessage.type:
             self = .disconnectMessage(try DisconnectV2BeaconMessage(from: decoder))
         default:
-            guard let compat = Compat.shared else {
-                throw Beacon.Error.uninitialized
-            }
-            
-            let blockchain = try compat.versioned().blockchain()
-            self = .blockchainMessage(try blockchain.decoder.v2(from: decoder))
+            let blockchain = try compat().versioned().blockchain()
+            self = .blockchainMessage(try blockchain.decoder.v2.message(from: decoder))
         }
     }
     
@@ -126,4 +123,7 @@ public enum V2BeaconMessage: V2BeaconMessageProtocol, Equatable, Codable {
 
 // MARK: Protocol
 
-public protocol V2BeaconMessageProtocol: VersionedBeaconMessageProtocol {}
+public protocol V2BeaconMessageProtocol: VersionedBeaconMessageProtocol {
+    var id: String { get }
+    var type: String { get }
+}

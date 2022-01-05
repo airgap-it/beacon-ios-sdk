@@ -76,5 +76,7 @@ extension Tezos {
         /// Applicable to `SignPayloadTezosRequest`.
         ///
         case signatureTypeNotSupported = "SIGNATURE_TYPE_NOT_SUPPORTED"
+        
+        public var blockchainIdentifier: String? { Tezos.identifier }
     }
 }

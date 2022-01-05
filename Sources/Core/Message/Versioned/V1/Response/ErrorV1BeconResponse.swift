@@ -55,9 +55,9 @@ public struct ErrorV1BeaconResponse: V1BeaconMessageProtocol, Equatable, Codable
             
             let message = ErrorBeaconResponse<T>(
                 id: id,
-                errorType: errorType,
                 version: version,
-                requestOrigin: origin
+                requestOrigin: origin,
+                errorType: errorType
             )
             completion(.success(.response(.error(message))))
         } catch {

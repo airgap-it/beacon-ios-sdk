@@ -79,12 +79,23 @@ extension Beacon {
                 return ErrorType.unknownRawValue
             }
         }
+        
+        public var blockchainIdentifier: String? {
+            switch self {
+            case let .blockchain(content):
+                return content.blockchainIdentifier
+            default:
+                return nil
+            }
+        }
     }
 }
 
 public protocol ErrorTypeProtocol {
     init?(rawValue: String)
     var rawValue: String { get }
+    
+    var blockchainIdentifier: String? { get }
 }
 
 // MARK: Extensions

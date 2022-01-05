@@ -44,6 +44,9 @@ public enum BlockchainTezosRequest: BlockchainBeaconRequestProtocol, Equatable {
     /// The value that identifies this request.
     public var id: String { common.id }
     
+    /// The version of the message.
+    public var version: String { common.version }
+    
     /// The unique name of the blockchain that specifies the request.
     public var blockchainIdentifier: String { common.blockchainIdentifier}
     
@@ -53,8 +56,8 @@ public enum BlockchainTezosRequest: BlockchainBeaconRequestProtocol, Equatable {
     /// The origination data of this request.
     public var origin: Beacon.Origin { common.origin }
     
-    /// The version of the message.
-    public var version: String { common.version }
+    /// The account identifier of the account that is requested to handle this request. May be `nil`.
+    public var accountID: String? { common.accountID }
     
     private var common: BlockchainBeaconRequestProtocol {
         switch self {

@@ -13,4 +13,5 @@ public enum VersionedTezosMessage: BlockchainVersionedMessage {
     
     public typealias V1 = V1TezosMessage
     public typealias V2 = V2TezosMessage
+    public typealias V3 = V3TezosMessage
 }

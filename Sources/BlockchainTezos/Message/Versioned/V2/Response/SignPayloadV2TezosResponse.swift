@@ -73,11 +73,11 @@ public struct SignPayloadV2TezosResponse: V2BeaconMessageProtocol, Equatable, Co
                         .signPayload(
                             .init(
                                 id: id,
+                                version: version,
+                                requestOrigin: origin,
                                 blockchainIdentifier: T.identifier,
                                 signingType: .raw,
-                                signature: signature,
-                                version: version,
-                                requestOrigin: origin
+                                signature: signature
                             )
                         )
                     )

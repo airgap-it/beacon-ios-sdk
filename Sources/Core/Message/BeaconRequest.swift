@@ -55,4 +55,6 @@ public protocol PermissionBeaconRequestProtocol: BeaconRequestProtocol {
     var appMetadata: Beacon.AppMetadata { get }
 }
 
-public protocol BlockchainBeaconRequestProtocol: BeaconRequestProtocol {}
+public protocol BlockchainBeaconRequestProtocol: BeaconRequestProtocol {
+    var accountID: String? { get }
+}

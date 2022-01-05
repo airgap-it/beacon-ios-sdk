@@ -49,9 +49,7 @@ public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, C
     
     // MARK: Attributes
     
-    public var type: String { common.type }
     public var version: String { common.version }
-    public var id: String { common.id }
     
     private var common: VersionedBeaconMessageProtocol {
         switch self {
@@ -95,9 +93,7 @@ public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, C
 // MARK: Protocol
 
 public protocol VersionedBeaconMessageProtocol {
-    var type: String { get }
     var version: String { get }
-    var id: String { get }
     
     init<T: Blockchain>(from beaconMessage: BeaconMessage<T>, senderID: String) throws
     

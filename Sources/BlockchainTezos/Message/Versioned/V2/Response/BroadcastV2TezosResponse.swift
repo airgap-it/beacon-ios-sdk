@@ -65,10 +65,10 @@ public struct BroadcastV2TezosResponse: V2BeaconMessageProtocol, Equatable, Coda
                         .broadcast(
                             .init(
                                 id: id,
-                                blockchainIdentifier: T.identifier,
-                                transactionHash: transactionHash,
                                 version: version,
-                                requestOrigin: origin
+                                requestOrigin: origin,
+                                blockchainIdentifier: T.identifier,
+                                transactionHash: transactionHash
                             )
                         )
                     )

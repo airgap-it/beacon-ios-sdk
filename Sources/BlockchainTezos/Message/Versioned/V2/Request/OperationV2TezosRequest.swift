@@ -82,16 +82,16 @@ public struct OperationV2TezosRequest: V2BeaconMessageProtocol, Equatable, Codab
                     .blockchain(
                         .operation(
                             .init(
-                                type: type,
                                 id: id,
+                                version: version,
                                 blockchainIdentifier: T.identifier,
                                 senderID: senderID,
                                 appMetadata: appMetadata,
+                                origin: origin,
+                                accountID: nil,
                                 network: network,
                                 operationDetails: operationDetails,
-                                sourceAddress: sourceAddress,
-                                origin: origin,
-                                version: version
+                                sourceAddress: sourceAddress
                             )
                         )
                     )

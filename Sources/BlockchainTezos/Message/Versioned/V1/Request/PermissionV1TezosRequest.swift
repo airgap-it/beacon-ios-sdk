@@ -76,15 +76,14 @@ public struct PermissionV1TezosRequest: V1BeaconMessageProtocol, Equatable, Coda
                 .request(
                     .permission(
                         .init(
-                            type: type,
                             id: id,
+                            version: version,
                             blockchainIdentifier: T.identifier,
                             senderID: beaconID,
                             appMetadata: appMetadata.toAppMetadata(),
-                            network: network,
-                            scopes: scopes,
                             origin: origin,
-                            version: version
+                            network: network,
+                            scopes: scopes
                         )
                     )
                 )

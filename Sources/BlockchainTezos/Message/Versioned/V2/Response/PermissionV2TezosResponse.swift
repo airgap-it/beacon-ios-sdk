@@ -81,13 +81,14 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol, Equatable, Cod
                     .permission(
                         .init(
                             id: id,
+                            version: version,
+                            requestOrigin: origin,
                             blockchainIdentifier: T.identifier,
+                            accountID: "", // TODO
                             publicKey: publicKey,
                             network: network,
                             scopes: scopes,
-                            threshold: threshold,
-                            version: version,
-                            requestOrigin: origin
+                            threshold: threshold
                         )
                     )
                 )
