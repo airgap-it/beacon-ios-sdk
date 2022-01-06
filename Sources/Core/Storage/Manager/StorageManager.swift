@@ -63,7 +63,10 @@ public class StorageManager: ExtendedStorage, SecureStorage {
                 guard result.isSuccess(else: completion) else { return }
         
                 self.removePermissions(
-                    where: { (permission: AnyPermission) in toRemove.contains { $0.matches(appMetadata: permission.appMetadata, using: self.identifierCreator) } },
+                    where: { (permission: AnyPermission) in toRemove.contains {
+                        let senderID = try? self.identifierCreator.senderID(from: try HexString(from: $0.publicKey))
+                        return senderID == permission.senderID
+                    } },
                     completion: completion
                 )
             }

@@ -11,7 +11,7 @@ import BeaconCore
 
 public extension Tezos {
     
-    public class Wallet {
+    class Wallet {
         private let crypto: Crypto
         
         init(crypto: Crypto) {

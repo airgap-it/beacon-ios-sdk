@@ -60,11 +60,8 @@ public struct MockBlockchainCreator: BlockchainCreator {
         completion: @escaping (Result<ConcreteBlockchain.Permission, Error>) -> ()
     ) {
         let permission = AnyPermission(
-            accountIdentifier: response.publicKey,
-            address: response.publicKey,
+            accountID: response.publicKey,
             senderID: request.senderID,
-            appMetadata: request.appMetadata,
-            publicKey: response.publicKey,
             connectedAt: 0
         )
         completion(.success(permission))

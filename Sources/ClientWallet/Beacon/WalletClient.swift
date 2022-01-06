@@ -171,7 +171,7 @@ extension Beacon {
         /// - Parameter result: A result representing the found `Permission` or `nil`, or `Beacon.Error` if the call failed..
         ///
         public func getPermissions<T: PermissionProtocol & Codable>(forAccountIdentifier accountIdentifier: String, completion: @escaping (_ result: Result<T?, Error>) -> ()) {
-            storageManager.findPermissions(where: { $0.accountIdentifier == accountIdentifier }) { result in
+            storageManager.findPermissions(where: { $0.accountID == accountIdentifier }) { result in
                 completion(result.withBeaconError())
             }
         }
@@ -183,7 +183,7 @@ extension Beacon {
         /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
         ///
         public func removePermissions(forAccountIdentifier accountIdentifier: String, completion: @escaping (_ result: Result<(), Error>) -> ()) {
-            storageManager.removePermissions(where: { (permission: AnyPermission) in permission.accountIdentifier == accountIdentifier }) { result in
+            storageManager.removePermissions(where: { (permission: AnyPermission) in permission.accountID == accountIdentifier }) { result in
                 completion(result.withBeaconError())
             }
         }
