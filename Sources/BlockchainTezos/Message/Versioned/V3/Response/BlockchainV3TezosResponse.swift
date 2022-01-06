@@ -36,7 +36,6 @@ public enum BlockchainV3TezosResponse: BlockchainV3BeaconResponseContentDataProt
         senderID: String,
         origin: Beacon.Origin,
         blockchainIdentifier: String,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     ) {
         switch self {
@@ -47,7 +46,6 @@ public enum BlockchainV3TezosResponse: BlockchainV3BeaconResponseContentDataProt
                 senderID: senderID,
                 origin: origin,
                 blockchainIdentifier: blockchainIdentifier,
-                using: storageManager,
                 completion: completion
             )
         case let .signPayload(content):
@@ -57,7 +55,6 @@ public enum BlockchainV3TezosResponse: BlockchainV3BeaconResponseContentDataProt
                 senderID: senderID,
                 origin: origin,
                 blockchainIdentifier: blockchainIdentifier,
-                using: storageManager,
                 completion: completion
             )
         case let .broadcast(content):
@@ -67,7 +64,6 @@ public enum BlockchainV3TezosResponse: BlockchainV3BeaconResponseContentDataProt
                 senderID: senderID,
                 origin: origin,
                 blockchainIdentifier: blockchainIdentifier,
-                using: storageManager,
                 completion: completion
             )
         }

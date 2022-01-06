@@ -29,7 +29,6 @@ public struct OperationV3TezosResponse: Equatable, Codable {
         senderID: String,
         origin: Beacon.Origin,
         blockchainIdentifier: String,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     ) {
         do {

@@ -48,7 +48,7 @@ public class MockMessageController: MessageControllerProtocol {
         if isFailing {
             completion(.failure(Beacon.Error.unknown))
         } else {
-            message.toBeaconMessage(with: origin, using: storageManager) { beaconMessage in
+            message.toBeaconMessage(with: origin) { beaconMessage in
                 completion(beaconMessage)
             }
         }

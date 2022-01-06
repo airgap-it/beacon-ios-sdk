@@ -43,7 +43,6 @@ public struct AcknowledgeV2BeaconResponse: V2BeaconMessageProtocol, Equatable, C
     
     public func toBeaconMessage<T: Blockchain>(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
         let message = AcknowledgeBeaconResponse(id: id, version: version, requestOrigin: origin)

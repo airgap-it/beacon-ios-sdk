@@ -44,7 +44,6 @@ public struct BlockchainV3BeaconResponseContent: V3BeaconMessageContentProtocol,
         version: String,
         senderID: String,
         origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     ) {
         blockchainData.toBeaconMessage(
@@ -53,7 +52,6 @@ public struct BlockchainV3BeaconResponseContent: V3BeaconMessageContentProtocol,
             senderID: senderID,
             origin: origin,
             blockchainIdentifier: blockchainIdentifier,
-            using: storageManager,
             completion: completion
         )
     }
@@ -114,7 +112,6 @@ public protocol BlockchainV3BeaconResponseContentDataProtocol {
         senderID: String,
         origin: Beacon.Origin,
         blockchainIdentifier: String,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     )
     

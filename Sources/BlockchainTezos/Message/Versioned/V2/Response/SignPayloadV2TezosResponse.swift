@@ -63,7 +63,6 @@ public struct SignPayloadV2TezosResponse: V2BeaconMessageProtocol, Equatable, Co
     
     public func toBeaconMessage<T: Blockchain>(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
         do {

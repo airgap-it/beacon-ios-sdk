@@ -55,7 +55,6 @@ public struct OperationV1TezosResponse: V1BeaconMessageProtocol, Equatable, Coda
     
     public func toBeaconMessage<T: Blockchain>(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
         do {

@@ -63,10 +63,9 @@ public enum V2TezosMessage: BlockchainV2Message {
     
     public func toBeaconMessage<T: Blockchain>(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
-        common.toBeaconMessage(with: origin, using: storageManager, completion: completion)
+        common.toBeaconMessage(with: origin, completion: completion)
     }
     
     // MARK: Attributes

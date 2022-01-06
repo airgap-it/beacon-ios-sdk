@@ -50,7 +50,6 @@ public struct BlockchainV3BeaconRequestContent: V3BeaconMessageContentProtocol, 
         version: String,
         senderID: String,
         origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
         blockchainData.toBeaconMessage(
@@ -60,7 +59,6 @@ public struct BlockchainV3BeaconRequestContent: V3BeaconMessageContentProtocol, 
             origin: origin,
             blockchainIdentifier: blockchainIdentifier,
             accountID: accountID,
-            using: storageManager,
             completion: completion
         )
     }
@@ -129,7 +127,6 @@ public protocol BlockchainV3BeaconRequestContentDataProtocol {
         origin: Beacon.Origin,
         blockchainIdentifier: String,
         accountID: String,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     )
     

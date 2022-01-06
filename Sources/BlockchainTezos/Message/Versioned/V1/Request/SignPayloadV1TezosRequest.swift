@@ -63,38 +63,39 @@ public struct SignPayloadV1TezosRequest: V1BeaconMessageProtocol, Equatable, Cod
     
     public func toBeaconMessage<T: Blockchain>(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
-        storageManager.findAppMetadata(where: { (appMetadata: Tezos.AppMetadata) in appMetadata.senderID == beaconID }) { result in
-            let message: Result<BeaconMessage<T>, Swift.Error> = result.map { appMetadata in
-                let tezosMessage: BeaconMessage<Tezos> = .request(
-                    .blockchain(
-                        .signPayload(
-                            .init(
-                                id: id,
-                                version: version,
-                                blockchainIdentifier: T.identifier,
-                                senderID: beaconID,
-                                appMetadata: appMetadata,
-                                origin: origin,
-                                accountID: nil,
-                                signingType: .raw,
-                                payload: payload,
-                                sourceAddress: sourceAddress
+        runCatching(completion: completion) {
+            try dependencyRegistry().storageManager.findAppMetadata(where: { (appMetadata: Tezos.AppMetadata) in appMetadata.senderID == beaconID }) { result in
+                let message: Result<BeaconMessage<T>, Swift.Error> = result.map { appMetadata in
+                    let tezosMessage: BeaconMessage<Tezos> = .request(
+                        .blockchain(
+                            .signPayload(
+                                .init(
+                                    id: id,
+                                    version: version,
+                                    blockchainIdentifier: T.identifier,
+                                    senderID: beaconID,
+                                    appMetadata: appMetadata,
+                                    origin: origin,
+                                    accountID: nil,
+                                    signingType: .raw,
+                                    payload: payload,
+                                    sourceAddress: sourceAddress
+                                )
                             )
                         )
                     )
-                )
-                
-                guard let beaconMessage = tezosMessage as? BeaconMessage<T> else {
-                    throw Beacon.Error.unknownBeaconMessage
+                    
+                    guard let beaconMessage = tezosMessage as? BeaconMessage<T> else {
+                        throw Beacon.Error.unknownBeaconMessage
+                    }
+                    
+                    return beaconMessage
                 }
                 
-                return beaconMessage
+                completion(message)
             }
-            
-            completion(message)
         }
     }
     

@@ -46,10 +46,9 @@ public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, C
     
     public func toBeaconMessage<T: Blockchain>(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     ) {
-        common.toBeaconMessage(with: origin, using: storageManager, completion: completion)
+        common.toBeaconMessage(with: origin, completion: completion)
     }
     
     // MARK: Attributes
@@ -110,7 +109,6 @@ public protocol VersionedBeaconMessageProtocol {
     
     func toBeaconMessage<T: Blockchain>(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     )
 }

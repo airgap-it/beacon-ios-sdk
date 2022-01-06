@@ -51,10 +51,9 @@ public extension V3BeaconMessage {
             version: String,
             senderID: String,
             origin: Beacon.Origin,
-            using storageManager: StorageManager,
             completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
         ) {
-            common.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, using: storageManager, completion: completion)
+            common.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, completion: completion)
         }
         
         // MARK: Attributes
@@ -142,7 +141,6 @@ public protocol V3BeaconMessageContentProtocol {
         version: String,
         senderID: String,
         origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     )
 }

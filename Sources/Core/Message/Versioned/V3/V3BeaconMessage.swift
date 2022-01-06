@@ -39,10 +39,9 @@ public struct V3BeaconMessage: V3BeaconMessageProtocol, Equatable, Codable {
     
     public func toBeaconMessage<T: Blockchain>(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     ) {
-        message.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, using: storageManager, completion: completion)
+        message.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, completion: completion)
     }
 }
 

@@ -34,7 +34,6 @@ public struct DisconnectV3BeaconMessageContent: V3BeaconMessageContentProtocol, 
         version: String,
         senderID: String,
         origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     ) {
         let message = DisconnectBeaconMessage(id: id, senderID: senderID, version: version, origin: origin)

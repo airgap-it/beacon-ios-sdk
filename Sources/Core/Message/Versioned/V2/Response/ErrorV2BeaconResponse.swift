@@ -45,7 +45,6 @@ public struct ErrorV2BeaconResponse: V2BeaconMessageProtocol, Equatable, Codable
     
     public func toBeaconMessage<T: Blockchain>(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
         do {

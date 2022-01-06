@@ -32,7 +32,7 @@ class MessageController: MessageControllerProtocol {
         with origin: Beacon.Origin,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
-        message.toBeaconMessage(with: origin, using: storageManager) { (result: Result<BeaconMessage<T>, Swift.Error>) in
+        message.toBeaconMessage(with: origin) { (result: Result<BeaconMessage<T>, Swift.Error>) in
             guard let beaconMessage = result.get(ifFailure: completion) else { return }
             
             self.onIncoming(beaconMessage) { result in

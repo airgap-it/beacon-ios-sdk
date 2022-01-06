@@ -55,13 +55,17 @@ class BeaconViewModel: ObservableObject {
         beaconRequest = nil
         awaitingRequest = nil
         
-        beaconClient?.respond(with: response(from: request)) { result in
-            switch result {
-            case .success(_):
-                print("Sent the response")
-            case let .failure(error):
-                print("Failed to send the response, got error: \(error)")
+        do {
+            beaconClient?.respond(with: try response(from: request)) { result in
+                switch result {
+                case .success(_):
+                    print("Sent the response")
+                case let .failure(error):
+                    print("Failed to send the response, got error: \(error)")
+                }
             }
+        } catch {
+            print("Failed to send the response, got error: \(error)")
         }
     }
     
@@ -163,11 +167,11 @@ class BeaconViewModel: ObservableObject {
         }
     }
         
-    private func response(from request: BeaconRequest<Tezos>) -> BeaconResponse<Tezos> {
+    private func response(from request: BeaconRequest<Tezos>) throws -> BeaconResponse<Tezos> {
         switch request {
         case let .permission(content):
             return .permission(
-                PermissionTezosResponse(from: content, publicKey: BeaconViewModel.exampleTezosPublicKey)
+                try PermissionTezosResponse(from: content, publicKey: BeaconViewModel.exampleTezosPublicKey)
             )
         case let .blockchain(blockchain):
             switch blockchain {

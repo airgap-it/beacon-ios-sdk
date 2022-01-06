@@ -38,7 +38,6 @@ public struct DisconnectV1BeaconMessage: V1BeaconMessageProtocol, Equatable, Cod
     
     public func toBeaconMessage<T: Blockchain>(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
         let message = DisconnectBeaconMessage(id: id, senderID: beaconID, version: version, origin: origin)

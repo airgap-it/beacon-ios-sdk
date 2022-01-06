@@ -41,16 +41,22 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Equatab
         publicKey: String,
         network: Tezos.Network? = nil,
         scopes: [Tezos.Permission.Scope]? = nil
-    ) {
+    ) throws {
+        let network = network ?? request.network
+        let scopes = scopes ?? request.scopes
+        
+        let address = try dependencyRegistry().extend().tezosWallet.address(fromPublicKey: publicKey)
+        let accountID = try dependencyRegistry().identifierCreator.accountIdentifier(forAddress: address, on: network)
+        
         self.init(
             id: request.id,
             version: request.version,
             requestOrigin: request.origin,
             blockchainIdentifier: request.blockchainIdentifier,
-            accountID: "", // TODO
+            accountID: accountID,
             publicKey: publicKey,
-            network: network ?? request.network,
-            scopes: scopes ?? request.scopes
+            network: network,
+            scopes: scopes
         )
     }
     

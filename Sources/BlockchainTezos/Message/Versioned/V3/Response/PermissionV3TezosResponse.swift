@@ -36,7 +36,6 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
         origin: Beacon.Origin,
         blockchainIdentifier: String,
         accountID: String,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     ) {
         do {

@@ -19,6 +19,16 @@ public struct MockDependencyRegistry: DependencyRegistry {
         )
     }
     
+    public var extended: [String : DependencyRegistry] { coreDependencyRegistry.extended }
+    
+    public func addExtended<T>(_ extended: T) where T : DependencyRegistry {
+        coreDependencyRegistry.addExtended(extended)
+    }
+    
+    public func findExtended<T>() -> T? where T : DependencyRegistry {
+        coreDependencyRegistry.findExtended()
+    }
+    
     public var storageManager: StorageManager { coreDependencyRegistry.storageManager }
     
     public func connectionController(configuredWith connections: [Beacon.Connection]) throws -> ConnectionControllerProtocol {

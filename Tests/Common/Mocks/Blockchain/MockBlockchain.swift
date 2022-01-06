@@ -211,7 +211,6 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
         
         public func toBeaconMessage<T: Blockchain>(
             with origin: Beacon.Origin,
-            using storageManager: StorageManager,
             completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
         ) {
             do {
@@ -303,7 +302,6 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
         
         public func toBeaconMessage<T: Blockchain>(
             with origin: Beacon.Origin,
-            using storageManager: StorageManager,
             completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
         ) {
             do {
@@ -364,7 +362,6 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
                 senderID: String,
                 origin: Beacon.Origin,
                 blockchainIdentifier: String,
-                using storageManager: StorageManager,
                 completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
             ) {
                 do {
@@ -417,7 +414,6 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
                 origin: Beacon.Origin,
                 blockchainIdentifier: String,
                 accountID: String,
-                using storageManager: StorageManager,
                 completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
             ) {
                 do {
@@ -470,7 +466,6 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
                 origin: Beacon.Origin,
                 blockchainIdentifier: String,
                 accountID: String,
-                using storageManager: StorageManager,
                 completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
             ) {
                 do {
@@ -522,7 +517,6 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
                 senderID: String,
                 origin: Beacon.Origin,
                 blockchainIdentifier: String,
-                using storageManager: StorageManager,
                 completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
             ) {
                 do {

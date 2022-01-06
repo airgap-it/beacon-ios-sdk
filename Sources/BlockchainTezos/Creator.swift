@@ -10,7 +10,7 @@ import BeaconCore
 
 extension Tezos {
     
-    public struct Creator: BlockchainCreator {
+    public class Creator: BlockchainCreator {
         public typealias ConcreteBlockchain = Tezos
         
         private let wallet: Wallet

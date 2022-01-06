@@ -49,7 +49,6 @@ public struct ErrorV3BeaconResponseContent: V3BeaconMessageContentProtocol, Equa
         version: String,
         senderID: String,
         origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
         do {

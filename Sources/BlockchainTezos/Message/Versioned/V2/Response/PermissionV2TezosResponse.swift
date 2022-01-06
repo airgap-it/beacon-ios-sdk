@@ -68,10 +68,12 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol, Equatable, Cod
     
     public func toBeaconMessage<T: Blockchain>(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
         do {
+            let address = try dependencyRegistry().extend().tezosWallet.address(fromPublicKey: publicKey)
+            let accountID = try dependencyRegistry().identifierCreator.accountIdentifier(forAddress: address, on: network)
+            
             let tezosMessage: BeaconMessage<Tezos> =
                 .response(
                     .permission(
@@ -80,7 +82,7 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol, Equatable, Cod
                             version: version,
                             requestOrigin: origin,
                             blockchainIdentifier: T.identifier,
-                            accountID: "", // TODO
+                            accountID: accountID,
                             publicKey: publicKey,
                             network: network,
                             scopes: scopes

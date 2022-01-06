@@ -39,7 +39,6 @@ public struct AcknowledgeV3BeaconResponseContent: V3BeaconMessageContentProtocol
         version: String,
         senderID: String,
         origin: Beacon.Origin,
-        using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     ) {
         let message = AcknowledgeBeaconResponse(id: id, version: version, requestOrigin: origin)

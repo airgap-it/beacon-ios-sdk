@@ -61,6 +61,16 @@ class P2PMatrixDependencyRegistry: ExtendedDependencyRegistry {
     
     // MARK: Derived
     
+    var extended: [String: DependencyRegistry] { dependencyRegistry.extended }
+    
+    func addExtended<T>(_ registry: T) where T : DependencyRegistry {
+        dependencyRegistry.addExtended(registry)
+    }
+    
+    func findExtended<T>() -> T? where T : DependencyRegistry {
+        dependencyRegistry.findExtended()
+    }
+    
     var storageManager: StorageManager { dependencyRegistry.storageManager }
     
     func connectionController(configuredWith connections: [Beacon.Connection]) throws -> ConnectionControllerProtocol {
