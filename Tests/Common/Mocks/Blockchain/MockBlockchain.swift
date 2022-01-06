@@ -22,16 +22,13 @@ public struct MockBlockchain: Blockchain {
     
     public static var identifier: String = "mock"
     
-    public let wallet: BlockchainWallet
     public let creator: MockBlockchainCreator
     public let decoder: BlockchainDecoder
     
     public init(
-        wallet: BlockchainWallet = MockBlockchainWallet(),
         creator: MockBlockchainCreator = MockBlockchainCreator(),
         decoder: BlockchainDecoder = MockBlockchainDecoder()
     ) {
-        self.wallet = wallet
         self.creator = creator
         self.decoder = decoder
     }
@@ -50,14 +47,6 @@ public struct MockBlockchainFactory: BlockchainFactory {
     public func createShadow(with dependencyRegistry: DependencyRegistry) -> ShadowBlockchain {
         MockBlockchain()
     }
-}
-
-public struct MockBlockchainWallet: BlockchainWallet {
-    public func address(fromPublicKey publicKey: String) throws -> String {
-        publicKey
-    }
-    
-    public init() {}
 }
 
 public struct MockBlockchainCreator: BlockchainCreator {
