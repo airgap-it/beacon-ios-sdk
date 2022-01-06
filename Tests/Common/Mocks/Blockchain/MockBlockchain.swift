@@ -16,6 +16,7 @@ public struct MockBlockchain: Blockchain {
     public typealias Response = MockResponse
     public typealias VersionedMessage = MockVersionedMessage
     
+    public typealias AppMetadata = AnyAppMetadata
     public typealias Permission = AnyPermission
     public typealias ErrorType = MockErrorType
     
@@ -75,8 +76,7 @@ public struct MockBlockchainCreator: BlockchainCreator {
             senderID: request.senderID,
             appMetadata: request.appMetadata,
             publicKey: response.publicKey,
-            connectedAt: 0,
-            threshold: response.threshold
+            connectedAt: 0
         )
         completion(.success(permission))
     }
@@ -85,54 +85,83 @@ public struct MockBlockchainCreator: BlockchainCreator {
 public struct MockBlockchainDecoder: BlockchainDecoder {
     public init() {}
     
-    public func v1(from decoder: Decoder) throws -> V1BeaconMessageProtocol & Codable {
-        try MockVersionedMessage.V1(from: decoder)
+    public let v1: BlockchainV1MessageDecoder = V1()
+    public let v2: BlockchainV2MessageDecoder = V2()
+    public let v3: BlockchainV3MessageDecoder = V3()
+    
+    public struct V1: BlockchainV1MessageDecoder {
+        public func message(from decoder: Decoder) throws -> V1BeaconMessageProtocol & Codable {
+            try MockVersionedMessage.V1(from: decoder)
+        }
     }
     
-    public func v2(from decoder: Decoder) throws -> V2BeaconMessageProtocol & Codable {
-        try MockVersionedMessage.V2(from: decoder)
+    public struct V2: BlockchainV2MessageDecoder {
+        public func message(from decoder: Decoder) throws -> V2BeaconMessageProtocol & Codable {
+            try MockVersionedMessage.V2(from: decoder)
+        }
+    }
+    
+    public struct V3: BlockchainV3MessageDecoder {
+        public func permissionRequestData(from decoder: Decoder) throws -> PermissionV3BeaconRequestContentDataProtocol & Codable {
+            try MockVersionedMessage.V3.PermissionRequestContentData(from: decoder)
+        }
+        
+        public func blockchainRequestData(from decoder: Decoder) throws -> BlockchainV3BeaconRequestContentDataProtocol & Codable {
+            try MockVersionedMessage.V3.BlockchainRequestContentData(from: decoder)
+        }
+        
+        public func permissionResponseData(from decoder: Decoder) throws -> PermissionV3BeaconResponseContentDataProtocol & Codable {
+            try MockVersionedMessage.V3.PermissionResponseContentData(from: decoder)
+        }
+        
+        public func blockchainResponseData(from decoder: Decoder) throws -> BlockchainV3BeaconResponseContentDataProtocol & Codable {
+            try MockVersionedMessage.V3.BlockchainResponseContentData(from: decoder)
+        }
     }
 }
 
 public struct MockRequest: BlockchainRequest {
     public struct Permission: PermissionBeaconRequestProtocol & Equatable & Codable {
-        public var appMetadata: Beacon.AppMetadata
-        public var blockchainIdentifier: String
-        public var senderID: String
-        public var origin: Beacon.Origin
+        public typealias AppMetadata = AnyAppMetadata
+        
         public var id: String
         public var version: String
+        public var blockchainIdentifier: String
+        public var senderID: String
+        public var appMetadata: AppMetadata
+        public var origin: Beacon.Origin
     }
     
     public struct Blockchain: BlockchainBeaconRequestProtocol & Equatable & Codable {
+        public var id: String
+        public var version: String
         public var blockchainIdentifier: String
         public var senderID: String
         public var origin: Beacon.Origin
-        public var id: String
-        public var version: String
+        public var accountID: String?
     }
 }
 
 public struct MockResponse: BlockchainResponse {
     public struct Permission: PermissionBeaconResponseProtocol & Equatable & Codable {
-        public var blockchainIdentifier: String
-        public var publicKey: String
-        public var threshold: Beacon.Threshold?
-        public var requestOrigin: Beacon.Origin
         public var id: String
         public var version: String
+        public var requestOrigin: Beacon.Origin
+        public var blockchainIdentifier: String
+        public var publicKey: String
+        public var accountID: String
     }
     
     public struct Blockchain: BlockchainBeaconResponseProtocol & Equatable & Codable {
-        public var blockchainIdentifier: String
-        public var requestOrigin: Beacon.Origin
         public var id: String
         public var version: String
+        public var requestOrigin: Beacon.Origin
+        public var blockchainIdentifier: String
     }
 }
 
 public struct MockVersionedMessage: BlockchainVersionedMessage {
-    public struct V1: V1BeaconMessageProtocol & Equatable & Codable {
+    public struct V1: BlockchainV1Message {
         public var type: String
         public var version: String
         public var id: String
@@ -224,7 +253,7 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
         }
     }
     
-    public struct V2: V2BeaconMessageProtocol & Equatable & Codable {
+    public struct V2: BlockchainV2Message {
         public var type: String
         public var version: String
         public var id: String
@@ -312,12 +341,109 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
                 completion(.success(beaconMessage))
             } catch {
                 completion(.failure(error))
+            }
+        }
+    }
+    
+    // TODO: fill mocks
+    public enum V3: BlockchainV3Message {
+        public struct PermissionRequestContentData: PermissionV3BeaconRequestContentDataProtocol & Equatable & Codable {
+            
+            public init<T: Blockchain>(from permissionRequest: T.Request.Permission, ofType type: T.Type) throws {
+                
+            }
+            
+            public func toBeaconMessage<T: Blockchain>(
+                id: String,
+                version: String,
+                senderID: String,
+                origin: Beacon.Origin,
+                blockchainIdentifier: String,
+                using storageManager: StorageManager,
+                completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
+            ) {
+                
+            }
+            
+            public func equals(_ other: PermissionV3BeaconRequestContentDataProtocol) -> Bool {
+                false
+            }
+        }
+        
+        public struct BlockchainRequestContentData: BlockchainV3BeaconRequestContentDataProtocol & Equatable & Codable {
+    
+            public init<T: Blockchain>(from blockchainRequest: T.Request.Blockchain, ofType type: T.Type) throws {
+                
+            }
+            
+            public func toBeaconMessage<T: Blockchain>(
+                id: String,
+                version: String,
+                senderID: String,
+                origin: Beacon.Origin,
+                blockchainIdentifier: String,
+                accountID: String,
+                using storageManager: StorageManager,
+                completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
+            ) {
+                
+            }
+            
+            public func equals(_ other: BlockchainV3BeaconRequestContentDataProtocol) -> Bool {
+                false
+            }
+        }
+        
+        public struct PermissionResponseContentData: PermissionV3BeaconResponseContentDataProtocol & Equatable & Codable {
+            
+            public init<T: Blockchain>(from permissionResponse: T.Response.Permission, ofType type: T.Type) throws {
+                
+            }
+            
+            public func toBeaconMessage<T: Blockchain>(
+                id: String,
+                version: String,
+                senderID: String,
+                origin: Beacon.Origin,
+                blockchainIdentifier: String,
+                accountID: String,
+                using storageManager: StorageManager,
+                completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
+            ) {
+                
+            }
+            
+            public func equals(_ other: PermissionV3BeaconResponseContentDataProtocol) -> Bool {
+                false
+            }
+        }
+        
+        public struct BlockchainResponseContentData: BlockchainV3BeaconResponseContentDataProtocol & Equatable & Codable {
+            public init<T: Blockchain>(from blockchainResponse: T.Response.Blockchain, ofType type: T.Type) throws {
+                
+            }
+            
+            public func toBeaconMessage<T: Blockchain>(
+                id: String,
+                version: String,
+                senderID: String,
+                origin: Beacon.Origin,
+                blockchainIdentifier: String,
+                using storageManager: StorageManager,
+                completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
+            ) {
+                
+            }
+            
+            public func equals(_ other: BlockchainV3BeaconResponseContentDataProtocol) -> Bool {
+                false
             }
         }
     }
 }
 
 public struct MockErrorType: ErrorTypeProtocol, Equatable, Codable {
+    public let blockchainIdentifier: String? = MockBlockchain.identifier
     public let rawValue: String
     
     fileprivate init(_ errorType: ErrorTypeProtocol) {
