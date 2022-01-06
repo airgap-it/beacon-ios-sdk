@@ -12,6 +12,7 @@ public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, C
     
     case v1(V1BeaconMessage)
     case v2(V2BeaconMessage)
+    case v3(V3BeaconMessage)
     
     // MARK: BeaconMessage Compatibility
     
@@ -21,9 +22,11 @@ public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, C
             self = .v1(try V1BeaconMessage(from: beaconMessage, senderID: senderID))
         case "2":
             self = .v2(try V2BeaconMessage(from: beaconMessage, senderID: senderID))
+        case "3":
+            self = .v3(try V3BeaconMessage(from: beaconMessage, senderID: senderID))
         default:
             // fallback to the newest version
-            self = .v2(try V2BeaconMessage(from: beaconMessage, senderID: senderID))
+            self = .v3(try V3BeaconMessage(from: beaconMessage, senderID: senderID))
         }
     }
     
@@ -33,9 +36,11 @@ public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, C
             self = .v1(try V1BeaconMessage(from: disconnectMessage, senderID: senderID))
         case "2":
             self = .v2(try V2BeaconMessage(from: disconnectMessage, senderID: senderID))
+        case "3":
+            self = .v3(try V3BeaconMessage(from: disconnectMessage, senderID: senderID))
         default:
             // fallback to the newest version
-            self = .v2(try V2BeaconMessage(from: disconnectMessage, senderID: senderID))
+            self = .v3(try V3BeaconMessage(from: disconnectMessage, senderID: senderID))
         }
     }
     
@@ -57,6 +62,8 @@ public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, C
             return content
         case let .v2(content):
             return content
+        case let .v3(content):
+            return content
         }
     }
     
@@ -70,6 +77,8 @@ public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, C
             self = .v1(try V1BeaconMessage(from: decoder))
         case "2":
             self = .v2(try V2BeaconMessage(from: decoder))
+        case "3":
+            self = .v3(try V3BeaconMessage(from: decoder))
         default:
             // fallback to the newest version
             self = .v2(try V2BeaconMessage(from: decoder))
@@ -81,6 +90,8 @@ public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, C
         case let .v1(content):
             try content.encode(to: encoder)
         case let .v2(content):
+            try content.encode(to: encoder)
+        case let .v3(content):
             try content.encode(to: encoder)
         }
     }

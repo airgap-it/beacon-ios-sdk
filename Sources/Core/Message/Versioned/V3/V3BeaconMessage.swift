@@ -27,6 +27,16 @@ public struct V3BeaconMessage: V3BeaconMessageProtocol, Equatable, Codable {
         self.init(id: beaconMessage.id, version: beaconMessage.version, senderID: senderID, message: content)
     }
     
+    init(from disconnectMessage: DisconnectBeaconMessage, senderID: String) throws {
+        self.init(
+            id: disconnectMessage.id,
+            version: disconnectMessage.version,
+            senderID: disconnectMessage.senderID,
+            message: .disconnectMessage(DisconnectV3BeaconMessageContent(from: disconnectMessage))
+        )
+    }
+    
+    
     public func toBeaconMessage<T: Blockchain>(
         with origin: Beacon.Origin,
         using storageManager: StorageManager,
