@@ -32,7 +32,7 @@ extension Tezos {
         ) {
             do {
                 let address = try wallet.address(fromPublicKey: response.publicKey)
-                let accountIdentifier = try identifierCreator.accountIdentifier(forAddress: address, on: response.network)
+                let accountIdentifier = try identifierCreator.accountID(forAddress: address, on: response.network)
                 storageManager.findAppMetadata(where: { (appMetadata: AppMetadata) in request.senderID == appMetadata.senderID }) { result in
                     do {
                         guard let appMetadataOrNil = result.get(ifFailure: completion) else { return }
@@ -45,7 +45,7 @@ extension Tezos {
                             address: address,
                             network: response.network,
                             scopes: response.scopes,
-                            senderID: try self.identifierCreator.senderIdentifier(from: try HexString(from: request.origin.id)),
+                            senderID: try self.identifierCreator.senderID(from: try HexString(from: request.origin.id)),
                             appMetadata: appMetadata,
                             publicKey: response.publicKey,
                             connectedAt: self.time.currentTimeMillis

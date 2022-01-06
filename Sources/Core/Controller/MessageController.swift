@@ -80,7 +80,7 @@ class MessageController: MessageControllerProtocol {
             do {
                 guard result.isSuccess(else: completion) else { return }
                 
-                let senderHash = try self.identifierCreator.senderIdentifier(from: try HexString(from: beaconID))
+                let senderHash = try self.identifierCreator.senderID(from: try HexString(from: beaconID))
                 let versionedMessage = try VersionedBeaconMessage(from: message, senderID: senderHash)
                 
                 completion(.success((message.associatedOrigin, versionedMessage)))
@@ -91,7 +91,7 @@ class MessageController: MessageControllerProtocol {
     }
     
     func onOutgoing(_ message: DisconnectBeaconMessage, with beaconID: String) throws -> (Beacon.Origin, VersionedBeaconMessage) {
-        let senderHash = try self.identifierCreator.senderIdentifier(from: try HexString(from: beaconID))
+        let senderHash = try self.identifierCreator.senderID(from: try HexString(from: beaconID))
         let versionedMessage = try VersionedBeaconMessage(from: message, senderID: senderHash)
         
         return (message.origin, versionedMessage)

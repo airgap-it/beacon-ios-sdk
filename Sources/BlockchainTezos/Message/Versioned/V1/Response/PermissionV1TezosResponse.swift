@@ -72,7 +72,7 @@ public struct PermissionV1TezosResponse: V1BeaconMessageProtocol, Equatable, Cod
     ) {
         do {
             let address = try dependencyRegistry().extend().tezosWallet.address(fromPublicKey: publicKey)
-            let accountID = try dependencyRegistry().identifierCreator.accountIdentifier(forAddress: address, on: network)
+            let accountID = try dependencyRegistry().identifierCreator.accountID(forAddress: address, on: network)
             
             let tezosMessage: BeaconMessage<Tezos> =
                 .response(

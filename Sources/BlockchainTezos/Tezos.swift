@@ -21,11 +21,11 @@ public class Tezos: Blockchain {
     /// A factory used to dynamically register this blockchain in Beacon.
     public static let factory: Tezos.Factory = .init()
     
-    public let wallet: BlockchainWallet
+    public let wallet: Wallet
     public let creator: Creator
     public let decoder: BlockchainDecoder
     
-    init(wallet: BlockchainWallet, creator: Creator, decoder: BlockchainDecoder) {
+    init(wallet: Wallet, creator: Creator, decoder: BlockchainDecoder) {
         self.wallet = wallet
         self.creator = creator
         self.decoder = decoder

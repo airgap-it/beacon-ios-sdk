@@ -11,7 +11,6 @@ import Foundation
 public protocol ShadowBlockchain {
     static var identifier: String { get }
     
-    var wallet: BlockchainWallet { get }
     var creator: Any { get }
     var decoder: BlockchainDecoder { get }
 }
@@ -29,7 +28,6 @@ public protocol Blockchain: ShadowBlockchain {
     
     static var identifier: String { get }
     
-    var wallet: BlockchainWallet { get }
     var creator: Creator { get }
     var decoder: BlockchainDecoder { get }
 }
