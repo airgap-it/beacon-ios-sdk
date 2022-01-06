@@ -34,8 +34,8 @@ public struct PermissionV3BeaconRequestContent: V3BeaconMessageContentProtocol, 
         }
     }
     
-    public init<T: Blockchain>(from permissionRequest: PermissionBeaconRequestProtocol, ofType type: T.Type) throws {
-        let blockchainData = try type.VersionedMessage.V3.PermissionRequestContentData(from: permissionRequest)
+    public init<T: Blockchain>(from permissionRequest: T.Request.Permission, ofType type: T.Type) throws {
+        let blockchainData = try type.VersionedMessage.V3.PermissionRequestContentData(from: permissionRequest, ofType: type)
         self.init(blockchainIdentifier: permissionRequest.blockchainIdentifier, blockchainData: blockchainData)
     }
     
@@ -106,7 +106,7 @@ extension PermissionV3BeaconRequestContent {
 // MARK: Protocol
 
 public protocol PermissionV3BeaconRequestContentDataProtocol {
-    init(from permissionRequest: PermissionBeaconRequestProtocol) throws
+    init<T: Blockchain>(from permissionRequest: T.Request.Permission, ofType type: T.Type) throws
     
     func toBeaconMessage<T: Blockchain>(
         id: String,

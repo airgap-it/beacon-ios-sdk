@@ -36,8 +36,8 @@ public struct BlockchainV3BeaconRequestContent: V3BeaconMessageContentProtocol, 
         }
     }
     
-    public init<T: Blockchain>(from blockchainRequest: BlockchainBeaconRequestProtocol, ofType type: T.Type) throws {
-        let blockchainData = try type.VersionedMessage.V3.BlockchainRequestContentData(from: blockchainRequest)
+    public init<T: Blockchain>(from blockchainRequest: T.Request.Blockchain, ofType type: T.Type) throws {
+        let blockchainData = try type.VersionedMessage.V3.BlockchainRequestContentData(from: blockchainRequest, ofType: type)
         guard let accountID = blockchainRequest.accountID else {
             throw Error.missingAccountID
         }
@@ -120,7 +120,7 @@ extension BlockchainV3BeaconRequestContent {
 // MARK: Protocol
 
 public protocol BlockchainV3BeaconRequestContentDataProtocol {
-    init(from blockchainRequest: BlockchainBeaconRequestProtocol) throws
+    init<T: Blockchain>(from blockchainRequest: T.Request.Blockchain, ofType type: T.Type) throws
     
     func toBeaconMessage<T: Blockchain>(
         id: String,

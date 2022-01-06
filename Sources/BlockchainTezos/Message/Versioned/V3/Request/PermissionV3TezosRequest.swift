@@ -10,10 +10,10 @@ import BeaconCore
 
 public struct PermissionV3TezosRequest: PermissionV3BeaconRequestContentDataProtocol, Equatable, Codable {
     public let network: Tezos.Network
-    public let appMetadata: Beacon.AppMetadata
+    public let appMetadata: Tezos.AppMetadata
     public let scopes: [Tezos.Permission.Scope]
     
-    init(network: Tezos.Network, appMetadata: Beacon.AppMetadata, scopes: [Tezos.Permission.Scope]) {
+    init(network: Tezos.Network, appMetadata: Tezos.AppMetadata, scopes: [Tezos.Permission.Scope]) {
         self.network = network
         self.appMetadata = appMetadata
         self.scopes = scopes
@@ -21,7 +21,7 @@ public struct PermissionV3TezosRequest: PermissionV3BeaconRequestContentDataProt
     
     // MARK: BeaconMessage Compatibility
     
-    public init(from permissionRequest: PermissionBeaconRequestProtocol) throws {
+    public init<T: Blockchain>(from permissionRequest: T.Request.Permission, ofType type: T.Type) throws {
         guard let permissionRequest = permissionRequest as? PermissionTezosRequest else {
             throw Beacon.Error.unknownBeaconMessage
         }

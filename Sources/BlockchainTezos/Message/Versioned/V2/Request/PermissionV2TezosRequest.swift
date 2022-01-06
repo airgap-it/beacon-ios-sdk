@@ -117,14 +117,14 @@ public struct PermissionV2TezosRequest: V2BeaconMessageProtocol, Equatable, Coda
         public let name: String
         public let icon: String?
         
-        init(from appMetadata: Beacon.AppMetadata) {
+        init(from appMetadata: Tezos.AppMetadata) {
             self.senderID = appMetadata.senderID
             self.name = appMetadata.name
             self.icon = appMetadata.icon
         }
         
-        func toAppMetadata() -> Beacon.AppMetadata {
-            Beacon.AppMetadata(senderID: senderID, name: name, icon: icon)
+        func toAppMetadata() -> Tezos.AppMetadata {
+            Tezos.AppMetadata(senderID: senderID, name: name, icon: icon)
         }
         
         enum CodingKeys: String, CodingKey {

@@ -34,7 +34,7 @@ extension Beacon {
             }
         }
         
-        func matches(appMetadata: AppMetadata, using identifierCreator: IdentifierCreatorProtocol) -> Bool {
+        func matches(appMetadata: AnyAppMetadata, using identifierCreator: IdentifierCreatorProtocol) -> Bool {
             do {
                 return try identifierCreator.senderIdentifier(from: try HexString(from: common.publicKey)) == appMetadata.senderID
             } catch {

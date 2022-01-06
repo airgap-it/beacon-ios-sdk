@@ -76,35 +76,39 @@ public class StorageManager: ExtendedStorage, SecureStorage {
     
     // MARK: AppMetadata
     
-    public func getAppMetadata(completion: @escaping (Result<[Beacon.AppMetadata], Swift.Error>) -> ()) {
+    public func getAppMetadata<T: AppMetadataProtocol & Codable>(completion: @escaping (Result<[T], Swift.Error>) -> ()) {
         storage.getAppMetadata(completion: completion)
     }
     
-    public func set(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    public func set<T: AppMetadataProtocol & Codable>(_ appMetadata: [T], completion: @escaping (Result<(), Swift.Error>) -> ()) {
         storage.set(appMetadata, completion: completion)
     }
     
-    public func add(
-        _ appMetadata: [Beacon.AppMetadata],
+    public func add<T: AppMetadataProtocol & Codable & Equatable>(
+        _ appMetadata: [T],
         overwrite: Bool = false,
-        compareBy predicate: @escaping (Beacon.AppMetadata, Beacon.AppMetadata) -> Bool = { $0 == $1 },
+        compareBy predicate: @escaping (T, T) -> Bool = { $0 == $1 },
         completion: @escaping (Result<(), Swift.Error>) -> ()
     ) {
         storage.add(appMetadata, overwrite: overwrite, compareBy: predicate, completion: completion)
     }
     
-    public func findAppMetadata(
-        where predicate: @escaping (Beacon.AppMetadata) -> Bool,
-        completion: @escaping (Result<Beacon.AppMetadata?, Swift.Error>) -> ()
+    public func findAppMetadata<T: AppMetadataProtocol & Codable>(
+        where predicate: @escaping (T) -> Bool,
+        completion: @escaping (Result<T?, Swift.Error>) -> ()
     ) {
         storage.findAppMetadata(where: predicate, completion: completion)
     }
     
-    public func removeAppMetadata(where predicate: ((Beacon.AppMetadata) -> Bool)? = nil, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    public func removeAppMetadata(where predicate: ((AnyAppMetadata) -> Bool)? = nil, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         storage.removeAppMetadata(where: predicate, completion: completion)
     }
     
-    public func remove(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    public func removeAppMetadata<T: AppMetadataProtocol & Codable>(where predicate: ((T) -> Bool)? = nil, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        storage.removeAppMetadata(where: predicate, completion: completion)
+    }
+    
+    public func remove<T: AppMetadataProtocol & Codable & Equatable>(_ appMetadata: [T], completion: @escaping (Result<(), Swift.Error>) -> ()) {
         removeAppMetadata(where: { appMetadata.contains($0) }, completion: completion)
     }
     

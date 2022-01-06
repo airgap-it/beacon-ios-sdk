@@ -25,7 +25,7 @@ public struct BroadcastTezosRequest: BlockchainBeaconRequestProtocol, Equatable,
     public let senderID: String
     
     /// The metadata describing the dApp asking for the broadcast. May be `nil` if the `senderID`is unknown.
-    public let appMetadata: Beacon.AppMetadata?
+    public let appMetadata: Tezos.AppMetadata?
     
     /// The origination data of this request.
     public let origin: Beacon.Origin
@@ -44,7 +44,7 @@ public struct BroadcastTezosRequest: BlockchainBeaconRequestProtocol, Equatable,
         version: String,
         blockchainIdentifier: String,
         senderID: String,
-        appMetadata: Beacon.AppMetadata?,
+        appMetadata: Tezos.AppMetadata?,
         origin: Beacon.Origin,
         accountID: String?,
         network: Tezos.Network,

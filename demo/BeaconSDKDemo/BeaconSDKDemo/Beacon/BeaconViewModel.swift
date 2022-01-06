@@ -171,8 +171,8 @@ class BeaconViewModel: ObservableObject {
             )
         case let .blockchain(blockchain):
             switch blockchain {
-            case let .signPayload(content):
-                return .error(ErrorBeaconResponse(from: content, errorType: .blockchain(.signatureTypeNotSupported)))
+            case .signPayload(_):
+                return .error(ErrorBeaconResponse(from: blockchain, errorType: .blockchain(.signatureTypeNotSupported)))
             default:
                 return .error(ErrorBeaconResponse(from: blockchain, errorType: .aborted))
             }

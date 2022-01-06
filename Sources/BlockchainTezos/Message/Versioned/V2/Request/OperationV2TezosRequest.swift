@@ -76,7 +76,7 @@ public struct OperationV2TezosRequest: V2BeaconMessageProtocol, Equatable, Codab
         using storageManager: StorageManager,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
-        storageManager.findAppMetadata(where: { $0.senderID == senderID }) { result in
+        storageManager.findAppMetadata(where: { (appMetadata: Tezos.AppMetadata) in appMetadata.senderID == senderID }) { result in
             let message: Result<BeaconMessage<T>, Swift.Error> = result.map { appMetadata in
                 let tezosMessage: BeaconMessage<Tezos> = .request(
                     .blockchain(

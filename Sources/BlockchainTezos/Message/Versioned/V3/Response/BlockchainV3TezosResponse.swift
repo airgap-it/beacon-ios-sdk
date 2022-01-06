@@ -15,7 +15,7 @@ public enum BlockchainV3TezosResponse: BlockchainV3BeaconResponseContentDataProt
 
     // MARK: BeaconMessage Compatibility
 
-    public init(from blockchainResponse: BlockchainBeaconResponseProtocol) throws {
+    public init<T: Blockchain>(from blockchainResponse: T.Response.Blockchain, ofType type: T.Type) throws {
         guard let blockchainResponse = blockchainResponse as? BlockchainTezosResponse else {
             throw Beacon.Error.unknownBeaconMessage
         }

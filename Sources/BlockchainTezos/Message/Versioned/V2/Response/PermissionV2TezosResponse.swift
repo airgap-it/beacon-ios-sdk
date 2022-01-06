@@ -17,7 +17,6 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol, Equatable, Cod
     public let publicKey: String
     public let network: Tezos.Network
     public let scopes: [Tezos.Permission.Scope]
-    public let threshold: Beacon.Threshold?
     
     public init(
         version: String,
@@ -25,8 +24,7 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol, Equatable, Cod
         senderID: String,
         publicKey: String,
         network: Tezos.Network,
-        scopes: [Tezos.Permission.Scope],
-        threshold: Beacon.Threshold?
+        scopes: [Tezos.Permission.Scope]
     ) {
         type = PermissionV2TezosResponse.type
         self.version = version
@@ -35,7 +33,6 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol, Equatable, Cod
         self.publicKey = publicKey
         self.network = network
         self.scopes = scopes
-        self.threshold = threshold
     }
     
     // MARK: BeaconMessage Compatibility
@@ -65,8 +62,7 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol, Equatable, Cod
             senderID: senderID,
             publicKey: beaconMessage.publicKey,
             network: beaconMessage.network,
-            scopes: beaconMessage.scopes,
-            threshold: beaconMessage.threshold
+            scopes: beaconMessage.scopes
         )
     }
     
@@ -87,8 +83,7 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol, Equatable, Cod
                             accountID: "", // TODO
                             publicKey: publicKey,
                             network: network,
-                            scopes: scopes,
-                            threshold: threshold
+                            scopes: scopes
                         )
                     )
                 )
@@ -113,7 +108,6 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol, Equatable, Cod
         case publicKey
         case network
         case scopes
-        case threshold
     }
 }
 

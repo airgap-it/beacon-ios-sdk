@@ -36,15 +36,11 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Equatab
     /// The list of granted permissions.
     public let scopes: [Tezos.Permission.Scope]
     
-    /// An optional threshold configuration.
-    public let threshold: Beacon.Threshold?
-    
     public init(
         from request: Tezos.Request.Permission,
         publicKey: String,
         network: Tezos.Network? = nil,
-        scopes: [Tezos.Permission.Scope]? = nil,
-        threshold: Beacon.Threshold? = nil
+        scopes: [Tezos.Permission.Scope]? = nil
     ) {
         self.init(
             id: request.id,
@@ -54,8 +50,7 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Equatab
             accountID: "", // TODO
             publicKey: publicKey,
             network: network ?? request.network,
-            scopes: scopes ?? request.scopes,
-            threshold: threshold
+            scopes: scopes ?? request.scopes
         )
     }
     
@@ -67,8 +62,7 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Equatab
         accountID: String,
         publicKey: String,
         network: Tezos.Network,
-        scopes: [Tezos.Permission.Scope],
-        threshold: Beacon.Threshold? = nil
+        scopes: [Tezos.Permission.Scope]
     ) {
         self.id = id
         self.version = version
@@ -78,6 +72,5 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Equatab
         self.publicKey = publicKey
         self.network = network
         self.scopes = scopes
-        self.threshold = threshold
     }
 }

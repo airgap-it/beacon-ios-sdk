@@ -52,7 +52,9 @@ public protocol BeaconRequestProtocol: BeaconMessageProtocol {
 }
 
 public protocol PermissionBeaconRequestProtocol: BeaconRequestProtocol {
-    var appMetadata: Beacon.AppMetadata { get }
+    associatedtype AppMetadata: AppMetadataProtocol & Codable & Equatable
+    
+    var appMetadata: AppMetadata { get }
 }
 
 public protocol BlockchainBeaconRequestProtocol: BeaconRequestProtocol {

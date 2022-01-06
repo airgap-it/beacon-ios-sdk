@@ -54,18 +54,18 @@ struct DecoratedStorage: ExtendedStorage {
     
     // MARK: AppMetadata
     
-    func getAppMetadata(completion: @escaping (Result<[Beacon.AppMetadata], Error>) -> ()) {
+    func getAppMetadata<T: AppMetadataProtocol & Codable>(completion: @escaping (Result<[T], Error>) -> ()) {
         storage.getAppMetadata(completion: completion)
     }
     
-    func set(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Error>) -> ()) {
+    func set<T: AppMetadataProtocol & Codable>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
         storage.set(appMetadata, completion: completion)
     }
     
-    func add(
-        _ appMetadata: [Beacon.AppMetadata],
+    func add<T: AppMetadataProtocol & Codable & Equatable>(
+        _ appMetadata: [T],
         overwrite: Bool,
-        compareBy predicate: @escaping (Beacon.AppMetadata, Beacon.AppMetadata) -> Bool,
+        compareBy predicate: @escaping (T, T) -> Bool,
         completion: @escaping (Result<(), Error>) -> ()
     ) {
         add(
@@ -78,14 +78,14 @@ struct DecoratedStorage: ExtendedStorage {
         )
     }
     
-    func findAppMetadata(
-        where predicate: @escaping (Beacon.AppMetadata) -> Bool,
-        completion: @escaping (Result<Beacon.AppMetadata?, Error>) -> ()
+    func findAppMetadata<T: AppMetadataProtocol & Codable>(
+        where predicate: @escaping (T) -> Bool,
+        completion: @escaping (Result<T?, Error>) -> ()
     ) {
         find(where: predicate, select: storage.getAppMetadata, completion: completion)
     }
     
-    func removeAppMetadata(where predicate: ((Beacon.AppMetadata) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
+    func removeAppMetadata<T: AppMetadataProtocol & Codable>(where predicate: ((T) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
         remove(where: predicate, select: storage.getAppMetadata, insert: storage.set, completion: completion)
     }
     

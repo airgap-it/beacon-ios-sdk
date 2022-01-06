@@ -24,15 +24,15 @@ protocol ExtendedStorage: Storage {
     
     // MARK: AppMetadata
     
-    func add(
-        _ appMetadata: [Beacon.AppMetadata],
+    func add<T: AppMetadataProtocol & Codable & Equatable>(
+        _ appMetadata: [T],
         overwrite: Bool,
-        compareBy predicate: @escaping (Beacon.AppMetadata, Beacon.AppMetadata) -> Bool,
+        compareBy predicate: @escaping (T, T) -> Bool,
         completion: @escaping (Result<(), Error>) -> ()
     )
     
-    func findAppMetadata(where predicate: @escaping (Beacon.AppMetadata) -> Bool, completion: @escaping (Result<Beacon.AppMetadata?, Error>) -> ())
-    func removeAppMetadata(where predicate: ((Beacon.AppMetadata) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    func findAppMetadata<T: AppMetadataProtocol & Codable>(where predicate: @escaping (T) -> Bool, completion: @escaping (Result<T?, Error>) -> ())
+    func removeAppMetadata<T: AppMetadataProtocol & Codable>(where predicate: ((T) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: Permissions
     

@@ -32,13 +32,13 @@ public struct UserDefaultsStorage: Storage {
     
     // MARK: AppMetadata
     
-    public func getAppMetadata(completion: @escaping (Result<[Beacon.AppMetadata], Error>) -> ()) {
+    public func getAppMetadata<T: AppMetadataProtocol & Codable>(completion: @escaping (Result<[T], Error>) -> ()) {
         completeCatching(completion: completion) {
-            try userDefaults.get([Beacon.AppMetadata].self, forKey: .appMetadata) ?? []
+            try userDefaults.get([T].self, forKey: .appMetadata) ?? []
         }
     }
     
-    public func set(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Error>) -> ()) {
+    public func set<T: AppMetadataProtocol & Codable>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
         completeCatching(completion: completion) {
             try userDefaults.set(appMetadata, forKey: .appMetadata)
         }

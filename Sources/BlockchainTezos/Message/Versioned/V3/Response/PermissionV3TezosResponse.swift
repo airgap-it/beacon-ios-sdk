@@ -21,7 +21,7 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
     
     // MARK: BeaconMessage Compatibility
     
-    public init(from permissionResponse: PermissionBeaconResponseProtocol) throws {
+    public init<T: Blockchain>(from permissionResponse: T.Response.Permission, ofType type: T.Type) throws {
         guard let permissionResponse = permissionResponse as? PermissionTezosResponse else {
             throw Beacon.Error.unknownBeaconMessage
         }
@@ -51,8 +51,7 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
                             accountID: accountID,
                             publicKey: publicKey,
                             network: network,
-                            scopes: scopes,
-                            threshold: nil
+                            scopes: scopes
                         )
                     )
                 )

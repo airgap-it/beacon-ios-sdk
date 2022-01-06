@@ -29,7 +29,7 @@ extension Tezos {
         public let senderID: String
         
         /// The metadata describing the dApp to which the permissions were granted.
-        public let appMetadata: Beacon.AppMetadata
+        public let appMetadata: AppMetadata
         
         /// The public key of the account.
         public let publicKey: String
@@ -37,19 +37,15 @@ extension Tezos {
         /// The timestamp at which the permissions were granted.
         public let connectedAt: Int64
         
-        /// An optional threshold configuration.
-        public let threshold: Beacon.Threshold?
-        
         public init(
             accountIdentifier: String,
             address: String,
             network: Network,
             scopes: [Permission.Scope],
             senderID: String,
-            appMetadata: Beacon.AppMetadata,
+            appMetadata: AppMetadata,
             publicKey: String,
-            connectedAt: Int64,
-            threshold: Beacon.Threshold? = nil
+            connectedAt: Int64
         ) {
             self.accountIdentifier = accountIdentifier
             self.address = address
@@ -59,7 +55,6 @@ extension Tezos {
             self.appMetadata = appMetadata
             self.publicKey = publicKey
             self.connectedAt = connectedAt
-            self.threshold = threshold
         }
         
         // MARK: Scope
@@ -68,7 +63,6 @@ extension Tezos {
         public enum Scope: String, Codable, Equatable {
             case sign
             case operationRequest = "operation_request"
-            case threshold
         }
     }
 }

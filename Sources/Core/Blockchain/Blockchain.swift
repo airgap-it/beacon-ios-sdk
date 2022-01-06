@@ -23,6 +23,7 @@ public protocol Blockchain: ShadowBlockchain {
     associatedtype Response: BlockchainResponse
     associatedtype VersionedMessage: BlockchainVersionedMessage
     
+    associatedtype AppMetadata: AppMetadataProtocol & Equatable & Codable
     associatedtype Permission: PermissionProtocol & Equatable & Codable
     associatedtype ErrorType: ErrorTypeProtocol & Equatable & Codable
     

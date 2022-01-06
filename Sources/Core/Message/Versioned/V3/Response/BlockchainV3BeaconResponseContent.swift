@@ -34,8 +34,8 @@ public struct BlockchainV3BeaconResponseContent: V3BeaconMessageContentProtocol,
         }
     }
     
-    public init<T: Blockchain>(from blockchainResponse: BlockchainBeaconResponseProtocol, ofType type: T.Type) throws {
-        let blockchainData = try type.VersionedMessage.V3.BlockchainResponseContentData(from: blockchainResponse)
+    public init<T: Blockchain>(from blockchainResponse: T.Response.Blockchain, ofType type: T.Type) throws {
+        let blockchainData = try type.VersionedMessage.V3.BlockchainResponseContentData(from: blockchainResponse, ofType: type)
         self.init(blockchainIdentifier: blockchainResponse.blockchainIdentifier, blockchainData: blockchainData)
     }
     
@@ -106,7 +106,7 @@ extension BlockchainV3BeaconResponseContent {
 // MARK: Protocol
 
 public protocol BlockchainV3BeaconResponseContentDataProtocol {
-    init(from blockchainResponse: BlockchainBeaconResponseProtocol) throws
+    init<T: Blockchain>(from blockchainResponse: T.Response.Blockchain, ofType type: T.Type) throws
     
     func toBeaconMessage<T: Blockchain>(
         id: String,

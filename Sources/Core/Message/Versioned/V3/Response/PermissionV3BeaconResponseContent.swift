@@ -36,8 +36,8 @@ public struct PermissionV3BeaconResponseContent: V3BeaconMessageContentProtocol,
         }
     }
     
-    public init<T: Blockchain>(from permissionResponse: PermissionBeaconResponseProtocol, ofType type: T.Type) throws {
-        let data = try type.VersionedMessage.V3.PermissionResponseContentData(from: permissionResponse)
+    public init<T: Blockchain>(from permissionResponse: T.Response.Permission, ofType type: T.Type) throws {
+        let data = try type.VersionedMessage.V3.PermissionResponseContentData(from: permissionResponse, ofType: type)
         self.init(blockchainIdentifier: permissionResponse.blockchainIdentifier, accountID: permissionResponse.accountID, blockchainData: data)
     }
     
@@ -112,7 +112,7 @@ extension PermissionV3BeaconResponseContent {
 // MARK: Protocol
 
 public protocol PermissionV3BeaconResponseContentDataProtocol {
-    init(from permissionResponse: PermissionBeaconResponseProtocol) throws
+    init<T: Blockchain>(from permissionResponse: T.Response.Permission, ofType type: T.Type) throws
     
     func toBeaconMessage<T: Blockchain>(
         id: String,
