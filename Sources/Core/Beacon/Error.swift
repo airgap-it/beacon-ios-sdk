@@ -132,16 +132,24 @@ extension Beacon {
         ///
         /// The message is not supported in the target Beacon version.
         ///
-        /// - message: The message that could not be processed
-        /// - `version`: The target message version
+        /// - message: The message that could not be processed.
+        /// - `version`: The target message version.
         ///
         case messageNotSupportedInVersion(message: BeaconMessageProtocol, version: String)
         
         ///
+        /// The message version is not supported by the target blockchain.
+        ///
+        ///  - `version`: The message version that could not be processed.
+        ///  - blockchainIdentifier: The target blockchain identifier.
+        ///
+        case messageVersionNotSupported(version: String, blockchainIdentifier: String)
+        
+        ///
         /// The message type is not recognized.
         ///
-        /// - message: The message type that could not be processed
-        /// - `version`: The target message version
+        /// - message: The message type that could not be processed.
+        /// - `version`: The target message version.
         ///
         case unknownMessageType(_ messageType: String, version: String)
         

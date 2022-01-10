@@ -9,7 +9,7 @@
 import Foundation
 import BeaconCore
     
-/// Body of the `Beacon.Response.signPayload` message.
+/// Body of the `BlockchainTezosResponse.signPayload` message.
 public struct SignPayloadTezosResponse: BlockchainBeaconResponseProtocol, Equatable, Codable {
     
     /// The value that identifies the request to which the message is responding.

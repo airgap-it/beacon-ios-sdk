@@ -8,7 +8,7 @@
 import Foundation
 import BeaconCore
     
-/// Content of the `BeaconResponse.blockchain` message.
+/// Tezos specific content of the `BeaconResponse.blockchain` message.
 public enum BlockchainTezosResponse: BlockchainBeaconResponseProtocol, Equatable {
     
     ///

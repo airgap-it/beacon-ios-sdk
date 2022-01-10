@@ -35,10 +35,10 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
         senderID: String,
         origin: Beacon.Origin,
         blockchainIdentifier: String,
-        accountID: String,
+        accountIDs: [String],
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     ) {
-        do {
+        runCatching(completion: completion) {
             let tezosMessage: BeaconMessage<Tezos> =
                 .response(
                     .permission(
@@ -47,7 +47,7 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
                             version: version,
                             requestOrigin: origin,
                             blockchainIdentifier: blockchainIdentifier,
-                            accountID: accountID,
+                            accountIDs: accountIDs,
                             publicKey: publicKey,
                             network: network,
                             scopes: scopes
@@ -60,8 +60,6 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
             }
             
             completion(.success(beaconMessage))
-        } catch {
-            completion(.failure(error))
         }
     }
     
@@ -72,8 +70,6 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
             return false
         }
         
-        return publicKey == other.publicKey && network == other.network && scopes == other.scopes
+        return self == other
     }
-    
-    
 }

@@ -37,7 +37,7 @@ public struct PermissionV3TezosRequest: PermissionV3BeaconRequestContentDataProt
         blockchainIdentifier: String,
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     ) {
-        do {
+        runCatching(completion: completion) {
             let tezosMessage: BeaconMessage<Tezos> =
                 .request(
                     .permission(
@@ -46,8 +46,8 @@ public struct PermissionV3TezosRequest: PermissionV3BeaconRequestContentDataProt
                             version: version,
                             blockchainIdentifier: blockchainIdentifier,
                             senderID: senderID,
-                            appMetadata: appMetadata,
                             origin: origin,
+                            appMetadata: appMetadata,
                             network: network,
                             scopes: scopes
                         )
@@ -59,8 +59,6 @@ public struct PermissionV3TezosRequest: PermissionV3BeaconRequestContentDataProt
             }
             
             completion(.success(beaconMessage))
-        } catch {
-            completion(.failure(error))
         }
     }
     
@@ -71,6 +69,6 @@ public struct PermissionV3TezosRequest: PermissionV3BeaconRequestContentDataProt
             return false
         }
         
-        return network == other.network && appMetadata == other.appMetadata && scopes == other.scopes
+        return self == other
     }
 }

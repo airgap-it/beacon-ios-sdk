@@ -57,14 +57,14 @@ public struct MockBlockchainCreator: BlockchainCreator {
     public func extractPermission(
         from request: ConcreteBlockchain.Request.Permission,
         and response: ConcreteBlockchain.Response.Permission,
-        completion: @escaping (Result<ConcreteBlockchain.Permission, Error>) -> ()
+        completion: @escaping (Result<[ConcreteBlockchain.Permission], Error>) -> ()
     ) {
         let permission = AnyPermission(
             accountID: response.publicKey,
             senderID: request.senderID,
             connectedAt: 0
         )
-        completion(.success(permission))
+        completion(.success([permission]))
     }
 }
 
@@ -135,7 +135,7 @@ public struct MockResponse: BlockchainResponse {
         public var requestOrigin: Beacon.Origin
         public var blockchainIdentifier: String
         public var publicKey: String
-        public var accountID: String
+        public var accountIDs: String
     }
     
     public struct Blockchain: BlockchainBeaconResponseProtocol & Equatable & Codable {
@@ -377,7 +377,7 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
                     return false
                 }
                 
-                return content == other.content
+                return self == other
             }
         }
         
@@ -429,7 +429,7 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
                     return false
                 }
                 
-                return content == other.content
+                return self == other
             }
         }
         
@@ -481,7 +481,7 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
                     return false
                 }
                 
-                return content == other.content
+                return self == other
             }
         }
         
@@ -532,7 +532,7 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
                     return false
                 }
                 
-                return content == other.content
+                return self == other
             }
         }
     }

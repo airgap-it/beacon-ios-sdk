@@ -72,7 +72,7 @@ public protocol BeaconResponseProtocol: BeaconMessageProtocol {
 
 public protocol PermissionBeaconResponseProtocol: BeaconResponseProtocol {
     var blockchainIdentifier: String { get }
-    var accountID: String { get }
+    var accountIDs: [String] { get }
 }
 
 public protocol BlockchainBeaconResponseProtocol: BeaconResponseProtocol {

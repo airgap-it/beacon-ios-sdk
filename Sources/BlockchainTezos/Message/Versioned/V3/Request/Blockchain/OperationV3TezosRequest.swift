@@ -48,9 +48,9 @@ public struct OperationV3TezosRequest: Equatable, Codable {
                                         version: version,
                                         blockchainIdentifier: blockchainIdentifier,
                                         senderID: senderID,
-                                        appMetadata: appMetadata,
                                         origin: origin,
                                         accountID: accountID,
+                                        appMetadata: appMetadata,
                                         network: network,
                                         operationDetails: operationDetails,
                                         sourceAddress: sourceAddress

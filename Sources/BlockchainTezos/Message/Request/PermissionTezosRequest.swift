@@ -9,7 +9,7 @@
 import Foundation
 import BeaconCore
     
-/// Content of the `BeaconRequest.permission` message.
+/// Tezos specific content of the `BeaconRequest.permission` message.
 public struct PermissionTezosRequest: PermissionBeaconRequestProtocol, Equatable, Codable {
     public typealias AppMetadata = Tezos.AppMetadata
     
@@ -25,35 +25,15 @@ public struct PermissionTezosRequest: PermissionBeaconRequestProtocol, Equatable
     /// The value that identifies the sender of this request.
     public let senderID: String
     
-    /// The metadata describing the dApp asking for permissions.
-    public let appMetadata: AppMetadata
-    
     /// The origination data of this request.
     public let origin: Beacon.Origin
+    
+    /// The metadata describing the dApp asking for permissions.
+    public let appMetadata: AppMetadata
     
     /// The network to which the permissions apply.
     public let network: Tezos.Network
     
     /// The list of permissions asked to be granted.
     public let scopes: [Tezos.Permission.Scope]
-    
-    init(
-        id: String,
-        version: String,
-        blockchainIdentifier: String,
-        senderID: String,
-        appMetadata: AppMetadata,
-        origin: Beacon.Origin,
-        network: Tezos.Network,
-        scopes: [Tezos.Permission.Scope]
-    ) {
-        self.id = id
-        self.version = version
-        self.blockchainIdentifier = blockchainIdentifier
-        self.senderID = senderID
-        self.appMetadata = appMetadata
-        self.origin = origin
-        self.network = network
-        self.scopes = scopes
-    }
 }

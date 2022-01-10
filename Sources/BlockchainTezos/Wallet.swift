@@ -9,9 +9,9 @@ import Foundation
 import Base58Swift
 import BeaconCore
 
-public extension Tezos {
+extension Tezos {
     
-    class Wallet {
+    public class Wallet {
         private let crypto: Crypto
         
         init(crypto: Crypto) {

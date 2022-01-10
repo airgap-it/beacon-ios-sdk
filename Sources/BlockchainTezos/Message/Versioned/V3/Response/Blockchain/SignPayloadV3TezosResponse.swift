@@ -33,7 +33,7 @@ public struct SignPayloadV3TezosResponse: Equatable, Codable {
         blockchainIdentifier: String,
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     ) {
-        do {
+        runCatching(completion: completion) {
             let tezosMessage: BeaconMessage<Tezos> =
                 .response(
                     .blockchain(
@@ -55,8 +55,6 @@ public struct SignPayloadV3TezosResponse: Equatable, Codable {
             }
             
             completion(.success(beaconMessage))
-        } catch {
-            completion(.failure(error))
         }
     }
 }

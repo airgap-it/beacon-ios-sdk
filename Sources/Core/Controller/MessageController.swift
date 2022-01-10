@@ -156,8 +156,8 @@ class MessageController: MessageControllerProtocol {
             }
             
             blockchain.creator.extractPermission(from: request, and: response) { result in
-                guard let permission = result.get(ifFailure: completion) else { return }
-                self.storageManager.add([permission], completion: completion)
+                guard let permissions = result.get(ifFailure: completion) else { return }
+                self.storageManager.add(permissions, completion: completion)
             }
         } catch {
             completion(.failure(error))

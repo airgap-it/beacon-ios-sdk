@@ -93,7 +93,7 @@ public func permissionBeaconResponse(
         requestOrigin: requestOrigin,
         blockchainIdentifier: MockBlockchain.identifier,
         publicKey: publicKey,
-        accountID: accountID
+        accountIDs: accountID
     )
 }
 

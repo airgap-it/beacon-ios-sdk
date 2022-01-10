@@ -13,6 +13,6 @@ public protocol BlockchainCreator {
     func extractPermission(
         from request: ConcreteBlockchain.Request.Permission,
         and response: ConcreteBlockchain.Response.Permission,
-        completion: @escaping (Result<ConcreteBlockchain.Permission, Swift.Error>) -> ()
+        completion: @escaping (Result<[ConcreteBlockchain.Permission], Swift.Error>) -> ()
     )
 }

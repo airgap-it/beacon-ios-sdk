@@ -70,7 +70,7 @@ public struct PermissionV1TezosResponse: V1BeaconMessageProtocol, Equatable, Cod
         with origin: Beacon.Origin,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
-        do {
+        runCatching(completion: completion) {
             let address = try dependencyRegistry().extend().tezosWallet.address(fromPublicKey: publicKey)
             let accountID = try dependencyRegistry().identifierCreator.accountID(forAddress: address, on: network)
             
@@ -82,7 +82,7 @@ public struct PermissionV1TezosResponse: V1BeaconMessageProtocol, Equatable, Cod
                             version: version,
                             requestOrigin: origin,
                             blockchainIdentifier: T.identifier,
-                            accountID: accountID,
+                            accountIDs: [accountID],
                             publicKey: publicKey,
                             network: network,
                             scopes: scopes
@@ -95,8 +95,6 @@ public struct PermissionV1TezosResponse: V1BeaconMessageProtocol, Equatable, Cod
             }
             
             completion(.success(beaconMessage))
-        } catch {
-            completion(.failure(error))
         }
     }
     

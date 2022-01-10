@@ -10,13 +10,13 @@ import Foundation
 public struct PermissionV3BeaconResponseContent: V3BeaconMessageContentProtocol, Equatable, Codable {
     public let type: String
     public let blockchainIdentifier: String
-    public let accountID: String
+    public let accountIDs: [String]
     public let blockchainData: PermissionV3BeaconResponseContentDataProtocol & Codable
     
-    public init(blockchainIdentifier: String, accountID: String, blockchainData: PermissionV3BeaconResponseContentDataProtocol & Codable) {
+    public init(blockchainIdentifier: String, accountIDs: [String], blockchainData: PermissionV3BeaconResponseContentDataProtocol & Codable) {
         self.type = PermissionV3BeaconResponseContent.type
         self.blockchainIdentifier = blockchainIdentifier
-        self.accountID = accountID
+        self.accountIDs = accountIDs
         self.blockchainData = blockchainData
     }
     
@@ -38,7 +38,7 @@ public struct PermissionV3BeaconResponseContent: V3BeaconMessageContentProtocol,
     
     public init<T: Blockchain>(from permissionResponse: T.Response.Permission, ofType type: T.Type) throws {
         let data = try type.VersionedMessage.V3.PermissionResponseContentData(from: permissionResponse, ofType: type)
-        self.init(blockchainIdentifier: permissionResponse.blockchainIdentifier, accountID: permissionResponse.accountID, blockchainData: data)
+        self.init(blockchainIdentifier: permissionResponse.blockchainIdentifier, accountIDs: permissionResponse.accountIDs, blockchainData: data)
     }
     
     public func toBeaconMessage<T: Blockchain>(
@@ -54,7 +54,7 @@ public struct PermissionV3BeaconResponseContent: V3BeaconMessageContentProtocol,
             senderID: senderID,
             origin: origin,
             blockchainIdentifier: blockchainIdentifier,
-            accountID: accountID,
+            accountIDs: accountIDs,
             completion: completion
         )
     }
@@ -62,7 +62,7 @@ public struct PermissionV3BeaconResponseContent: V3BeaconMessageContentProtocol,
     // MARK: Equatable
     
     public static func == (lhs: PermissionV3BeaconResponseContent, rhs: PermissionV3BeaconResponseContent) -> Bool {
-        lhs.type == rhs.type && lhs.blockchainIdentifier == rhs.blockchainIdentifier && lhs.accountID == rhs.accountID && lhs.blockchainData.equals(rhs.blockchainData)
+        lhs.type == rhs.type && lhs.blockchainIdentifier == rhs.blockchainIdentifier && lhs.accountIDs == rhs.accountIDs && lhs.blockchainData.equals(rhs.blockchainData)
     }
     
     // MARK: Codable
@@ -71,7 +71,7 @@ public struct PermissionV3BeaconResponseContent: V3BeaconMessageContentProtocol,
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         let blockchainIdentifier = try container.decode(String.self, forKey: .blockchainIdentifier)
-        let accountID = try container.decode(String.self, forKey: .accountID)
+        let accountIDs = try container.decode([String].self, forKey: .accountID)
         
         guard let blockchain = try blockchainRegistry().get(ofType: blockchainIdentifier) else {
             throw Beacon.Error.blockchainNotFound(blockchainIdentifier)
@@ -79,7 +79,7 @@ public struct PermissionV3BeaconResponseContent: V3BeaconMessageContentProtocol,
         
         let blockchainData = try blockchain.decoder.v3.permissionResponseData(from: container.superDecoder(forKey: .blockchainData))
         
-        self.init(blockchainIdentifier: blockchainIdentifier, accountID: accountID, blockchainData: blockchainData)
+        self.init(blockchainIdentifier: blockchainIdentifier, accountIDs: accountIDs, blockchainData: blockchainData)
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -87,7 +87,7 @@ public struct PermissionV3BeaconResponseContent: V3BeaconMessageContentProtocol,
         
         try container.encode(type, forKey: .type)
         try container.encode(blockchainIdentifier, forKey: .blockchainIdentifier)
-        try container.encode(accountID, forKey: .accountID)
+        try container.encode(accountIDs, forKey: .accountID)
         try blockchainData.encode(to: container.superEncoder(forKey: .blockchainData))
     }
     
@@ -118,7 +118,7 @@ public protocol PermissionV3BeaconResponseContentDataProtocol {
         senderID: String,
         origin: Beacon.Origin,
         blockchainIdentifier: String,
-        accountID: String,
+        accountIDs: [String],
         completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
     )
     

@@ -26,13 +26,13 @@ extension Tezos {
         }
         
         public func extractPermission(
-            from request: ConcreteBlockchain.Request.Permission,
-            and response: ConcreteBlockchain.Response.Permission,
-            completion: @escaping (Result<ConcreteBlockchain.Permission, Swift.Error>) -> ()
+            from request: PermissionTezosRequest,
+            and response: PermissionTezosResponse,
+            completion: @escaping (Result<[Tezos.Permission], Swift.Error>) -> ()
         ) {
             storageManager.findAppMetadata(where: { (appMetadata: AppMetadata) in request.senderID == appMetadata.senderID }) { result in
-                do {
-                    guard let appMetadataOrNil = result.get(ifFailure: completion) else { return }
+                guard let appMetadataOrNil = result.get(ifFailure: completion) else { return }
+                runCatching(completion: completion) {
                     guard let appMetadata = appMetadataOrNil else {
                         throw Error.noMatchingAppMetadata
                     }
@@ -52,9 +52,7 @@ extension Tezos {
                         scopes: response.scopes
                     )
                     
-                    completion(.success(permission))
-                } catch {
-                    completion(.failure(error))
+                    completion(.success([permission]))
                 }
             }
         }

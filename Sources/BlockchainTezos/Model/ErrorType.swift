@@ -10,6 +10,7 @@ import BeaconCore
 
 extension Tezos {
     
+    /// Types of Tezos errors supported in Beacon.
     public enum ErrorType: String, ErrorTypeProtocol, Codable {
         
         ///

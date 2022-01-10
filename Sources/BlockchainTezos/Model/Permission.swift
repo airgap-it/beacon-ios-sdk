@@ -35,7 +35,7 @@ extension Tezos {
         public let appMetadata: AppMetadata
         
         /// The list of granted permission types.
-        public let scopes: [Permission.Scope]
+        public let scopes: [Scope]
         
         public init(
             accountIdentifier: String,
@@ -59,7 +59,7 @@ extension Tezos {
         
         // MARK: Scope
         
-        /// Types of permissions supported in Beacon.
+        /// Types of Tezos permissions supported in Beacon.
         public enum Scope: String, Codable, Equatable {
             case sign
             case operationRequest = "operation_request"

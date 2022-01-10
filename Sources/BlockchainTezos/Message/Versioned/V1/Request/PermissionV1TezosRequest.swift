@@ -70,7 +70,7 @@ public struct PermissionV1TezosRequest: V1BeaconMessageProtocol, Equatable, Coda
         with origin: Beacon.Origin,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
-        do {
+        runCatching(completion: completion) {
             let tezosMessage: BeaconMessage<Tezos> =
                 .request(
                     .permission(
@@ -79,8 +79,8 @@ public struct PermissionV1TezosRequest: V1BeaconMessageProtocol, Equatable, Coda
                             version: version,
                             blockchainIdentifier: T.identifier,
                             senderID: beaconID,
-                            appMetadata: appMetadata.toAppMetadata(),
                             origin: origin,
+                            appMetadata: appMetadata.toAppMetadata(),
                             network: network,
                             scopes: scopes
                         )
@@ -92,8 +92,6 @@ public struct PermissionV1TezosRequest: V1BeaconMessageProtocol, Equatable, Coda
             }
             
             completion(.success(beaconMessage))
-        } catch {
-            completion(.failure(error))
         }
     }
     

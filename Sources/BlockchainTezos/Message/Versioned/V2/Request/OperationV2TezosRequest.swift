@@ -86,9 +86,9 @@ public struct OperationV2TezosRequest: V2BeaconMessageProtocol, Equatable, Codab
                                     version: version,
                                     blockchainIdentifier: T.identifier,
                                     senderID: senderID,
-                                    appMetadata: appMetadata,
                                     origin: origin,
                                     accountID: nil,
+                                    appMetadata: appMetadata,
                                     network: network,
                                     operationDetails: operationDetails,
                                     sourceAddress: sourceAddress

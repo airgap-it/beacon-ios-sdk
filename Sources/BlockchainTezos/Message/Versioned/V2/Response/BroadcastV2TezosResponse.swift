@@ -57,7 +57,7 @@ public struct BroadcastV2TezosResponse: V2BeaconMessageProtocol, Equatable, Coda
         with origin: Beacon.Origin,
         completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
     ) {
-        do {
+        runCatching(completion: completion) {
             let tezosMessage: BeaconMessage<Tezos> =
                 .response(
                     .blockchain(
@@ -78,8 +78,6 @@ public struct BroadcastV2TezosResponse: V2BeaconMessageProtocol, Equatable, Coda
             }
 
             completion(.success(beaconMessage))
-        } catch {
-            completion(.failure(error))
         }
     }
     

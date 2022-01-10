@@ -9,7 +9,7 @@
 import Foundation
 import BeaconCore
     
-/// Content of the `BeaconResponse.permission` message.
+/// Tezos specific content of the `BeaconResponse.permission` message.
 public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Equatable, Codable {
     
     /// The value that identifies the request to which the message is responding.
@@ -24,8 +24,8 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Equatab
     /// The unique name of the blockchain that specifies the request.
     public let blockchainIdentifier: String
     
-    ///  The account identifier of the account that is granting the permissions.
-    public let accountID: String
+    /// The account identifiers of the accounts that are granting the permissions.
+    public let accountIDs: [String]
     
     /// The public key of the account that is granting the permissions.
     public let publicKey: String
@@ -53,7 +53,7 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Equatab
             version: request.version,
             requestOrigin: request.origin,
             blockchainIdentifier: request.blockchainIdentifier,
-            accountID: accountID,
+            accountIDs: [accountID],
             publicKey: publicKey,
             network: network,
             scopes: scopes
@@ -65,7 +65,7 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Equatab
         version: String,
         requestOrigin: Beacon.Origin,
         blockchainIdentifier: String,
-        accountID: String,
+        accountIDs: [String],
         publicKey: String,
         network: Tezos.Network,
         scopes: [Tezos.Permission.Scope]
@@ -74,7 +74,7 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Equatab
         self.version = version
         self.requestOrigin = requestOrigin
         self.blockchainIdentifier = blockchainIdentifier
-        self.accountID = accountID
+        self.accountIDs = accountIDs
         self.publicKey = publicKey
         self.network = network
         self.scopes = scopes
