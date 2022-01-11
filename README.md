@@ -67,6 +67,7 @@ For more examples please see our `demo` app (WIP).
 
 ```swift
 import BeaconCore
+import BeaconBlockchainSubstrate
 import BeaconBlockchainTezos
 import BeaconClientWallet
 import BeaconTransportP2PMatrix
@@ -80,7 +81,7 @@ class BeaconController {
         Beacon.WalletClient.create(
             with: Beacon.Client.Configuration(
                 name: "My App",
-                blockchains: [Tezos.factory],
+                blockchains: [Tezos.factory, Substrate.factory],
                 connections: [.p2p(.init(client: try Transport.P2P.Matrix.factory()))]
             )
         ) { result in
