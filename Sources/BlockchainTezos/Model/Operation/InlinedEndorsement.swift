@@ -15,9 +15,20 @@ extension Tezos.Operation {
         public let operations: Content
         public let signature: String?
         
+        public init(branch: String, operations: Content, signature: String?) {
+            self.branch = branch
+            self.operations = operations
+            self.signature = signature
+        }
+        
         public struct Content: Codable, Equatable {
             public let kind: Kind
             public let level: Int
+            
+            public init(kind: Kind, level: Int) {
+                self.kind = kind
+                self.level = level
+            }
         }
     }
 }

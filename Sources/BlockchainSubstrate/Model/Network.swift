@@ -35,5 +35,11 @@ extension Substrate {
             
             return data.joined(separator: "-")
         }
+        
+        public init(genesisHash: String, name: String? = nil, rpcURL: String? = nil) {
+            self.genesisHash = genesisHash
+            self.name = name
+            self.rpcURL = rpcURL
+        }
     }
 }

@@ -30,6 +30,15 @@ extension Substrate {
         
         /// The account to which the permission apply.
         public let account: Account
+        
+        public init(accountID: String, senderID: String, connectedAt: Int64, appMetadata: AppMetadata, scopes: [Scope], account: Account) {
+            self.accountID = accountID
+            self.senderID = senderID
+            self.connectedAt = connectedAt
+            self.appMetadata = appMetadata
+            self.scopes = scopes
+            self.account = account
+        }
      
         // MARK: Scope
         

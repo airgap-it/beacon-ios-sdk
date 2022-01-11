@@ -20,5 +20,11 @@ extension Substrate {
         
         /// The public key that identifies the account.
         public let publicKey: String
+        
+        public init(network: Network, addressPrefix: Int, publicKey: String) {
+            self.network = network
+            self.addressPrefix = addressPrefix
+            self.publicKey = publicKey
+        }
     }
 }
