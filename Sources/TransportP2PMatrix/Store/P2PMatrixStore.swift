@@ -290,8 +290,6 @@ private extension Beacon.Peer {
         switch self {
         case let .p2p(peer):
             return peer
-        default:
-            return nil
         }
     }
 }

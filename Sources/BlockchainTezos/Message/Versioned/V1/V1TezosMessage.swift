@@ -8,7 +8,7 @@
 import Foundation
 import BeaconCore
     
-public enum V1TezosMessage: V1BeaconMessageProtocol, Equatable, Codable {
+public enum V1TezosMessage: BlockchainV1Message {
     case permissionRequest(PermissionV1TezosRequest)
     case operationRequest(OperationV1TezosRequest)
     case signPayloadRequest(SignPayloadV1TezosRequest)
@@ -20,11 +20,7 @@ public enum V1TezosMessage: V1BeaconMessageProtocol, Equatable, Codable {
     
     // MARK: BeaconMessage Compatibility
     
-    public init<T: Blockchain>(from beaconMessage: BeaconMessage<T>, senderID: String) throws {
-        guard let beaconMessage = beaconMessage as? BeaconMessage<Tezos> else {
-            throw Beacon.Error.unknownBeaconMessage
-        }
-        
+    public init(from beaconMessage: BeaconMessage<Tezos>, senderID: String) throws {
         switch beaconMessage {
         case let .request(request):
             switch request {
@@ -61,38 +57,92 @@ public enum V1TezosMessage: V1BeaconMessageProtocol, Equatable, Codable {
         }
     }
     
-    public func toBeaconMessage<T: Blockchain>(
+    public func toBeaconMessage(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
-        completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
+        completion: @escaping (Result<BeaconMessage<Tezos>, Swift.Error>) -> ()
     ) {
-        common.toBeaconMessage(with: origin, using: storageManager, completion: completion)
+        switch self {
+        case let .permissionRequest(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        case let .operationRequest(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        case let .signPayloadRequest(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        case let .broadcastRequest(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        case let .permissionResponse(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        case let .operationResponse(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        case let .signPayloadResponse(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        case let .broadcastResponse(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        }
     }
     
     // MARK: Attributes
     
-    public var type: String { common.type }
-    public var version: String { common.version }
-    public var id: String { common.id }
-    
-    private var common: V1BeaconMessageProtocol {
+    public var type: String {
         switch self {
         case let .permissionRequest(content):
-            return content
+            return content.type
         case let .operationRequest(content):
-            return content
+            return content.type
         case let .signPayloadRequest(content):
-            return content
+            return content.type
         case let .broadcastRequest(content):
-            return content
+            return content.type
         case let .permissionResponse(content):
-            return content
+            return content.type
         case let .operationResponse(content):
-            return content
+            return content.type
         case let .signPayloadResponse(content):
-            return content
+            return content.type
         case let .broadcastResponse(content):
-            return content
+            return content.type
+        }
+    }
+    
+    public var version: String {
+        switch self {
+        case let .permissionRequest(content):
+            return content.version
+        case let .operationRequest(content):
+            return content.version
+        case let .signPayloadRequest(content):
+            return content.version
+        case let .broadcastRequest(content):
+            return content.version
+        case let .permissionResponse(content):
+            return content.version
+        case let .operationResponse(content):
+            return content.version
+        case let .signPayloadResponse(content):
+            return content.version
+        case let .broadcastResponse(content):
+            return content.version
+        }
+    }
+    
+    public var id: String {
+        switch self {
+        case let .permissionRequest(content):
+            return content.id
+        case let .operationRequest(content):
+            return content.id
+        case let .signPayloadRequest(content):
+            return content.id
+        case let .broadcastRequest(content):
+            return content.id
+        case let .permissionResponse(content):
+            return content.id
+        case let .operationResponse(content):
+            return content.id
+        case let .signPayloadResponse(content):
+            return content.id
+        case let .broadcastResponse(content):
+            return content.id
         }
     }
     

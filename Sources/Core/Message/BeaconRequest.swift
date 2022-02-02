@@ -9,27 +9,26 @@
 import Foundation
 
 /// Types of requests used in the Beacon connection.
-public enum BeaconRequest<T: Blockchain>: BeaconRequestProtocol, Equatable {
+public enum BeaconRequest<B: Blockchain>: BeaconRequestProtocol, Equatable {
     
     ///
     /// Message requesting the granting of the specified permissions.
     ///
     /// - permission: The content of the message, specific to a blockchain.
     ///
-    case permission(_ permission: T.Request.Permission)
+    case permission(_ permission: B.Request.Permission)
     
     ///
     /// Blockchain specific request.
     ///
     /// - blockchain: The content of the message.
     ///
-    case blockchain(_ blockchain: T.Request.Blockchain)
+    case blockchain(_ blockchain: B.Request.Blockchain)
     
     // MARK: Attributes
     
     public var id: String { common.id }
     public var version: String { common.version }
-    public var blockchainIdentifier: String { common.blockchainIdentifier}
     public var senderID: String { common.senderID }
     public var origin: Beacon.Origin { common.origin }
     
@@ -46,13 +45,16 @@ public enum BeaconRequest<T: Blockchain>: BeaconRequestProtocol, Equatable {
 // MARK: Protocol
 
 public protocol BeaconRequestProtocol: BeaconMessageProtocol {
-    var blockchainIdentifier: String { get }
     var senderID: String { get }
     var origin: Beacon.Origin { get }
 }
 
 public protocol PermissionBeaconRequestProtocol: BeaconRequestProtocol {
-    var appMetadata: Beacon.AppMetadata { get }
+    associatedtype AppMetadata: AppMetadataProtocol
+    
+    var appMetadata: AppMetadata { get }
 }
 
-public protocol BlockchainBeaconRequestProtocol: BeaconRequestProtocol {}
+public protocol BlockchainBeaconRequestProtocol: BeaconRequestProtocol {
+    var accountID: String? { get }
+}

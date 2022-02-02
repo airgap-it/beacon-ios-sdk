@@ -49,51 +49,48 @@ public func runAsync(with group: DispatchGroup = .init(), times n: Int, body: @e
 public func permissionBeaconRequest(
     id: String = "id",
     senderID: String = "senderID",
-    appMetadata: Beacon.AppMetadata = .init(senderID: "senderID", name: "mockApp"),
+    appMetadata: AnyAppMetadata = .init(senderID: "senderID", name: "mockApp"),
     origin: Beacon.Origin = .p2p(id: "senderID"),
     version: String = "2"
 ) -> MockRequest.Permission {
     .init(
-        appMetadata: appMetadata,
+        id: id,
+        version: version,
         blockchainIdentifier: MockBlockchain.identifier,
         senderID: senderID,
-        origin: origin,
-        id: id,
-        version: version
+        appMetadata: appMetadata,
+        origin: origin
     )
 }
 
 public func blockchainBeaconRequest(
     id: String = "id",
     senderID: String = "senderID",
-    appMetadata: Beacon.AppMetadata? = .init(senderID: "senderID", name: "mockApp"),
+    appMetadata: AnyAppMetadata? = .init(senderID: "senderID", name: "mockApp"),
     signedTransaction: String = "signedTransaction",
     origin: Beacon.Origin = .p2p(id: "senderID"),
     version: String = "2"
 ) -> MockRequest.Blockchain {
     .init(
+        id: id,
+        version: version,
         blockchainIdentifier: MockBlockchain.identifier,
         senderID: senderID,
-        origin: origin,
-        id: id,
-        version: version
+        origin: origin
     )
 }
 
 public func permissionBeaconResponse(
     id: String = "id",
-    publicKey: String = "publicKey",
     version: String = "2",
     requestOrigin: Beacon.Origin = .p2p(id: "senderID"),
-    threshold: Beacon.Threshold? = nil
+    accountIDs: [String] = ["accountID"]
 ) -> MockResponse.Permission {
     .init(
-        blockchainIdentifier: MockBlockchain.identifier,
-        publicKey: publicKey,
-        threshold: threshold,
-        requestOrigin: requestOrigin,
         id: id,
-        version: version
+        version: version,
+        requestOrigin: requestOrigin,
+        accountIDs: accountIDs
     )
 }
 
@@ -104,10 +101,9 @@ public func blockchainBeaconResponse(
     requestOrigin: Beacon.Origin = .p2p(id: "senderID")
 ) -> MockResponse.Blockchain {
     .init(
-        blockchainIdentifier: MockBlockchain.identifier,
-        requestOrigin: requestOrigin,
         id: id,
-        version: version
+        version: version,
+        requestOrigin: requestOrigin
     )
 }
 
@@ -125,7 +121,7 @@ public func errorBeaconResponse(
     version: String = "2",
     requestOrigin: Beacon.Origin = .p2p(id: "senderID")
 ) -> ErrorBeaconResponse<MockBlockchain> {
-    .init(id: id, errorType: type, version: version, requestOrigin: requestOrigin)
+    .init(id: id, version: version, requestOrigin: requestOrigin, errorType: type)
 }
 
 public func disconnectBeaconMessage(
@@ -147,7 +143,7 @@ public func errorBeaconResponses(id: String = "id", requestOrigin: Beacon.Origin
 public func beaconRequests(
     id: String = "id",
     senderID: String = "senderID",
-    appMetadata: Beacon.AppMetadata = .init(senderID: "senderID", name: "mockApp"),
+    appMetadata: AnyAppMetadata = .init(senderID: "senderID", name: "mockApp"),
     origin: Beacon.Origin = .p2p(id: "senderID"),
     version: String = "2"
 ) -> [BeaconRequest<MockBlockchain>] {
@@ -173,14 +169,14 @@ public func beaconVersionedRequests(
         origin: .p2p(id: "senderID"),
         version: "2"
     )
-) -> [VersionedBeaconMessage] {
+) -> [VersionedBeaconMessage<MockBlockchain>] {
     requests.compactMap { try? VersionedBeaconMessage(from: .request($0), senderID: senderID) }
 }
 
 public func beaconVersionedResponses(
     senderID: String = "senderID",
     responses: [BeaconResponse<MockBlockchain>] = beaconResponses()
-) -> [VersionedBeaconMessage] {
+) -> [VersionedBeaconMessage<MockBlockchain>] {
     responses.compactMap { try? VersionedBeaconMessage(from: .response($0), senderID: senderID) }
 }
 

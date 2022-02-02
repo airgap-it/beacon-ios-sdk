@@ -21,6 +21,21 @@ extension Tezos {
         /// An optional URL for the network RPC interface.
         public let rpcURL: String?
         
+        /// The unique value that identifies the network.
+        public var identifier: String {
+            var data = [type.rawValue]
+            
+            if let name = name {
+                data.append("name:\(name)")
+            }
+            
+            if let rpcURL = rpcURL {
+                data.append("rpc:\(rpcURL)")
+            }
+            
+            return data.joined(separator: "-")
+        }
+        
         public init(type: `Type`, name: String? = nil, rpcURL: String? = nil) {
             self.type = type
             self.name = name
@@ -34,7 +49,7 @@ extension Tezos {
         }
         
         /// Types of supported networks.
-        public enum `Type`: String, Codable, CustomStringConvertible {
+        public enum `Type`: String, Codable {
             case mainnet
             
             @available(*, deprecated, message: "'Delphinet' is no longer a maintained Tezos test network and will be removed from Beacon in future versions.")
@@ -43,13 +58,12 @@ extension Tezos {
             @available(*, deprecated, message: "'Edonet' is no longer a maintained Tezos test network and will be removed from Beacon in future versions.")
             case edonet
             
+            @available(*, deprecated, message: "'Florencenet' is no longer a maintained Tezos test network and will be removed from Beacon in future versions.")
             case florencenet
             case granadanet
+            case hangzhounet
+            case ithacanet
             case custom
-            
-            public var description: String {
-                self.rawValue
-            }
         }
     }
 }

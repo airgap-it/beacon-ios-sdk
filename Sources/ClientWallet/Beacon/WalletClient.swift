@@ -61,10 +61,10 @@ extension Beacon {
         /// - Parameter listener: The closure called whenever a new request arrives.
         /// - Parameter result: A result representing the incoming request, either `BeaconRequest<T>` or `Beacon.Error` if message processing failed.
         ///
-        public func listen<T: Blockchain>(onRequest listener: @escaping (_ result: Result<BeaconRequest<T>, Error>) -> ()) {
-            connectionController.listen { [weak self] (result: Result<BeaconConnectionMessage, Swift.Error>) in
+        public func listen<B: Blockchain>(onRequest listener: @escaping (_ result: Result<BeaconRequest<B>, Error>) -> ()) {
+            connectionController.listen { [weak self] (result: Result<BeaconConnectionMessage<B>, Swift.Error>) in
                 guard let connectionMessage = result.get(ifFailure: listener) else { return }
-                self?.messageController.onIncoming(connectionMessage.content, with: connectionMessage.origin) { (result: Result<BeaconMessage<T>, Swift.Error>) in
+                self?.messageController.onIncoming(connectionMessage.content, with: connectionMessage.origin) { (result: Result<BeaconMessage<B>, Swift.Error>) in
                     guard let beaconMessage = result.get(ifFailure: listener) else { return }
                     switch beaconMessage {
                     case let .request(request):
@@ -87,7 +87,7 @@ extension Beacon {
         /// - Parameter completion: The closure called when the call completes.
         /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
         ///
-        public func respond<T: Blockchain>(with response: BeaconResponse<T>, completion: @escaping (_ result: Result<(), Error>) -> ()) {
+        public func respond<B: Blockchain>(with response: BeaconResponse<B>, completion: @escaping (_ result: Result<(), Error>) -> ()) {
             send(.response(response), terminalMessage: true, completion: completion)
         }
         
@@ -97,7 +97,7 @@ extension Beacon {
         /// - Parameter completion: The closure called when the call completes.
         /// - Parameter result: A result representing an array of stored `Beacon.AppMetadata` instances or `Beacon.Error` if the call failed.
         ///
-        public func getAppMetadata(completion: @escaping (_ result: Result<[Beacon.AppMetadata], Error>) -> ()) {
+        public func getAppMetadata<T: AppMetadataProtocol>(completion: @escaping (_ result: Result<[T], Error>) -> ()) {
             storageManager.getAppMetadata { result in
                 completion(result.withBeaconError())
             }
@@ -110,7 +110,7 @@ extension Beacon {
         /// - Parameter completion: The closure called when the call completes.
         /// - Parameter result: A result representing the found `Beacon.AppMetadata` or `nil`, or `Beacon.Error` if the call failed..
         ///
-        public func getAppMetadata(forSenderID senderID: String, completion: @escaping (_ result: Result<Beacon.AppMetadata?, Error>) -> ()) {
+        public func getAppMetadata<T: AppMetadataProtocol>(forSenderID senderID: String, completion: @escaping (_ result: Result<T?, Error>) -> ()) {
             storageManager.findAppMetadata(where: { $0.senderID == senderID }) { result in
                 completion(result.withBeaconError())
             }
@@ -134,7 +134,7 @@ extension Beacon {
         /// - Parameter completion: The closure called when the call completes.
         /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
         ///
-        public func remove(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (_ result: Result<(), Error>) -> ()) {
+        public func remove<T: AppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (_ result: Result<(), Error>) -> ()) {
             storageManager.remove(appMetadata) { result in
                 completion(result.withBeaconError())
             }
@@ -158,7 +158,7 @@ extension Beacon {
         /// - Parameter completion: The closure called when the call completes.
         /// - Parameter result: A result representing an array of stored `Permission` instances or `Beacon.Error` if the call failed.
         ///
-        public func getPermissions<T: PermissionProtocol & Codable>(completion: @escaping (_ result: Result<[T], Error>) -> ()) {
+        public func getPermissions<T: PermissionProtocol>(completion: @escaping (_ result: Result<[T], Error>) -> ()) {
             storageManager.getPermissions { result in
                 completion(result.withBeaconError())
             }
@@ -170,8 +170,8 @@ extension Beacon {
         /// - Parameter completion: The closure called when the call completes.
         /// - Parameter result: A result representing the found `Permission` or `nil`, or `Beacon.Error` if the call failed..
         ///
-        public func getPermissions<T: PermissionProtocol & Codable>(forAccountIdentifier accountIdentifier: String, completion: @escaping (_ result: Result<T?, Error>) -> ()) {
-            storageManager.findPermissions(where: { $0.accountIdentifier == accountIdentifier }) { result in
+        public func getPermissions<T: PermissionProtocol>(forAccountIdentifier accountIdentifier: String, completion: @escaping (_ result: Result<T?, Error>) -> ()) {
+            storageManager.findPermissions(where: { $0.accountID == accountIdentifier }) { result in
                 completion(result.withBeaconError())
             }
         }
@@ -183,7 +183,7 @@ extension Beacon {
         /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
         ///
         public func removePermissions(forAccountIdentifier accountIdentifier: String, completion: @escaping (_ result: Result<(), Error>) -> ()) {
-            storageManager.removePermissions(where: { (permission: AnyPermission) in permission.accountIdentifier == accountIdentifier }) { result in
+            storageManager.removePermissions(where: { (permission: AnyPermission) in permission.accountID == accountIdentifier }) { result in
                 completion(result.withBeaconError())
             }
         }
@@ -194,7 +194,7 @@ extension Beacon {
         /// - Parameter completion: The closure called when the call completes.
         /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
         ///
-        public func remove<T: PermissionProtocol & Codable & Equatable>(_ permissions: [T], completion: @escaping (_ result: Result<(), Error>) -> ()) {
+        public func remove<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (_ result: Result<(), Error>) -> ()) {
             storageManager.remove(permissions) { result in
                 completion(result.withBeaconError())
             }
@@ -212,9 +212,9 @@ extension Beacon {
             }
         }
         
-        private func acknowledge<T: Blockchain>(_ request: BeaconRequest<T>, completion: @escaping (Result<(), Error>) -> ()) {
+        private func acknowledge<B: Blockchain>(_ request: BeaconRequest<B>, completion: @escaping (Result<(), Error>) -> ()) {
             let message = AcknowledgeBeaconResponse(from: request)
-            send(BeaconMessage<T>.response(.acknowledge(message)), terminalMessage: false, completion: completion)
+            send(BeaconMessage<B>.response(.acknowledge(message)), terminalMessage: false, completion: completion)
         }
      
         // MARK: Types

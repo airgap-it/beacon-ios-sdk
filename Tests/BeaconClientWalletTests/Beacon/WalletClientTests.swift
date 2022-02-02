@@ -104,7 +104,7 @@ class WalletClientTests: XCTestCase {
     func testClientListensForRequests() {
         let testExpectation = expectation(description: "Client listens for requests")
         
-        let appMetadata = Beacon.AppMetadata(senderID: dAppID, name: "mockApp")
+        let appMetadata = AnyAppMetadata(senderID: dAppID, name: "mockApp")
         storage.set([appMetadata]) { _ in }
         
         let origin = Beacon.Origin.init(kind: connectionKind, id: dAppID)
@@ -120,7 +120,7 @@ class WalletClientTests: XCTestCase {
                 received.append(request)
                 if received.count == versioned.count {
                     XCTAssertTrue(
-                        versioned.map { ($0, origin) } == self.messageController.onIncomingCalls,
+                        versioned.map { ($0, origin) } == self.messageController.onIncomingCalls(),
                         "Expected messageController#onIncoming to be called with the specified versioned requests and origin"
                     )
                     XCTAssertEqual(requests, received, "Received requests don't match expected")
@@ -142,7 +142,7 @@ class WalletClientTests: XCTestCase {
     func testClientNotifiesListenerOnErrors() {
         let testExpectation = expectation(description: "Client notifies listener on errors")
         
-        let appMetadata = Beacon.AppMetadata(senderID: dAppID, name: "mockApp")
+        let appMetadata = AnyAppMetadata(senderID: dAppID, name: "mockApp")
         storage.set([appMetadata]) { _ in }
         
         let origin = Beacon.Origin.p2p(id: dAppID)
@@ -184,7 +184,7 @@ class WalletClientTests: XCTestCase {
             )
             XCTAssertEqual(
                 versioned.map { BeaconConnectionMessage(origin: Beacon.Origin(kind: self.connectionKind, id: self.beaconID), content: $0) },
-                self.connectionController.sendMessageCalls,
+                self.connectionController.sendMessageCalls(),
                 "Expected connectionController#sendMessage to be called with converted versioned responses"
             )
             testExpectation.fulfill()

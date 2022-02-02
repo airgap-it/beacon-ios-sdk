@@ -17,13 +17,13 @@ public protocol Storage {
     
     // MARK: AppMetadata
     
-    func getAppMetadata(completion: @escaping (Result<[Beacon.AppMetadata], Error>) -> ())
-    func set(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Error>) -> ())
+    func getAppMetadata<T: AppMetadataProtocol>(completion: @escaping (Result<[T], Error>) -> ())
+    func set<T: AppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: Permissions
     
-    func getPermissions<T: PermissionProtocol & Codable>(completion: @escaping (Result<[T], Error>) -> ())
-    func set<T: PermissionProtocol & Codable>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ())
+    func getPermissions<T: PermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ())
+    func set<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: SDK
     

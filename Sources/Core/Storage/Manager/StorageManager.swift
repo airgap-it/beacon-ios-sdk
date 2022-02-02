@@ -63,7 +63,10 @@ public class StorageManager: ExtendedStorage, SecureStorage {
                 guard result.isSuccess(else: completion) else { return }
         
                 self.removePermissions(
-                    where: { (permission: AnyPermission) in toRemove.contains { $0.matches(appMetadata: permission.appMetadata, using: self.identifierCreator) } },
+                    where: { (permission: AnyPermission) in toRemove.contains {
+                        let senderID = try? self.identifierCreator.senderID(from: try HexString(from: $0.publicKey))
+                        return senderID == permission.senderID
+                    } },
                     completion: completion
                 )
             }
@@ -76,49 +79,53 @@ public class StorageManager: ExtendedStorage, SecureStorage {
     
     // MARK: AppMetadata
     
-    public func getAppMetadata(completion: @escaping (Result<[Beacon.AppMetadata], Swift.Error>) -> ()) {
+    public func getAppMetadata<T: AppMetadataProtocol>(completion: @escaping (Result<[T], Swift.Error>) -> ()) {
         storage.getAppMetadata(completion: completion)
     }
     
-    public func set(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    public func set<T: AppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Swift.Error>) -> ()) {
         storage.set(appMetadata, completion: completion)
     }
     
-    public func add(
-        _ appMetadata: [Beacon.AppMetadata],
+    public func add<T: AppMetadataProtocol>(
+        _ appMetadata: [T],
         overwrite: Bool = false,
-        compareBy predicate: @escaping (Beacon.AppMetadata, Beacon.AppMetadata) -> Bool = { $0 == $1 },
+        compareBy predicate: @escaping (T, T) -> Bool = { $0 == $1 },
         completion: @escaping (Result<(), Swift.Error>) -> ()
     ) {
         storage.add(appMetadata, overwrite: overwrite, compareBy: predicate, completion: completion)
     }
     
-    public func findAppMetadata(
-        where predicate: @escaping (Beacon.AppMetadata) -> Bool,
-        completion: @escaping (Result<Beacon.AppMetadata?, Swift.Error>) -> ()
+    public func findAppMetadata<T: AppMetadataProtocol>(
+        where predicate: @escaping (T) -> Bool,
+        completion: @escaping (Result<T?, Swift.Error>) -> ()
     ) {
         storage.findAppMetadata(where: predicate, completion: completion)
     }
     
-    public func removeAppMetadata(where predicate: ((Beacon.AppMetadata) -> Bool)? = nil, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    public func removeAppMetadata(where predicate: ((AnyAppMetadata) -> Bool)? = nil, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         storage.removeAppMetadata(where: predicate, completion: completion)
     }
     
-    public func remove(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    public func removeAppMetadata<T: AppMetadataProtocol>(where predicate: ((T) -> Bool)? = nil, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        storage.removeAppMetadata(where: predicate, completion: completion)
+    }
+    
+    public func remove<T: AppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Swift.Error>) -> ()) {
         removeAppMetadata(where: { appMetadata.contains($0) }, completion: completion)
     }
     
     // MARK: Permissions
     
-    public func getPermissions<T: PermissionProtocol & Codable>(completion: @escaping (Result<[T], Swift.Error>) -> ()) {
+    public func getPermissions<T: PermissionProtocol>(completion: @escaping (Result<[T], Swift.Error>) -> ()) {
         storage.getPermissions(completion: completion)
     }
     
-    public func set<T: PermissionProtocol & Codable>(_ permissions: [T], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    public func set<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Swift.Error>) -> ()) {
         storage.set(permissions, completion: completion)
     }
     
-    public func add<T: PermissionProtocol & Codable & Equatable>(
+    public func add<T: PermissionProtocol>(
         _ permissions: [T],
         overwrite: Bool = false,
         compareBy predicate: @escaping (T, T) -> Bool = { $0 == $1 },
@@ -127,7 +134,7 @@ public class StorageManager: ExtendedStorage, SecureStorage {
         storage.add(permissions, overwrite: overwrite, compareBy: predicate, completion: completion)
     }
     
-    public func findPermissions<T: PermissionProtocol & Codable>(
+    public func findPermissions<T: PermissionProtocol>(
         where predicate: @escaping (T) -> Bool,
         completion: @escaping (Result<T?, Swift.Error>) -> ()
     ) {
@@ -138,11 +145,11 @@ public class StorageManager: ExtendedStorage, SecureStorage {
         storage.removePermissions(where: predicate, completion: completion)
     }
     
-    public func removePermissions<T: PermissionProtocol & Codable>(where predicate: ((T) -> Bool)? = nil, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    public func removePermissions<T: PermissionProtocol>(where predicate: ((T) -> Bool)? = nil, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         storage.removePermissions(where: predicate, completion: completion)
     }
     
-    public func remove<T: PermissionProtocol & Codable & Equatable>(_ permissions: [T], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    public func remove<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Swift.Error>) -> ()) {
         removePermissions(where: { permissions.contains($0) }, completion: completion)
     }
     

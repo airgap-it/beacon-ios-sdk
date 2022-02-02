@@ -9,7 +9,7 @@
 import Foundation
 import BeaconCore
     
-public struct BroadcastV2TezosResponse: V2BeaconMessageProtocol, Equatable, Codable {
+public struct BroadcastV2TezosResponse: V2BeaconMessageProtocol {
     public let type: String
     public let version: String
     public let id: String
@@ -26,11 +26,7 @@ public struct BroadcastV2TezosResponse: V2BeaconMessageProtocol, Equatable, Coda
     
     // MARK: BeaconMessage Compatibility
     
-    public init<T: Blockchain>(from beaconMessage: BeaconMessage<T>, senderID: String) throws {
-        guard let beaconMessage = beaconMessage as? BeaconMessage<Tezos> else {
-            throw Beacon.Error.unknownBeaconMessage
-        }
-        
+    public init(from beaconMessage: BeaconMessage<Tezos>, senderID: String) throws {
         switch beaconMessage {
         case let .response(response):
             switch response {
@@ -53,35 +49,22 @@ public struct BroadcastV2TezosResponse: V2BeaconMessageProtocol, Equatable, Coda
         self.init(version: beaconMessage.version, id: beaconMessage.id, senderID: senderID, transactionHash: beaconMessage.transactionHash)
     }
     
-    public func toBeaconMessage<T: Blockchain>(
+    public func toBeaconMessage(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
-        completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
+        completion: @escaping (Result<BeaconMessage<Tezos>, Swift.Error>) -> ()
     ) {
-        do {
-            let tezosMessage: BeaconMessage<Tezos> =
-                .response(
-                    .blockchain(
-                        .broadcast(
-                            .init(
-                                id: id,
-                                blockchainIdentifier: T.identifier,
-                                transactionHash: transactionHash,
-                                version: version,
-                                requestOrigin: origin
-                            )
-                        )
+        completion(.success(.response(
+            .blockchain(
+                .broadcast(
+                    .init(
+                        id: id,
+                        version: version,
+                        requestOrigin: origin,
+                        transactionHash: transactionHash
                     )
                 )
-            
-            guard let beaconMessage = tezosMessage as? BeaconMessage<T> else {
-                throw Beacon.Error.unknownBeaconMessage
-            }
-
-            completion(.success(beaconMessage))
-        } catch {
-            completion(.failure(error))
-        }
+            )
+        )))
     }
     
     // MARK: Codable
@@ -96,5 +79,5 @@ public struct BroadcastV2TezosResponse: V2BeaconMessageProtocol, Equatable, Coda
 }
 
 extension BroadcastV2TezosResponse {
-    public static var type: String { "broadcast_response" }
+    public static let type = "broadcast_response"
 }

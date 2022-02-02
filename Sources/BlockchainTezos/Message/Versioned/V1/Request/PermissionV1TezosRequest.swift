@@ -9,7 +9,7 @@
 import Foundation
 import BeaconCore
     
-public struct PermissionV1TezosRequest: V1BeaconMessageProtocol, Equatable, Codable {
+public struct PermissionV1TezosRequest: V1BeaconMessageProtocol {
     public let type: String
     public let version: String
     public let id: String
@@ -37,11 +37,7 @@ public struct PermissionV1TezosRequest: V1BeaconMessageProtocol, Equatable, Coda
     
     // MARK: BeaconMessage Compatibility
     
-    public init<T: Blockchain>(from beaconMessage: BeaconMessage<T>, senderID: String) throws {
-        guard let beaconMessage = beaconMessage as? BeaconMessage<Tezos> else {
-            throw Beacon.Error.unknownBeaconMessage
-        }
-        
+    public init(from beaconMessage: BeaconMessage<Tezos>, senderID: String) throws {
         switch beaconMessage {
         case let .request(request):
             switch request {
@@ -66,37 +62,23 @@ public struct PermissionV1TezosRequest: V1BeaconMessageProtocol, Equatable, Coda
         )
     }
     
-    public func toBeaconMessage<T: Blockchain>(
+    public func toBeaconMessage(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
-        completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
+        completion: @escaping (Result<BeaconMessage<Tezos>, Swift.Error>) -> ()
     ) {
-        do {
-            let tezosMessage: BeaconMessage<Tezos> =
-                .request(
-                    .permission(
-                        .init(
-                            type: type,
-                            id: id,
-                            blockchainIdentifier: T.identifier,
-                            senderID: beaconID,
-                            appMetadata: appMetadata.toAppMetadata(),
-                            network: network,
-                            scopes: scopes,
-                            origin: origin,
-                            version: version
-                        )
-                    )
+        completion(.success(.request(
+            .permission(
+                .init(
+                    id: id,
+                    version: version,
+                    senderID: beaconID,
+                    origin: origin,
+                    appMetadata: appMetadata.toAppMetadata(),
+                    network: network,
+                    scopes: scopes
                 )
-            
-            guard let beaconMessage = tezosMessage as? BeaconMessage<T> else {
-                throw Beacon.Error.unknownBeaconMessage
-            }
-            
-            completion(.success(beaconMessage))
-        } catch {
-            completion(.failure(error))
-        }
+            )
+        )))
     }
     
     // MARK: Codable
@@ -118,14 +100,14 @@ public struct PermissionV1TezosRequest: V1BeaconMessageProtocol, Equatable, Coda
         public let name: String
         public let icon: String?
         
-        init(from appMetadata: Beacon.AppMetadata) {
+        init(from appMetadata: Tezos.AppMetadata) {
             self.beaconID = appMetadata.senderID
             self.name = appMetadata.name
             self.icon = appMetadata.icon
         }
         
-        func toAppMetadata() -> Beacon.AppMetadata {
-            Beacon.AppMetadata(senderID: beaconID, name: name, icon: icon)
+        func toAppMetadata() -> Tezos.AppMetadata {
+            Tezos.AppMetadata(senderID: beaconID, name: name, icon: icon)
         }
         
         enum CodingKeys: String, CodingKey {
@@ -137,5 +119,5 @@ public struct PermissionV1TezosRequest: V1BeaconMessageProtocol, Equatable, Coda
 }
 
 extension PermissionV1TezosRequest {
-    public static var type: String { "permission_request" }
+    public static let type = "permission_request"
 }

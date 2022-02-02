@@ -27,12 +27,12 @@ class MessageController: MessageControllerProtocol {
     
     // MARK: Incoming Messages
     
-    func onIncoming<T: Blockchain>(
-        _ message: VersionedBeaconMessage,
+    func onIncoming<B: Blockchain>(
+        _ message: VersionedBeaconMessage<B>,
         with origin: Beacon.Origin,
-        completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
+        completion: @escaping (Result<BeaconMessage<B>, Swift.Error>) -> ()
     ) {
-        message.toBeaconMessage(with: origin, using: storageManager) { (result: Result<BeaconMessage<T>, Swift.Error>) in
+        message.toBeaconMessage(with: origin) { (result: Result<BeaconMessage<B>, Swift.Error>) in
             guard let beaconMessage = result.get(ifFailure: completion) else { return }
             
             self.onIncoming(beaconMessage) { result in
@@ -42,7 +42,7 @@ class MessageController: MessageControllerProtocol {
         }
     }
     
-    private func onIncoming<T: Blockchain>(_ message: BeaconMessage<T>, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    private func onIncoming<B: Blockchain>(_ message: BeaconMessage<B>, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         switch message {
         case let .request(request):
             self.queue.async {
@@ -54,33 +54,33 @@ class MessageController: MessageControllerProtocol {
         }
     }
     
-    private func onIncoming<T: Blockchain>(_ request: BeaconRequest<T>, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    private func onIncoming<B: Blockchain>(_ request: BeaconRequest<B>, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         switch request {
         case let .permission(permissionRequest):
-            onIncoming(permissionRequest, ofType: T.self, completion: completion)
+            onIncoming(permissionRequest, ofType: B.self, completion: completion)
         default:
             /* no action */
             completion(.success(()))
         }
     }
         
-    private func onIncoming<T: Blockchain>(_ request: T.Request.Permission, ofType type: T.Type, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    private func onIncoming<B: Blockchain>(_ request: B.Request.Permission, ofType type: B.Type, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         storageManager.add([request.appMetadata], completion: completion)
     }
     
     // MARK: Outgoing Messages
     
-    func onOutgoing<T: Blockchain>(
-        _ message: BeaconMessage<T>,
+    func onOutgoing<B: Blockchain>(
+        _ message: BeaconMessage<B>,
         with beaconID: String,
         terminal: Bool,
-        completion: @escaping (Result<(Beacon.Origin, VersionedBeaconMessage), Swift.Error>) -> ()
+        completion: @escaping (Result<(Beacon.Origin, VersionedBeaconMessage<B>), Swift.Error>) -> ()
     ) {
         self.onOutgoing(message, terminal: terminal) { result in
             do {
                 guard result.isSuccess(else: completion) else { return }
                 
-                let senderHash = try self.identifierCreator.senderIdentifier(from: try HexString(from: beaconID))
+                let senderHash = try self.identifierCreator.senderID(from: try HexString(from: beaconID))
                 let versionedMessage = try VersionedBeaconMessage(from: message, senderID: senderHash)
                 
                 completion(.success((message.associatedOrigin, versionedMessage)))
@@ -90,22 +90,15 @@ class MessageController: MessageControllerProtocol {
         }
     }
     
-    func onOutgoing(_ message: DisconnectBeaconMessage, with beaconID: String) throws -> (Beacon.Origin, VersionedBeaconMessage) {
-        let senderHash = try self.identifierCreator.senderIdentifier(from: try HexString(from: beaconID))
-        let versionedMessage = try VersionedBeaconMessage(from: message, senderID: senderHash)
-        
-        return (message.origin, versionedMessage)
-    }
-    
-    private func onOutgoing<T: Blockchain>(
-        _ message: BeaconMessage<T>,
+    private func onOutgoing<B: Blockchain>(
+        _ message: BeaconMessage<B>,
         terminal: Bool,
         completion: @escaping (Result<(), Swift.Error>) -> ()
     ) {
         switch message {
         case let .response(response):
             queue.async {
-                guard let request: BeaconRequest<T> = self.getPendingRequest(forID: message.id, keepEntry: !terminal) else {
+                guard let request: BeaconRequest<B> = self.getPendingRequest(forID: message.id, keepEntry: !terminal) else {
                     completion(.failure(Beacon.Error.noPendingRequest(id: message.id)))
                     return
                 }
@@ -118,15 +111,15 @@ class MessageController: MessageControllerProtocol {
         }
     }
     
-    private func onOutgoing<T: Blockchain>(
-        _ response: BeaconResponse<T>,
-        respondingTo request: BeaconRequest<T>,
+    private func onOutgoing<B: Blockchain>(
+        _ response: BeaconResponse<B>,
+        respondingTo request: BeaconRequest<B>,
         completion: @escaping (Result<(), Swift.Error>) -> ()
     ) {
         do {
             switch response {
             case let .permission(response):
-                guard let request: T.Request.Permission = {
+                guard let request: B.Request.Permission = {
                     switch request {
                     case let .permission(content):
                         return content
@@ -134,7 +127,7 @@ class MessageController: MessageControllerProtocol {
                         return nil
                     }
                 }() else { throw Error.invalidRequest }
-                onOutgoing(response, ofType: T.self, respondingTo: request, completion: completion)
+                onOutgoing(response, ofType: B.self, respondingTo: request, completion: completion)
             default:
                 /* no action */
                 completion(.success(()))
@@ -144,35 +137,35 @@ class MessageController: MessageControllerProtocol {
         }
     }
     
-    private func onOutgoing<T: Blockchain>(
-        _ response: T.Response.Permission,
-        ofType type: T.Type,
-        respondingTo request: T.Request.Permission,
+    private func onOutgoing<B: Blockchain>(
+        _ response: B.Response.Permission,
+        ofType type: B.Type,
+        respondingTo request: B.Request.Permission,
         completion: @escaping (Result<(), Swift.Error>) -> ()
     ) {
         do {
-            guard let blockchain: T = blockchainRegistry.get() else {
+            guard let blockchain: B = blockchainRegistry.get() else {
                 throw Beacon.Error.blockchainNotFound(type.identifier)
             }
             
             blockchain.creator.extractPermission(from: request, and: response) { result in
-                guard let permission = result.get(ifFailure: completion) else { return }
-                self.storageManager.add([permission], completion: completion)
+                guard let permissions = result.get(ifFailure: completion) else { return }
+                self.storageManager.add(permissions, completion: completion)
             }
         } catch {
             completion(.failure(error))
         }
     }
     
-    private func savePendingRequest<T: Blockchain>(_ request: BeaconRequest<T>) {
+    private func savePendingRequest<B: Blockchain>(_ request: BeaconRequest<B>) {
         pendingRequests[request.id] = request
     }
     
-    private func getPendingRequest<T: Blockchain>(forID id: String, keepEntry: Bool) -> BeaconRequest<T>? {
+    private func getPendingRequest<B: Blockchain>(forID id: String, keepEntry: Bool) -> BeaconRequest<B>? {
         if keepEntry {
-            return pendingRequests[id] as? BeaconRequest<T>
+            return pendingRequests[id] as? BeaconRequest<B>
         } else {
-            return pendingRequests.removeValue(forKey: id) as? BeaconRequest<T>
+            return pendingRequests.removeValue(forKey: id) as? BeaconRequest<B>
         }
     }
     
@@ -186,18 +179,16 @@ class MessageController: MessageControllerProtocol {
 // MARK: Protocol
 
 public protocol MessageControllerProtocol {
-    func onIncoming<T: Blockchain>(
-        _ message: VersionedBeaconMessage,
+    func onIncoming<B: Blockchain>(
+        _ message: VersionedBeaconMessage<B>,
         with origin: Beacon.Origin,
-        completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
+        completion: @escaping (Result<BeaconMessage<B>, Error>) -> ()
     )
     
-    func onOutgoing<T: Blockchain>(
-        _ message: BeaconMessage<T>,
+    func onOutgoing<B: Blockchain>(
+        _ message: BeaconMessage<B>,
         with beaconID: String,
         terminal: Bool,
-        completion: @escaping (Result<(Beacon.Origin, VersionedBeaconMessage), Error>) -> ()
+        completion: @escaping (Result<(Beacon.Origin, VersionedBeaconMessage<B>), Error>) -> ()
     )
-    
-    func onOutgoing(_ message: DisconnectBeaconMessage, with beaconID: String) throws -> (Beacon.Origin, VersionedBeaconMessage)
 }

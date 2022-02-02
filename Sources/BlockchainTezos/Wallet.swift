@@ -11,7 +11,7 @@ import BeaconCore
 
 extension Tezos {
     
-    struct Wallet: BlockchainWallet {
+    public class Wallet {
         private let crypto: Crypto
         
         init(crypto: Crypto) {

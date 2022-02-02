@@ -54,18 +54,18 @@ struct DecoratedStorage: ExtendedStorage {
     
     // MARK: AppMetadata
     
-    func getAppMetadata(completion: @escaping (Result<[Beacon.AppMetadata], Error>) -> ()) {
+    func getAppMetadata<T: AppMetadataProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
         storage.getAppMetadata(completion: completion)
     }
     
-    func set(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Error>) -> ()) {
+    func set<T: AppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
         storage.set(appMetadata, completion: completion)
     }
     
-    func add(
-        _ appMetadata: [Beacon.AppMetadata],
+    func add<T: AppMetadataProtocol>(
+        _ appMetadata: [T],
         overwrite: Bool,
-        compareBy predicate: @escaping (Beacon.AppMetadata, Beacon.AppMetadata) -> Bool,
+        compareBy predicate: @escaping (T, T) -> Bool,
         completion: @escaping (Result<(), Error>) -> ()
     ) {
         add(
@@ -78,28 +78,28 @@ struct DecoratedStorage: ExtendedStorage {
         )
     }
     
-    func findAppMetadata(
-        where predicate: @escaping (Beacon.AppMetadata) -> Bool,
-        completion: @escaping (Result<Beacon.AppMetadata?, Error>) -> ()
+    func findAppMetadata<T: AppMetadataProtocol>(
+        where predicate: @escaping (T) -> Bool,
+        completion: @escaping (Result<T?, Error>) -> ()
     ) {
         find(where: predicate, select: storage.getAppMetadata, completion: completion)
     }
     
-    func removeAppMetadata(where predicate: ((Beacon.AppMetadata) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
+    func removeAppMetadata<T: AppMetadataProtocol>(where predicate: ((T) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
         remove(where: predicate, select: storage.getAppMetadata, insert: storage.set, completion: completion)
     }
     
     // MARK: Permissions
     
-    func getPermissions<T: PermissionProtocol & Codable>(completion: @escaping (Result<[T], Error>) -> ()) {
+    func getPermissions<T: PermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
         storage.getPermissions(completion: completion)
     }
     
-    func set<T: PermissionProtocol & Codable>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
+    func set<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
         storage.set(permissions, completion: completion)
     }
     
-    func add<T: PermissionProtocol & Codable & Equatable>(
+    func add<T: PermissionProtocol>(
         _ permissions: [T],
         overwrite: Bool,
         compareBy predicate: @escaping (T, T) -> Bool,
@@ -115,14 +115,14 @@ struct DecoratedStorage: ExtendedStorage {
         )
     }
     
-    func findPermissions<T: PermissionProtocol & Codable>(
+    func findPermissions<T: PermissionProtocol>(
         where predicate: @escaping (T) -> Bool,
         completion: @escaping (Result<T?, Error>) -> ()
     ) {
         find(where: predicate, select: storage.getPermissions, completion: completion)
     }
     
-    func removePermissions<T: PermissionProtocol & Codable>(where predicate: ((T) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
+    func removePermissions<T: PermissionProtocol>(where predicate: ((T) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
         remove(where: predicate, select: storage.getPermissions, insert: storage.set, completion: completion)
     }
     

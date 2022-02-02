@@ -10,8 +10,8 @@
 
 public class MockStorage: Storage {
     public var peers: [Beacon.Peer] = []
-    public var appMetadata: [Beacon.AppMetadata] = []
-    public var permissions: [PermissionProtocol] = []
+    public var appMetadata: [MockBlockchain.AppMetadata] = []
+    public var permissions: [MockBlockchain.Permission] = []
     public var matrixRelayServer: String?
     public var matrixChannels: [String: String] = [:]
     public var matrixSyncToken: String?
@@ -33,12 +33,12 @@ public class MockStorage: Storage {
     
     // MARK: AppMetadata
     
-    public func getAppMetadata(completion: @escaping (Result<[Beacon.AppMetadata], Error>) -> ()) {
-        completion(.success(appMetadata))
+    public func getAppMetadata<T: AppMetadataProtocol & Codable>(completion: @escaping (Result<[T], Error>) -> ()) {
+        completion(.success(appMetadata.compactMap({ $0 as? T })))
     }
     
-    public func set(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Error>) -> ()) {
-        self.appMetadata = appMetadata
+    public func set<T: AppMetadataProtocol & Codable>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
+        self.appMetadata = appMetadata.map { MockBlockchain.AppMetadata($0) }
         completion(.success(()))
     }
     
@@ -49,7 +49,7 @@ public class MockStorage: Storage {
     }
     
     public func set<T: PermissionProtocol & Codable>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
-        self.permissions = permissions
+        self.permissions = permissions.map { MockBlockchain.Permission($0) }
         completion(.success(()))
     }
     

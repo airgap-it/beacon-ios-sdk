@@ -32,13 +32,13 @@ public struct UserDefaultsStorage: Storage {
     
     // MARK: AppMetadata
     
-    public func getAppMetadata(completion: @escaping (Result<[Beacon.AppMetadata], Error>) -> ()) {
+    public func getAppMetadata<T: AppMetadataProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
         completeCatching(completion: completion) {
-            try userDefaults.get([Beacon.AppMetadata].self, forKey: .appMetadata) ?? []
+            try userDefaults.get([T].self, forKey: .appMetadata) ?? []
         }
     }
     
-    public func set(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Error>) -> ()) {
+    public func set<T: AppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
         completeCatching(completion: completion) {
             try userDefaults.set(appMetadata, forKey: .appMetadata)
         }
@@ -46,13 +46,13 @@ public struct UserDefaultsStorage: Storage {
     
     // MARK: Permissions
     
-    public func getPermissions<T: PermissionProtocol & Codable>(completion: @escaping (Result<[T], Error>) -> ()) {
+    public func getPermissions<T: PermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
         completeCatching(completion: completion) {
             try userDefaults.get([T].self, forKey: .permissions) ?? []
         }
     }
     
-    public func set<T: PermissionProtocol & Codable>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
+    public func set<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
         completeCatching(completion: completion) {
             try userDefaults.set(permissions, forKey: .permissions)
         }

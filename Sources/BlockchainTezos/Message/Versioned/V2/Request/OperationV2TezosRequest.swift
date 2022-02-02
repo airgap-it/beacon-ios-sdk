@@ -9,7 +9,7 @@
 import Foundation
 import BeaconCore
     
-public struct OperationV2TezosRequest: V2BeaconMessageProtocol, Equatable, Codable {
+public struct OperationV2TezosRequest: V2BeaconMessageProtocol {
     public let type: String
     public let version: String
     public let id: String
@@ -37,11 +37,7 @@ public struct OperationV2TezosRequest: V2BeaconMessageProtocol, Equatable, Codab
     
     // MARK: BeaconMessage Compatibility
     
-    public init<T: Blockchain>(from beaconMessage: BeaconMessage<T>, senderID: String) throws {
-        guard let beaconMessage = beaconMessage as? BeaconMessage<Tezos> else {
-            throw Beacon.Error.unknownBeaconMessage
-        }
-        
+    public init(from beaconMessage: BeaconMessage<Tezos>, senderID: String) throws {
         switch beaconMessage {
         case let .request(request):
             switch request {
@@ -71,40 +67,32 @@ public struct OperationV2TezosRequest: V2BeaconMessageProtocol, Equatable, Codab
         )
     }
     
-    public func toBeaconMessage<T: Blockchain>(
+    public func toBeaconMessage(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
-        completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
+        completion: @escaping (Result<BeaconMessage<Tezos>, Swift.Error>) -> ()
     ) {
-        storageManager.findAppMetadata(where: { $0.senderID == senderID }) { result in
-            let message: Result<BeaconMessage<T>, Swift.Error> = result.map { appMetadata in
-                let tezosMessage: BeaconMessage<Tezos> = .request(
-                    .blockchain(
-                        .operation(
-                            .init(
-                                type: type,
-                                id: id,
-                                blockchainIdentifier: T.identifier,
-                                senderID: senderID,
-                                appMetadata: appMetadata,
-                                network: network,
-                                operationDetails: operationDetails,
-                                sourceAddress: sourceAddress,
-                                origin: origin,
-                                version: version
+        runCatching(completion: completion) {
+            try dependencyRegistry().storageManager.findAppMetadata(where: { (appMetadata: Tezos.AppMetadata) in appMetadata.senderID == senderID }) { result in
+                completion(result.map { appMetadata in
+                        .request(
+                            .blockchain(
+                                .operation(
+                                    .init(
+                                        id: id,
+                                        version: version,
+                                        senderID: senderID,
+                                        origin: origin,
+                                        accountID: nil,
+                                        appMetadata: appMetadata,
+                                        network: network,
+                                        operationDetails: operationDetails,
+                                        sourceAddress: sourceAddress
+                                    )
+                                )
                             )
                         )
-                    )
-                )
-                
-                guard let beaconMessage = tezosMessage as? BeaconMessage<T> else {
-                    throw Beacon.Error.unknownBeaconMessage
-                }
-                
-                return beaconMessage
+                })
             }
-            
-            completion(message)
         }
     }
     
@@ -122,5 +110,5 @@ public struct OperationV2TezosRequest: V2BeaconMessageProtocol, Equatable, Codab
 }
 
 extension OperationV2TezosRequest {
-    public static var type: String { "operation_request" }
+    public static let type = "operation_request"
 }

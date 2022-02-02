@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SerializedConnectionMessage: ConnectionMessageProtocol, Equatable {
+struct SerializedConnectionMessage: Equatable {
     let origin: Beacon.Origin
     let content: String
 }
