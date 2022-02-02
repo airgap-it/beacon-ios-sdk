@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct BeaconConnectionMessage: ConnectionMessageProtocol, Equatable {
+public struct BeaconConnectionMessage<B: Blockchain>: Equatable {
     public let origin: Beacon.Origin
-    public let content: VersionedBeaconMessage
+    public let content: VersionedBeaconMessage<B>
 }

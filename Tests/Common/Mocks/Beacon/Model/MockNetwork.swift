@@ -15,6 +15,20 @@ public struct MockNetwork: NetworkProtocol {
     public let name: String?
     public let rpcURL: String?
     
+    public var identifier: String {
+        var data = [type]
+        
+        if let name = name {
+            data.append("name:\(name)")
+        }
+        
+        if let rpcURL = rpcURL {
+            data.append("rpc:\(rpcURL)")
+        }
+        
+        return data.joined(separator: "-")
+    }
+    
     public init(type: `Type`, name: String? = nil, rpcURL: String? = nil) {
         self.type = type
         self.name = name

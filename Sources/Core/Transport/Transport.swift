@@ -15,7 +15,7 @@ public class Transport {
     
     private var status: Status = .disconnected
     
-    @Disposable private var savedMessages: [Result<ConnectionMessage, Swift.Error>]?
+    @Disposable private var savedMessages: [Result<SerializedConnectionMessage, Swift.Error>]?
     private var listeners: Set<Listener> = []
     
     private var connectedPeers: Set<Beacon.Peer> = []
@@ -147,7 +147,7 @@ public class Transport {
         }
     }
     
-    func send(_ message: ConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    func send(_ message: SerializedConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         wrapped.send(message, completion: completion)
     }
     
@@ -161,7 +161,7 @@ public class Transport {
         listeners.remove(listener)
     }
     
-    final func notify(with result: Result<ConnectionMessage, Swift.Error>) {
+    final func notify(with result: Result<SerializedConnectionMessage, Swift.Error>) {
         queue.async {
             guard self.status == .connected || self.status == .connecting else {
                 self.savedMessages = (self.savedMessages ?? []) + [result]
@@ -184,7 +184,7 @@ public class Transport {
         case paused
     }
     
-    typealias Listener = DistinguishableListener<Result<ConnectionMessage, Swift.Error>>
+    typealias Listener = DistinguishableListener<Result<SerializedConnectionMessage, Swift.Error>>
 }
 
 // MARK: Protocol
@@ -198,5 +198,5 @@ protocol TransportProtocol {
     func connect(new peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Swift.Error>) -> ())
     func disconnect(from peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Swift.Error>) -> ())
     
-    func send(_ message: ConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ())
+    func send(_ message: SerializedConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ())
 }

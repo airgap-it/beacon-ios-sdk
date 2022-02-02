@@ -24,31 +24,31 @@ protocol ExtendedStorage: Storage {
     
     // MARK: AppMetadata
     
-    func add(
-        _ appMetadata: [Beacon.AppMetadata],
+    func add<T: AppMetadataProtocol>(
+        _ appMetadata: [T],
         overwrite: Bool,
-        compareBy predicate: @escaping (Beacon.AppMetadata, Beacon.AppMetadata) -> Bool,
+        compareBy predicate: @escaping (T, T) -> Bool,
         completion: @escaping (Result<(), Error>) -> ()
     )
     
-    func findAppMetadata(where predicate: @escaping (Beacon.AppMetadata) -> Bool, completion: @escaping (Result<Beacon.AppMetadata?, Error>) -> ())
-    func removeAppMetadata(where predicate: ((Beacon.AppMetadata) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    func findAppMetadata<T: AppMetadataProtocol>(where predicate: @escaping (T) -> Bool, completion: @escaping (Result<T?, Error>) -> ())
+    func removeAppMetadata<T: AppMetadataProtocol>(where predicate: ((T) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: Permissions
     
-    func add<T: PermissionProtocol & Codable & Equatable>(
+    func add<T: PermissionProtocol>(
         _ permissions: [T],
         overwrite: Bool,
         compareBy predicate: @escaping (T, T) -> Bool,
         completion: @escaping (Result<(), Error>) -> ()
     )
     
-    func findPermissions<T: PermissionProtocol & Codable>(
+    func findPermissions<T: PermissionProtocol>(
         where predicate: @escaping (T) -> Bool,
         completion: @escaping (Result<T?, Error>) -> ()
     )
     
-    func removePermissions<T: PermissionProtocol & Codable>(where predicate: ((T) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    func removePermissions<T: PermissionProtocol>(where predicate: ((T) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: SDK
     

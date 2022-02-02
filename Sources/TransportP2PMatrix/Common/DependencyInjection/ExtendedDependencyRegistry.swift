@@ -23,8 +23,11 @@ protocol ExtendedDependencyRegistry: DependencyRegistry {
 
 extension DependencyRegistry {
     func extend() -> ExtendedDependencyRegistry {
-        guard let extended = self as? ExtendedDependencyRegistry else {
-            return P2PMatrixDependencyRegistry(dependencyRegistry: self)
+        guard let extended = (self as? P2PMatrixDependencyRegistry) ?? findExtended() else {
+            let extended = P2PMatrixDependencyRegistry(dependencyRegistry: self)
+            addExtended(extended)
+            
+            return extended
         }
         
         return extended

@@ -10,6 +10,12 @@ import Foundation
 
 public protocol DependencyRegistry {
     
+    // MARK: Extended
+    
+    var extended: [String: DependencyRegistry] { get }
+    func addExtended<T: DependencyRegistry>(_ extended: T)
+    func findExtended<T: DependencyRegistry>() -> T?
+    
     // MARK: Storage
     
     var storageManager: StorageManager { get }

@@ -8,7 +8,7 @@
 import Foundation
 import BeaconCore
     
-/// Content of the `BeaconResponse.blockchain` message.
+/// Tezos specific content of the `BeaconResponse.blockchain` message.
 public enum BlockchainTezosResponse: BlockchainBeaconResponseProtocol, Equatable {
     
     ///
@@ -39,9 +39,6 @@ public enum BlockchainTezosResponse: BlockchainBeaconResponseProtocol, Equatable
     
     /// The version of the message.
     public var version: String { common.version }
-    
-    /// The unique name of the blockchain that specifies the request.
-    public var blockchainIdentifier: String { common.blockchainIdentifier }
     
     /// The origination data of the request.
     public var requestOrigin: Beacon.Origin { common.requestOrigin }

@@ -9,7 +9,7 @@
 import Foundation
 import BeaconCore
     
-public struct SignPayloadV1TezosResponse: V1BeaconMessageProtocol, Equatable, Codable {
+public struct SignPayloadV1TezosResponse: V1BeaconMessageProtocol {
     public let type: String
     public let version: String
     public let id: String
@@ -26,11 +26,7 @@ public struct SignPayloadV1TezosResponse: V1BeaconMessageProtocol, Equatable, Co
     
     // MARK: BeaconMessage Compatibility
     
-    public init<T: Blockchain>(from beaconMessage: BeaconMessage<T>, senderID: String) throws {
-        guard let beaconMessage = beaconMessage as? BeaconMessage<Tezos> else {
-            throw Beacon.Error.unknownBeaconMessage
-        }
-        
+    public init(from beaconMessage: BeaconMessage<Tezos>, senderID: String) throws {
         switch beaconMessage {
         case let .response(response):
             switch response {
@@ -53,36 +49,23 @@ public struct SignPayloadV1TezosResponse: V1BeaconMessageProtocol, Equatable, Co
         self.init(version: beaconMessage.version, id: beaconMessage.id, beaconID: senderID, signature: beaconMessage.signature)
     }
     
-    public func toBeaconMessage<T: Blockchain>(
+    public func toBeaconMessage(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
-        completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
+        completion: @escaping (Result<BeaconMessage<Tezos>, Swift.Error>) -> ()
     ) {
-        do {
-            let tezosMessage: BeaconMessage<Tezos> =
-                .response(
-                    .blockchain(
-                        .signPayload(
-                            .init(
-                                id: id,
-                                blockchainIdentifier: T.identifier,
-                                signingType: .raw,
-                                signature: signature,
-                                version: version,
-                                requestOrigin: origin
-                            )
-                        )
+        completion(.success(.response(
+            .blockchain(
+                .signPayload(
+                    .init(
+                        id: id,
+                        version: version,
+                        requestOrigin: origin,
+                        signingType: .raw,
+                        signature: signature
                     )
                 )
-            
-            guard let beaconMessage = tezosMessage as? BeaconMessage<T> else {
-                throw Beacon.Error.unknownBeaconMessage
-            }
-            
-            completion(.success(beaconMessage))
-        } catch {
-            completion(.failure(error))
-        }
+            )
+        )))
     }
     
     // MARK: Codable
@@ -97,5 +80,5 @@ public struct SignPayloadV1TezosResponse: V1BeaconMessageProtocol, Equatable, Co
 }
 
 extension SignPayloadV1TezosResponse {
-    public static var type: String { "sign_payload_response" }
+    public static let type = "sign_payload_response"
 }

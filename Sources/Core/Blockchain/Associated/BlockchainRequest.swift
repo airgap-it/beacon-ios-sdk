@@ -11,3 +11,25 @@ public protocol BlockchainRequest {
     associatedtype Permission: PermissionBeaconRequestProtocol & Equatable
     associatedtype Blockchain: BlockchainBeaconRequestProtocol & Equatable
 }
+
+// MARK: Any
+
+struct AnyBlockchainRequest: BlockchainRequest {
+    struct Permission: PermissionBeaconRequestProtocol, Equatable {
+        public typealias AppMetadata = AnyAppMetadata
+        
+        public var id: String
+        public var version: String
+        public var senderID: String
+        public var appMetadata: AppMetadata
+        public var origin: Beacon.Origin
+    }
+    
+    struct Blockchain: BlockchainBeaconRequestProtocol, Equatable {
+        public var id: String
+        public var version: String
+        public var senderID: String
+        public var origin: Beacon.Origin
+        public var accountID: String?
+    }
+}

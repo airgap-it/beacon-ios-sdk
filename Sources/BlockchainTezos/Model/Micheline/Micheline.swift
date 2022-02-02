@@ -12,7 +12,6 @@ public enum Micheline {
     
     public typealias Sequence = [MichelsonV1Expression]
     
-    
     ///
     /// Base for JSON Micheline expressions.
     ///

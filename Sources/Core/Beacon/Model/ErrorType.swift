@@ -11,14 +11,14 @@ import Foundation
 extension Beacon {
     
     /// Types of errors supported in the Beacon connection.
-    public enum ErrorType<T: Blockchain>: ErrorTypeProtocol, Equatable, Codable {
+    public enum ErrorType<B: Blockchain>: ErrorTypeProtocol, Equatable, Codable {
         
         ///
         /// Error specific to a blockchain.
         ///
         ///  Applicable to every `BeaconRequest.blockchain`.
         ///
-        case blockchain(T.ErrorType)
+        case blockchain(B.ErrorType)
         
         ///
         /// Indicates that the request execution has been aborted by the user or the wallet.
@@ -41,7 +41,7 @@ extension Beacon {
             case ErrorType.unknownRawValue:
                 self = .unknown
             default:
-                guard let blockchainErrorType = T.ErrorType(rawValue: rawValue) else {
+                guard let blockchainErrorType = B.ErrorType(rawValue: rawValue) else {
                     return nil
                 }
                 self = .blockchain(blockchainErrorType)
@@ -59,7 +59,7 @@ extension Beacon {
             case ErrorType.unknownRawValue:
                 self = .unknown
             default:
-                self = .blockchain(try T.ErrorType(from: decoder))
+                self = .blockchain(try B.ErrorType(from: decoder))
             }
         }
         
@@ -82,9 +82,23 @@ extension Beacon {
     }
 }
 
-public protocol ErrorTypeProtocol {
+public protocol ErrorTypeProtocol: Equatable, Codable {
     init?(rawValue: String)
     var rawValue: String { get }
+}
+
+// MARK: Any
+
+struct AnyErrorType: ErrorTypeProtocol, Equatable, Codable {
+    let rawValue: String
+    
+    init?(rawValue: String) {
+        self.rawValue = rawValue
+    }
+    
+    init<T: ErrorTypeProtocol>(_ errorType: T) {
+        self.rawValue = errorType.rawValue
+    }
 }
 
 // MARK: Extensions

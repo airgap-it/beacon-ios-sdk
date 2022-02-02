@@ -20,7 +20,10 @@ public class MockConnectionController: ConnectionControllerProtocol {
     public private(set) var onNewPeersCalls: [[Beacon.Peer]] = []
     public private(set) var onDeletedPeerCalls: [[Beacon.Peer]] = []
     
-    public var sendMessageCalls: [BeaconConnectionMessage] = []
+    private var _sendMessageCalls: [Any] = []
+    public func sendMessageCalls<B: Blockchain>() -> [BeaconConnectionMessage<B>] {
+        _sendMessageCalls.compactMap { $0 as? BeaconConnectionMessage<B> }
+    }
     
     private var messages: [(Beacon.Origin, Any)] = []
     
@@ -46,17 +49,17 @@ public class MockConnectionController: ConnectionControllerProtocol {
         completion(isFailing ? .failure(Beacon.Error.unknown) : .success(()))
     }
     
-    public func listen(onRequest listener: @escaping (Result<BeaconConnectionMessage, Error>) -> ()) {
+    public func listen<B: Blockchain>(onRequest listener: @escaping (Result<BeaconConnectionMessage<B>, Error>) -> ()) {
         listenCalls += 1
         messages
             .compactMap { (origin, message) in
-                guard let message = message as? VersionedBeaconMessage else {
+                guard let message = message as? VersionedBeaconMessage<B> else {
                     return nil
                 }
                 
                 return (origin, message)
             }
-            .forEach { (origin: Beacon.Origin, message: VersionedBeaconMessage) in
+            .forEach { (origin: Beacon.Origin, message: VersionedBeaconMessage<B>) in
                 if isFailing {
                     listener(.failure(Beacon.Error.unknown))
                 } else {
@@ -75,12 +78,12 @@ public class MockConnectionController: ConnectionControllerProtocol {
         completion(isFailing ? .failure(Beacon.Error.unknown) : .success(()))
     }
     
-    public func send(_ message: BeaconConnectionMessage, completion: @escaping (Result<(), Error>) -> ()) {
-        sendMessageCalls.append(message)
+    public func send<B: Blockchain>(_ message: BeaconConnectionMessage<B>, completion: @escaping (Result<(), Error>) -> ()) {
+        _sendMessageCalls.append(message as Any)
         completion(isFailing ? .failure(Beacon.Error.unknown) : .success(()))
     }
     
-    public func register(messages: [(Beacon.Origin, VersionedBeaconMessage)]) {
+    public func register<B: Blockchain>(messages: [(Beacon.Origin, VersionedBeaconMessage<B>)]) {
         self.messages.append(contentsOf: messages)
     }
 }

@@ -91,7 +91,7 @@ public extension Transport {
                 }
             }
             
-            func send(_ message: ConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+            func send(_ message: SerializedConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
                 storageManager.findPeers(where: { $0.publicKey == message.origin.id }) { result in
                     guard let found = result.get(ifFailure: completion) else { return }
                     guard let peer = found else {
@@ -101,15 +101,9 @@ public extension Transport {
                     
                     switch peer {
                     case let .p2p(p2pPeer):
-                        switch message {
-                        case let .serialized(serialized):
-                            switch serialized.origin.kind {
-                            case .p2p:
-                                self.send(serialized.content, to: p2pPeer, completion: completion)
-                            }
-                        default:
-                            /* ignore other messages */
-                            completion(.success(()))
+                        switch message.origin.kind {
+                        case .p2p:
+                            self.send(message.content, to: p2pPeer, completion: completion)
                         }
                     }
                 }
@@ -134,8 +128,8 @@ public extension Transport {
             
             private func listen(to peer: Beacon.P2PPeer) throws {
                 try client.listen(to: peer) { [weak self] result in
-                    let message: Result<ConnectionMessage, Swift.Error> = result.map {
-                        ConnectionMessage.serialized(originatedFrom: .p2p(id: peer.publicKey), withContent: $0)
+                    let message: Result<SerializedConnectionMessage, Swift.Error> = result.map {
+                        SerializedConnectionMessage(origin: .p2p(id: peer.publicKey), content: $0)
                         
                     }
                     self?.owner?.notify(with: message)

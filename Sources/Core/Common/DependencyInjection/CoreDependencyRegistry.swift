@@ -15,6 +15,18 @@ class CoreDependencyRegistry: DependencyRegistry {
         self.secureStorage = secureStorage
     }
     
+    // MARK: Extended
+    
+    public private(set) var extended: [String: DependencyRegistry] = [:]
+    
+    public func addExtended<T: DependencyRegistry>(_ registry: T) {
+        extended["\(T.self)"] = registry
+    }
+    
+    public func findExtended<T: DependencyRegistry>() -> T? {
+        extended["\(T.self)"] as? T
+    }
+    
     // MARK: Storage
     
     private let storage: Storage
