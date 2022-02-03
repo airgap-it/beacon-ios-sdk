@@ -42,7 +42,7 @@ extension Tezos {
                     let senderID = try self.identifierCreator.senderID(from: try HexString(from: request.origin.id))
 
                     let permission = Tezos.Permission(
-                        accountIdentifier: accountID,
+                        accountID: accountID,
                         senderID: senderID,
                         connectedAt: self.time.currentTimeMillis,
                         address: address,

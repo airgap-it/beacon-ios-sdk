@@ -26,7 +26,11 @@ public struct UserDefaultsStorage: Storage {
     
     public func set(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
         completeCatching(completion: completion) {
-            try userDefaults.set(peers, forKey: .peers)
+            if peers.isEmpty {
+                userDefaults.removeObject(forKey: .peers)
+            } else {
+                try userDefaults.set(peers, forKey: .peers)
+            }
         }
     }
     
@@ -40,7 +44,11 @@ public struct UserDefaultsStorage: Storage {
     
     public func set<T: AppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
         completeCatching(completion: completion) {
-            try userDefaults.set(appMetadata, forKey: .appMetadata)
+            if appMetadata.isEmpty {
+                userDefaults.removeObject(forKey: .appMetadata)
+            } else {
+                try userDefaults.set(appMetadata, forKey: .appMetadata)
+            }
         }
     }
     
@@ -54,7 +62,27 @@ public struct UserDefaultsStorage: Storage {
     
     public func set<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
         completeCatching(completion: completion) {
-            try userDefaults.set(permissions, forKey: .permissions)
+            if permissions.isEmpty {
+                userDefaults.removeObject(forKey: .permissions)
+            } else {
+                try userDefaults.set(permissions, forKey: .permissions)
+            }
+        }
+    }
+    
+    public func getLegacyPermissions<T: LegacyPermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
+        completeCatching(completion: completion) {
+            try userDefaults.get([T].self, forKey: .permissions, version: T.fromVersion) ?? []
+        }
+    }
+    
+    public func setLegacy<T: LegacyPermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
+        completeCatching(completion: completion) {
+            if permissions.isEmpty {
+                userDefaults.removeObject(forKey: .permissions, version: T.fromVersion)
+            } else {
+                try userDefaults.set(permissions, forKey: .permissions, version: T.fromVersion)
+            }
         }
     }
     
@@ -78,7 +106,11 @@ public struct UserDefaultsStorage: Storage {
     
     public func setMigrations(_ migrations: Set<String>, completion: @escaping (Result<(), Error>) -> ()) {
         completeCatching(completion: completion) {
-            try userDefaults.set(migrations, forKey: .migrations)
+            if migrations.isEmpty {
+                userDefaults.removeObject(forKey: .migrations)
+            } else {
+                try userDefaults.set(migrations, forKey: .migrations)
+            }
         }
     }
     
@@ -104,25 +136,33 @@ private extension UserDefaults {
         set(value, forKey: key.rawValue)
     }
     
-    func set<T: Codable>(_ value: T, forKey key: UserDefaultsStorage.Key) throws {
+    func set<T: Codable>(_ value: T, forKey key: UserDefaultsStorage.Key, version: String? = nil) throws {
         let propertyListEncoder = PropertyListEncoder()
-        set(try propertyListEncoder.encode(value), forKey: key.rawValue)
+        set(try propertyListEncoder.encode(value), forKey: self.key(from: key, andVersion: version))
     }
     
     func string(forKey key: UserDefaultsStorage.Key) -> String? {
         string(forKey: key.rawValue)
     }
     
-    func get<T: Codable>(_ type: T.Type, forKey key: UserDefaultsStorage.Key) throws -> T? {
+    func get<T: Codable>(_ type: T.Type, forKey key: UserDefaultsStorage.Key, version: String? = nil) throws -> T? {
         let propertyListDecoder = PropertyListDecoder()
-        if let data = data(forKey: key.rawValue) {
+        if let data = data(forKey: self.key(from: key, andVersion: version)) {
             return try propertyListDecoder.decode(type, from: data)
         } else {
             return nil
         }
     }
     
-    func removeObject(forKey key: UserDefaultsStorage.Key) {
-        removeObject(forKey: key.rawValue)
+    func removeObject(forKey key: UserDefaultsStorage.Key, version: String? = nil) {
+        removeObject(forKey: self.key(from: key, andVersion: version))
+    }
+    
+    private func key(from key: UserDefaultsStorage.Key, andVersion version: String?) -> String {
+        if let version = version {
+            return "\(key.rawValue)_\(version)"
+        } else {
+            return key.rawValue
+        }
     }
 }

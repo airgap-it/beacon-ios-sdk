@@ -32,12 +32,18 @@ extension Tezos {
             return Tezos(
                 wallet: extendedDependencyRegistry.tezosWallet,
                 creator: extendedDependencyRegistry.tezosCreator
-//                decoder: extendedDependencyRegistry.tezosDecoder
             )
         }
         
         public func createShadow(with dependencyRegistry: DependencyRegistry) -> ShadowBlockchain {
             create(with: dependencyRegistry)
+        }
+        
+        public func afterInitialized(with dependencyRegistry: DependencyRegistry, completion: @escaping ((Result<(), Error>) -> ())) {
+            let extendedDependencyRegistry = extendedDependencyRegistry(from: dependencyRegistry)
+            let migration = extendedDependencyRegistry.migration
+
+            migration.migratePermissions(completion: completion)
         }
     }
 }

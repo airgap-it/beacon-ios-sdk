@@ -61,7 +61,18 @@ class TezosDependencyRegistry: ExtendedDependencyRegistry {
         dependencyRegistry.http(urlSession: urlSession)
     }
     
-    var migration: Migration { dependencyRegistry.migration }
+    var migration: Migration {
+        dependencyRegistry.migration.register([
+            Migration.Tezos.From2_0_0(storageManager: self.storageManager)
+        ])
+        
+        return dependencyRegistry.migration
+    }
+    
     var identifierCreator: IdentifierCreatorProtocol { dependencyRegistry.identifierCreator }
     var time: TimeProtocol { dependencyRegistry.time }
+    
+    func afterInitialization(completion: @escaping (Result<(), Error>) -> ()) {
+        dependencyRegistry.afterInitialization(completion: completion)
+    }
 }

@@ -1,17 +1,17 @@
 //
-//  P2PMatrixMigrationTarget.swift
+//  TezosMigrationTarget.swift
 //  
 //
-//  Created by Julia Samol on 27.09.21.
+//  Created by Julia Samol on 02.02.22.
 //
 
 import Foundation
 import BeaconCore
 
-extension Migration.P2PMatrix {
+extension Migration.Tezos {
     
     enum Target: MigrationTarget {
-        case matrixRelayServer(MatrixRelayServer)
+        case permissions(Permissions)
         
         // MARK: Attributes
         
@@ -19,18 +19,15 @@ extension Migration.P2PMatrix {
         
         var common: MigrationTarget {
             switch self {
-            case let .matrixRelayServer(content):
+            case let .permissions(content):
                 return content
             }
         }
-
         
         // MARK: Structs
         
-        struct MatrixRelayServer: MigrationTarget {
-            let identifier: String = "matrixRelayServer"
-            
-            let matrixNodes: [String]
+        struct Permissions: MigrationTarget {
+            let identifier: String = "permissions"
         }
     }
 }

@@ -64,4 +64,8 @@ class SubstrateDependencyRegistry: ExtendedDependencyRegistry {
     var migration: Migration { dependencyRegistry.migration }
     var identifierCreator: IdentifierCreatorProtocol { dependencyRegistry.identifierCreator }
     var time: TimeProtocol { dependencyRegistry.time }
+    
+    func afterInitialization(completion: @escaping (Result<(), Error>) -> ()) {
+        dependencyRegistry.afterInitialization(completion: completion)
+    }
 }
