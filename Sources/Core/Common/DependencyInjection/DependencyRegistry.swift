@@ -54,4 +54,8 @@ public protocol DependencyRegistry {
     
     var identifierCreator: IdentifierCreatorProtocol { get }
     var time: TimeProtocol { get }
+    
+    // MARK: Behavior
+    
+    func afterInitialization(completion: @escaping (Result<(), Error>) -> ())
 }

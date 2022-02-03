@@ -49,6 +49,7 @@ protocol ExtendedStorage: Storage {
     )
     
     func removePermissions<T: PermissionProtocol>(where predicate: ((T) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    func removeLegacyPermissions<T: LegacyPermissionProtocol>(ofType type: T.Type, completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: SDK
     

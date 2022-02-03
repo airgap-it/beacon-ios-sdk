@@ -153,6 +153,18 @@ public class StorageManager: ExtendedStorage, SecureStorage {
         removePermissions(where: { permissions.contains($0) }, completion: completion)
     }
     
+    public func getLegacyPermissions<T: LegacyPermissionProtocol>(completion: @escaping (Result<[T], Swift.Error>) -> ()) {
+        storage.getLegacyPermissions(completion: completion)
+    }
+    
+    public func setLegacy<T: LegacyPermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        storage.setLegacy(permissions, completion: completion)
+    }
+    
+    public func removeLegacyPermissions<T>(ofType type: T.Type, completion: @escaping (Result<(), Swift.Error>) -> ()) where T : LegacyPermissionProtocol {
+        storage.removeLegacyPermissions(ofType: type, completion: completion)
+    }
+    
     // MARK: SDK
     
     public func getSDKSecretSeed(completion: @escaping (Result<String?, Swift.Error>) -> ()) {

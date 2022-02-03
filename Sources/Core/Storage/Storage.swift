@@ -25,6 +25,9 @@ public protocol Storage {
     func getPermissions<T: PermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ())
     func set<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ())
     
+    func getLegacyPermissions<T: LegacyPermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ())
+    func setLegacy<T: LegacyPermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ())
+    
     // MARK: SDK
     
     func getSDKVersion(completion: @escaping (Result<String?, Error>) -> ())

@@ -38,7 +38,7 @@ extension Tezos {
         public let scopes: [Scope]
         
         public init(
-            accountIdentifier: String,
+            accountID: String,
             senderID: String,
             connectedAt: Int64,
             address: String,
@@ -47,7 +47,7 @@ extension Tezos {
             appMetadata: AppMetadata,
             scopes: [Permission.Scope]
         ) {
-            self.accountID = accountIdentifier
+            self.accountID = accountID
             self.senderID = senderID
             self.connectedAt = connectedAt
             self.address = address
@@ -63,19 +63,6 @@ extension Tezos {
         public enum Scope: String, Codable, Equatable {
             case sign
             case operationRequest = "operation_request"
-        }
-        
-        // MARK: Types
-        
-        enum CodingKeys: String, CodingKey {
-            case accountID = "accountIdentifier"
-            case address
-            case network
-            case scopes
-            case senderID
-            case appMetadata
-            case publicKey
-            case connectedAt
         }
     }
 }

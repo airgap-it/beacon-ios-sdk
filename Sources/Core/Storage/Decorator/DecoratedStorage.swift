@@ -126,6 +126,18 @@ struct DecoratedStorage: ExtendedStorage {
         remove(where: predicate, select: storage.getPermissions, insert: storage.set, completion: completion)
     }
     
+    func getLegacyPermissions<T: LegacyPermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
+        storage.getLegacyPermissions(completion: completion)
+    }
+    
+    func setLegacy<T: LegacyPermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
+        storage.setLegacy(permissions, completion: completion)
+    }
+    
+    func removeLegacyPermissions<T: LegacyPermissionProtocol>(ofType type: T.Type, completion: @escaping (Result<(), Error>) -> ()) {
+        storage.setLegacy([T](), completion: completion)
+    }
+    
     // MARK: SDK
     
     func getSDKVersion(completion: @escaping (Result<String?, Error>) -> ()) {
