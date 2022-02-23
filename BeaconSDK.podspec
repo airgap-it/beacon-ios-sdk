@@ -22,6 +22,11 @@ Pod::Spec.new do |spec|
     subspec.source_files = 'Sources/BlockchainTezos/**/*.{swift}'
   end
   
+  spec.subspec 'BeaconBlockchainSubstrate' do |subspec|
+    subspec.dependency 'BeaconSDK/BeaconCore'
+    subspec.source_files = 'Sources/BlockchainSubstrate/**.*.{swift}'
+  end
+  
   spec.subspec 'BeaconClientWallet' do |subspec|
     subspec.dependency 'BeaconSDK/BeaconCore'
     subspec.source_files = 'Sources/ClientWallet/**/*.{swift}'
