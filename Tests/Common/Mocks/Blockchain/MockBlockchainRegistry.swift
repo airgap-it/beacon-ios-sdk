@@ -11,6 +11,8 @@ import Foundation
 @testable import BeaconBlockchainTezos
 
 public struct MockBlockchainRegistry: BlockchainRegistryProtocol {
+    private let mockBlockchain: ShadowBlockchain = MockBlockchain()
+    
     public init() {}
     
     public func get<T: Blockchain>() -> T? {
@@ -18,6 +20,10 @@ public struct MockBlockchainRegistry: BlockchainRegistryProtocol {
     }
     
     public func get(ofType identifier: String) -> ShadowBlockchain? {
-        MockBlockchain()
+        mockBlockchain
+    }
+    
+    public func getAll() -> [ShadowBlockchain] {
+        [mockBlockchain]
     }
 }

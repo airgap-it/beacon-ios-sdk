@@ -23,9 +23,11 @@ public struct MockBlockchain: Blockchain {
     public static var identifier: String = "mock"
     
     public let creator: MockBlockchainCreator
+    public let storageExtension: BlockchainStorageExtension
     
-    public init(creator: MockBlockchainCreator = MockBlockchainCreator()) {
+    public init(creator: MockBlockchainCreator = .init(), storageExtension: MockBlockchainStorageExtension = .init()) {
         self.creator = creator
+        self.storageExtension = storageExtension
     }
 }
 
@@ -62,6 +64,18 @@ public struct MockBlockchainCreator: BlockchainCreator {
             )
         }
         completion(.success(permissions))
+    }
+}
+
+public struct MockBlockchainStorageExtension: BlockchainStorageExtension {
+    public init() {}
+    
+    public func removeAppMetadata(where predicate: ((AnyAppMetadata) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
+        completion(.success(()))
+    }
+    
+    public func removePermissions(where predicate: ((AnyPermission) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
+        completion(.success(()))
     }
 }
 

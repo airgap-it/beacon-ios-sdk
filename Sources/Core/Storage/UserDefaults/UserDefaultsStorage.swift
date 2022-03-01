@@ -52,13 +52,13 @@ public struct UserDefaultsStorage: Storage {
         }
     }
     
-    public func getLegacyAppMetadata<T: LegacyAppMetadata>(completion: @escaping (Result<[T], Error>) -> ()) {
+    public func getLegacyAppMetadata<T: LegacyAppMetadataProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
         completeCatching(completion: completion) {
             try userDefaults.get([T].self, forKey: .appMetadata, blockchainIdentifier: T.blockchainIdentifier, version: T.fromVersion) ?? []
         }
     }
     
-    public func setLegacy<T: LegacyAppMetadata>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
+    public func setLegacy<T: LegacyAppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
         completeCatching(completion: completion) {
             if appMetadata.isEmpty {
                 userDefaults.removeObject(forKey: .appMetadata, blockchainIdentifier: T.blockchainIdentifier, version: T.fromVersion)

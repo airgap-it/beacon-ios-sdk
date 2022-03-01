@@ -145,15 +145,15 @@ public class StorageManager: ExtendedStorage, SecureStorage {
         removeAppMetadata(where: { appMetadata.contains($0) }, completion: completion)
     }
     
-    public func getLegacyAppMetadata<T: LegacyAppMetadata>(completion: @escaping (Result<[T], Swift.Error>) -> ()) {
+    public func getLegacyAppMetadata<T: LegacyAppMetadataProtocol>(completion: @escaping (Result<[T], Swift.Error>) -> ()) {
         storage.getLegacyAppMetadata(completion: completion)
     }
     
-    public func setLegacy<T: LegacyAppMetadata>(_ appMetadata: [T], completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    public func setLegacy<T: LegacyAppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Swift.Error>) -> ()) {
         storage.setLegacy(appMetadata, completion: completion)
     }
     
-    public func removeLegacyAppMetadata<T: LegacyAppMetadata>(ofType type: T.Type, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    public func removeLegacyAppMetadata<T: LegacyAppMetadataProtocol>(ofType type: T.Type, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         storage.removeLegacyAppMetadata(ofType: type, completion: completion)
     }
     

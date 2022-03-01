@@ -105,15 +105,15 @@ struct DecoratedStorage: ExtendedStorage {
         }
     }
     
-    func getLegacyAppMetadata<T: LegacyAppMetadata>(completion: @escaping (Result<[T], Error>) -> ()) {
+    func getLegacyAppMetadata<T: LegacyAppMetadataProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
         storage.getLegacyAppMetadata(completion: completion)
     }
     
-    func setLegacy<T: LegacyAppMetadata>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
+    func setLegacy<T: LegacyAppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
         storage.setLegacy(appMetadata, completion: completion)
     }
     
-    func removeLegacyAppMetadata<T: LegacyAppMetadata>(ofType type: T.Type, completion: @escaping (Result<(), Error>) -> ()) {
+    func removeLegacyAppMetadata<T: LegacyAppMetadataProtocol>(ofType type: T.Type, completion: @escaping (Result<(), Error>) -> ()) {
         removeAll(ofType: T.self, insert: storage.setLegacy, completion: completion)
     }
     
