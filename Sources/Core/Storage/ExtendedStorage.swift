@@ -36,7 +36,7 @@ public protocol ExtendedStorage: Storage {
     func removeAppMetadata<T: AppMetadataProtocol>(where predicate: @escaping ((T) -> Bool), completion: @escaping (Result<(), Error>) -> ())
     func removeAppMetadata<T: AppMetadataProtocol>(ofType type: T.Type, where predicate: ((AnyAppMetadata) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
     
-    func removeLegacyAppMetadata<T: LegacyAppMetadata>(ofType type: T.Type, completion: @escaping (Result<(), Error>) -> ())
+    func removeLegacyAppMetadata<T: LegacyAppMetadataProtocol>(ofType type: T.Type, completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: Permissions
     

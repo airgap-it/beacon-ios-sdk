@@ -29,12 +29,13 @@ class MessageControllerTests: XCTestCase {
         blockchainRegistry = MockBlockchainRegistry()
         storage = MockStorage()
         secureStorage = MockSecureStorage()
+        blockchainRegistry = MockBlockchainRegistry()
         identifierCreator = MockIdentifierCreator()
         time = MockTime()
         
         messageController = MessageController(
             blockchainRegistry: blockchainRegistry,
-            storageManager: StorageManager(storage: storage, secureStorage: secureStorage, identifierCreator: identifierCreator),
+            storageManager: StorageManager(storage: storage, secureStorage: secureStorage, blockchainRegistry: blockchainRegistry, identifierCreator: identifierCreator),
             identifierCreator: identifierCreator,
             time: time
         )

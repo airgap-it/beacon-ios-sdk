@@ -15,11 +15,15 @@ import Common
 class WalletClientTests: XCTestCase {
     
     private var beaconClient: Beacon.WalletClient!
+    
     private var storage: MockStorage!
     private var secureStorage: SecureStorage!
     private var storageManager: StorageManager!
+    
     private var connectionController: MockConnectionController!
     private var messageController: MockMessageController!
+    
+    private var blockchainRegistry: MockBlockchainRegistry!
     private var identifierCreator: MockIdentifierCreator!
     private var crypto: Crypto!
     
@@ -34,7 +38,8 @@ class WalletClientTests: XCTestCase {
         
         storage = MockStorage()
         secureStorage = MockSecureStorage()
-        storageManager = StorageManager(storage: storage, secureStorage: secureStorage, identifierCreator: identifierCreator)
+        blockchainRegistry = MockBlockchainRegistry()
+        storageManager = StorageManager(storage: storage, secureStorage: secureStorage, blockchainRegistry: blockchainRegistry, identifierCreator: identifierCreator)
         
         connectionController = MockConnectionController()
         messageController = MockMessageController(storageManager: storageManager, connectionKind: connectionKind)

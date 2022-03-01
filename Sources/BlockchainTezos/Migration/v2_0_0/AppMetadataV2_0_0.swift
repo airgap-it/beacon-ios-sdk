@@ -10,7 +10,7 @@ import BeaconCore
 
 extension Tezos {
     
-    struct AppMetadataV2_0_0: LegacyAppMetadata {
+    struct AppMetadataV2_0_0: LegacyAppMetadataProtocol {
         static let fromVersion: String = Migration.Tezos.From2_0_0.fromVersion
         static let blockchainIdentifier: String? = nil
         
