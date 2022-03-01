@@ -5,3 +5,4 @@
 !BeaconSDK.xcodeproj
 xcuserdata/
 .swiftpm
+Demo/BeaconSDKDemo/Pods

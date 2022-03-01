@@ -43,8 +43,19 @@ public struct V3BeaconMessage<BlockchainType: Blockchain>: V3BeaconMessageProtoc
     ) {
         message.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, completion: completion)
     }
+    
+    // MARK: Types
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case version
+        case senderID = "senderId"
+        case message
+    }
 }
 
 // MARK: Protocol
 
-public protocol V3BeaconMessageProtocol: VersionedBeaconMessageProtocol {}
+public protocol V3BeaconMessageProtocol: VersionedBeaconMessageProtocol, Identifiable {
+    var id: String { get }
+}

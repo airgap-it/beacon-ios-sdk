@@ -9,7 +9,7 @@ import Foundation
 import BeaconCore
 
 /// Substrate specific contenet of the `BeaconRequest.permission` message.
-public struct PermissionSubstrateRequest: PermissionBeaconRequestProtocol, Equatable, Codable {
+public struct PermissionSubstrateRequest: PermissionBeaconRequestProtocol, Identifiable, Equatable, Codable {
     public typealias AppMetadata = Substrate.AppMetadata
     
     /// The value that identifies this request.

@@ -9,7 +9,7 @@
 import Foundation
     
 /// Body of the `BeaconMessage.disconnect` message.
-public struct DisconnectBeaconMessage: BeaconMessageProtocol, Equatable, Codable {
+public struct DisconnectBeaconMessage: BeaconMessageProtocol, Identifiable, Equatable, Codable {
     
     /// The value that identifies this message.
     public let id: String

@@ -9,7 +9,7 @@
 import Foundation
     
 /// Body of the `BeaconResponse.acknowledge` message.
-public struct AcknowledgeBeaconResponse: BeaconResponseProtocol, Equatable, Codable {
+public struct AcknowledgeBeaconResponse: BeaconResponseProtocol, Identifiable, Equatable, Codable {
     
     /// The value that identifies the request to which the message is responding.
     public let id: String

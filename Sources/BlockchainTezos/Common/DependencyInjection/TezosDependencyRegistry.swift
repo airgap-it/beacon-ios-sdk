@@ -29,6 +29,13 @@ class TezosDependencyRegistry: ExtendedDependencyRegistry {
         Tezos.Creator(wallet: self.tezosWallet, storageManager: self.storageManager, identifierCreator: self.identifierCreator, time: self.time)
     }
     
+    // MARK: StorageExtension
+    
+    var tezosStorageExtension: Tezos.StorageExtension { weakTezosStorageExtension.value }
+    private lazy var weakTezosStorageExtension: LazyWeakReference<Tezos.StorageExtension> = LazyWeakReference { [unowned self] in
+        Tezos.StorageExtension(storage: self.storageManager)
+    }
+    
     // MARK: Derived
     
     var extended: [String : DependencyRegistry] { dependencyRegistry.extended }

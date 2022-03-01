@@ -34,7 +34,7 @@ extension Substrate {
         }
         
         private func checksum(from input: [UInt8]) throws -> [UInt8] {
-            try crypto.hash(message: Array(Wallet.contextPrefix.utf8) + input, size: 512)
+            try crypto.hash(message: Array(Wallet.contextPrefix.utf8) + input, size: 64)
         }
     }
 }

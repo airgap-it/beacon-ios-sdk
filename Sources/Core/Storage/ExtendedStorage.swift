@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ExtendedStorage: Storage {
+public protocol ExtendedStorage: Storage {
     
     // MARK: Peers
     
@@ -32,7 +32,11 @@ protocol ExtendedStorage: Storage {
     )
     
     func findAppMetadata<T: AppMetadataProtocol>(where predicate: @escaping (T) -> Bool, completion: @escaping (Result<T?, Error>) -> ())
-    func removeAppMetadata<T: AppMetadataProtocol>(where predicate: ((T) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    
+    func removeAppMetadata<T: AppMetadataProtocol>(where predicate: @escaping ((T) -> Bool), completion: @escaping (Result<(), Error>) -> ())
+    func removeAppMetadata<T: AppMetadataProtocol>(ofType type: T.Type, where predicate: ((AnyAppMetadata) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    
+    func removeLegacyAppMetadata<T: LegacyAppMetadata>(ofType type: T.Type, completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: Permissions
     
@@ -48,7 +52,9 @@ protocol ExtendedStorage: Storage {
         completion: @escaping (Result<T?, Error>) -> ()
     )
     
-    func removePermissions<T: PermissionProtocol>(where predicate: ((T) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    func removePermissions<T: PermissionProtocol>(where predicate: @escaping ((T) -> Bool), completion: @escaping (Result<(), Error>) -> ())
+    func removePermissions<T: PermissionProtocol>(ofType type: T.Type, where predicate: ((AnyPermission) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    
     func removeLegacyPermissions<T: LegacyPermissionProtocol>(ofType type: T.Type, completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: SDK

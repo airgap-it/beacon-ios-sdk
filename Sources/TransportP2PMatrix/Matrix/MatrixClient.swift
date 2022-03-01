@@ -17,7 +17,7 @@ public class MatrixClient {
     private let eventService: EventService
     private let roomService: RoomService
     
-    private var services: [Service] {
+    private var services: [MatrixService] {
         [nodeService, userService, eventService, roomService]
     }
     

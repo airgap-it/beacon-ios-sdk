@@ -122,8 +122,12 @@ extension Beacon {
         /// - Parameter completion: The closure called when the call completes.
         /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
         ///
-        public func removeAppMetadata(forSenderID senderID: String, completion: @escaping (_ result: Result<(), Error>) -> ()) {
-            storageManager.removeAppMetadata(where: { $0.senderID == senderID }) { result in
+        public func removeAppMetadata<T: AppMetadataProtocol>(
+            ofType type: T.Type,
+            forSenderID senderID: String,
+            completion: @escaping (_ result: Result<(), Error>) -> ()
+        ) {
+            storageManager.removeAppMetadata(where: { (appMetadata: T) in appMetadata.senderID == senderID }) { result in
                 completion(result.withBeaconError())
             }
         }
@@ -146,8 +150,20 @@ extension Beacon {
         /// - Parameter completion: The closure called when the call completes.
         /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
         ///
+        public func removeAllMetadata<T: AppMetadataProtocol>(ofType type: T.Type, completion: @escaping (_ result: Result<(), Error>) -> ()) {
+            storageManager.removeAppMetadata(ofType: type) { result in
+                completion(result.withBeaconError())
+            }
+        }
+        
+        ///
+        /// Removes all stored app metadata.
+        ///
+        /// - Parameter completion: The closure called when the call completes.
+        /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
+        ///
         public func removeAllMetadata(completion: @escaping (_ result: Result<(), Error>) -> ()) {
-            storageManager.removeAppMetadata { result in
+            storageManager.removeAllAppMetadata { result in
                 completion(result.withBeaconError())
             }
         }
@@ -182,8 +198,24 @@ extension Beacon {
         /// - Parameter completion: The closure called when the call completes.
         /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
         ///
+        public func removePermissions<T: PermissionProtocol>(
+            ofType type: T.Type,
+            forAccountIdentifier accountIdentifier: String,
+            completion: @escaping (_ result: Result<(), Error>) -> ()
+        ) {
+            storageManager.removePermissions(where: { (permission: T) in permission.accountID == accountIdentifier }) { result in
+                completion(result.withBeaconError())
+            }
+        }
+        
+        ///
+        /// Removes permissions that have been granted for the specified `accountIdentifier`.
+        ///
+        /// - Parameter completion: The closure called when the call completes.
+        /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
+        ///
         public func removePermissions(forAccountIdentifier accountIdentifier: String, completion: @escaping (_ result: Result<(), Error>) -> ()) {
-            storageManager.removePermissions(where: { (permission: AnyPermission) in permission.accountID == accountIdentifier }) { result in
+            storageManager.removeAllPermissions(where: { $0.accountID == accountIdentifier }) { result in
                 completion(result.withBeaconError())
             }
         }
@@ -206,8 +238,20 @@ extension Beacon {
         /// - Parameter completion: The closure called when the call completes.
         /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
         ///
+        public func removeAllPermissions<T: PermissionProtocol>(ofType type: T.Type, completion: @escaping (_ result: Result<(), Error>) -> ()) {
+            storageManager.removePermissions(ofType: type) { result in
+                completion(result.withBeaconError())
+            }
+        }
+        
+        ///
+        /// Removes all granted permissions.
+        ///
+        /// - Parameter completion: The closure called when the call completes.
+        /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
+        ///
         public func removeAllPermissions(completion: @escaping (_ result: Result<(), Error>) -> ()) {
-            storageManager.removePermissions { result in
+            storageManager.removeAllPermissions { result in
                 completion(result.withBeaconError())
             }
         }

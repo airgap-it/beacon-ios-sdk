@@ -11,7 +11,9 @@ import BeaconCore
 extension Tezos {
     
     /// Granted Tezos permissions data.
-    public struct Permission: PermissionProtocol, Codable, Equatable {
+    public struct Permission: PermissionProtocol {
+        
+        public static let blockchainIdentifier: String? = Tezos.identifier
         
         /// The value that identifies the account which granted the permissions.
         public let accountID: String

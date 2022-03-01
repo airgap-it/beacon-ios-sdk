@@ -41,5 +41,13 @@ extension Substrate {
             self.name = name
             self.rpcURL = rpcURL
         }
+        
+        // MARK: Types
+        
+        enum CodingKeys: String, CodingKey {
+            case genesisHash
+            case name
+            case rpcURL = "rpcUrl"
+        }
     }
 }

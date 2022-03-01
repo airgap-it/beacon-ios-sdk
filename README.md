@@ -52,8 +52,9 @@ pod `BeaconSDK`, :subspecs => ['BeaconCore', 'BeaconClientWallet', 'BeaconTransp
 The project is divided into the following targets:
 
 - `BeaconCore` - common and base code for other targets
-- `BeaconClientWallet` - the wallet implementation of Beacon
-- `BeaconBlockchainTezos` - a seto of messages, utility functions and other components specific for Tezos
+- `BeaconClientWallet` - the Beacon implementation for wallets
+- `BeaconBlockchainTezos` - a set of messages, utility functions and other components specific for Tezos
+- `BeaconBlockchainSubstrate` - a set of messages, utility functions and other components specific for Substrate
 - `BeaconTransportP2PMatrix` - Beacon P2P implementation which uses [Matrix](https://matrix.org/) network for the communication
 - `BeaconSDKDemo` - an example application
 

@@ -31,7 +31,8 @@ extension Tezos {
          
             return Tezos(
                 wallet: extendedDependencyRegistry.tezosWallet,
-                creator: extendedDependencyRegistry.tezosCreator
+                creator: extendedDependencyRegistry.tezosCreator,
+                storageExtension: extendedDependencyRegistry.tezosStorageExtension
             )
         }
         
@@ -43,7 +44,7 @@ extension Tezos {
             let extendedDependencyRegistry = extendedDependencyRegistry(from: dependencyRegistry)
             let migration = extendedDependencyRegistry.migration
 
-            migration.migratePermissions(completion: completion)
+            migration.migrateStorage(completion: completion)
         }
     }
 }

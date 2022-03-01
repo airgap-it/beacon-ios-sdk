@@ -17,6 +17,10 @@ protocol ExtendedDependencyRegistry: DependencyRegistry {
     // MARK: Creator
     
     var substrateCreator: Substrate.Creator { get }
+    
+    // MARK: StorageExtension
+    
+    var substrateStorageExtension: Substrate.StorageExtension { get }
 }
 
 extension DependencyRegistry {

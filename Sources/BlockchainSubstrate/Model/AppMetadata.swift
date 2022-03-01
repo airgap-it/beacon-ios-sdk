@@ -11,7 +11,10 @@ import BeaconCore
 extension Substrate {
     
     /// Metadata describing a Substrate dApp.
-    public struct AppMetadata: AppMetadataProtocol, Codable, Equatable {
+    public struct AppMetadata: AppMetadataProtocol {
+        
+        public static let blockchainIdentifier: String? = Substrate.identifier
+        
         /// The value that identifies the dApp.
         public let senderID: String
         

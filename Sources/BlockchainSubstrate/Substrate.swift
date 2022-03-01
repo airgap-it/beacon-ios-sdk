@@ -21,9 +21,11 @@ public class Substrate: Blockchain {
     
     public let wallet: Wallet
     public let creator: Creator
+    public let storageExtension: BlockchainStorageExtension
     
-    init(wallet: Wallet, creator: Creator) {
+    init(wallet: Wallet, creator: Creator, storageExtension: StorageExtension) {
         self.wallet = wallet
         self.creator = creator
+        self.storageExtension = storageExtension
     }
 }

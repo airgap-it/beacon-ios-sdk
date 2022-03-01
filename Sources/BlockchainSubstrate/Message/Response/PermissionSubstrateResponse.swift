@@ -9,7 +9,7 @@ import Foundation
 import BeaconCore
 
 /// Substrate specific contenet of the `BeaconResponse.permission` message.
-public struct PermissionSubstrateResponse: PermissionBeaconResponseProtocol, Equatable, Codable {
+public struct PermissionSubstrateResponse: PermissionBeaconResponseProtocol, Identifiable, Equatable, Codable {
     
     /// The value that identifies the request to which the message is responding.
     public let id: String

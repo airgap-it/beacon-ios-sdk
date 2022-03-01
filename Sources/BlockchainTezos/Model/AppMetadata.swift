@@ -11,7 +11,10 @@ import BeaconCore
 extension Tezos {
     
     /// Metadata describing a Tezos dApp.
-    public struct AppMetadata: AppMetadataProtocol, Codable, Equatable {
+    public struct AppMetadata: AppMetadataProtocol {
+        
+        public static let blockchainIdentifier: String? = Tezos.identifier
+        
         /// The value that identifies the dApp.
         public let senderID: String
         

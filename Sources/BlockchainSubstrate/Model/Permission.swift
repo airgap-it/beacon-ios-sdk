@@ -11,7 +11,9 @@ import BeaconCore
 extension Substrate {
     
     /// Granted Substrate permission data.
-    public struct Permission: PermissionProtocol, Codable, Equatable {
+    public struct Permission: PermissionProtocol {
+        
+        public static let blockchainIdentifier: String? = Substrate.identifier
         
         /// The value that identifies the account which granted the permissions.
         public var accountID: String

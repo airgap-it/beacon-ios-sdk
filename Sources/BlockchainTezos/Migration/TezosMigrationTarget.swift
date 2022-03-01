@@ -11,7 +11,7 @@ import BeaconCore
 extension Migration.Tezos {
     
     enum Target: MigrationTarget {
-        case permissions(Permissions)
+        case storage(Storage)
         
         // MARK: Attributes
         
@@ -19,15 +19,15 @@ extension Migration.Tezos {
         
         var common: MigrationTarget {
             switch self {
-            case let .permissions(content):
+            case let .storage(content):
                 return content
             }
         }
         
         // MARK: Structs
         
-        struct Permissions: MigrationTarget {
-            let identifier: String = "permissions"
+        struct Storage: MigrationTarget {
+            let identifier: String = "storage"
         }
     }
 }
