@@ -11,7 +11,7 @@ import BeaconCore
 
 extension MatrixClient {
     
-    class EventService: Service {
+    class EventService: MatrixService {
         private lazy var syncSingle: SingleCall<SyncResponse> = SingleCall()
         
         // MARK: Sync

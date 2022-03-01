@@ -32,10 +32,12 @@ class CoreDependencyRegistry: DependencyRegistry {
     private let storage: Storage
     private let secureStorage: SecureStorage
     
-    public var storageManager: StorageManager { weakStorageManager.value }
-    private lazy var weakStorageManager: LazyWeakReference<StorageManager> = LazyWeakReference { [unowned self] in
-        StorageManager(storage: self.storage, secureStorage: self.secureStorage, identifierCreator: self.identifierCreator)
-    }
+    public lazy var storageManager: StorageManager = StorageManager(
+        storage: self.storage,
+        secureStorage: self.secureStorage,
+        blockchainRegistry: self.blockchainRegistry,
+        identifierCreator: self.identifierCreator
+    )
     
     // MARK: Controller
     

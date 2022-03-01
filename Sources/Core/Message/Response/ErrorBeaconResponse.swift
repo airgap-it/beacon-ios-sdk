@@ -9,7 +9,7 @@
 import Foundation
     
 /// Body of the `BeaconResponse.error` message.
-public struct ErrorBeaconResponse<B: Blockchain>: BeaconResponseProtocol, Equatable, Codable {
+public struct ErrorBeaconResponse<B: Blockchain>: BeaconResponseProtocol, Identifiable, Equatable, Codable {
     
     /// The value that identifies the request to which the message is responding.
     public let id: String

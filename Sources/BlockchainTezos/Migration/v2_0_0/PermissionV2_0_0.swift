@@ -10,8 +10,9 @@ import BeaconCore
 
 extension Tezos {
     
-    struct PermissionV2_0_0: LegacyPermissionProtocol, Codable, Equatable {
+    struct PermissionV2_0_0: LegacyPermissionProtocol {
         static let fromVersion: String = Migration.Tezos.From2_0_0.fromVersion
+        static let blockchainIdentifier: String? = nil
         
         let accountID: String
         let senderID: String

@@ -10,7 +10,7 @@ import Foundation
 import BeaconCore
     
 /// Tezos specific content of the `BeaconRequest.permission` message.
-public struct PermissionTezosRequest: PermissionBeaconRequestProtocol, Equatable, Codable {
+public struct PermissionTezosRequest: PermissionBeaconRequestProtocol, Identifiable, Equatable, Codable {
     public typealias AppMetadata = Tezos.AppMetadata
     
     /// The value that identifies this request.

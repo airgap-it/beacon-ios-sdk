@@ -8,7 +8,7 @@
 import Foundation
 import BeaconCore
 
-public struct ReturnSignSubstrateResponse: BlockchainBeaconResponseProtocol, Equatable, Codable {
+public struct ReturnSignSubstrateResponse: BlockchainBeaconResponseProtocol, Identifiable, Equatable, Codable {
     /// The value that identifies the request to which the message is responding.
     public let id: String
     

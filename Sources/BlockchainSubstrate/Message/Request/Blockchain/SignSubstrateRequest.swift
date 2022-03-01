@@ -9,7 +9,7 @@ import Foundation
 import BeaconCore
 
 /// Body of the `BlockchainSubstrateRequest.sign` message.
-public struct SignSubstrateRequest: BlockchainBeaconRequestProtocol, Equatable, Codable {
+public struct SignSubstrateRequest: BlockchainBeaconRequestProtocol, Identifiable, Equatable, Codable {
     
     /// The value that identifies this request.
     public let id: String

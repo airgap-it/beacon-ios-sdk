@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class DistinguishableListener<T>: Hashable, Equatable {
+public class DistinguishableListener<T>: Identifiable, Hashable, Equatable {
     public let id: String
     private let closure: (T) -> ()
     

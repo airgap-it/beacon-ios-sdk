@@ -10,15 +10,15 @@ import Foundation
 
 public extension Transport.P2P {
     
-    struct PairingResponse: Codable {
-        let id: String
-        let type: String
-        let name: String
-        let version: String
-        let publicKey: String
-        let relayServer: String
-        let icon: String?
-        let appURL: String?
+    struct PairingResponse: Identifiable, Codable {
+        public let id: String
+        public let type: String
+        public let name: String
+        public let version: String
+        public let publicKey: String
+        public let relayServer: String
+        public let icon: String?
+        public let appURL: String?
         
         public init(id: String, type: String, name: String, version: String, publicKey: String, relayServer: String, icon: String?, appURL: String?) {
             self.id = id

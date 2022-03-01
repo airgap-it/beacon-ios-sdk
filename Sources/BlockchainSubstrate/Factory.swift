@@ -27,11 +27,12 @@ extension Substrate {
         }
         
         public func create(with dependencyRegistry: DependencyRegistry) -> Substrate {
-            let extendedDependencyRegostry = extendedDependencyRegistry(from: dependencyRegistry)
+            let extendedDependencyRegistry = extendedDependencyRegistry(from: dependencyRegistry)
             
             return Substrate(
-                wallet: extendedDependencyRegostry.substrateWallet,
-                creator: extendedDependencyRegostry.substrateCreator
+                wallet: extendedDependencyRegistry.substrateWallet,
+                creator: extendedDependencyRegistry.substrateCreator,
+                storageExtension: extendedDependencyRegistry.substrateStorageExtension
             )
         }
         

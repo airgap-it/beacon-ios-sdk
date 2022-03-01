@@ -11,6 +11,8 @@ import Foundation
 /// Granted permissions data.
 public protocol PermissionProtocol: Equatable, Codable {
     
+    static var blockchainIdentifier: String? { get }
+    
     /// The value that identifies the account which granted the permissions.
     var accountID: String { get }
     
@@ -24,6 +26,8 @@ public protocol PermissionProtocol: Equatable, Codable {
 // MARK: Any
 
 public struct AnyPermission: PermissionProtocol, Codable, Equatable {
+    public static let blockchainIdentifier: String? = nil
+    
     public let accountID: String
     public let senderID: String
     public let connectedAt: Int64

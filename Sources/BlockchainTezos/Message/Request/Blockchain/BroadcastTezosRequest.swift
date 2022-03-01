@@ -10,7 +10,7 @@ import Foundation
 import BeaconCore
     
 /// Body of the `BlockchainTezosRequest.broadcast` message.
-public struct BroadcastTezosRequest: BlockchainBeaconRequestProtocol, Equatable, Codable {
+public struct BroadcastTezosRequest: BlockchainBeaconRequestProtocol, Identifiable, Equatable, Codable {
     
     /// The value that identifies this request.
     public let id: String

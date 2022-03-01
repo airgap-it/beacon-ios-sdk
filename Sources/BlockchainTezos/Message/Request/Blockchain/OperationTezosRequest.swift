@@ -10,7 +10,7 @@ import Foundation
 import BeaconCore
     
 /// Body of the `BlockchainTezosRequest.operation` message.
-public struct OperationTezosRequest: BlockchainBeaconRequestProtocol, Equatable, Codable {
+public struct OperationTezosRequest: BlockchainBeaconRequestProtocol, Identifiable, Equatable, Codable {
     
     /// The value that identifies this request.
     public let id: String

@@ -11,7 +11,7 @@ import BeaconCore
 
 extension MatrixClient {
     
-    class RoomService: Service {
+    class RoomService: MatrixService {
         
         func createRoom(
             on node: String,

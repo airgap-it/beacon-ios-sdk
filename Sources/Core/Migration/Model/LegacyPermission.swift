@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol LegacyPermissionProtocol: PermissionProtocol {
+public protocol LegacyPermissionProtocol: PermissionProtocol, Equatable, Codable {
     static var fromVersion: String { get }
 }

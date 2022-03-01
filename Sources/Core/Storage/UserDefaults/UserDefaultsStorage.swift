@@ -38,16 +38,32 @@ public struct UserDefaultsStorage: Storage {
     
     public func getAppMetadata<T: AppMetadataProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
         completeCatching(completion: completion) {
-            try userDefaults.get([T].self, forKey: .appMetadata) ?? []
+            try userDefaults.get([T].self, forKey: .appMetadata, blockchainIdentifier: T.blockchainIdentifier) ?? []
         }
     }
     
     public func set<T: AppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
         completeCatching(completion: completion) {
             if appMetadata.isEmpty {
-                userDefaults.removeObject(forKey: .appMetadata)
+                userDefaults.removeObject(forKey: .appMetadata, blockchainIdentifier: T.blockchainIdentifier)
             } else {
-                try userDefaults.set(appMetadata, forKey: .appMetadata)
+                try userDefaults.set(appMetadata, forKey: .appMetadata, blockchainIdentifier: T.blockchainIdentifier)
+            }
+        }
+    }
+    
+    public func getLegacyAppMetadata<T: LegacyAppMetadata>(completion: @escaping (Result<[T], Error>) -> ()) {
+        completeCatching(completion: completion) {
+            try userDefaults.get([T].self, forKey: .appMetadata, blockchainIdentifier: T.blockchainIdentifier, version: T.fromVersion) ?? []
+        }
+    }
+    
+    public func setLegacy<T: LegacyAppMetadata>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
+        completeCatching(completion: completion) {
+            if appMetadata.isEmpty {
+                userDefaults.removeObject(forKey: .appMetadata, blockchainIdentifier: T.blockchainIdentifier, version: T.fromVersion)
+            } else {
+                try userDefaults.set(appMetadata, forKey: .appMetadata, blockchainIdentifier: T.blockchainIdentifier, version: T.fromVersion)
             }
         }
     }
@@ -56,32 +72,32 @@ public struct UserDefaultsStorage: Storage {
     
     public func getPermissions<T: PermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
         completeCatching(completion: completion) {
-            try userDefaults.get([T].self, forKey: .permissions) ?? []
+            try userDefaults.get([T].self, forKey: .permissions, blockchainIdentifier: T.blockchainIdentifier) ?? []
         }
     }
     
     public func set<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
         completeCatching(completion: completion) {
             if permissions.isEmpty {
-                userDefaults.removeObject(forKey: .permissions)
+                userDefaults.removeObject(forKey: .permissions, blockchainIdentifier: T.blockchainIdentifier)
             } else {
-                try userDefaults.set(permissions, forKey: .permissions)
+                try userDefaults.set(permissions, forKey: .permissions, blockchainIdentifier: T.blockchainIdentifier)
             }
         }
     }
     
     public func getLegacyPermissions<T: LegacyPermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
         completeCatching(completion: completion) {
-            try userDefaults.get([T].self, forKey: .permissions, version: T.fromVersion) ?? []
+            try userDefaults.get([T].self, forKey: .permissions, blockchainIdentifier: T.blockchainIdentifier, version: T.fromVersion) ?? []
         }
     }
     
     public func setLegacy<T: LegacyPermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
         completeCatching(completion: completion) {
             if permissions.isEmpty {
-                userDefaults.removeObject(forKey: .permissions, version: T.fromVersion)
+                userDefaults.removeObject(forKey: .permissions, blockchainIdentifier: T.blockchainIdentifier, version: T.fromVersion)
             } else {
-                try userDefaults.set(permissions, forKey: .permissions, version: T.fromVersion)
+                try userDefaults.set(permissions, forKey: .permissions, blockchainIdentifier: T.blockchainIdentifier, version: T.fromVersion)
             }
         }
     }
@@ -136,31 +152,47 @@ private extension UserDefaults {
         set(value, forKey: key.rawValue)
     }
     
-    func set<T: Codable>(_ value: T, forKey key: UserDefaultsStorage.Key, version: String? = nil) throws {
+    func set<T: Codable>(
+        _ value: T,
+        forKey key: UserDefaultsStorage.Key,
+        blockchainIdentifier: String? = nil,
+        version: String? = nil
+    ) throws {
         let propertyListEncoder = PropertyListEncoder()
-        set(try propertyListEncoder.encode(value), forKey: self.key(from: key, andVersion: version))
+        set(try propertyListEncoder.encode(value), forKey: self.key(from: key, blockchainIdentifier: blockchainIdentifier, andVersion: version))
     }
     
     func string(forKey key: UserDefaultsStorage.Key) -> String? {
         string(forKey: key.rawValue)
     }
     
-    func get<T: Codable>(_ type: T.Type, forKey key: UserDefaultsStorage.Key, version: String? = nil) throws -> T? {
+    func get<T: Codable>(
+        _ type: T.Type,
+        forKey key: UserDefaultsStorage.Key,
+        blockchainIdentifier: String? = nil,
+        version: String? = nil
+    ) throws -> T? {
         let propertyListDecoder = PropertyListDecoder()
-        if let data = data(forKey: self.key(from: key, andVersion: version)) {
+        if let data = data(forKey: self.key(from: key, blockchainIdentifier: blockchainIdentifier, andVersion: version)) {
             return try propertyListDecoder.decode(type, from: data)
         } else {
             return nil
         }
     }
     
-    func removeObject(forKey key: UserDefaultsStorage.Key, version: String? = nil) {
-        removeObject(forKey: self.key(from: key, andVersion: version))
+    func removeObject(forKey key: UserDefaultsStorage.Key, blockchainIdentifier: String? = nil, version: String? = nil) {
+        removeObject(forKey: self.key(from: key, blockchainIdentifier: blockchainIdentifier, andVersion: version))
     }
     
-    private func key(from key: UserDefaultsStorage.Key, andVersion version: String?) -> String {
-        if let version = version {
-            return "\(key.rawValue)_\(version)"
+    private func key(
+        from key: UserDefaultsStorage.Key,
+        blockchainIdentifier: String?,
+        andVersion version: String?
+    ) -> String {
+        let specifiers = [blockchainIdentifier, version].compactMap { $0 }
+        
+        if !specifiers.isEmpty {
+            return "\(key.rawValue)_\(specifiers.joined(separator: "_"))"
         } else {
             return key.rawValue
         }

@@ -29,6 +29,13 @@ class SubstrateDependencyRegistry: ExtendedDependencyRegistry {
         Substrate.Creator(wallet: self.substrateWallet, storageManager: self.storageManager, identifierCreator: self.identifierCreator, time: self.time)
     }
     
+    // MARK: StorageExtension
+    
+    var substrateStorageExtension: Substrate.StorageExtension { weakSubstrateStorageExtension.value }
+    private lazy var weakSubstrateStorageExtension: LazyWeakReference<Substrate.StorageExtension> = LazyWeakReference { [unowned self] in
+        Substrate.StorageExtension(storage: self.storageManager)
+    }
+    
     // MARK: Derived
     
     var extended: [String : DependencyRegistry] { dependencyRegistry.extended }

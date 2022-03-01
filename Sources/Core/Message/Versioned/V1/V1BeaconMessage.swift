@@ -120,7 +120,7 @@ public enum V1BeaconMessage<BlockchainType: Blockchain>: V1BeaconMessageProtocol
 
 // MARK: Protocol
 
-public protocol V1BeaconMessageProtocol: VersionedBeaconMessageProtocol {
+public protocol V1BeaconMessageProtocol: VersionedBeaconMessageProtocol, Identifiable {
     var id: String { get }
     var type: String { get }
 }

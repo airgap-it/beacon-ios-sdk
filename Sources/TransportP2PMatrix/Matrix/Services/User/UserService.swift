@@ -11,7 +11,7 @@ import BeaconCore
 
 extension MatrixClient {
     
-    class UserService: Service {
+    class UserService: MatrixService {
         
         func login(
             on node: String,

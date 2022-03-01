@@ -17,6 +17,10 @@ protocol ExtendedDependencyRegistry: DependencyRegistry {
     // MARK: Creator
     
     var tezosCreator: Tezos.Creator { get }
+    
+    // MARK: StorageExtension
+    
+    var tezosStorageExtension: Tezos.StorageExtension { get }
 }
 
 extension DependencyRegistry {

@@ -10,7 +10,7 @@ import Foundation
 import BeaconCore
     
 /// Tezos specific content of the `BeaconResponse.permission` message.
-public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Equatable, Codable {
+public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Identifiable, Equatable, Codable {
     
     /// The value that identifies the request to which the message is responding.
     public let id: String

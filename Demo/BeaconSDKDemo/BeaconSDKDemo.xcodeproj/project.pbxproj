@@ -14,11 +14,11 @@
 		49C97F9025ADB07F002F6366 /* BeaconSDKDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97F8F25ADB07F002F6366 /* BeaconSDKDemoTests.swift */; };
 		49C97F9B25ADB07F002F6366 /* BeaconSDKDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97F9A25ADB07F002F6366 /* BeaconSDKDemoUITests.swift */; };
 		49C97FAE25ADB0F8002F6366 /* BeaconViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97FAC25ADB0F8002F6366 /* BeaconViewModel.swift */; };
-		88BCEA792705FEC300C7F5A9 /* BeaconBlockchainTezos in Frameworks */ = {isa = PBXBuildFile; productRef = 88BCEA782705FEC300C7F5A9 /* BeaconBlockchainTezos */; };
-		88BCEA7B2705FEC300C7F5A9 /* BeaconClientWallet in Frameworks */ = {isa = PBXBuildFile; productRef = 88BCEA7A2705FEC300C7F5A9 /* BeaconClientWallet */; };
-		88BCEA7D2705FEC300C7F5A9 /* BeaconCore in Frameworks */ = {isa = PBXBuildFile; productRef = 88BCEA7C2705FEC300C7F5A9 /* BeaconCore */; };
-		88BCEA7F2705FEC300C7F5A9 /* BeaconTransportP2PMatrix in Frameworks */ = {isa = PBXBuildFile; productRef = 88BCEA7E2705FEC300C7F5A9 /* BeaconTransportP2PMatrix */; };
-		A39C5AA6278DBB8300CE87FD /* BeaconBlockchainSubstrate in Frameworks */ = {isa = PBXBuildFile; productRef = A39C5AA5278DBB8300CE87FD /* BeaconBlockchainSubstrate */; };
+		A3DD2BB127CCD65A0040FF1D /* BeaconBlockchainSubstrate in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB027CCD65A0040FF1D /* BeaconBlockchainSubstrate */; };
+		A3DD2BB327CCD65A0040FF1D /* BeaconBlockchainTezos in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB227CCD65A0040FF1D /* BeaconBlockchainTezos */; };
+		A3DD2BB527CCD65A0040FF1D /* BeaconClientWallet in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB427CCD65A0040FF1D /* BeaconClientWallet */; };
+		A3DD2BB727CCD65A0040FF1D /* BeaconCore in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB627CCD65A0040FF1D /* BeaconCore */; };
+		A3DD2BB927CCD65A0040FF1D /* BeaconTransportP2PMatrix in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB827CCD65A0040FF1D /* BeaconTransportP2PMatrix */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,11 +61,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88BCEA7F2705FEC300C7F5A9 /* BeaconTransportP2PMatrix in Frameworks */,
-				88BCEA7B2705FEC300C7F5A9 /* BeaconClientWallet in Frameworks */,
-				88BCEA792705FEC300C7F5A9 /* BeaconBlockchainTezos in Frameworks */,
-				88BCEA7D2705FEC300C7F5A9 /* BeaconCore in Frameworks */,
-				A39C5AA6278DBB8300CE87FD /* BeaconBlockchainSubstrate in Frameworks */,
+				A3DD2BB527CCD65A0040FF1D /* BeaconClientWallet in Frameworks */,
+				A3DD2BB327CCD65A0040FF1D /* BeaconBlockchainTezos in Frameworks */,
+				A3DD2BB127CCD65A0040FF1D /* BeaconBlockchainSubstrate in Frameworks */,
+				A3DD2BB927CCD65A0040FF1D /* BeaconTransportP2PMatrix in Frameworks */,
+				A3DD2BB727CCD65A0040FF1D /* BeaconCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +95,7 @@
 				49C97F8E25ADB07F002F6366 /* BeaconSDKDemoTests */,
 				49C97F9925ADB07F002F6366 /* BeaconSDKDemoUITests */,
 				49C97F7B25ADB07E002F6366 /* Products */,
-				49C97FB325ADB245002F6366 /* Frameworks */,
+				EF339F87834EDDBD6064FFD8 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -156,19 +156,19 @@
 			path = Beacon;
 			sourceTree = "<group>";
 		};
-		49C97FB325ADB245002F6366 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		88BC03AB2705FD130095C508 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
 				88BC03AC2705FD130095C508 /* beacon-ios-sdk */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		EF339F87834EDDBD6064FFD8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,11 +188,11 @@
 			);
 			name = BeaconSDKDemo;
 			packageProductDependencies = (
-				88BCEA782705FEC300C7F5A9 /* BeaconBlockchainTezos */,
-				88BCEA7A2705FEC300C7F5A9 /* BeaconClientWallet */,
-				88BCEA7C2705FEC300C7F5A9 /* BeaconCore */,
-				88BCEA7E2705FEC300C7F5A9 /* BeaconTransportP2PMatrix */,
-				A39C5AA5278DBB8300CE87FD /* BeaconBlockchainSubstrate */,
+				A3DD2BB027CCD65A0040FF1D /* BeaconBlockchainSubstrate */,
+				A3DD2BB227CCD65A0040FF1D /* BeaconBlockchainTezos */,
+				A3DD2BB427CCD65A0040FF1D /* BeaconClientWallet */,
+				A3DD2BB627CCD65A0040FF1D /* BeaconCore */,
+				A3DD2BB827CCD65A0040FF1D /* BeaconTransportP2PMatrix */,
 			);
 			productName = BeaconSDKDemo;
 			productReference = 49C97F7A25ADB07E002F6366 /* BeaconSDKDemo.app */;
@@ -265,8 +265,6 @@
 				Base,
 			);
 			mainGroup = 49C97F7125ADB07E002F6366;
-			packageReferences = (
-			);
 			productRefGroup = 49C97F7B25ADB07E002F6366 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -633,25 +631,25 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		88BCEA782705FEC300C7F5A9 /* BeaconBlockchainTezos */ = {
+		A3DD2BB027CCD65A0040FF1D /* BeaconBlockchainSubstrate */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BeaconBlockchainSubstrate;
+		};
+		A3DD2BB227CCD65A0040FF1D /* BeaconBlockchainTezos */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BeaconBlockchainTezos;
 		};
-		88BCEA7A2705FEC300C7F5A9 /* BeaconClientWallet */ = {
+		A3DD2BB427CCD65A0040FF1D /* BeaconClientWallet */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BeaconClientWallet;
 		};
-		88BCEA7C2705FEC300C7F5A9 /* BeaconCore */ = {
+		A3DD2BB627CCD65A0040FF1D /* BeaconCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BeaconCore;
 		};
-		88BCEA7E2705FEC300C7F5A9 /* BeaconTransportP2PMatrix */ = {
+		A3DD2BB827CCD65A0040FF1D /* BeaconTransportP2PMatrix */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BeaconTransportP2PMatrix;
-		};
-		A39C5AA5278DBB8300CE87FD /* BeaconBlockchainSubstrate */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = BeaconBlockchainSubstrate;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

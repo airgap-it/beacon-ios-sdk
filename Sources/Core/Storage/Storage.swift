@@ -20,6 +20,9 @@ public protocol Storage {
     func getAppMetadata<T: AppMetadataProtocol>(completion: @escaping (Result<[T], Error>) -> ())
     func set<T: AppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ())
     
+    func getLegacyAppMetadata<T: LegacyAppMetadata>(completion: @escaping (Result<[T], Error>) -> ())
+    func setLegacy<T: LegacyAppMetadata>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ())
+    
     // MARK: Permissions
     
     func getPermissions<T: PermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ())

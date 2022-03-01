@@ -10,7 +10,7 @@ import BeaconCore
 
 extension MatrixClient {
     
-    class NodeService: Service {
+    class NodeService: MatrixService {
         
         // MARK: API Calls
         

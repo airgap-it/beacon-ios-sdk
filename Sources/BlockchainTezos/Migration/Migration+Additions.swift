@@ -9,7 +9,7 @@ import Foundation
 import BeaconCore
 
 extension Migration {
-    func migratePermissions(completion: @escaping (Result<(), Swift.Error>) -> ()) {
-        migrate(Tezos.Target.permissions(.init()), completion: completion)
+    func migrateStorage(completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        migrate(Tezos.Target.storage(.init()), completion: completion)
     }
 }

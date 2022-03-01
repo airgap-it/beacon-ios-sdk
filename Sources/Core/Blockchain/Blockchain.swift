@@ -30,6 +30,7 @@ public protocol ShadowBlockchain {
     static var identifier: String { get }
     
     var creator: Any { get }
+    var storageExtension: BlockchainStorageExtension { get }
 }
 
 // MARK: Any
@@ -48,9 +49,11 @@ struct AnyBlockchain : Blockchain {
     static let identifier: String = "any"
     
     let creator: AnyBlockchainCreator
+    let storageExtension: BlockchainStorageExtension
     
-    init(creator: AnyBlockchainCreator) {
+    init(creator: AnyBlockchainCreator, storageExtension: AnyBlockchainStorageExtensions) {
         self.creator = creator
+        self.storageExtension = storageExtension
     }
 }
 
