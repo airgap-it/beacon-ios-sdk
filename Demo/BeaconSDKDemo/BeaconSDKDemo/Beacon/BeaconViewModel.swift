@@ -144,7 +144,7 @@ class BeaconViewModel: ObservableObject {
                 with: .init(
                     name: "iOS Beacon SDK Demo",
                     blockchains: [Tezos.factory, Substrate.factory],
-                    connections: [.p2p(.init(client: try Transport.P2P.Matrix.factory()))]
+                    connections: [try Transport.P2P.Matrix.connection()]
                 )
             ) { result in
                 switch result {
