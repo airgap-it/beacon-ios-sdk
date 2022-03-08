@@ -1,6 +1,8 @@
 # Beacon iOS SDK
 
-[![release](https://img.shields.io/github/v/tag/airgap-it/beacon-ios-sdk?include_prereleases)](https://github.com/airgap-it/beacon-ios-sdk/releases)
+[![stable](https://img.shields.io/github/v/tag/airgap-it/beacon-ios-sdk?label=stable&sort=semver)](https://github.com/airgap-it/beacon-ios-sdk/releases)
+[![latest](https://img.shields.io/github/v/tag/airgap-it/beacon-ios-sdk?color=orange&include_prereleases&label=latest)](https://github.com/airgap-it/beacon-ios-sdk/releases)
+[![license](https://img.shields.io/github/license/airgap-it/beacon-ios-sdk)](https://github.com/airgap-it/beacon-ios-sdk/blob/master/LICENSE)
 
 > Connect Wallets with dApps on Tezos
 
@@ -33,30 +35,75 @@ Add the following dependency in your `Package.swift` file:
 .package(url: "https://github.com/airgap-it/beacon-ios-sdk", from: "3.0.0")
 ```
 
-<!-- ### CocoaPods
+### CocoaPods
 
 To add `Beacon iOS SDK` using [CocoaPods](https://cocoapods.org/), add the `Beacon iOS SDK` pod to your `Podfile`:
 
 ```ruby
-pod 'BeaconSDK', '~> 3.0.0'
+target 'MyTarget' do
+    use_frameworks!
+    
+    pod 'BeaconCore', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => 'x.y.z'
 
----
-# Alternatively, download individual packages separately
-pod `BeaconSDK`, :subspecs => ['BeaconCore', 'BeaconClientWallet', 'BeaconTransportP2PMatrix', 'BeaconBlockchainTezos']
-``` -->
+    // optional
+    pod 'BeaconClientWallet', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => 'x.y.z'
+
+    // optional
+    pod 'BeaconBlockchainSubstrate', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => 'x.y.z'
+    // optional
+    pod 'BeaconBlockchainTezos', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => 'x.y.z'
+
+    // optional
+    pod 'BeaconTransportP2PMatrix', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => 'x.y.z'
+end
+```
 
 <!-- TODO: ## Documentation -->
 
 ## Project Overview
 
-The project is divided into the following targets:
+The project is divided into the following packages:
 
-- `BeaconCore` - common and base code for other targets
-- `BeaconClientWallet` - the Beacon implementation for wallets
-- `BeaconBlockchainTezos` - a set of messages, utility functions and other components specific for Tezos
-- `BeaconBlockchainSubstrate` - a set of messages, utility functions and other components specific for Substrate
-- `BeaconTransportP2PMatrix` - Beacon P2P implementation which uses [Matrix](https://matrix.org/) network for the communication
-- `BeaconSDKDemo` - an example application
+### Core
+
+Core packages are the basis for other packages. They are required for the SDK to work as expected.
+
+| Module       | Description            | Dependencies | Required by                                                                                                                          |
+| ------------ | ---------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `BeaconCore` | Base for other modules | ✖️           | `BeaconClientWallet` <br /><br /> `BeaconBlockchainSubstrate` <br /> `BeaconBlockchainTezos` <br /><br /> `BeaconTransportP2PMatrix` |
+
+### Client
+
+Client packages ship with Beacon implementations for different parts of the network.
+
+| Module               | Description                       | Dependencies | Required by |
+| -------------------- | --------------------------------- | ------------ | ----------- |
+| `BeaconClientWallet` | Beacon implementation for wallets | `BeaconCore` | ✖️          |
+
+### Blockchain
+
+Blockchain packages provide support for different blockchains.
+
+| Module                      | Description                                            | Dependencies | Required by |
+| --------------------------- | ------------------------------------------------------ | ------------ | ----------- |
+| `BeaconBlockchainSubstrate` | [Substrate](https://substrate.io/) specific components | `BeaconCore` | ✖️          |
+| `BeaconBlockchainTezos`     | [Tezos](https://tezos.com/) specific components        | `BeaconCore` | ✖️          |
+
+### Transport
+
+Transport packages provide various interfaces used to establish connection between Beacon clients.
+
+| Module                     | Description                                                                              | Dependencies | Required by |
+| -------------------------- | ---------------------------------------------------------------------------------------- | ------------ | ----------- |
+| `BeaconTransportP2PMatrix` | Beacon P2P implementation which uses [Matrix](https://matrix.org/) for the communication | `BeaconCore` | ✖️          |
+
+### Demo
+
+Demos provide examples of how to use the library. 
+
+| Module          | Description         |
+| --------------- | ------------------- |
+| `BeaconSDKDemo` | Example application |
 
 ## Examples
 
@@ -83,7 +130,7 @@ class BeaconController {
             with: Beacon.Client.Configuration(
                 name: "My App",
                 blockchains: [Tezos.factory, Substrate.factory],
-                connections: [.p2p(.init(client: try Transport.P2P.Matrix.factory()))]
+                connections: [try Transport.P2P.Matrix.connection()]
             )
         ) { result in
             switch result {
@@ -132,7 +179,7 @@ Beacon.WalletClient.create(
     with: Beacon.Client.Configuration(
         name: "My App",
         blockchains: [Tezos.factory],
-        connections: [.p2p(.init(client: try Transport.P2P.Matrix.factory()))]
+        connections: [try Transport.P2P.Matrix.connection()]
     )
 ) { /* ... */ }
 ```
