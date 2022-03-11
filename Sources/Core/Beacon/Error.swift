@@ -165,6 +165,14 @@ extension Beacon {
         /// 
         case unexpectedBlockchainIdentifier(_ blockchainIdentifier: String)
         
+        // MARK: Account
+        
+        ///
+        /// The requested account does not exist in Beacon.
+        /// - `accountID`: The account identifier.
+        /// 
+        case accountNotFound(_ accountID: String)
+        
         // MARK: P2P
         
         /// No P2P nodes have been configured.

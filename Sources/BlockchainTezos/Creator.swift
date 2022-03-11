@@ -13,13 +13,11 @@ extension Tezos {
     public class Creator: BlockchainCreator {
         public typealias BlockchainType = Tezos
         
-        private let wallet: Wallet
         private let storageManager: StorageManager
         private let identifierCreator: IdentifierCreatorProtocol
         private let time: TimeProtocol
         
-        init(wallet: Wallet, storageManager: StorageManager, identifierCreator: IdentifierCreatorProtocol, time: TimeProtocol) {
-            self.wallet = wallet
+        init(storageManager: StorageManager, identifierCreator: IdentifierCreatorProtocol, time: TimeProtocol) {
             self.storageManager = storageManager
             self.identifierCreator = identifierCreator
             self.time = time
@@ -37,17 +35,16 @@ extension Tezos {
                         throw Error.noMatchingAppMetadata
                     }
                     
-                    let address = try self.wallet.address(fromPublicKey: response.publicKey)
-                    let accountID = try self.identifierCreator.accountID(forAddress: address, on: response.network)
+                    let accountID = try self.identifierCreator.accountID(forAddress: response.account.address, on: response.account.network)
                     let senderID = try self.identifierCreator.senderID(from: try HexString(from: request.origin.id))
 
                     let permission = Tezos.Permission(
                         accountID: accountID,
                         senderID: senderID,
                         connectedAt: self.time.currentTimeMillis,
-                        address: address,
-                        publicKey: response.publicKey,
-                        network: response.network,
+                        address: response.account.address,
+                        publicKey: response.account.publicKey,
+                        network: response.account.network,
                         appMetadata: appMetadata,
                         scopes: response.scopes
                     )

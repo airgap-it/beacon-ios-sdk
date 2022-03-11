@@ -56,8 +56,8 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol {
             version: beaconMessage.version,
             id: beaconMessage.id,
             senderID: senderID,
-            publicKey: beaconMessage.publicKey,
-            network: beaconMessage.network,
+            publicKey: beaconMessage.account.publicKey,
+            network: beaconMessage.account.network,
             scopes: beaconMessage.scopes
         )
     }
@@ -75,9 +75,7 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol {
                         id: id,
                         version: version,
                         requestOrigin: origin,
-                        accountIDs: [accountID],
-                        publicKey: publicKey,
-                        network: network,
+                        account: .init(accountID: accountID, network: network, publicKey: publicKey, address: address),
                         scopes: scopes
                     )
                 )

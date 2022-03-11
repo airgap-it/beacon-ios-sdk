@@ -1,5 +1,5 @@
 //
-//  BroadcastAndReturnTransferSubstrateResponse.swift
+//  SubmitSignPayloadSubstrateResponse.swift
 //
 //
 //  Created by Julia Samol on 11.01.22.
@@ -8,7 +8,7 @@
 import Foundation
 import BeaconCore
 
-public struct BroadcastAndReturnTransferSubstrateResponse: BlockchainBeaconResponseProtocol, Identifiable, Equatable, Codable {
+public struct SubmitSignPayloadSubstrateResponse: BlockchainBeaconResponseProtocol, Identifiable, Equatable, Codable {
     /// The value that identifies the request to which the message is responding.
     public let id: String
     
@@ -20,10 +20,8 @@ public struct BroadcastAndReturnTransferSubstrateResponse: BlockchainBeaconRespo
     
     public let transactionHash: String
     
-    public let payload: String
-    
-    public init(from request: TransferSubstrateRequest, transactionHash: String, payload: String) throws {
-        guard request.mode == .broadcastAndReturn else {
+    public init(from request: SignPayloadSubstrateRequest, transactionHash: String) throws {
+        guard request.mode == .submit else {
             throw Error.invalidRequestMode
         }
         
@@ -31,17 +29,15 @@ public struct BroadcastAndReturnTransferSubstrateResponse: BlockchainBeaconRespo
             id: request.id,
             version: request.version,
             requestOrigin: request.origin,
-            transactionHash: transactionHash,
-            payload: payload
+            transactionHash: transactionHash
         )
     }
     
-    public init(id: String, version: String, requestOrigin: Beacon.Origin, transactionHash: String, payload: String) {
+    public init(id: String, version: String, requestOrigin: Beacon.Origin, transactionHash: String) {
         self.id = id
         self.version = version
         self.requestOrigin = requestOrigin
         self.transactionHash = transactionHash
-        self.payload = payload
     }
     
     // MARK: Types

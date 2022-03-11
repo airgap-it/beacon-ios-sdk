@@ -21,37 +21,24 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Identif
     /// The origination data of the request.
     public let requestOrigin: Beacon.Origin
     
-    /// The account identifiers of the accounts that are granting the permissions.
-    public let accountIDs: [String]
-    
-    /// The public key of the account that is granting the permissions.
-    public let publicKey: String
-    
-    /// The network to which the permissions apply.
-    public let network: Tezos.Network
+    /// The account that is granting the permissions.
+    public let account: Tezos.Account
     
     /// The list of granted permissions.
     public let scopes: [Tezos.Permission.Scope]
     
     public init(
         from request: Tezos.Request.Permission,
-        publicKey: String,
-        network: Tezos.Network? = nil,
+        account: Tezos.Account,
         scopes: [Tezos.Permission.Scope]? = nil
-    ) throws {
-        let network = network ?? request.network
+    ) {
         let scopes = scopes ?? request.scopes
-        
-        let address = try dependencyRegistry().extend().tezosWallet.address(fromPublicKey: publicKey)
-        let accountID = try dependencyRegistry().identifierCreator.accountID(forAddress: address, on: network)
         
         self.init(
             id: request.id,
             version: request.version,
             requestOrigin: request.origin,
-            accountIDs: [accountID],
-            publicKey: publicKey,
-            network: network,
+            account: account,
             scopes: scopes
         )
     }
@@ -60,17 +47,13 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Identif
         id: String,
         version: String,
         requestOrigin: Beacon.Origin,
-        accountIDs: [String],
-        publicKey: String,
-        network: Tezos.Network,
+        account: Tezos.Account,
         scopes: [Tezos.Permission.Scope]
     ) {
         self.id = id
         self.version = version
         self.requestOrigin = requestOrigin
-        self.accountIDs = accountIDs
-        self.publicKey = publicKey
-        self.network = network
+        self.account = account
         self.scopes = scopes
     }
 }

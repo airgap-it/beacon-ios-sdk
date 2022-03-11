@@ -13,13 +13,11 @@ extension Substrate {
     public class Creator: BlockchainCreator {
         public typealias BlockchainType = Substrate
         
-        private let wallet: Wallet
         private let storageManager: StorageManager
         private let identifierCreator: IdentifierCreatorProtocol
         private let time: TimeProtocol
         
-        init(wallet: Wallet, storageManager: StorageManager, identifierCreator: IdentifierCreatorProtocol, time: TimeProtocol) {
-            self.wallet = wallet
+        init(storageManager: StorageManager, identifierCreator: IdentifierCreatorProtocol, time: TimeProtocol) {
             self.storageManager = storageManager
             self.identifierCreator = identifierCreator
             self.time = time
@@ -38,8 +36,7 @@ extension Substrate {
                     }
                     
                     let permissions: [Substrate.Permission] = try response.accounts.map {
-                        let address = try self.wallet.address(fromPublicKey: $0.publicKey, withPrefix: $0.addressPrefix)
-                        let accountID = try self.identifierCreator.accountID(forAddress: address, on: $0.network)
+                        let accountID = try self.identifierCreator.accountID(forAddress: $0.address, on: $0.network)
                         let senderID = try self.identifierCreator.senderID(from: try HexString(from: request.origin.id))
                         
                         return Substrate.Permission(

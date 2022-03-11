@@ -1,5 +1,5 @@
 //
-//  SignSubstrateRequest.swift
+//  SignPayloadSubstrateRequest.swift
 //  
 //
 //  Created by Julia Samol on 10.01.22.
@@ -9,7 +9,16 @@ import Foundation
 import BeaconCore
 
 /// Body of the `BlockchainSubstrateRequest.sign` message.
-public struct SignSubstrateRequest: BlockchainBeaconRequestProtocol, Identifiable, Equatable, Codable {
+public struct SignPayloadSubstrateRequest: BlockchainBeaconRequestProtocol, Identifiable, Equatable, Codable {
+    
+    public var scope: Substrate.Permission.Scope {
+        switch payload {
+        case .json(_):
+            return .signPayloadJSON
+        case .raw(_):
+            return .signPayloadRaw
+        }
+    }
     
     /// The value that identifies this request.
     public let id: String
@@ -26,21 +35,17 @@ public struct SignSubstrateRequest: BlockchainBeaconRequestProtocol, Identifiabl
     /// The account identifier of the account that is requested to handle this request.
     public let accountID: String?
     
-    public let scope: Substrate.Permission.Scope
+    public let address: String
     
-    public let network: Substrate.Network
-    
-    public let runtimeSpec: Substrate.RuntimeSpec
-    
-    public let payload: String
+    public let payload: Substrate.SignerPayload
     
     public let mode: Mode
     
     // MARK: Mode
     
     public enum Mode: String, Codable, Equatable {
-        case broadcast
-        case broadcastAndReturn = "broadcast_and_return"
+        case submit
+        case submitAndReturn = "submit_and_return"
         case `return`
     }
 }

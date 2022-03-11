@@ -15,18 +15,11 @@ class SubstrateDependencyRegistry: ExtendedDependencyRegistry {
         self.dependencyRegistry = dependencyRegistry
     }
     
-    // MARK: Wallet
-    
-    var substrateWallet: Substrate.Wallet { weakSubstrateWallet.value }
-    private lazy var weakSubstrateWallet: LazyWeakReference<Substrate.Wallet> = LazyWeakReference { [unowned self] in
-        Substrate.Wallet(crypto: self.crypto)
-    }
-    
     // MARK: Creator
     
     var substrateCreator: Substrate.Creator { weakSubstrateCreator.value }
     private lazy var weakSubstrateCreator: LazyWeakReference<Substrate.Creator> = LazyWeakReference { [unowned self] in
-        Substrate.Creator(wallet: self.substrateWallet, storageManager: self.storageManager, identifierCreator: self.identifierCreator, time: self.time)
+        Substrate.Creator(storageManager: self.storageManager, identifierCreator: self.identifierCreator, time: self.time)
     }
     
     // MARK: StorageExtension

@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol LegacyAppMetadataProtocol: AppMetadataProtocol, Equatable, Codable {
+public protocol LegacyAppMetadataProtocol: AppMetadataProtocol {
     static var fromVersion: String { get }
 }

@@ -23,7 +23,7 @@ public enum BlockchainSubstrateRequest: BlockchainBeaconRequestProtocol, Equatab
     ///
     /// - sign: The body of the message.
     ///
-    case sign(_ sign: SignSubstrateRequest)
+    case signPayload(_ sign: SignPayloadSubstrateRequest)
     
     // MARK: Attributes
     
@@ -46,7 +46,7 @@ public enum BlockchainSubstrateRequest: BlockchainBeaconRequestProtocol, Equatab
         switch self {
         case let .transfer(content):
             return content
-        case let .sign(content):
+        case let .signPayload(content):
             return content
         }
     }

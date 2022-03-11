@@ -1,6 +1,6 @@
 //
-//  TransferSubstrateResponse.swift
-//  
+//  SignPayloadSubstrateResponse.swift
+//
 //
 //  Created by Julia Samol on 11.01.22.
 //
@@ -8,12 +8,12 @@
 import Foundation
 import BeaconCore
 
-public enum TransferSubstrateResponse: BlockchainBeaconResponseProtocol, Equatable {
-    case submit(_ submit: SubmitTransferSubstrateResponse)
-    case submitAndReturn(_ submitAndReturn: SubmitAndReturnTransferSubstrateResponse)
-    case `return`(_ return: ReturnTransferSubstrateResponse)
+public enum SignPayloadSubstrateResponse: BlockchainBeaconResponseProtocol, Equatable {
+    case submit(_ submit: SubmitSignPayloadSubstrateResponse)
+    case submitAndReturn(_ submitAndReturn: SubmitAndReturnSignPayloadSubstrateResponse)
+    case `return`(_ return: ReturnSignPayloadSubstrateResponse)
     
-    public init(from request: TransferSubstrateRequest, transactionHash: String?, signature: String?, payload: String?) throws {
+    public init(from request: SignPayloadSubstrateRequest, transactionHash: String?, signature: String?, payload: String?) throws {
         switch request.mode {
         case .submit:
             guard let transactionHash = transactionHash, signature == nil, payload == nil else {
@@ -53,7 +53,7 @@ public enum TransferSubstrateResponse: BlockchainBeaconResponseProtocol, Equatab
             return content
         case let .submitAndReturn(content):
             return content
-        case let .`return`(content):
+        case let .return(content):
             return content
         }
     }

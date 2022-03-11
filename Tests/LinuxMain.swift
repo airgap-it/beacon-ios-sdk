@@ -1,8 +1,11 @@
 import XCTest
 
 import BeaconCoreTests
+import BeaconClientWalletTests
+import BeaconBlockchainTezosTests
 
 var tests = [XCTestCaseEntry]()
-tests += BeaconSDKTests.allTests()
+tests += BeaconCoreTests.allTests()
 tests += BeaconClientWalletTests.allTests()
+tests += BeaconBlockchainTezosTests.allTests()
 XCTMain(tests)

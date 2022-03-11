@@ -53,11 +53,18 @@ let package = Package(
         ),
         .testTarget(
             name: "BeaconCoreTests",
-            dependencies: ["BeaconCore", "Common"]
+            dependencies: ["BeaconCore", "Common"],
+            path: "Tests/BeaconCoreTests"
         ),
         .testTarget(
             name: "BeaconClientWalletTests",
-            dependencies: ["BeaconClientWallet", "Common"]
+            dependencies: ["BeaconClientWallet", "Common"],
+            path: "Tests/BeaconClientWalletTests"
         ),
+        .testTarget(
+            name: "BeaconBlockchainTezosTests",
+            dependencies: ["BeaconCore", "BeaconBlockchainTezos", "Common"],
+            path: "Tests/BeaconBlockchainTezosTests"
+        )
     ]
 )

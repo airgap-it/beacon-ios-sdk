@@ -9,12 +9,16 @@ import Foundation
 import BeaconCore
 
 public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataProtocol {
+    public let accountID: String
     public let publicKey: String
+    public let address: String
     public let network: Tezos.Network
     public let scopes: [Tezos.Permission.Scope]
     
-    init(publicKey: String, network: Tezos.Network, scopes: [Tezos.Permission.Scope]) {
+    init(accountID: String, publicKey: String, address: String, network: Tezos.Network, scopes: [Tezos.Permission.Scope]) {
+        self.accountID = accountID
         self.publicKey = publicKey
+        self.address = address
         self.network = network
         self.scopes = scopes
     }
@@ -22,7 +26,13 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
     // MARK: BeaconMessage Compatibility
     
     public init(from permissionResponse: Tezos.Response.Permission) throws {
-        self.init(publicKey: permissionResponse.publicKey, network: permissionResponse.network, scopes: permissionResponse.scopes)
+        self.init(
+            accountID: permissionResponse.account.accountID,
+            publicKey: permissionResponse.account.publicKey,
+            address: permissionResponse.account.address,
+            network: permissionResponse.account.network,
+            scopes: permissionResponse.scopes
+        )
     }
     
     public func toBeaconMessage(
@@ -30,7 +40,6 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
         version: String,
         senderID: String,
         origin: Beacon.Origin,
-        accountIDs: [String],
         completion: @escaping (Result<BeaconMessage<Tezos>, Error>) -> ()
     ) {
         completion(.success(.response(
@@ -39,12 +48,20 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
                     id: id,
                     version: version,
                     requestOrigin: origin,
-                    accountIDs: accountIDs,
-                    publicKey: publicKey,
-                    network: network,
+                    account: .init(accountID: accountID, network: network, publicKey: publicKey, address: address),
                     scopes: scopes
                 )
             )
         )))
+    }
+    
+    // MARK: Types
+    
+    enum CodingKeys: String, CodingKey {
+        case accountID = "accountId"
+        case publicKey
+        case address
+        case network
+        case scopes
     }
 }

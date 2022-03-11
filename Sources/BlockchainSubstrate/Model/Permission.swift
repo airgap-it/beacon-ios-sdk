@@ -47,8 +47,8 @@ extension Substrate {
         /// Types of Substrate permissions supported in Beacon.
         public enum Scope: String, Codable, Equatable {
             case transfer
-            case signRaw = "sign_raw"
-            case signString = "sign_string"
+            case signPayloadJSON = "sign_payload_json"
+            case signPayloadRaw = "sign_payload_raw"
         }
     }
 }

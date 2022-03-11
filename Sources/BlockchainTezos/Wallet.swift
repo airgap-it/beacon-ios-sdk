@@ -11,7 +11,7 @@ import BeaconCore
 
 extension Tezos {
     
-    public class Wallet {
+    class Wallet {
         private let crypto: Crypto
         
         init(crypto: Crypto) {
@@ -19,34 +19,79 @@ extension Tezos {
         }
         
         public func address(fromPublicKey publicKey: String) throws -> String {
-            let payload = try crypto.hash(message: try publicKey.toBytes(), size: 20)
-            return Base58.base58CheckEncode(Tezos.PrefixBytes.tz1 + payload)
+            let publicKey = try PublicKey(from: publicKey)
+            let payload = try crypto.hash(message: publicKey.bytes, size: 20)
+            
+            return Base58.base58CheckEncode(publicKey.prefix.toAddress() + payload)
         }
+    }
+    
+    fileprivate struct PublicKey {
+        let prefix: Tezos.Prefix.PublicKey
+        let bytes: [UInt8]
     }
 }
 
 // MARK: Extensions
 
+private extension Tezos.PublicKey {
+    
+    init(from string: String) throws {
+        if string.isPlainPublicKey {
+            self.init(prefix: .ed25519, bytes: try HexString(from: string).asBytes())
+        } else if string.isEncryptedPublicKey {
+            guard let prefix = string.publicKeyPrefix() else {
+                throw Beacon.Error.invalidPublicKey(string)
+            }
+            
+            guard let decoded = Base58.base58CheckDecode(string) else {
+                throw Beacon.Error.invalidPublicKey(string)
+            }
+            
+            self.init(prefix: prefix, bytes: Array(decoded[prefix.bytes.count...]))
+        } else {
+            throw Beacon.Error.invalidPublicKey(string)
+        }
+    }
+}
+
+private extension Tezos.Prefix.PublicKey {
+    func toAddress() -> Tezos.Prefix.Address {
+        switch self {
+        case .ed25519:
+            return .ed25519
+        case .secp256K1:
+            return .secp256K1
+        case .p256:
+            return .p256
+        }
+    }
+}
+
+private extension TezosPrefixProtocol {
+    static func +(left: Self, right: [UInt8]) -> [UInt8] {
+        left.bytes + right
+    }
+}
+
 private extension String {
     var isPlainPublicKey: Bool {
         (count == 64 || count == 66) && isHex
     }
-    
+
     var isEncryptedPublicKey: Bool {
-        count == 54 && hasPrefix(Tezos.Prefix.edpk)
+        guard let prefix = publicKeyPrefix() else {
+            return false
+        }
+        
+        return count == prefix.encodedCount
     }
     
-    func toBytes() throws -> [UInt8] {
-        if isPlainPublicKey {
-            return try HexString(from: self).asBytes()
-        } else if isEncryptedPublicKey {
-            guard let decoded = Base58.base58CheckDecode(self) else {
-                throw Beacon.Error.invalidPublicKey(self)
-            }
-            
-            return Array(decoded[Tezos.Prefix.edpk.count...])
-        } else {
-            throw Beacon.Error.invalidPublicKey(self)
-        }
+    func publicKeyPrefix() -> Tezos.Prefix.PublicKey? {
+        Tezos.Prefix.PublicKey.allCases.first(where: { hasPrefix($0) })
+    }
+    
+    func hasPrefix(_ prefix: TezosPrefixProtocol) -> Bool {
+        hasPrefix(prefix.value)
     }
 }

@@ -10,7 +10,7 @@ import BeaconCore
 
 public enum BlockchainV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
     case transfer(TransferV3SubstrateRequest)
-    case sign(SignV3SubstrateRequest)
+    case signPayload(SignPayloadV3SubstrateRequest)
     
     // MARK: BeaconMessage Compatibility
     
@@ -18,8 +18,8 @@ public enum BlockchainV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
         switch blockchainRequest {
         case let .transfer(content):
             self = .transfer(TransferV3SubstrateRequest(from: content))
-        case let .sign(content):
-            self = .sign(SignV3SubstrateRequest(from: content))
+        case let .signPayload(content):
+            self = .signPayload(SignPayloadV3SubstrateRequest(from: content))
         }
     }
     
@@ -41,7 +41,7 @@ public enum BlockchainV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
                 accountID: accountID,
                 completion: completion
             )
-        case let .sign(content):
+        case let .signPayload(content):
             content.toBeaconMessage(
                 id: id,
                 version: version,
@@ -59,7 +59,7 @@ public enum BlockchainV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
         switch self {
         case let .transfer(content):
             return content.type
-        case let .sign(content):
+        case let .signPayload(content):
             return content.type
         }
     }
@@ -67,7 +67,7 @@ public enum BlockchainV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
         switch self {
         case let .transfer(content):
             return content.scope
-        case let .sign(content):
+        case let .signPayload(content):
             return content.scope
         }
     }
@@ -80,8 +80,8 @@ public enum BlockchainV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
         switch type {
         case TransferV3SubstrateRequest.type:
             self = .transfer(try TransferV3SubstrateRequest(from: decoder))
-        case SignV3SubstrateRequest.type:
-            self = .sign(try SignV3SubstrateRequest(from: decoder))
+        case SignPayloadV3SubstrateRequest.type:
+            self = .signPayload(try SignPayloadV3SubstrateRequest(from: decoder))
         default:
             throw Beacon.Error.unknownMessageType(type, version: "3")
         }
@@ -91,7 +91,7 @@ public enum BlockchainV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
         switch self {
         case let .transfer(content):
             try content.encode(to: encoder)
-        case let .sign(content):
+        case let .signPayload(content):
             try content.encode(to: encoder)
         }
     }

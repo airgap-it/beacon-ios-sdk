@@ -19,7 +19,6 @@ struct AnyBlockchainResponse: BlockchainResponse {
         public var id: String
         public var version: String
         public var requestOrigin: Beacon.Origin
-        public var accountIDs: [String]
     }
     
     struct Blockchain: BlockchainBeaconResponseProtocol, Equatable {

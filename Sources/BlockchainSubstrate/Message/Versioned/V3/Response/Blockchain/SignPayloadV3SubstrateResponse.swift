@@ -1,5 +1,5 @@
 //
-//  SignV3SubstrateResponse.swift
+//  SignPayloadV3SubstrateResponse.swift
 //
 //
 //  Created by Julia Samol on 11.01.22.
@@ -8,16 +8,18 @@
 import Foundation
 import BeaconCore
 
-public struct SignV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol {
+public struct SignPayloadV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol {
     public typealias BlockchainType = Substrate
     
     public let type: String
     public let transactionHash: String?
+    public let signature: String?
     public let payload: String?
     
-    init(transactionHash: String? = nil, payload: String? = nil) {
-        self.type = SignV3SubstrateResponse.type
+    init(transactionHash: String? = nil, signature: String? = nil, payload: String? = nil) {
+        self.type = SignPayloadV3SubstrateResponse.type
         self.transactionHash = transactionHash
+        self.signature = signature
         self.payload = payload
     }
     
@@ -25,21 +27,21 @@ public struct SignV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol {
     
     public init(from blockchainResponse: Substrate.Response.Blockchain) throws {
         switch blockchainResponse {
-        case let .sign(content):
+        case let .signPayload(content):
             self.init(from: content)
         default:
             throw Beacon.Error.unknownBeaconMessage
         }
     }
     
-    public init(from signResponse: SignSubstrateResponse) {
+    public init(from signResponse: SignPayloadSubstrateResponse) {
         switch signResponse {
-        case let .broadcast(content):
+        case let .submit(content):
             self.init(transactionHash: content.transactionHash)
-        case let .broadcastAndReturn(content):
-            self.init(transactionHash: content.transactionHash, payload: content.payload)
+        case let .submitAndReturn(content):
+            self.init(transactionHash: content.transactionHash, signature: content.signature, payload: content.payload)
         case let .return(content):
-            self.init(payload: content.payload)
+            self.init(signature: content.signature, payload: content.payload)
         }
     }
     
@@ -51,9 +53,9 @@ public struct SignV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol {
         completion: @escaping (Result<BeaconMessage<Substrate>, Swift.Error>) -> ()
     ) {
         runCatching(completion: completion) {
-            let signResponse: SignSubstrateResponse
-            if let transactionHash = transactionHash, payload == nil {
-                signResponse = .broadcast(
+            let signResponse: SignPayloadSubstrateResponse
+            if let transactionHash = transactionHash, signature == nil, payload == nil {
+                signResponse = .submit(
                     .init(
                         id: id,
                         version: version,
@@ -61,22 +63,24 @@ public struct SignV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol {
                         transactionHash: transactionHash
                     )
                 )
-            } else if let transactionHash = transactionHash, let payload = payload {
-                signResponse = .broadcastAndReturn(
+            } else if let transactionHash = transactionHash, let signature = signature {
+                signResponse = .submitAndReturn(
                     .init(
                         id: id,
                         version: version,
                         requestOrigin: origin,
                         transactionHash: transactionHash,
+                        signature: signature,
                         payload: payload
                     )
                 )
-            } else if let payload = payload, transactionHash == nil {
+            } else if let signature = signature, transactionHash == nil {
                 signResponse = .return(
                     .init(
                         id: id,
                         version: version,
                         requestOrigin: origin,
+                        signature: signature,
                         payload: payload
                     )
                 )
@@ -87,7 +91,7 @@ public struct SignV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol {
             let substrateMessage: BeaconMessage<Substrate> =
                 .response(
                     .blockchain(
-                        .sign(signResponse)
+                        .signPayload(signResponse)
                     )
                 )
             
@@ -104,6 +108,6 @@ public struct SignV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol {
 
 // MARK: Extension
 
-extension SignV3SubstrateResponse {
-    static var type: String { "sign_response" }
+extension SignPayloadV3SubstrateResponse {
+    static var type: String { "sign_payload_response" }
 }

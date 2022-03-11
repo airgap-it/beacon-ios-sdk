@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                  = "BeaconCore"
-    spec.version               = "3.0.1-beta.3"
+    spec.version               = "3.1.0-beta.0"
     spec.summary               = "Beacon is an implementation of the wallet interaction standard tzip-10 which describes the connection of a dApp with a wallet. BeaconCore is a common base for other targets."
     spec.description           = <<-DESC
       Beacon is an implementation of the Tezos wallet interaction standard tzip-10 which describes the connection of a dApp with a wallet. BeaconCore is a common base for other targets.

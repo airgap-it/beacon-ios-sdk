@@ -1,6 +1,6 @@
 //
-//  TransferV3SubstrateRequest.swift
-//  
+//  SignPayloadV3SubstrateRequest.swift
+//
 //
 //  Created by Julia Samol on 11.01.22.
 //
@@ -8,20 +8,16 @@
 import Foundation
 import BeaconCore
 
-public struct TransferV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
+public struct SignPayloadV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
     public let type: String
     public let scope: Substrate.Permission.Scope
-    public let amount: String
-    public let recipient: String
-    public let network: Substrate.Network
+    public let payload: Substrate.SignerPayload
     public let mode: Mode
     
-    init(scope: Substrate.Permission.Scope, amount: String, recipient: String, network: Substrate.Network, mode: Mode) {
-        self.type = TransferV3SubstrateRequest.type
+    init(scope: Substrate.Permission.Scope, payload: Substrate.SignerPayload, mode: Mode) {
+        self.type = SignPayloadV3SubstrateRequest.type
         self.scope = scope
-        self.amount = amount
-        self.recipient = recipient
-        self.network = network
+        self.payload = payload
         self.mode = mode
     }
     
@@ -29,20 +25,18 @@ public struct TransferV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
     
     public init(from blockchainRequest: Substrate.Request.Blockchain) throws {
         switch blockchainRequest {
-        case let .transfer(content):
+        case let .signPayload(content):
             self.init(from: content)
         default:
             throw Beacon.Error.unknownBeaconMessage
         }
     }
     
-    public init(from transferRequest: TransferSubstrateRequest) {
+    public init(from signRequest: SignPayloadSubstrateRequest) {
         self.init(
-            scope: transferRequest.scope,
-            amount: transferRequest.amount,
-            recipient: transferRequest.recipient,
-            network: transferRequest.network,
-            mode: Mode(from: transferRequest.mode)
+            scope: signRequest.scope,
+            payload: signRequest.payload,
+            mode: Mode(from: signRequest.mode)
         )
     }
     
@@ -68,18 +62,16 @@ public struct TransferV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
                             completion(result.map { appMetadata in
                                     .request(
                                         .blockchain(
-                                            .transfer(
+                                            .signPayload(
                                                 .init(
                                                     id: id,
                                                     version: version,
                                                     senderID: senderID,
                                                     origin: origin,
                                                     accountID: accountID,
-                                                    sourceAddress: account.address,
-                                                    amount: amount,
-                                                    recipient: recipient,
-                                                    network: network,
-                                                    mode: mode.toTransferRequestMode()
+                                                    address: account.address,
+                                                    payload: payload,
+                                                    mode: mode.toSignRequestMode()
                                                 )
                                             )
                                         )
@@ -100,7 +92,7 @@ public struct TransferV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
         case submitAndReturn = "submit_and_return"
         case `return`
         
-        init(from mode: TransferSubstrateRequest.Mode) {
+        init(from mode: SignPayloadSubstrateRequest.Mode) {
             switch mode {
             case .submit:
                 self = .submit
@@ -111,7 +103,7 @@ public struct TransferV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
             }
         }
         
-        func toTransferRequestMode() -> TransferSubstrateRequest.Mode {
+        func toSignRequestMode() -> SignPayloadSubstrateRequest.Mode {
             switch self {
             case .submit:
                 return .submit
@@ -126,6 +118,6 @@ public struct TransferV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
 
 // MARK: Extensions
 
-extension TransferV3SubstrateRequest {
-    static var type: String { "transfer_request" }
+extension SignPayloadV3SubstrateRequest {
+    static var type: String { "sign_payload_request" }
 }

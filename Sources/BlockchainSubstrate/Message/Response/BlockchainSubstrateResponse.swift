@@ -23,7 +23,7 @@ public enum BlockchainSubstrateResponse: BlockchainBeaconResponseProtocol, Equat
     ///
     /// - sign: The body of the message.
     ///
-    case sign(_ sign: SignSubstrateResponse)
+    case signPayload(_ sign: SignPayloadSubstrateResponse)
     
     // MARK: Attributes
     
@@ -40,7 +40,7 @@ public enum BlockchainSubstrateResponse: BlockchainBeaconResponseProtocol, Equat
         switch self {
         case let .transfer(content):
             return content
-        case let .sign(content):
+        case let .signPayload(content):
             return content
         }
     }
