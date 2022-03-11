@@ -1,5 +1,5 @@
 //
-//  BroadcastAndReturnSignSubstrateResponse.swift
+//  SubmitAndReturnTransferSubstrateResponse.swift
 //
 //
 //  Created by Julia Samol on 11.01.22.
@@ -8,7 +8,7 @@
 import Foundation
 import BeaconCore
 
-public struct BroadcastAndReturnSignSubstrateResponse: BlockchainBeaconResponseProtocol, Identifiable, Equatable, Codable {
+public struct SubmitAndReturnTransferSubstrateResponse: BlockchainBeaconResponseProtocol, Identifiable, Equatable, Codable {
     /// The value that identifies the request to which the message is responding.
     public let id: String
     
@@ -20,10 +20,12 @@ public struct BroadcastAndReturnSignSubstrateResponse: BlockchainBeaconResponseP
     
     public let transactionHash: String
     
-    public let payload: String
+    public let signature: String
     
-    public init(from request: SignSubstrateRequest, transactionHash: String, payload: String) throws {
-        guard request.mode == .broadcastAndReturn else {
+    public let payload: String?
+    
+    public init(from request: TransferSubstrateRequest, transactionHash: String, signature: String, payload: String? = nil) throws {
+        guard request.mode == .submitAndReturn else {
             throw Error.invalidRequestMode
         }
         
@@ -32,15 +34,17 @@ public struct BroadcastAndReturnSignSubstrateResponse: BlockchainBeaconResponseP
             version: request.version,
             requestOrigin: request.origin,
             transactionHash: transactionHash,
+            signature: signature,
             payload: payload
         )
     }
     
-    public init(id: String, version: String, requestOrigin: Beacon.Origin, transactionHash: String, payload: String) {
+    public init(id: String, version: String, requestOrigin: Beacon.Origin, transactionHash: String, signature: String, payload: String? = nil) {
         self.id = id
         self.version = version
         self.requestOrigin = requestOrigin
         self.transactionHash = transactionHash
+        self.signature = signature
         self.payload = payload
     }
     

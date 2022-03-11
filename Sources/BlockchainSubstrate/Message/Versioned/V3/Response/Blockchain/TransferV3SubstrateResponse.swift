@@ -13,11 +13,13 @@ public struct TransferV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol
     
     public let type: String
     public let transactionHash: String?
+    public let signature: String?
     public let payload: String?
     
-    init(transactionHash: String? = nil, payload: String? = nil) {
+    init(transactionHash: String? = nil, signature: String? = nil, payload: String? = nil) {
         self.type = TransferV3SubstrateResponse.type
         self.transactionHash = transactionHash
+        self.signature = signature
         self.payload = payload
     }
     
@@ -34,12 +36,12 @@ public struct TransferV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol
     
     public init(from transferResponse: TransferSubstrateResponse) {
         switch transferResponse {
-        case let .broadcast(content):
+        case let .submit(content):
             self.init(transactionHash: content.transactionHash)
-        case let .broadcastAndReturn(content):
-            self.init(transactionHash: content.transactionHash, payload: content.payload)
+        case let .submitAndReturn(content):
+            self.init(transactionHash: content.transactionHash, signature: content.signature, payload: content.payload)
         case let .return(content):
-            self.init(payload: content.payload)
+            self.init(signature: content.signature, payload: content.payload)
         }
     }
     
@@ -52,8 +54,8 @@ public struct TransferV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol
     ) {
         runCatching(completion: completion) {
             let transferResponse: TransferSubstrateResponse
-            if let transactionHash = transactionHash, payload == nil {
-                transferResponse = .broadcast(
+            if let transactionHash = transactionHash, signature == nil, payload == nil {
+                transferResponse = .submit(
                     .init(
                         id: id,
                         version: version,
@@ -61,22 +63,24 @@ public struct TransferV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol
                         transactionHash: transactionHash
                     )
                 )
-            } else if let transactionHash = transactionHash, let payload = payload {
-                transferResponse = .broadcastAndReturn(
+            } else if let transactionHash = transactionHash, let signature = signature {
+                transferResponse = .submitAndReturn(
                     .init(
                         id: id,
                         version: version,
                         requestOrigin: origin,
                         transactionHash: transactionHash,
+                        signature: signature,
                         payload: payload
                     )
                 )
-            } else if let payload = payload, transactionHash == nil {
+            } else if let signature = signature, transactionHash == nil {
                 transferResponse = .return(
                     .init(
                         id: id,
                         version: version,
                         requestOrigin: origin,
+                        signature: signature,
                         payload: payload
                     )
                 )

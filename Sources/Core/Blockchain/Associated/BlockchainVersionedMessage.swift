@@ -227,12 +227,11 @@ enum AnyBlockchainV3Message: BlockchainV3Message {
             version: String,
             senderID: String,
             origin: Beacon.Origin,
-            accountIDs: [String],
             completion: @escaping (Result<BeaconMessage<AnyBlockchain>, Error>) -> ()
         ) {
             completion(.success(.response(
                 .permission(
-                    .init(id: id, version: version, requestOrigin: origin, accountIDs: accountIDs)
+                    .init(id: id, version: version, requestOrigin: origin)
                 )
             )))
         }

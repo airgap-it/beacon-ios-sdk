@@ -21,7 +21,8 @@ public class Tezos: Blockchain {
     /// A factory used to dynamically register this blockchain in Beacon.
     public static let factory: Tezos.Factory = .init()
     
-    public let wallet: Wallet
+    let wallet: Wallet
+    
     public let creator: Creator
     public let storageExtension: BlockchainStorageExtension
     
@@ -29,31 +30,5 @@ public class Tezos: Blockchain {
         self.wallet = wallet
         self.creator = creator
         self.storageExtension = storageExtension
-    }
-    
-    // MARK: Types
-    
-    struct PrefixBytes {
-        static let tz1: [UInt8] = [6, 161, 159]
-        static let tz2: [UInt8] = [6, 161, 161]
-        static let tz3: [UInt8] = [6, 161, 164]
-
-        static let kt: [UInt8] = [2, 90, 121]
-
-        static let edpk: [UInt8] = [13, 15, 37, 217]
-        static let edsk: [UInt8] = [43, 246, 78, 7]
-        static let edsig: [UInt8] = [9, 245, 205, 134, 18]
-    }
-    
-    struct Prefix {
-        static let tz1: String = "tz1"
-        static let tz2: String = "tz2"
-        static let tz3: String = "tz3"
-        
-        static let kt: String = "kt"
-        
-        static let edpk: String = "edpk"
-        static let edsk: String = "edsk"
-        static let edsig: String = "edsig"
     }
 }

@@ -2,15 +2,15 @@
 //  Account.swift
 //  
 //
-//  Created by Julia Samol on 10.01.22.
+//  Created by Julia Samol on 10.03.22.
 //
 
 import Foundation
 import BeaconCore
 
-extension Substrate {
+extension Tezos {
     
-    /// Substrate account data.
+    /// Tezos account data.
     public struct Account: Codable, Equatable {
         
         /// The value that identifies the account.

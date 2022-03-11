@@ -30,7 +30,6 @@ public struct PermissionV3SubstrateResponse: PermissionV3BeaconResponseContentDa
         version: String,
         senderID: String,
         origin: Beacon.Origin,
-        accountIDs: [String],
         completion: @escaping (Result<BeaconMessage<Substrate>, Error>) -> ()
     ) {
         completion(.success(.response(
@@ -39,7 +38,6 @@ public struct PermissionV3SubstrateResponse: PermissionV3BeaconResponseContentDa
                     id: id,
                     version: version,
                     requestOrigin: origin,
-                    accountIDs: accountIDs,
                     appMetadata: appMetadata,
                     scopes: scopes,
                     accounts: accounts

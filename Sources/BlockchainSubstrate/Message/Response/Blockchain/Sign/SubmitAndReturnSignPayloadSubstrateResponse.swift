@@ -1,5 +1,5 @@
 //
-//  BroadcastSignSubstrateResponse.swift
+//  SubmitAndReturnSignPayloadSubstrateResponse.swift
 //
 //
 //  Created by Julia Samol on 11.01.22.
@@ -8,7 +8,7 @@
 import Foundation
 import BeaconCore
 
-public struct BroadcastSignSubstrateResponse: BlockchainBeaconResponseProtocol, Identifiable, Equatable, Codable {
+public struct SubmitAndReturnSignPayloadSubstrateResponse: BlockchainBeaconResponseProtocol, Identifiable, Equatable, Codable {
     /// The value that identifies the request to which the message is responding.
     public let id: String
     
@@ -20,8 +20,12 @@ public struct BroadcastSignSubstrateResponse: BlockchainBeaconResponseProtocol, 
     
     public let transactionHash: String
     
-    public init(from request: SignSubstrateRequest, transactionHash: String) throws {
-        guard request.mode == .broadcast else {
+    public let signature: String
+    
+    public let payload: String?
+    
+    public init(from request: SignPayloadSubstrateRequest, transactionHash: String, signature: String, payload: String? = nil) throws {
+        guard request.mode == .submitAndReturn else {
             throw Error.invalidRequestMode
         }
         
@@ -29,15 +33,19 @@ public struct BroadcastSignSubstrateResponse: BlockchainBeaconResponseProtocol, 
             id: request.id,
             version: request.version,
             requestOrigin: request.origin,
-            transactionHash: transactionHash
+            transactionHash: transactionHash,
+            signature: signature,
+            payload: payload
         )
     }
     
-    public init(id: String, version: String, requestOrigin: Beacon.Origin, transactionHash: String) {
+    public init(id: String, version: String, requestOrigin: Beacon.Origin, transactionHash: String, signature: String, payload: String? = nil) {
         self.id = id
         self.version = version
         self.requestOrigin = requestOrigin
         self.transactionHash = transactionHash
+        self.signature = signature
+        self.payload = payload
     }
     
     // MARK: Types

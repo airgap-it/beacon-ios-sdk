@@ -18,9 +18,11 @@ public struct ReturnTransferSubstrateResponse: BlockchainBeaconResponseProtocol,
     /// The origination data of the request.
     public let requestOrigin: Beacon.Origin
     
-    public let payload: String
+    public let signature: String
     
-    public init(from request: TransferSubstrateRequest, payload: String) throws {
+    public let payload: String?
+    
+    public init(from request: TransferSubstrateRequest, signature: String, payload: String? = nil) throws {
         guard request.mode == .return else {
             throw Error.invalidRequestMode
         }
@@ -29,14 +31,16 @@ public struct ReturnTransferSubstrateResponse: BlockchainBeaconResponseProtocol,
             id: request.id,
             version: request.version,
             requestOrigin: request.origin,
+            signature: signature,
             payload: payload
         )
     }
     
-    public init(id: String, version: String, requestOrigin: Beacon.Origin, payload: String) {
+    public init(id: String, version: String, requestOrigin: Beacon.Origin, signature: String, payload: String? = nil) {
         self.id = id
         self.version = version
         self.requestOrigin = requestOrigin
+        self.signature = signature
         self.payload = payload
     }
     

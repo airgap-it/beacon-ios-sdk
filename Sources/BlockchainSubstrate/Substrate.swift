@@ -19,12 +19,10 @@ public class Substrate: Blockchain {
     /// A factory used to dynamically register the blockchain in Beacon.
     public static let factory: Substrate.Factory = .init()
     
-    public let wallet: Wallet
     public let creator: Creator
     public let storageExtension: BlockchainStorageExtension
     
-    init(wallet: Wallet, creator: Creator, storageExtension: StorageExtension) {
-        self.wallet = wallet
+    init(creator: Creator, storageExtension: StorageExtension) {
         self.creator = creator
         self.storageExtension = storageExtension
     }

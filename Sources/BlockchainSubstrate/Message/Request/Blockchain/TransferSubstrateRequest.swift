@@ -11,6 +11,8 @@ import BeaconCore
 /// Body of the `BlockchainSubstrateRequest.transfer` message.
 public struct TransferSubstrateRequest: BlockchainBeaconRequestProtocol, Identifiable, Equatable, Codable {
     
+    public var scope: Substrate.Permission.Scope { .transfer }
+    
     /// The value that identifies this request.
     public let id: String
     
@@ -26,8 +28,6 @@ public struct TransferSubstrateRequest: BlockchainBeaconRequestProtocol, Identif
     /// The account identifier of the account that is requested to handle this request.
     public let accountID: String?
     
-    public let scope: Substrate.Permission.Scope
-    
     public let sourceAddress: String
     
     public let amount: String
@@ -41,8 +41,8 @@ public struct TransferSubstrateRequest: BlockchainBeaconRequestProtocol, Identif
     // MARK: Mode
     
     public enum Mode: String, Codable, Equatable {
-        case broadcast
-        case broadcastAndReturn
+        case submit
+        case submitAndReturn = "submit_and_return"
         case `return`
     }
 }

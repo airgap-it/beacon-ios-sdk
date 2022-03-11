@@ -20,9 +20,6 @@ public struct PermissionSubstrateResponse: PermissionBeaconResponseProtocol, Ide
     /// The origination data of the request.
     public let requestOrigin: Beacon.Origin
     
-    /// The account identifiers of the accounts that are granting the permissions.
-    public let accountIDs: [String]
-    
     public let appMetadata: Substrate.AppMetadata
     
     public let scopes: [Substrate.Permission.Scope]
@@ -33,19 +30,13 @@ public struct PermissionSubstrateResponse: PermissionBeaconResponseProtocol, Ide
         from request: Substrate.Request.Permission,
         accounts: [Substrate.Account],
         scopes: [Substrate.Permission.Scope]? = nil
-    ) throws {
+    ) {
         let scopes = scopes ?? request.scopes
-        
-        let accountIds: [String] = try accounts.map {
-            let address = try dependencyRegistry().extend().substrateWallet.address(fromPublicKey: $0.publicKey, withPrefix: $0.addressPrefix)
-            return try dependencyRegistry().identifierCreator.accountID(forAddress: address, on: $0.network)
-        }
         
         self.init(
             id: request.id,
             version: request.version,
             requestOrigin: request.origin,
-            accountIDs: accountIds,
             appMetadata: request.appMetadata,
             scopes: scopes,
             accounts: accounts
@@ -56,7 +47,6 @@ public struct PermissionSubstrateResponse: PermissionBeaconResponseProtocol, Ide
         id: String,
         version: String,
         requestOrigin: Beacon.Origin,
-        accountIDs: [String],
         appMetadata: Substrate.AppMetadata,
         scopes: [Substrate.Permission.Scope],
         accounts: [Substrate.Account]
@@ -64,7 +54,6 @@ public struct PermissionSubstrateResponse: PermissionBeaconResponseProtocol, Ide
         self.id = id
         self.version = version
         self.requestOrigin = requestOrigin
-        self.accountIDs = accountIDs
         self.appMetadata = appMetadata
         self.scopes = scopes
         self.accounts = accounts

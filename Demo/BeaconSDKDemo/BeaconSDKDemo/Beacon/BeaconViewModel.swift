@@ -15,18 +15,27 @@ import BeaconClientWallet
 import BeaconTransportP2PMatrix
 
 class BeaconViewModel: ObservableObject {
-    private static let examplePeerID = "2af90f39-824f-b70c-bcc2-c71c1a22e6f8"
+    private static let examplePeerID = "17dfcd9f-6d39-f132-4204-a5d43ea27a3e"
     private static let examplePeerName = "Beacon Example Dapp"
-    private static let examplePeerPublicKey = "c7eb69b769cb1971ebbc8574993b1b68a8f1e4c72912edb68644c0bccc817a6a"
+    private static let examplePeerPublicKey = "6727156064cc9c25193e3b0a75eb41b2deedcb17871baa2a897a64c3f99b31bf"
     private static let examplePeerRelayServer = "beacon-node-1.sky.papers.tech"
-    private static let examplePeerVersion = "2"
+    private static let examplePeerVersion = "3"
     
-    private static let exampleTezosPublicKey = "edpktpzo8UZieYaJZgCHP6M6hKHPdWBSNqxvmEt6dwWRgxDh1EAFw9"
-    private static let exampleSubstrateAccount = Substrate.Account(
-        network: .init(genesisHash: "91b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3"),
-        addressPrefix: 0,
-        publicKey: "628f3940a6210a2135ba355f7ff9f8e9fbbfd04f8571e99e1df75554d4bcd24f"
-    )
+    private static func exampleTezosAccount(network: Tezos.Network) throws -> Tezos.Account {
+        try Tezos.Account(
+            network: network,
+            publicKey: "edpktpzo8UZieYaJZgCHP6M6hKHPdWBSNqxvmEt6dwWRgxDh1EAFw9",
+            address: "tz1Mg6uXUhJzuCh4dH2mdBdYBuaiVZCCZsak"
+        )
+    }
+
+    private static func exampleSubstrateAccount(network: Substrate.Network) throws -> Substrate.Account {
+        try Substrate.Account(
+            network: network,
+            publicKey: "628f3940a6210a2135ba355f7ff9f8e9fbbfd04f8571e99e1df75554d4bcd24f",
+            address: "5EHw6XmdpoaaJiPMXFKr1CcHcXPVYZemc9NoKHhEoguavzJN"
+        )
+    }
     
     @Published private(set) var beaconRequest: String? = nil
     
@@ -220,7 +229,7 @@ class BeaconViewModel: ObservableObject {
         switch request {
         case let .permission(content):
             return .permission(
-                try PermissionTezosResponse(from: content, publicKey: BeaconViewModel.exampleTezosPublicKey)
+                try PermissionTezosResponse(from: content, account: BeaconViewModel.exampleTezosAccount(network: content.network))
             )
         case let .blockchain(blockchain):
             switch blockchain {
@@ -236,10 +245,15 @@ class BeaconViewModel: ObservableObject {
         switch request {
         case let .permission(content):
             return .permission(
-                try PermissionSubstrateResponse(from: content, accounts: [BeaconViewModel.exampleSubstrateAccount])
+                try PermissionSubstrateResponse(from: content, accounts: [BeaconViewModel.exampleSubstrateAccount(network: content.networks.first!)])
             )
         case let .blockchain(blockchain):
-            return .error(ErrorBeaconResponse(from: blockchain, errorType: .aborted))
+            switch blockchain {
+            case let .signPayload(request):
+                return .blockchain(.signPayload(try .init(from: request, transactionHash: nil, signature: "0x00050300724867a19e4a9422ac85f3b9a7c4bf5ccf12c2df60d858b216b81329df7165350005020000d22300000b00000091b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3fde8f6d19d4a685f5edeed50eb55b1755da0bf01e83946f6e41062113042999a", payload: nil)))
+            default:
+                return .error(ErrorBeaconResponse(from: blockchain, errorType: .aborted))
+            }
         }
     }
 }
@@ -269,7 +283,7 @@ extension BeaconRequest: Encodable {
                 switch blockchain {
                 case let .transfer(content):
                     try content.encode(to: encoder)
-                case let .sign(content):
+                case let .signPayload(content):
                     try content.encode(to: encoder)
                 }
             }

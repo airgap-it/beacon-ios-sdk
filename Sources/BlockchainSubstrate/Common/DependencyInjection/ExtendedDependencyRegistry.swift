@@ -10,10 +10,6 @@ import BeaconCore
 
 protocol ExtendedDependencyRegistry: DependencyRegistry {
     
-    // MARK: Wallet
-    
-    var substrateWallet: Substrate.Wallet { get }
-    
     // MARK: Creator
     
     var substrateCreator: Substrate.Creator { get }

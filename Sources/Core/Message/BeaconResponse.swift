@@ -69,8 +69,6 @@ public protocol BeaconResponseProtocol: BeaconMessageProtocol {
     var requestOrigin: Beacon.Origin { get }
 }
 
-public protocol PermissionBeaconResponseProtocol: BeaconResponseProtocol {
-    var accountIDs: [String] { get }
-}
+public protocol PermissionBeaconResponseProtocol: BeaconResponseProtocol {}
 
 public protocol BlockchainBeaconResponseProtocol: BeaconResponseProtocol {}

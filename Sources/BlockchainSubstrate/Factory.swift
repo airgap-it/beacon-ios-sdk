@@ -30,7 +30,6 @@ extension Substrate {
             let extendedDependencyRegistry = extendedDependencyRegistry(from: dependencyRegistry)
             
             return Substrate(
-                wallet: extendedDependencyRegistry.substrateWallet,
                 creator: extendedDependencyRegistry.substrateCreator,
                 storageExtension: extendedDependencyRegistry.substrateStorageExtension
             )
