@@ -12,7 +12,7 @@ import Foundation
 public struct MockIdentifierCreator: IdentifierCreatorProtocol {
     public init() {}
     
-    public func accountID<T: NetworkProtocol>(forAddress address: String, on network: T) throws -> String {
+    public func accountID<T: NetworkProtocol>(forAddress address: String, on network: T?) throws -> String {
         address
     }
     

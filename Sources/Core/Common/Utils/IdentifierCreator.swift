@@ -18,8 +18,15 @@ public class IdentifierCreator: IdentifierCreatorProtocol {
         self.crypto = crypto
     }
     
-    public func accountID<T: NetworkProtocol>(forAddress address: String, on network: T) throws -> String {
-        let hash = try crypto.hash(message: "\(address)-\(network.identifier)", size: 10)
+    public func accountID<T: NetworkProtocol>(forAddress address: String, on network: T?) throws -> String {
+        let input: String = {
+            if let network = network {
+                return "\(address)-\(network.identifier)"
+            } else {
+                return address
+            }
+        }()
+        let hash = try crypto.hash(message: input, size: 10)
         return Base58.base58CheckEncode(hash)
     }
     
@@ -32,6 +39,6 @@ public class IdentifierCreator: IdentifierCreatorProtocol {
 // MARK: Protocol
 
 public protocol IdentifierCreatorProtocol {
-    func accountID<T: NetworkProtocol>(forAddress address: String, on network: T) throws -> String
+    func accountID<T: NetworkProtocol>(forAddress address: String, on network: T?) throws -> String
     func senderID(from publicKey: HexString) throws -> String
 }

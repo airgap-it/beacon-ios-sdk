@@ -16,8 +16,8 @@ extension Substrate {
         /// The value that identifies the account.
         public let accountID: String
         
-        /// The network on which the account is valid.
-        public let network: Network
+        /// The network on which the account is valid. Can be omitted.
+        public let network: Network?
         
         /// The public key that identifies the account.
         public let publicKey: String
@@ -25,12 +25,12 @@ extension Substrate {
         /// The account address.
         public let address: String
         
-        public init(network: Network, publicKey: String, address: String) throws {
+        public init(publicKey: String, address: String, network: Network? = nil) throws {
             let accountID = try dependencyRegistry().identifierCreator.accountID(forAddress: address, on: network)
             self.init(accountID: accountID, network: network, publicKey: publicKey, address: address)
         }
         
-        public init(accountID: String, network: Network, publicKey: String, address: String) {
+        public init(accountID: String, network: Network?, publicKey: String, address: String) {
             self.accountID = accountID
             self.network = network
             self.publicKey = publicKey
