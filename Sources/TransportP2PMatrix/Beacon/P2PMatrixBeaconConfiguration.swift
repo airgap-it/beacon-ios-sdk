@@ -24,7 +24,7 @@ extension Beacon {
         
         public static let defaultRelayServers: [String] = [
             "beacon-node-1.sky.papers.tech",
-            "beacon-node-0.papers.tech:8448",
+            "beacon-node-1.hope-5.papers.tech",
         ].compactMap { $0 }
     }
 }

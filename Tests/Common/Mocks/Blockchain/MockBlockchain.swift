@@ -388,7 +388,6 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
                 version: String,
                 senderID: String,
                 origin: Beacon.Origin,
-                accountIDs: [String],
                 completion: @escaping (Result<BeaconMessage<MockBlockchain>, Error>) -> ()
             ) {
                 do {

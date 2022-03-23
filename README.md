@@ -2,6 +2,7 @@
 
 [![stable](https://img.shields.io/github/v/tag/airgap-it/beacon-ios-sdk?label=stable&sort=semver)](https://github.com/airgap-it/beacon-ios-sdk/releases)
 [![latest](https://img.shields.io/github/v/tag/airgap-it/beacon-ios-sdk?color=orange&include_prereleases&label=latest)](https://github.com/airgap-it/beacon-ios-sdk/releases)
+[![documentation](https://img.shields.io/badge/documentation-online-brightgreen.svg)](https://docs.walletbeacon.io/wallet/getting-started/ios/installation)
 [![license](https://img.shields.io/github/license/airgap-it/beacon-ios-sdk)](https://github.com/airgap-it/beacon-ios-sdk/blob/master/LICENSE)
 
 > Connect Wallets with dApps on Tezos
@@ -32,7 +33,7 @@ https://github.com/airgap-it/beacon-ios-sdk
 Add the following dependency in your `Package.swift` file:
 
 ```swift
-.package(url: "https://github.com/airgap-it/beacon-ios-sdk", from: "3.1.0-beta.0")
+.package(url: "https://github.com/airgap-it/beacon-ios-sdk", from: "3.1.0")
 ```
 
 ### CocoaPods
@@ -43,22 +44,24 @@ To add `Beacon iOS SDK` using [CocoaPods](https://cocoapods.org/), add the `Beac
 target 'MyTarget' do
     use_frameworks!
     
-    pod 'BeaconCore', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0-beta.0'
+    pod 'BeaconCore', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0'
 
     // optional
-    pod 'BeaconClientWallet', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0-beta.0'
+    pod 'BeaconClientWallet', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0'
 
     // optional
-    pod 'BeaconBlockchainSubstrate', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0-beta.0'
+    pod 'BeaconBlockchainSubstrate', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0'
     // optional
-    pod 'BeaconBlockchainTezos', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0-beta.0'
+    pod 'BeaconBlockchainTezos', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0'
 
     // optional
-    pod 'BeaconTransportP2PMatrix', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0-beta.0'
+    pod 'BeaconTransportP2PMatrix', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0'
 end
 ```
 
-<!-- TODO: ## Documentation -->
+## Documentation
+
+The documentation can be found [here](https://docs.walletbeacon.io/). 
 
 ## Project Overview
 

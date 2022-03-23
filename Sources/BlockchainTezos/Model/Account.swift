@@ -25,8 +25,8 @@ extension Tezos {
         /// The account address.
         public let address: String
         
-        public init(network: Network, publicKey: String, address: String) throws {
-            let accountID = try dependencyRegistry().identifierCreator.accountID(forAddress: address, on: network)
+        public init(publicKey: String, address: String, network: Network) throws {
+            let accountID = try dependencyRegistry().identifierCreator.accountID(forAddress: address, onNetworkWithIdentifier: network.identifier)
             self.init(accountID: accountID, network: network, publicKey: publicKey, address: address)
         }
         
