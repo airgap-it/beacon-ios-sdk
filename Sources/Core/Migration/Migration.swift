@@ -9,7 +9,7 @@ import Foundation
 
 public class Migration {
     let storageManager: StorageManager
-    public private(set) var migrations: [VersionedMigration] {
+    public private(set) var migrations: [VersionedMigration] = [] {
         didSet {
             migrations.distinguish(by: { $0.fromVersion })
             migrations.sort(by: { lhs, rhs in lhs.fromVersion < rhs.fromVersion })
@@ -27,7 +27,6 @@ public class Migration {
     
     public func register(_ migrations: [VersionedMigration]) {
         self.migrations.append(contentsOf: migrations)
-            
     }
     
     public func migrate(_ target: MigrationTarget, completion: @escaping (Result<(), Swift.Error>) -> ()) {
@@ -104,7 +103,7 @@ private extension VersionedMigration {
         ifAlreadyPerformed performedMigrations: Set<String>,
         atVersion sdkVersion: String?
     ) -> Bool {
-        if let sdkVersion = sdkVersion, sdkVersion > fromVersion {
+        if let sdkVersion = sdkVersion, sdkVersion <= fromVersion {
             return true
         }
         

@@ -120,10 +120,10 @@ class ConnectionControllerTests: XCTestCase {
             SerializedConnectionMessage(origin: $0.origin, content: try serializer.serialize(message: $0.content))
         }
         
-        var received: [BeaconConnectionMessage] = []
+        var received: [BeaconConnectionMessage<MockBlockchain>] = []
         initBeacon { _ in
             self.connectionController.connect { _ in
-                self.connectionController.listen { result in
+                self.connectionController.listen { (result: Result<BeaconConnectionMessage<MockBlockchain>, Error>) in
                     switch result {
                     case let .success(message):
                         queue.async(flags: .barrier) {
@@ -149,7 +149,7 @@ class ConnectionControllerTests: XCTestCase {
                 }
                 
                 serializedConnectionMessages.enumerated().forEach { (index, message) in
-                    self.transports[index % self.transports.count].notify(with: .success(.serialized(message)))
+                    self.transports[index % self.transports.count].notify(with: .success(message))
                 }
             }
         }
@@ -221,11 +221,9 @@ class ConnectionControllerTests: XCTestCase {
         }
         
         let beaconConnectionMessage = BeaconConnectionMessage(origin: .p2p(id: "id"), content: versioned)
-        let serializedConnectionMessage = ConnectionMessage.serialized(
-            SerializedConnectionMessage(
-                origin: beaconConnectionMessage.origin,
-                content: try serializer.serialize(message: beaconConnectionMessage.content)
-            )
+        let serializedConnectionMessage = SerializedConnectionMessage(
+            origin: beaconConnectionMessage.origin,
+            content: try serializer.serialize(message: beaconConnectionMessage.content)
         )
         
         connectionController.send(beaconConnectionMessage) { result in

@@ -8,11 +8,28 @@
 import Foundation
 
 public protocol BlockchainCreator {
-    associatedtype ConcreteBlockchain: Blockchain
+    associatedtype BlockchainType: Blockchain
     
     func extractPermission(
-        from request: ConcreteBlockchain.Request.Permission,
-        and response: ConcreteBlockchain.Response.Permission,
-        completion: @escaping (Result<ConcreteBlockchain.Permission, Swift.Error>) -> ()
+        from request: BlockchainType.Request.Permission,
+        and response: BlockchainType.Response.Permission,
+        completion: @escaping (Result<[BlockchainType.Permission], Swift.Error>) -> ()
     )
+}
+
+// MARK: Any
+
+struct AnyBlockchainCreator: BlockchainCreator {
+    typealias BlockchainType = AnyBlockchain
+    
+    func extractPermission(
+        from request: BlockchainType.Request.Permission,
+        and response: BlockchainType.Response.Permission,
+        completion: @escaping (Result<[BlockchainType.Permission], Error>) -> ()
+    ) {
+        runCatching(completion: completion) {
+            let permissions = [AnyPermission]()
+            completion(.success(permissions))
+        }
+    }
 }

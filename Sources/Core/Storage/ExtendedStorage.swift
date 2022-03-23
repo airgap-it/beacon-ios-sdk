@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ExtendedStorage: Storage {
+public protocol ExtendedStorage: Storage {
     
     // MARK: Peers
     
@@ -24,31 +24,38 @@ protocol ExtendedStorage: Storage {
     
     // MARK: AppMetadata
     
-    func add(
-        _ appMetadata: [Beacon.AppMetadata],
+    func add<T: AppMetadataProtocol>(
+        _ appMetadata: [T],
         overwrite: Bool,
-        compareBy predicate: @escaping (Beacon.AppMetadata, Beacon.AppMetadata) -> Bool,
+        compareBy predicate: @escaping (T, T) -> Bool,
         completion: @escaping (Result<(), Error>) -> ()
     )
     
-    func findAppMetadata(where predicate: @escaping (Beacon.AppMetadata) -> Bool, completion: @escaping (Result<Beacon.AppMetadata?, Error>) -> ())
-    func removeAppMetadata(where predicate: ((Beacon.AppMetadata) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    func findAppMetadata<T: AppMetadataProtocol>(where predicate: @escaping (T) -> Bool, completion: @escaping (Result<T?, Error>) -> ())
+    
+    func removeAppMetadata<T: AppMetadataProtocol>(where predicate: @escaping ((T) -> Bool), completion: @escaping (Result<(), Error>) -> ())
+    func removeAppMetadata<T: AppMetadataProtocol>(ofType type: T.Type, where predicate: ((AnyAppMetadata) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    
+    func removeLegacyAppMetadata<T: LegacyAppMetadataProtocol>(ofType type: T.Type, completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: Permissions
     
-    func add<T: PermissionProtocol & Codable & Equatable>(
+    func add<T: PermissionProtocol>(
         _ permissions: [T],
         overwrite: Bool,
         compareBy predicate: @escaping (T, T) -> Bool,
         completion: @escaping (Result<(), Error>) -> ()
     )
     
-    func findPermissions<T: PermissionProtocol & Codable>(
+    func findPermissions<T: PermissionProtocol>(
         where predicate: @escaping (T) -> Bool,
         completion: @escaping (Result<T?, Error>) -> ()
     )
     
-    func removePermissions<T: PermissionProtocol & Codable>(where predicate: ((T) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    func removePermissions<T: PermissionProtocol>(where predicate: @escaping ((T) -> Bool), completion: @escaping (Result<(), Error>) -> ())
+    func removePermissions<T: PermissionProtocol>(ofType type: T.Type, where predicate: ((AnyPermission) -> Bool)?, completion: @escaping (Result<(), Error>) -> ())
+    
+    func removeLegacyPermissions<T: LegacyPermissionProtocol>(ofType type: T.Type, completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: SDK
     

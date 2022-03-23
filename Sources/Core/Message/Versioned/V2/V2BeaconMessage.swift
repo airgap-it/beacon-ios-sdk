@@ -8,16 +8,19 @@
 
 import Foundation
     
-public enum V2BeaconMessage: V2BeaconMessageProtocol, Equatable, Codable {
-    case acknowledgeResponse(AcknowledgeV2BeaconResponse)
-    case errorResponse(ErrorV2BeaconResponse)
-    case disconnectMessage(DisconnectV2BeaconMessage)
-    case blockchainMessage(V2BeaconMessageProtocol & Codable)
+public enum V2BeaconMessage<BlockchainType: Blockchain>: V2BeaconMessageProtocol {
+    
+    public typealias BlockchainBeaconMessage = BlockchainType.VersionedMessage.V2
+    
+    case acknowledgeResponse(AcknowledgeV2BeaconResponse<BlockchainType>)
+    case errorResponse(ErrorV2BeaconResponse<BlockchainType>)
+    case disconnectMessage(DisconnectV2BeaconMessage<BlockchainType>)
+    case blockchainMessage(BlockchainBeaconMessage)
     
     
     // MARK: BeaconMessage Compatibility
     
-    public init<T: Blockchain>(from beaconMessage: BeaconMessage<T>, senderID: String) throws {
+    public init(from beaconMessage: BeaconMessage<BlockchainType>, senderID: String) throws {
         switch beaconMessage {
         case let .response(response):
             switch response {
@@ -26,12 +29,12 @@ public enum V2BeaconMessage: V2BeaconMessageProtocol, Equatable, Codable {
             case let .error(content):
                 self = .errorResponse(ErrorV2BeaconResponse(from: content, senderID: senderID))
             default:
-                self = .blockchainMessage(try T.VersionedMessage.V2(from: beaconMessage, senderID: senderID))
+                self = .blockchainMessage(try BlockchainBeaconMessage(from: beaconMessage, senderID: senderID))
             }
         case let .disconnect(content):
-            try self.init(from: content, senderID: senderID)
+            self = .disconnectMessage(DisconnectV2BeaconMessage(from: content, senderID: senderID))
         default:
-            self = .blockchainMessage(try T.VersionedMessage.V2(from: beaconMessage, senderID: senderID))
+            self = .blockchainMessage(try BlockchainBeaconMessage(from: beaconMessage, senderID: senderID))
         }
     }
     
@@ -39,47 +42,58 @@ public enum V2BeaconMessage: V2BeaconMessageProtocol, Equatable, Codable {
         self = .disconnectMessage(DisconnectV2BeaconMessage(from: disconnectMessage, senderID: senderID))
     }
     
-    public func toBeaconMessage<T: Blockchain>(
+    public func toBeaconMessage(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
-        completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
+        completion: @escaping (Result<BeaconMessage<BlockchainType>, Error>) -> ()
     ) {
-        common.toBeaconMessage(with: origin, using: storageManager, completion: completion)
+        switch self {
+        case let .acknowledgeResponse(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        case let .errorResponse(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        case let .disconnectMessage(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        case let .blockchainMessage(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        }
     }
     
     // MARK: Attributes
     
-    public var type: String { common.type }
-    public var version: String { common.version }
-    public var id: String { common.id }
-    
-    private var common: V2BeaconMessageProtocol {
+    public var type: String {
         switch self {
         case let .acknowledgeResponse(content):
-            return content
+            return content.type
         case let .errorResponse(content):
-            return content
+            return content.type
         case let .disconnectMessage(content):
-            return content
+            return content.type
         case let .blockchainMessage(content):
-            return content
+            return content.type
         }
     }
-    
-    // MARK: Equatable
-    
-    public static func == (lhs: V2BeaconMessage, rhs: V2BeaconMessage) -> Bool {
-        switch (lhs, rhs) {
-        case let (.acknowledgeResponse(lhs), .acknowledgeResponse(rhs)):
-            return lhs == rhs
-        case let (.errorResponse(lhs), .errorResponse(rhs)):
-            return lhs == rhs
-        case let (.disconnectMessage(lhs), .disconnectMessage(rhs)):
-            return lhs == rhs
-        case let (.blockchainMessage(lhs), .blockchainMessage(rhs)):
-            return lhs.id == rhs.id && lhs.version == rhs.version && lhs.type == rhs.type
-        default:
-            return false
+    public var version: String {
+        switch self {
+        case let .acknowledgeResponse(content):
+            return content.version
+        case let .errorResponse(content):
+            return content.version
+        case let .disconnectMessage(content):
+            return content.version
+        case let .blockchainMessage(content):
+            return content.version
+        }
+    }
+    public var id: String {
+        switch self {
+        case let .acknowledgeResponse(content):
+            return content.id
+        case let .errorResponse(content):
+            return content.id
+        case let .disconnectMessage(content):
+            return content.id
+        case let .blockchainMessage(content):
+            return content.id
         }
     }
     
@@ -89,19 +103,14 @@ public enum V2BeaconMessage: V2BeaconMessageProtocol, Equatable, Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let type = try container.decode(String.self, forKey: .type)
         switch type {
-        case AcknowledgeV2BeaconResponse.type:
+        case AcknowledgeV2BeaconResponse<BlockchainType>.type:
             self = .acknowledgeResponse(try AcknowledgeV2BeaconResponse(from: decoder))
-        case ErrorV2BeaconResponse.type:
+        case ErrorV2BeaconResponse<BlockchainType>.type:
             self = .errorResponse(try ErrorV2BeaconResponse(from: decoder))
-        case DisconnectV2BeaconMessage.type:
+        case DisconnectV2BeaconMessage<BlockchainType>.type:
             self = .disconnectMessage(try DisconnectV2BeaconMessage(from: decoder))
         default:
-            guard let compat = Compat.shared else {
-                throw Beacon.Error.uninitialized
-            }
-            
-            let blockchain = try compat.versioned().blockchain()
-            self = .blockchainMessage(try blockchain.decoder.v2(from: decoder))
+            self = .blockchainMessage(try BlockchainBeaconMessage(from: decoder))
         }
     }
     
@@ -126,4 +135,7 @@ public enum V2BeaconMessage: V2BeaconMessageProtocol, Equatable, Codable {
 
 // MARK: Protocol
 
-public protocol V2BeaconMessageProtocol: VersionedBeaconMessageProtocol {}
+public protocol V2BeaconMessageProtocol: VersionedBeaconMessageProtocol, Identifiable {
+    var id: String { get }
+    var type: String { get }
+}

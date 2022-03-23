@@ -12,11 +12,11 @@ import Foundation
 public struct MockIdentifierCreator: IdentifierCreatorProtocol {
     public init() {}
     
-    public func accountIdentifier<T: NetworkProtocol>(forAddress address: String, on network: T) throws -> String {
+    public func accountID(forAddress address: String, onNetworkWithIdentifier networkIdentifier: String?) throws -> String {
         address
     }
     
-    public func senderIdentifier(from publicKey: HexString) throws -> String {
+    public func senderID(from publicKey: HexString) throws -> String {
         publicKey.asString()
     }
 }

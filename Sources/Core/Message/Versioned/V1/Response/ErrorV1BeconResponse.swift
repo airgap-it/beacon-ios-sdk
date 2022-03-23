@@ -8,7 +8,7 @@
 
 import Foundation
     
-public struct ErrorV1BeaconResponse: V1BeaconMessageProtocol, Equatable, Codable {
+public struct ErrorV1BeaconResponse<BlockchainType: Blockchain>: V1BeaconMessageProtocol {
     public let type: String
     public let version: String
     public let id: String
@@ -25,7 +25,7 @@ public struct ErrorV1BeaconResponse: V1BeaconMessageProtocol, Equatable, Codable
     
     // MARK: BeaconMessage Compatibility
     
-    public init<T: Blockchain>(from beaconMessage: BeaconMessage<T>, senderID: String) throws {
+    public init(from beaconMessage: BeaconMessage<BlockchainType>, senderID: String) throws {
         switch beaconMessage {
         case let .response(response):
             switch response {
@@ -39,25 +39,24 @@ public struct ErrorV1BeaconResponse: V1BeaconMessageProtocol, Equatable, Codable
         }
     }
     
-    public init<T: Blockchain>(from beaconMessage: ErrorBeaconResponse<T>, senderID: String) {
+    public init(from beaconMessage: ErrorBeaconResponse<BlockchainType>, senderID: String) {
         self.init(version: beaconMessage.version, id: beaconMessage.id, beaconID: senderID, errorType: beaconMessage.errorType.rawValue)
     }
     
-    public func toBeaconMessage<T: Blockchain>(
+    public func toBeaconMessage(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
-        completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
+        completion: @escaping (Result<BeaconMessage<BlockchainType>, Swift.Error>) -> ()
     ) {
         do {
-            guard let errorType = Beacon.ErrorType<T>(rawValue: errorType) else {
+            guard let errorType = Beacon.ErrorType<BlockchainType>(rawValue: errorType) else {
                 throw Error.unknownErrorType
             }
             
-            let message = ErrorBeaconResponse<T>(
+            let message = ErrorBeaconResponse<BlockchainType>(
                 id: id,
-                errorType: errorType,
                 version: version,
-                requestOrigin: origin
+                requestOrigin: origin,
+                errorType: errorType
             )
             completion(.success(.response(.error(message))))
         } catch {

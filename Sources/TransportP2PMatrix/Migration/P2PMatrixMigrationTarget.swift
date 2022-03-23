@@ -11,11 +11,11 @@ import BeaconCore
 extension Migration.P2PMatrix {
     
     enum Target: MigrationTarget {
-        var identifier: String { common.identifier }
-        
         case matrixRelayServer(MatrixRelayServer)
         
         // MARK: Attributes
+        
+        var identifier: String { common.identifier }
         
         var common: MigrationTarget {
             switch self {

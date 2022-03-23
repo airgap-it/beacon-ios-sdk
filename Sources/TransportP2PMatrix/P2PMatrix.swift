@@ -42,15 +42,15 @@ public extension Transport.P2P {
         /// Creates a factory that should be used to dynamically register the client in Beacon.
         ///
         /// - Parameter storagePlugin: An optional external implementation of `P2PMatrixStoragePlugin`, if not provided an internal implementation will be used.
-        /// - Parameter matrixNodes: A list of Matrix nodes used in the connection, set to `Beacon.P2PMatrixConfiguration.defaultRelayServers` by default. One node will be selected randomly based on the local key pair and used as the primary connection node, the rest will be used as a fallback if the primary node goes down.
+        /// - Parameter matrixNodes: A list of Matrix nodes used in the connection. One node will be selected randomly based on the local key pair and used as the primary connection node, the rest will be used as a fallback if the primary node goes down.
         /// - Parameter urlSession: An optional external `URLSession`.
         ///
         /// - Returns: A  `Transport.P2P.Matrix.Factory` instance.
         ///
         public static func factory(
-            storagePlugin: P2PMatrixStoragePlugin? = nil,
-            matrixNodes: [String] = Beacon.P2PMatrixConfiguration.defaultRelayServers,
-            urlSession: URLSession = .shared
+            storagePlugin: P2PMatrixStoragePlugin?,
+            matrixNodes: [String],
+            urlSession: URLSession
         ) throws ->  Factory {
             try Factory(storagePlugin: storagePlugin, matrixNodes: matrixNodes, urlSession: urlSession)
         }
@@ -350,6 +350,26 @@ public extension Transport.P2P {
 }
 
 // MARK: Extensions
+
+public extension Transport.P2P.Matrix {
+    
+    ///
+    /// Creates a connection that should be used to dynamically register the client in Beacon.
+    ///
+    /// - Parameter storagePlugin: An optional external implementation of `P2PMatrixStoragePlugin`, if not provided an internal implementation will be used.
+    /// - Parameter matrixNodes: A list of Matrix nodes used in the connection, set to `Beacon.P2PMatrixConfiguration.defaultRelayServers` by default. One node will be selected randomly based on the local key pair and used as the primary connection node, the rest will be used as a fallback if the primary node goes down.
+    /// - Parameter urlSession: An optional external `URLSession`.
+    ///
+    /// - Returns: A  `Beacon.Connection` instance.
+    ///
+    static func connection(
+        storagePlugin: P2PMatrixStoragePlugin? = nil,
+        matrixNodes: [String] = Beacon.P2PMatrixConfiguration.defaultRelayServers,
+        urlSession: URLSession = .shared
+    ) throws -> Beacon.Connection {
+        .p2p(.init(client: try Transport.P2P.Matrix.factory(storagePlugin: storagePlugin, matrixNodes: matrixNodes, urlSession: urlSession)))
+    }
+}
 
 private extension MatrixClient {
     

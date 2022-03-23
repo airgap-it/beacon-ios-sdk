@@ -41,7 +41,13 @@ public class Beacon {
         }
         
         let dependencyRegistry = CoreDependencyRegistry(blockchainFactories: blockchainFactories, storage: storage, secureStorage: secureStorage)
-        Beacon.initialize(appName: appName, appIcon: appIcon, appURL: appURL, dependencyRegistry: dependencyRegistry, completion: completion)
+        Beacon.initialize(appName: appName, appIcon: appIcon, appURL: appURL, dependencyRegistry: dependencyRegistry) { beaconResult in
+            guard let beacon = beaconResult.get(ifFailure: completion) else { return }
+            beacon.dependencyRegistry.afterInitialization { registryResult in
+                let result = registryResult.map { beacon }
+                completion(result)
+            }
+        }
     }
     
     static func initialize(

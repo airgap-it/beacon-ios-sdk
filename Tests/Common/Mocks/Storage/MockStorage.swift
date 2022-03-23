@@ -10,11 +10,17 @@
 
 public class MockStorage: Storage {
     public var peers: [Beacon.Peer] = []
-    public var appMetadata: [Beacon.AppMetadata] = []
-    public var permissions: [PermissionProtocol] = []
+    
+    public var appMetadata: [MockBlockchain.AppMetadata] = []
+    public var legacyAppMetadata: [AnyLegacyAppMetadata] = []
+    
+    public var permissions: [MockBlockchain.Permission] = []
+    public var legacyPermissions: [AnyLegacyPermission] = []
+    
     public var matrixRelayServer: String?
     public var matrixChannels: [String: String] = [:]
     public var matrixSyncToken: String?
+    
     public var sdkVersion: String?
     public var migrations: Set<String> = []
     
@@ -33,23 +39,41 @@ public class MockStorage: Storage {
     
     // MARK: AppMetadata
     
-    public func getAppMetadata(completion: @escaping (Result<[Beacon.AppMetadata], Error>) -> ()) {
-        completion(.success(appMetadata))
+    public func getAppMetadata<T: AppMetadataProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
+        completion(.success(appMetadata.compactMap({ $0 as? T })))
     }
     
-    public func set(_ appMetadata: [Beacon.AppMetadata], completion: @escaping (Result<(), Error>) -> ()) {
-        self.appMetadata = appMetadata
+    public func set<T: AppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
+        self.appMetadata = appMetadata.map { MockBlockchain.AppMetadata($0) }
+        completion(.success(()))
+    }
+    
+    public func getLegacyAppMetadata<T: LegacyAppMetadataProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
+        completion(.success(legacyAppMetadata.compactMap({ $0 as? T })))
+    }
+    
+    public func setLegacy<T: LegacyAppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
+        self.legacyAppMetadata = appMetadata.map { AnyLegacyAppMetadata($0) }
         completion(.success(()))
     }
     
     // MARK: Permissions
     
-    public func getPermissions<T: PermissionProtocol & Codable>(completion: @escaping (Result<[T], Error>) -> ()) {
+    public func getPermissions<T: PermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
         completion(.success(permissions.compactMap({ $0 as? T })))
     }
     
-    public func set<T: PermissionProtocol & Codable>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
-        self.permissions = permissions
+    public func set<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
+        self.permissions = permissions.map { MockBlockchain.Permission($0) }
+        completion(.success(()))
+    }
+    
+    public func getLegacyPermissions<T: LegacyPermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
+        completion(.success(legacyPermissions.compactMap({ $0 as? T })))
+    }
+    
+    public func setLegacy<T>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) where T : LegacyPermissionProtocol {
+        self.legacyPermissions = permissions.map { AnyLegacyPermission($0) }
         completion(.success(()))
     }
     

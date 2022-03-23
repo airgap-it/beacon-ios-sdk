@@ -29,12 +29,13 @@ class MessageControllerTests: XCTestCase {
         blockchainRegistry = MockBlockchainRegistry()
         storage = MockStorage()
         secureStorage = MockSecureStorage()
+        blockchainRegistry = MockBlockchainRegistry()
         identifierCreator = MockIdentifierCreator()
         time = MockTime()
         
         messageController = MessageController(
             blockchainRegistry: blockchainRegistry,
-            storageManager: StorageManager(storage: storage, secureStorage: secureStorage, identifierCreator: identifierCreator),
+            storageManager: StorageManager(storage: storage, secureStorage: secureStorage, blockchainRegistry: blockchainRegistry, identifierCreator: identifierCreator),
             identifierCreator: identifierCreator,
             time: time
         )
@@ -53,7 +54,7 @@ class MessageControllerTests: XCTestCase {
     func testControllerConvertsIncomingMessages() throws {
         let testExpectation = expectation(description: "MessageController converts incoming messages")
         
-        let appMetadata = Beacon.AppMetadata(senderID: dAppID, name: "mockApp")
+        let appMetadata = AnyAppMetadata(senderID: dAppID, name: "mockApp")
         storage.appMetadata = [appMetadata]
         
         let origin = Beacon.Origin.p2p(id: dAppID)
@@ -84,7 +85,7 @@ class MessageControllerTests: XCTestCase {
     func testControllerConvertsOutgoingMessages() throws {
         let testExpectation = expectation(description: "MessageController converts outgoing messages")
         
-        let appMetadata = Beacon.AppMetadata(senderID: dAppID, name: "mockApp")
+        let appMetadata = AnyAppMetadata(senderID: dAppID, name: "mockApp")
         storage.appMetadata = [appMetadata]
         
         let requestOrigin = Beacon.Origin.p2p(id: dAppID)
@@ -131,7 +132,7 @@ class MessageControllerTests: XCTestCase {
     func testControllerFailsOnOutgoingMessageIfNoPendingRequests() throws {
         let testExpectation = expectation(description: "MessageController fails on outgoing message if no pending requests")
         
-        let appMetadata = Beacon.AppMetadata(senderID: dAppID, name: "mockApp")
+        let appMetadata = AnyAppMetadata(senderID: dAppID, name: "mockApp")
         storage.appMetadata = [appMetadata]
         
         let responses = beaconResponses()
@@ -169,7 +170,7 @@ class MessageControllerTests: XCTestCase {
         storage.appMetadata = []
         
         let origin = Beacon.Origin.p2p(id: dAppID)
-        let appMetadata = Beacon.AppMetadata(senderID: dAppID, name: "mockApp")
+        let appMetadata = AnyAppMetadata(senderID: dAppID, name: "mockApp")
         let permissionRequest: BeaconMessage<MockBlockchain> = .request(.permission(permissionBeaconRequest(appMetadata: appMetadata, version: dAppVersion)))
         let versionedRequest = try VersionedBeaconMessage(
             from: permissionRequest,

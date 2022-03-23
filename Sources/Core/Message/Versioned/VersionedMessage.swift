@@ -8,22 +8,25 @@
 
 import Foundation
     
-public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, Codable {
+public enum VersionedBeaconMessage<BlockchainType: Blockchain>: VersionedBeaconMessageProtocol {
     
-    case v1(V1BeaconMessage)
-    case v2(V2BeaconMessage)
+    case v1(V1BeaconMessage<BlockchainType>)
+    case v2(V2BeaconMessage<BlockchainType>)
+    case v3(V3BeaconMessage<BlockchainType>)
     
     // MARK: BeaconMessage Compatibility
     
-    public init<T: Blockchain>(from beaconMessage: BeaconMessage<T>, senderID: String) throws {
+    public init(from beaconMessage: BeaconMessage<BlockchainType>, senderID: String) throws {
         switch beaconMessage.version.major {
         case "1":
             self = .v1(try V1BeaconMessage(from: beaconMessage, senderID: senderID))
         case "2":
             self = .v2(try V2BeaconMessage(from: beaconMessage, senderID: senderID))
+        case "3":
+            self = .v3(try V3BeaconMessage(from: beaconMessage, senderID: senderID))
         default:
             // fallback to the newest version
-            self = .v2(try V2BeaconMessage(from: beaconMessage, senderID: senderID))
+            self = .v3(try V3BeaconMessage(from: beaconMessage, senderID: senderID))
         }
     }
     
@@ -33,32 +36,38 @@ public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, C
             self = .v1(try V1BeaconMessage(from: disconnectMessage, senderID: senderID))
         case "2":
             self = .v2(try V2BeaconMessage(from: disconnectMessage, senderID: senderID))
+        case "3":
+            self = .v3(try V3BeaconMessage(from: disconnectMessage, senderID: senderID))
         default:
             // fallback to the newest version
-            self = .v2(try V2BeaconMessage(from: disconnectMessage, senderID: senderID))
+            self = .v3(try V3BeaconMessage(from: disconnectMessage, senderID: senderID))
         }
     }
     
-    public func toBeaconMessage<T: Blockchain>(
+    public func toBeaconMessage(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
-        completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
+        completion: @escaping (Result<BeaconMessage<BlockchainType>, Error>) -> ()
     ) {
-        common.toBeaconMessage(with: origin, using: storageManager, completion: completion)
+        switch self {
+        case let .v1(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        case let .v2(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        case let .v3(content):
+            content.toBeaconMessage(with: origin, completion: completion)
+        }
     }
     
     // MARK: Attributes
     
-    public var type: String { common.type }
-    public var version: String { common.version }
-    public var id: String { common.id }
-    
-    private var common: VersionedBeaconMessageProtocol {
+    public var version: String {
         switch self {
         case let .v1(content):
-            return content
+            return content.version
         case let .v2(content):
-            return content
+            return content.version
+        case let .v3(content):
+            return content.version
         }
     }
     
@@ -72,9 +81,11 @@ public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, C
             self = .v1(try V1BeaconMessage(from: decoder))
         case "2":
             self = .v2(try V2BeaconMessage(from: decoder))
+        case "3":
+            self = .v3(try V3BeaconMessage(from: decoder))
         default:
             // fallback to the newest version
-            self = .v2(try V2BeaconMessage(from: decoder))
+            self = .v3(try V3BeaconMessage(from: decoder))
         }
     }
     
@@ -83,6 +94,8 @@ public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, C
         case let .v1(content):
             try content.encode(to: encoder)
         case let .v2(content):
+            try content.encode(to: encoder)
+        case let .v3(content):
             try content.encode(to: encoder)
         }
     }
@@ -94,17 +107,15 @@ public enum VersionedBeaconMessage: VersionedBeaconMessageProtocol, Equatable, C
 
 // MARK: Protocol
 
-public protocol VersionedBeaconMessageProtocol {
-    var type: String { get }
+public protocol VersionedBeaconMessageProtocol: Codable, Equatable {
+    associatedtype BlockchainType: Blockchain
+    
     var version: String { get }
-    var id: String { get }
     
-    init<T: Blockchain>(from beaconMessage: BeaconMessage<T>, senderID: String) throws
-    
-    func toBeaconMessage<T: Blockchain>(
+    init(from beaconMessage: BeaconMessage<BlockchainType>, senderID: String) throws
+    func toBeaconMessage(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
-        completion: @escaping (Result<BeaconMessage<T>, Error>) -> ()
+        completion: @escaping (Result<BeaconMessage<BlockchainType>, Error>) -> ()
     )
 }
 

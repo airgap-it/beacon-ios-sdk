@@ -10,9 +10,10 @@ import Foundation
 
 extension MatrixClient {
     
-    public struct Room: Codable {
-        let status: Status
-        let id: String
+    public struct Room: Identifiable, Codable {
+        public let status: Status
+        public let id: String
+        
         let members: [String]
         
         init(status: Status, id: String, members: [String] = []) {
@@ -78,7 +79,7 @@ extension MatrixClient {
             Room(from: self, members: (self.members + members).distinct())
         }
         
-        enum Status: String, Codable {
+        public enum Status: String, Codable {
             case joined
             case invited
             case left

@@ -9,7 +9,7 @@
 import Foundation
 import BeaconCore
     
-public struct PermissionV1TezosResponse: V1BeaconMessageProtocol, Equatable, Codable {
+public struct PermissionV1TezosResponse: V1BeaconMessageProtocol {
     public let type: String
     public let version: String
     public let id: String
@@ -17,7 +17,6 @@ public struct PermissionV1TezosResponse: V1BeaconMessageProtocol, Equatable, Cod
     public let publicKey: String
     public let network: Tezos.Network
     public let scopes: [Tezos.Permission.Scope]
-    public let threshold: Beacon.Threshold?
     
     init(
         version: String,
@@ -25,8 +24,7 @@ public struct PermissionV1TezosResponse: V1BeaconMessageProtocol, Equatable, Cod
         beaconID: String,
         publicKey: String,
         network: Tezos.Network,
-        scopes: [Tezos.Permission.Scope],
-        threshold: Beacon.Threshold?
+        scopes: [Tezos.Permission.Scope]
     ) {
         type = PermissionV1TezosResponse.type
         self.version = version
@@ -35,16 +33,11 @@ public struct PermissionV1TezosResponse: V1BeaconMessageProtocol, Equatable, Cod
         self.publicKey = publicKey
         self.network = network
         self.scopes = scopes
-        self.threshold = threshold
     }
     
     // MARK: BeaconMessage Compatibility
     
-    public init<T: Blockchain>(from beaconMessage: BeaconMessage<T>, senderID: String) throws {
-        guard let beaconMessage = beaconMessage as? BeaconMessage<Tezos> else {
-            throw Beacon.Error.unknownBeaconMessage
-        }
-        
+    public init(from beaconMessage: BeaconMessage<Tezos>, senderID: String) throws {
         switch beaconMessage {
         case let .response(response):
             switch response {
@@ -63,42 +56,30 @@ public struct PermissionV1TezosResponse: V1BeaconMessageProtocol, Equatable, Cod
             version: beaconMessage.version,
             id: beaconMessage.id,
             beaconID: senderID,
-            publicKey: beaconMessage.publicKey,
-            network: beaconMessage.network,
-            scopes: beaconMessage.scopes,
-            threshold: beaconMessage.threshold
+            publicKey: beaconMessage.account.publicKey,
+            network: beaconMessage.account.network,
+            scopes: beaconMessage.scopes
         )
     }
     
-    public func toBeaconMessage<T: Blockchain>(
+    public func toBeaconMessage(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
-        completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
+        completion: @escaping (Result<BeaconMessage<Tezos>, Swift.Error>) -> ()
     ) {
-        do {
-            let tezosMessage: BeaconMessage<Tezos> =
-                .response(
-                    .permission(
-                        .init(
-                            id: id,
-                            blockchainIdentifier: T.identifier,
-                            publicKey: publicKey,
-                            network: network,
-                            scopes: scopes,
-                            threshold: threshold,
-                            version: version,
-                            requestOrigin: origin
-                        )
+        runCatching(completion: completion) {
+            let address = try dependencyRegistry().extend().tezosWallet.address(fromPublicKey: publicKey)
+            let accountID = try dependencyRegistry().identifierCreator.accountID(forAddress: address, onNetworkWithIdentifier: network.identifier)
+            completion(.success(.response(
+                .permission(
+                    .init(
+                        id: id,
+                        version: version,
+                        requestOrigin: origin,
+                        account: .init(accountID: accountID, network: network, publicKey: publicKey, address: address),
+                        scopes: scopes
                     )
                 )
-            
-            guard let beaconMessage = tezosMessage as? BeaconMessage<T> else {
-                throw Beacon.Error.unknownBeaconMessage
-            }
-            
-            completion(.success(beaconMessage))
-        } catch {
-            completion(.failure(error))
+            )))
         }
     }
     
@@ -112,10 +93,9 @@ public struct PermissionV1TezosResponse: V1BeaconMessageProtocol, Equatable, Cod
         case publicKey
         case network
         case scopes
-        case threshold
     }
 }
 
 extension PermissionV1TezosResponse {
-    public static var type: String { "permission_response" }
+    public static let type = "permission_response"
 }

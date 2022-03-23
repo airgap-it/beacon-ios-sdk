@@ -20,7 +20,7 @@ public class MockTransport: Transport {
     public private(set) var connectPeersCalls: [[Beacon.Peer]] = []
     public private(set) var disconnectPeersCalls: [[Beacon.Peer]] = []
     
-    public var sendMessageCalls: [ConnectionMessage] = []
+    public var sendMessageCalls: [SerializedConnectionMessage] = []
     
     public init(kind: Beacon.Connection.Kind) {
         let wrapped = Wrapped()
@@ -114,7 +114,7 @@ public class MockTransport: Transport {
             }
         }
         
-        public func send(_ message: ConnectionMessage, completion: @escaping (Result<(), Error>) -> ()) {
+        public func send(_ message: SerializedConnectionMessage, completion: @escaping (Result<(), Error>) -> ()) {
             guard let mock = owner else {
                 completion(.success(()))
                 return

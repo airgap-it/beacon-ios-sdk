@@ -39,7 +39,7 @@ class IdentifierCreatorTests: XCTestCase {
             let network = $0.network
             let expected = $0.expected
             
-            let actual = try identifierCreator.accountIdentifier(forAddress: address, on: network)
+            let actual = try identifierCreator.accountID(forAddress: address, onNetworkWithIdentifier: network.identifier)
             
             XCTAssertEqual(expected, actual, "Expected \(expected) for address \(address) and network \(network), but got \(actual)")
         }
@@ -53,7 +53,7 @@ class IdentifierCreatorTests: XCTestCase {
         
         try testCases.forEach { (id, expected) in
             
-            let actual = try identifierCreator.senderIdentifier(from: try HexString(from: id))
+            let actual = try identifierCreator.senderID(from: try HexString(from: id))
             
             XCTAssertEqual(expected, actual, "Expected \(expected) for id \(id), but got \(actual)")
         }

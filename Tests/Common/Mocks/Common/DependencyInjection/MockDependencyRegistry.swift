@@ -8,8 +8,10 @@
 import Foundation
 @testable import BeaconCore
 
-public struct MockDependencyRegistry: DependencyRegistry {
+public class MockDependencyRegistry: DependencyRegistry {
     private let coreDependencyRegistry: CoreDependencyRegistry
+    
+    public private(set) var afterInitializationCalls: Int = 0
     
     public init() {
         self.coreDependencyRegistry = CoreDependencyRegistry(
@@ -17,6 +19,16 @@ public struct MockDependencyRegistry: DependencyRegistry {
             storage: MockStorage(),
             secureStorage: MockSecureStorage()
         )
+    }
+    
+    public var extended: [String : DependencyRegistry] { coreDependencyRegistry.extended }
+    
+    public func addExtended<T>(_ extended: T) where T : DependencyRegistry {
+        coreDependencyRegistry.addExtended(extended)
+    }
+    
+    public func findExtended<T>() -> T? where T : DependencyRegistry {
+        coreDependencyRegistry.findExtended()
     }
     
     public var storageManager: StorageManager { coreDependencyRegistry.storageManager }
@@ -42,4 +54,9 @@ public struct MockDependencyRegistry: DependencyRegistry {
     public var migration: Migration { coreDependencyRegistry.migration }
     public var identifierCreator: IdentifierCreatorProtocol { MockIdentifierCreator() }
     public var time: TimeProtocol { MockTime() }
+    
+    public func afterInitialization(completion: @escaping (Result<(), Error>) -> ()) {
+        afterInitializationCalls += 1
+        completion(.success(()))
+    }
 }

@@ -10,6 +10,12 @@ import Foundation
 
 public protocol DependencyRegistry {
     
+    // MARK: Extended
+    
+    var extended: [String: DependencyRegistry] { get }
+    func addExtended<T: DependencyRegistry>(_ extended: T)
+    func findExtended<T: DependencyRegistry>() -> T?
+    
     // MARK: Storage
     
     var storageManager: StorageManager { get }
@@ -48,4 +54,8 @@ public protocol DependencyRegistry {
     
     var identifierCreator: IdentifierCreatorProtocol { get }
     var time: TimeProtocol { get }
+    
+    // MARK: Behavior
+    
+    func afterInitialization(completion: @escaping (Result<(), Error>) -> ())
 }

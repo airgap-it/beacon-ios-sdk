@@ -8,7 +8,7 @@
 
 import Foundation
     
-public struct AcknowledgeV2BeaconResponse: V2BeaconMessageProtocol, Equatable, Codable {
+public struct AcknowledgeV2BeaconResponse<BlockchainType: Blockchain>: V2BeaconMessageProtocol {
     public let type: String
     public let version: String
     public let id: String
@@ -23,7 +23,7 @@ public struct AcknowledgeV2BeaconResponse: V2BeaconMessageProtocol, Equatable, C
     
     // MARK: BeaconMessage Compatibility
     
-    public init<T: Blockchain>(from beaconMessage: BeaconMessage<T>, senderID: String) throws {
+    public init(from beaconMessage: BeaconMessage<BlockchainType>, senderID: String) throws {
         switch beaconMessage {
         case let .response(response):
             switch response {
@@ -41,10 +41,9 @@ public struct AcknowledgeV2BeaconResponse: V2BeaconMessageProtocol, Equatable, C
         self.init(version: beaconMessage.version, id: beaconMessage.id, senderID: senderID)
     }
     
-    public func toBeaconMessage<T: Blockchain>(
+    public func toBeaconMessage(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
-        completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
+        completion: @escaping (Result<BeaconMessage<BlockchainType>, Swift.Error>) -> ()
     ) {
         let message = AcknowledgeBeaconResponse(id: id, version: version, requestOrigin: origin)
         completion(.success(.response(.acknowledge(message))))

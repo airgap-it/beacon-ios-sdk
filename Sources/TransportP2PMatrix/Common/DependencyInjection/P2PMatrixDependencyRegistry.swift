@@ -22,11 +22,7 @@ class P2PMatrixDependencyRegistry: ExtendedDependencyRegistry {
     }
     
     private lazy var weakP2PMatrixCommunicator: ThrowingLazyWeakReference<Transport.P2P.Matrix.Communicator> = ThrowingLazyWeakReference { [unowned self] in
-        guard let beacon = Beacon.shared else {
-            throw Beacon.Error.unknown
-        }
-        
-        return Transport.P2P.Matrix.Communicator(app: beacon.app, crypto: self.crypto)
+        Transport.P2P.Matrix.Communicator(app: try app(), crypto: self.crypto)
     }
     
     func p2pMatrixSecurity() throws -> Transport.P2P.Matrix.Security {
@@ -34,20 +30,12 @@ class P2PMatrixDependencyRegistry: ExtendedDependencyRegistry {
     }
     
     private lazy var weakP2PMatrixSecurity: ThrowingLazyWeakReference<Transport.P2P.Matrix.Security> = ThrowingLazyWeakReference { [unowned self] in
-        guard let beacon = Beacon.shared else {
-            throw Beacon.Error.unknown
-        }
-        
-        return Transport.P2P.Matrix.Security(app: beacon.app, crypto: self.crypto, time: self.time)
+        Transport.P2P.Matrix.Security(app: try app(), crypto: self.crypto, time: self.time)
     }
     
     func p2pMatrixStore(urlSession: URLSession, matrixNodes: [String]) throws -> Transport.P2P.Matrix.Store {
-        guard let beacon = Beacon.shared else {
-            throw Beacon.Error.unknown
-        }
-        
-        return Transport.P2P.Matrix.Store(
-            app: beacon.app,
+        Transport.P2P.Matrix.Store(
+            app: try app(),
             communicator: try p2pMatrixCommunicator(),
             matrixClient: matrixClient(urlSession: urlSession),
             matrixNodes: matrixNodes,
@@ -72,6 +60,16 @@ class P2PMatrixDependencyRegistry: ExtendedDependencyRegistry {
     }
     
     // MARK: Derived
+    
+    var extended: [String: DependencyRegistry] { dependencyRegistry.extended }
+    
+    func addExtended<T>(_ registry: T) where T : DependencyRegistry {
+        dependencyRegistry.addExtended(registry)
+    }
+    
+    func findExtended<T>() -> T? where T : DependencyRegistry {
+        dependencyRegistry.findExtended()
+    }
     
     var storageManager: StorageManager { dependencyRegistry.storageManager }
     
@@ -103,4 +101,8 @@ class P2PMatrixDependencyRegistry: ExtendedDependencyRegistry {
     
     var identifierCreator: IdentifierCreatorProtocol { dependencyRegistry.identifierCreator }
     var time: TimeProtocol { dependencyRegistry.time }
+    
+    func afterInitialization(completion: @escaping (Result<(), Error>) -> ()) {
+        dependencyRegistry.afterInitialization(completion: completion)
+    }
 }

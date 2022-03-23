@@ -3,7 +3,7 @@ import XCTest
 #if !canImport(ObjectiveC)
 public func allTests() -> [XCTestCaseEntry] {
     return [
-        // MARK: Beacon
+        // MARK: WalletClient
         testCase(WalletClientTests.allTests),
     ]
 }

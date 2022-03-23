@@ -8,7 +8,7 @@
 
 import Foundation
     
-public struct DisconnectV1BeaconMessage: V1BeaconMessageProtocol, Equatable, Codable {
+public struct DisconnectV1BeaconMessage<BlockchainType: Blockchain>: V1BeaconMessageProtocol {
     public let type: String
     public let version: String
     public let id: String
@@ -23,7 +23,7 @@ public struct DisconnectV1BeaconMessage: V1BeaconMessageProtocol, Equatable, Cod
     
     // MARK: BeaconMessage Compatibility
     
-    public init<T: Blockchain>(from beaconMessage: BeaconMessage<T>, senderID: String) throws {
+    public init(from beaconMessage: BeaconMessage<BlockchainType>, senderID: String) throws {
         switch beaconMessage {
         case let .disconnect(content):
             self.init(from: content, senderID: senderID)
@@ -36,10 +36,9 @@ public struct DisconnectV1BeaconMessage: V1BeaconMessageProtocol, Equatable, Cod
         self.init(version: beaconMessage.version, id: beaconMessage.id, beaconID: beaconMessage.senderID)
     }
     
-    public func toBeaconMessage<T: Blockchain>(
+    public func toBeaconMessage(
         with origin: Beacon.Origin,
-        using storageManager: StorageManager,
-        completion: @escaping (Result<BeaconMessage<T>, Swift.Error>) -> ()
+        completion: @escaping (Result<BeaconMessage<BlockchainType>, Swift.Error>) -> ()
     ) {
         let message = DisconnectBeaconMessage(id: id, senderID: beaconID, version: version, origin: origin)
         completion(.success(.disconnect(message)))

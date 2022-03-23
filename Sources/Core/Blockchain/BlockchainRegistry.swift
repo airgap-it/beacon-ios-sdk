@@ -26,9 +26,14 @@ class BlockchainRegistry: BlockchainRegistryProtocol {
         }
     }
     
+    func getAll() -> [ShadowBlockchain] {
+        Array(blockchains.values)
+    }
+    
 }
 
 public protocol BlockchainRegistryProtocol {
     func get<T: Blockchain>() -> T?
     func get(ofType identifier: String) -> ShadowBlockchain?
+    func getAll() -> [ShadowBlockchain]
 }

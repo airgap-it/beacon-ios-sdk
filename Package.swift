@@ -11,6 +11,7 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(name: "BeaconCore", targets: ["BeaconCore"]),
+        .library(name: "BeaconBlockchainSubstrate", targets: ["BeaconBlockchainSubstrate"]),
         .library(name: "BeaconBlockchainTezos", targets: ["BeaconBlockchainTezos"]),
         .library(name: "BeaconClientWallet", targets: ["BeaconClientWallet"]),
         .library(name: "BeaconTransportP2PMatrix", targets: ["BeaconTransportP2PMatrix"])
@@ -33,6 +34,7 @@ let package = Package(
             ],
             path: "Sources/Core"
         ),
+        .target(name: "BeaconBlockchainSubstrate", dependencies: ["BeaconCore"], path: "Sources/BlockchainSubstrate"),
         .target(name: "BeaconBlockchainTezos", dependencies: ["BeaconCore"], path: "Sources/BlockchainTezos"),
         .target(name: "BeaconClientWallet", dependencies: ["BeaconCore"], path: "Sources/ClientWallet"),
         .target(name: "BeaconTransportP2PMatrix", dependencies: ["BeaconCore"], path: "Sources/TransportP2PMatrix"),
@@ -42,6 +44,7 @@ let package = Package(
             name: "Common",
             dependencies: [
                 "BeaconCore",
+                "BeaconBlockchainSubstrate",
                 "BeaconBlockchainTezos",
                 "BeaconClientWallet",
                 "BeaconTransportP2PMatrix"
@@ -50,11 +53,18 @@ let package = Package(
         ),
         .testTarget(
             name: "BeaconCoreTests",
-            dependencies: ["BeaconCore", "Common"]
+            dependencies: ["BeaconCore", "Common"],
+            path: "Tests/BeaconCoreTests"
         ),
         .testTarget(
             name: "BeaconClientWalletTests",
-            dependencies: ["BeaconClientWallet", "Common"]
+            dependencies: ["BeaconClientWallet", "Common"],
+            path: "Tests/BeaconClientWalletTests"
         ),
+        .testTarget(
+            name: "BeaconBlockchainTezosTests",
+            dependencies: ["BeaconCore", "BeaconBlockchainTezos", "Common"],
+            path: "Tests/BeaconBlockchainTezosTests"
+        )
     ]
 )

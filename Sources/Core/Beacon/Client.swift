@@ -165,35 +165,28 @@ extension Beacon {
         private func disconnect(_ peer: Beacon.Peer, completion: @escaping (Result<(), Error>) -> ()) {
             do {
                 let origin = Beacon.Origin(kind: peer.kind, id: peer.publicKey)
-                let message = DisconnectBeaconMessage(
-                    id: try crypto.guid(),
-                    senderID: beaconID,
-                    version: peer.version,
-                    origin: origin
+                let message: BeaconMessage<AnyBlockchain> = .disconnect(
+                    .init(
+                        id: try crypto.guid(),
+                        senderID: beaconID,
+                        version: peer.version,
+                        origin: origin
+                    )
                 )
-                send(message, completion: completion)
+                send(message, terminalMessage: true, completion: completion)
             } catch {
                 completion(.failure(Error(error)))
             }
         }
         
-        public func send<T: Blockchain>(_ message: BeaconMessage<T>, terminalMessage: Bool, completion: @escaping (Result<(), Error>) -> ()) {
+        public func send<B: Blockchain>(_ message: BeaconMessage<B>, terminalMessage: Bool, completion: @escaping (Result<(), Error>) -> ()) {
             messageController.onOutgoing(message, with: beaconID, terminal: terminalMessage) { result in
                 guard let (origin, versionedMessage) = result.get(ifFailure: completion) else { return }
                 self.send(BeaconConnectionMessage(origin: origin, content: versionedMessage), completion: completion)
             }
         }
         
-        public func send(_ message: DisconnectBeaconMessage, completion: @escaping (Result<(), Error>) -> ()) {
-            do {
-                let (origin, versionedMessage) = try messageController.onOutgoing(message, with: beaconID)
-                send(BeaconConnectionMessage(origin: origin, content: versionedMessage), completion: completion)
-            } catch {
-                completion(.failure(Beacon.Error(error)))
-            }
-        }
-        
-        private func send(_ message: BeaconConnectionMessage, completion: @escaping (Result<(), Error>) -> ()) {
+        private func send<B: Blockchain>(_ message: BeaconConnectionMessage<B>, completion: @escaping (Result<(), Error>) -> ()) {
             connectionController.send(message) { result in
                 completion(result.withBeaconError())
             }

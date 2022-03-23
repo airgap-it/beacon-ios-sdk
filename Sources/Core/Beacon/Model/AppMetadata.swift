@@ -8,24 +8,39 @@
 
 import Foundation
 
-extension Beacon {
+/// Metadata describing a dApp.
+public protocol AppMetadataProtocol: Equatable, Codable {
     
-    /// Metadata describing a dApp.
-    public struct AppMetadata: Equatable, Codable {
-        
-        /// The value that identifies the dApp.
-        public let senderID: String
-        
-        /// The name of the dApp.
-        public let name: String
-        
-        /// An optional URL for the dApp icon.
-        public let icon: String?
-        
-        public init(senderID: String, name: String, icon: String? = nil) {
-            self.senderID = senderID
-            self.name = name
-            self.icon = icon
-        }
+    static var blockchainIdentifier: String? { get }
+    
+    /// The value that identifies the dApp.
+    var senderID: String { get }
+    
+    /// The name of the dApp.
+    var name: String { get }
+    
+    /// An optional URL for the dApp icon.
+    var icon: String? { get }
+}
+
+// MARK: Any
+
+public struct AnyAppMetadata: AppMetadataProtocol, Equatable, Codable {
+    public static let blockchainIdentifier: String? = nil
+    
+    public let senderID: String
+    public let name: String
+    public let icon: String?
+    
+    public init<T: AppMetadataProtocol>(_ appMetadata: T) {
+        self.senderID = appMetadata.senderID
+        self.name = appMetadata.name
+        self.icon = appMetadata.icon
+    }
+    
+    public init(senderID: String, name: String, icon: String? = nil) {
+        self.senderID = senderID
+        self.name = name
+        self.icon = icon
     }
 }

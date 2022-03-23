@@ -9,7 +9,7 @@
 import Foundation
     
 /// Types of messages used in the Beacon communication
-public enum BeaconMessage<T: Blockchain>: BeaconMessageProtocol, Equatable {
+public enum BeaconMessage<B: Blockchain>: BeaconMessageProtocol, Equatable {
     
     ///
     /// Request message.
@@ -18,7 +18,7 @@ public enum BeaconMessage<T: Blockchain>: BeaconMessageProtocol, Equatable {
     ///
     /// - request: The content of the message.
     ///
-    case request(_ request: BeaconRequest<T>)
+    case request(_ request: BeaconRequest<B>)
     
     ///
     /// Response message.
@@ -28,7 +28,7 @@ public enum BeaconMessage<T: Blockchain>: BeaconMessageProtocol, Equatable {
     ///
     /// - response: The content of the message.
     ///
-    case response(_ response: BeaconResponse<T>)
+    case response(_ response: BeaconResponse<B>)
     
     ///
     /// Disconnect message.

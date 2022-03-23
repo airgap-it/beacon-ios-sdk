@@ -10,21 +10,26 @@ import Foundation
 import Base58Swift
 
 public class IdentifierCreator: IdentifierCreatorProtocol {
-    private static let senderHashSize = 5
-    
     private let crypto: Crypto
     
     public init(crypto: Crypto) {
         self.crypto = crypto
     }
     
-    public func accountIdentifier<T: NetworkProtocol>(forAddress address: String, on network: T) throws -> String {
-        let hash = try crypto.hash(message: "\(address)-\(network.identifier)", size: 10)
+    public func accountID(forAddress address: String, onNetworkWithIdentifier networkIdentifier: String?) throws -> String {
+        let input: String = {
+            if let networkIdentifier = networkIdentifier {
+                return "\(address)-\(networkIdentifier)"
+            } else {
+                return address
+            }
+        }()
+        let hash = try crypto.hash(message: input, size: 10)
         return Base58.base58CheckEncode(hash)
     }
     
-    public func senderIdentifier(from publicKey: HexString) throws -> String {
-        let hash = try crypto.hash(message: publicKey, size: IdentifierCreator.senderHashSize)
+    public func senderID(from publicKey: HexString) throws -> String {
+        let hash = try crypto.hash(message: publicKey, size: 5)
         return Base58.base58CheckEncode(hash)
     }
 }
@@ -32,6 +37,6 @@ public class IdentifierCreator: IdentifierCreatorProtocol {
 // MARK: Protocol
 
 public protocol IdentifierCreatorProtocol {
-    func accountIdentifier<T: NetworkProtocol>(forAddress address: String, on network: T) throws -> String
-    func senderIdentifier(from publicKey: HexString) throws -> String
+    func accountID(forAddress address: String, onNetworkWithIdentifier networkIdentifier: String?) throws -> String
+    func senderID(from publicKey: HexString) throws -> String
 }

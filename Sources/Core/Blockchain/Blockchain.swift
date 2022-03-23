@@ -8,29 +8,53 @@
 
 import Foundation
 
-public protocol ShadowBlockchain {
-    static var identifier: String { get }
-    
-    var wallet: BlockchainWallet { get }
-    var creator: Any { get }
-    var decoder: BlockchainDecoder { get }
-}
-
 public protocol Blockchain: ShadowBlockchain {
-    associatedtype Creator: BlockchainCreator where Creator.ConcreteBlockchain == Self
+    associatedtype Creator: BlockchainCreator where Creator.BlockchainType == Self
     
     associatedtype Request: BlockchainRequest
     associatedtype Response: BlockchainResponse
-    associatedtype VersionedMessage: BlockchainVersionedMessage
+    associatedtype VersionedMessage: BlockchainVersionedMessage where VersionedMessage.BlockchainType == Self
     
-    associatedtype Permission: PermissionProtocol & Equatable & Codable
-    associatedtype ErrorType: ErrorTypeProtocol & Equatable & Codable
+    associatedtype AppMetadata: AppMetadataProtocol
+    associatedtype Permission: PermissionProtocol
+    associatedtype ErrorType: ErrorTypeProtocol
     
     static var identifier: String { get }
     
-    var wallet: BlockchainWallet { get }
     var creator: Creator { get }
-    var decoder: BlockchainDecoder { get }
+}
+
+// MARK: Shadow
+
+public protocol ShadowBlockchain {
+    static var identifier: String { get }
+    
+    var creator: Any { get }
+    var storageExtension: BlockchainStorageExtension { get }
+}
+
+// MARK: Any
+
+struct AnyBlockchain : Blockchain {
+    typealias Creator = AnyBlockchainCreator
+    
+    typealias Request = AnyBlockchainRequest
+    typealias Response = AnyBlockchainResponse
+    typealias VersionedMessage = AnyBlockchainVersionedMessage
+    
+    typealias AppMetadata = AnyAppMetadata
+    typealias Permission = AnyPermission
+    typealias ErrorType = AnyErrorType
+    
+    static let identifier: String = "any"
+    
+    let creator: AnyBlockchainCreator
+    let storageExtension: BlockchainStorageExtension
+    
+    init(creator: AnyBlockchainCreator, storageExtension: AnyBlockchainStorageExtensions) {
+        self.creator = creator
+        self.storageExtension = storageExtension
+    }
 }
 
 // MARK: Extensions

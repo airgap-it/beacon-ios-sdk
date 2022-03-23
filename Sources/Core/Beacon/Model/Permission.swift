@@ -8,52 +8,43 @@
 
 import Foundation
 
-public protocol PermissionProtocol {
-    var accountIdentifier: String { get }
-    var address: String { get }
+/// Granted permissions data.
+public protocol PermissionProtocol: Equatable, Codable {
+    
+    static var blockchainIdentifier: String? { get }
+    
+    /// The value that identifies the account which granted the permissions.
+    var accountID: String { get }
+    
+    /// The value that identifies the sender to whom the permissions were granted.
     var senderID: String { get }
-    var appMetadata: Beacon.AppMetadata { get }
-    var publicKey: String { get }
+    
+    /// The timestamp at which the permissions were granted.
     var connectedAt: Int64 { get }
-    var threshold: Beacon.Threshold? { get }
 }
 
 // MARK: Any
 
 public struct AnyPermission: PermissionProtocol, Codable, Equatable {
-    public let accountIdentifier: String
-    public let address: String
-    public let senderID: String
-    public let appMetadata: Beacon.AppMetadata
-    public let publicKey: String
-    public let connectedAt: Int64
-    public let threshold: Beacon.Threshold?
+    public static let blockchainIdentifier: String? = nil
     
-    public init(_ permission: PermissionProtocol) {
-        self.accountIdentifier = permission.accountIdentifier
-        self.address = permission.address
+    public let accountID: String
+    public let senderID: String
+    public let connectedAt: Int64
+    
+    public init<T: PermissionProtocol>(_ permission: T) {
+        self.accountID = permission.accountID
         self.senderID = permission.senderID
-        self.appMetadata = permission.appMetadata
-        self.publicKey = permission.publicKey
         self.connectedAt = permission.connectedAt
-        self.threshold = permission.threshold
     }
     
     init(
-        accountIdentifier: String,
-        address: String,
+        accountID: String,
         senderID: String,
-        appMetadata: Beacon.AppMetadata,
-        publicKey: String,
-        connectedAt: Int64,
-        threshold: Beacon.Threshold? = nil
+        connectedAt: Int64
     ) {
-        self.accountIdentifier = accountIdentifier
-        self.address = address
+        self.accountID = accountID
         self.senderID = senderID
-        self.appMetadata = appMetadata
-        self.publicKey = publicKey
         self.connectedAt = connectedAt
-        self.threshold = threshold
     }
 }

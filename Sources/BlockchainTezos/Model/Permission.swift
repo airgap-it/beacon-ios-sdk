@@ -11,64 +11,60 @@ import BeaconCore
 extension Tezos {
     
     /// Granted Tezos permissions data.
-    public struct Permission: PermissionProtocol, Codable, Equatable {
+    public struct Permission: PermissionProtocol {
+        
+        public static let blockchainIdentifier: String? = Tezos.identifier
         
         /// The value that identifies the account which granted the permissions.
-        public let accountIdentifier: String
-        
-        /// The address of the account derived from its public key.
-        public let address: String
-        
-        /// The network to which the permissions apply.
-        public let network: Network
-        
-        /// The list of granted permission types.
-        public let scopes: [Permission.Scope]
+        public let accountID: String
         
         /// The value that identifies the sender to whom the permissions were granted.
         public let senderID: String
         
-        /// The metadata describing the dApp to which the permissions were granted.
-        public let appMetadata: Beacon.AppMetadata
+        /// The timestamp at which the permissions were granted.
+        public let connectedAt: Int64
+        
+        /// The address of the account derived from its public key.
+        public let address: String
         
         /// The public key of the account.
         public let publicKey: String
         
-        /// The timestamp at which the permissions were granted.
-        public let connectedAt: Int64
+        /// The network to which the permissions apply.
+        public let network: Network
         
-        /// An optional threshold configuration.
-        public let threshold: Beacon.Threshold?
+        /// The metadata describing the dApp to which the permissions were granted.
+        public let appMetadata: AppMetadata
+        
+        /// The list of granted permission types.
+        public let scopes: [Scope]
         
         public init(
-            accountIdentifier: String,
-            address: String,
-            network: Network,
-            scopes: [Permission.Scope],
+            accountID: String,
             senderID: String,
-            appMetadata: Beacon.AppMetadata,
-            publicKey: String,
             connectedAt: Int64,
-            threshold: Beacon.Threshold? = nil
+            address: String,
+            publicKey: String,
+            network: Network,
+            appMetadata: AppMetadata,
+            scopes: [Permission.Scope]
         ) {
-            self.accountIdentifier = accountIdentifier
-            self.address = address
-            self.network = network
-            self.scopes = scopes
+            self.accountID = accountID
             self.senderID = senderID
-            self.appMetadata = appMetadata
-            self.publicKey = publicKey
             self.connectedAt = connectedAt
-            self.threshold = threshold
+            self.address = address
+            self.publicKey = publicKey
+            self.network = network
+            self.appMetadata = appMetadata
+            self.scopes = scopes
         }
         
         // MARK: Scope
         
-        /// Types of permissions supported in Beacon.
+        /// Types of Tezos permissions supported in Beacon.
         public enum Scope: String, Codable, Equatable {
             case sign
             case operationRequest = "operation_request"
-            case threshold
         }
     }
 }

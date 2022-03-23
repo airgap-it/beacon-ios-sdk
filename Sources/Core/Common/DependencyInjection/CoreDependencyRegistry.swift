@@ -15,15 +15,29 @@ class CoreDependencyRegistry: DependencyRegistry {
         self.secureStorage = secureStorage
     }
     
+    // MARK: Extended
+    
+    public private(set) var extended: [String: DependencyRegistry] = [:]
+    
+    public func addExtended<T: DependencyRegistry>(_ registry: T) {
+        extended["\(T.self)"] = registry
+    }
+    
+    public func findExtended<T: DependencyRegistry>() -> T? {
+        extended["\(T.self)"] as? T
+    }
+    
     // MARK: Storage
     
     private let storage: Storage
     private let secureStorage: SecureStorage
     
-    public var storageManager: StorageManager { weakStorageManager.value }
-    private lazy var weakStorageManager: LazyWeakReference<StorageManager> = LazyWeakReference { [unowned self] in
-        StorageManager(storage: self.storage, secureStorage: self.secureStorage, identifierCreator: self.identifierCreator)
-    }
+    public lazy var storageManager: StorageManager = StorageManager(
+        storage: self.storage,
+        secureStorage: self.secureStorage,
+        blockchainRegistry: self.blockchainRegistry,
+        identifierCreator: self.identifierCreator
+    )
     
     // MARK: Controller
     
@@ -101,13 +115,7 @@ class CoreDependencyRegistry: DependencyRegistry {
     
     // MARK: Migration
     
-    public var migration: Migration { weakMigration.value }
-    private lazy var weakMigration: LazyWeakReference<Migration> = LazyWeakReference { [unowned self] in
-        Migration(
-            storageManager: self.storageManager,
-            migrations: []
-        )
-    }
+    public lazy var migration: Migration = Migration(storageManager: self.storageManager, migrations: [])
     
     // MARK: Other
     
@@ -118,4 +126,28 @@ class CoreDependencyRegistry: DependencyRegistry {
     
     public var time: TimeProtocol { weakTime.value }
     private lazy var weakTime: LazyWeakReference<Time> = LazyWeakReference { Time() }
+    
+    // MARK: Behavior
+    
+    func afterInitialization(completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        self.blockchainFactories.forEachAsync(body: { $0.afterInitialized(with: self, completion: $1)}) { (results: [Result<(), Swift.Error>]) in
+            guard results.allSatisfy({ $0.isSuccess }) else {
+                let (failed, errors) = results.enumerated()
+                    .map { (index, result) in (type(of: self.blockchainFactories[index]).identifier, result.error) }
+                    .filter { (_, error) in error != nil }
+                    .unzip()
+                
+                completion(.failure(Error.afterInitializationFailed(failed, causedBy: errors.compactMap { $0 })))
+                return
+            }
+            
+            completion(.success(()))
+        }
+    }
+    
+    // MARK: Types
+    
+    enum Error: Swift.Error {
+        case afterInitializationFailed(_ blockchainIdentifiers: [String], causedBy: [Swift.Error])
+    }
 }

@@ -9,21 +9,21 @@
 import Foundation
     
 /// Types of responses used in the Beacon connection.
-public enum BeaconResponse<T: Blockchain>: BeaconResponseProtocol, Equatable {
+public enum BeaconResponse<B: Blockchain>: BeaconResponseProtocol, Equatable {
     
     ///
     /// Message responding to `BeaconRequest.permission`
     ///
     /// - permission: The content of the message, specific to a blockchain.
     ///
-    case permission(_ permission: T.Response.Permission)
+    case permission(_ permission: B.Response.Permission)
     
     ///
     /// Message responding to `BeaconRequest.blockchain`
     ///
     /// - blockchain: The content of the message.
     ///
-    case blockchain(_ blockchain: T.Response.Blockchain)
+    case blockchain(_ blockchain: B.Response.Blockchain)
     
     ///
     /// Message responding to every `BeaconRequest`,
@@ -41,13 +41,12 @@ public enum BeaconResponse<T: Blockchain>: BeaconResponseProtocol, Equatable {
     ///
     /// - error: The body of the message.
     ///
-    case error(_ error: ErrorBeaconResponse<T>)
+    case error(_ error: ErrorBeaconResponse<B>)
     
     // MARK: Attributes
     
     public var id: String { common.id }
     public var version: String { common.version }
-    
     public var requestOrigin: Beacon.Origin { common.requestOrigin }
     
     private var common: BeaconResponseProtocol {
@@ -70,12 +69,6 @@ public protocol BeaconResponseProtocol: BeaconMessageProtocol {
     var requestOrigin: Beacon.Origin { get }
 }
 
-public protocol PermissionBeaconResponseProtocol: BeaconResponseProtocol {
-    var blockchainIdentifier: String { get }
-    var publicKey: String { get }
-    var threshold: Beacon.Threshold? { get }
-}
+public protocol PermissionBeaconResponseProtocol: BeaconResponseProtocol {}
 
-public protocol BlockchainBeaconResponseProtocol: BeaconResponseProtocol {
-    var blockchainIdentifier: String { get }
-}
+public protocol BlockchainBeaconResponseProtocol: BeaconResponseProtocol {}

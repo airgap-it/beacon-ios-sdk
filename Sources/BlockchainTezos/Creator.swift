@@ -10,55 +10,47 @@ import BeaconCore
 
 extension Tezos {
     
-    public struct Creator: BlockchainCreator {
-        public typealias ConcreteBlockchain = Tezos
+    public class Creator: BlockchainCreator {
+        public typealias BlockchainType = Tezos
         
-        private let wallet: Wallet
         private let storageManager: StorageManager
         private let identifierCreator: IdentifierCreatorProtocol
         private let time: TimeProtocol
         
-        init(wallet: Wallet, storageManager: StorageManager, identifierCreator: IdentifierCreatorProtocol, time: TimeProtocol) {
-            self.wallet = wallet
+        init(storageManager: StorageManager, identifierCreator: IdentifierCreatorProtocol, time: TimeProtocol) {
             self.storageManager = storageManager
             self.identifierCreator = identifierCreator
             self.time = time
         }
         
         public func extractPermission(
-            from request: ConcreteBlockchain.Request.Permission,
-            and response: ConcreteBlockchain.Response.Permission,
-            completion: @escaping (Result<ConcreteBlockchain.Permission, Swift.Error>) -> ()
+            from request: PermissionTezosRequest,
+            and response: PermissionTezosResponse,
+            completion: @escaping (Result<[Tezos.Permission], Swift.Error>) -> ()
         ) {
-            do {
-                let address = try wallet.address(fromPublicKey: response.publicKey)
-                let accountIdentifier = try identifierCreator.accountIdentifier(forAddress: address, on: response.network)
-                storageManager.findAppMetadata(where: { request.senderID == $0.senderID }) { result in
-                    do {
-                        guard let appMetadataOrNil = result.get(ifFailure: completion) else { return }
-                        guard let appMetadata = appMetadataOrNil else {
-                            throw Error.noMatchingAppMetadata
-                        }
-
-                        let permission = Tezos.Permission(
-                            accountIdentifier: accountIdentifier,
-                            address: address,
-                            network: response.network,
-                            scopes: response.scopes,
-                            senderID: try self.identifierCreator.senderIdentifier(from: try HexString(from: request.origin.id)),
-                            appMetadata: appMetadata,
-                            publicKey: response.publicKey,
-                            connectedAt: self.time.currentTimeMillis,
-                            threshold: response.threshold
-                        )
-                        
-                        completion(.success(permission))
-                    } catch {
-                        completion(.failure(error))
+            storageManager.findAppMetadata(where: { (appMetadata: AppMetadata) in request.senderID == appMetadata.senderID }) { result in
+                guard let appMetadataOrNil = result.get(ifFailure: completion) else { return }
+                runCatching(completion: completion) {
+                    guard let appMetadata = appMetadataOrNil else {
+                        throw Error.noMatchingAppMetadata
                     }
+                    
+                    let accountID = try self.identifierCreator.accountID(forAddress: response.account.address, onNetworkWithIdentifier: response.account.network.identifier)
+                    let senderID = try self.identifierCreator.senderID(from: try HexString(from: request.origin.id))
+
+                    let permission = Tezos.Permission(
+                        accountID: accountID,
+                        senderID: senderID,
+                        connectedAt: self.time.currentTimeMillis,
+                        address: response.account.address,
+                        publicKey: response.account.publicKey,
+                        network: response.account.network,
+                        appMetadata: appMetadata,
+                        scopes: response.scopes
+                    )
+                    
+                    completion(.success([permission]))
                 }
-            } catch {
-                completion(.failure(error))
             }
         }
         

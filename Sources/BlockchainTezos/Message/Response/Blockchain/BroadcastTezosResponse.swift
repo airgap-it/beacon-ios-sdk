@@ -9,17 +9,11 @@
 import Foundation
 import BeaconCore
     
-/// Body of the `Beacon.Response.broadcast` message.
-public struct BroadcastTezosResponse: BlockchainBeaconResponseProtocol, Equatable, Codable {
+/// Body of the `BlockchainTezosResponse.broadcast` message.
+public struct BroadcastTezosResponse: BlockchainBeaconResponseProtocol, Identifiable, Equatable, Codable {
     
     /// The value that identifies the request to which the message is responding.
     public let id: String
-    
-    /// The unique name of the blockchain that specifies the request.
-    public let blockchainIdentifier: String
-    
-    /// The hash of the broadcast transaction.
-    public let transactionHash: String
     
     /// The version of the message.
     public let version: String
@@ -27,15 +21,22 @@ public struct BroadcastTezosResponse: BlockchainBeaconResponseProtocol, Equatabl
     /// The origination data of the request.
     public let requestOrigin: Beacon.Origin
     
+    /// The hash of the broadcast transaction.
+    public let transactionHash: String
+    
     public init(from request: BroadcastTezosRequest, transactionHash: String) {
-        self.init(id: request.id, blockchainIdentifier: request.blockchainIdentifier, transactionHash: transactionHash, version: request.version, requestOrigin: request.origin)
+        self.init(
+            id: request.id,
+            version: request.version,
+            requestOrigin: request.origin,
+            transactionHash: transactionHash
+        )
     }
     
-    public init(id: String, blockchainIdentifier: String, transactionHash: String, version: String, requestOrigin: Beacon.Origin) {
+    public init(id: String, version: String, requestOrigin: Beacon.Origin, transactionHash: String) {
         self.id = id
-        self.blockchainIdentifier = blockchainIdentifier
-        self.transactionHash = transactionHash
         self.version = version
         self.requestOrigin = requestOrigin
+        self.transactionHash = transactionHash
     }
 }
