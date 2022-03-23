@@ -35,7 +35,7 @@ extension Tezos {
                         throw Error.noMatchingAppMetadata
                     }
                     
-                    let accountID = try self.identifierCreator.accountID(forAddress: response.account.address, on: response.account.network)
+                    let accountID = try self.identifierCreator.accountID(forAddress: response.account.address, onNetworkWithIdentifier: response.account.network.identifier)
                     let senderID = try self.identifierCreator.senderID(from: try HexString(from: request.origin.id))
 
                     let permission = Tezos.Permission(

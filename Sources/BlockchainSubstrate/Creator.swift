@@ -36,7 +36,7 @@ extension Substrate {
                     }
                     
                     let permissions: [Substrate.Permission] = try response.accounts.map {
-                        let accountID = try self.identifierCreator.accountID(forAddress: $0.address, on: $0.network)
+                        let accountID = try self.identifierCreator.accountID(forAddress: $0.address, onNetworkWithIdentifier: $0.network?.identifier)
                         let senderID = try self.identifierCreator.senderID(from: try HexString(from: request.origin.id))
                         
                         return Substrate.Permission(

@@ -39,7 +39,7 @@ class IdentifierCreatorTests: XCTestCase {
             let network = $0.network
             let expected = $0.expected
             
-            let actual = try identifierCreator.accountID(forAddress: address, on: network)
+            let actual = try identifierCreator.accountID(forAddress: address, onNetworkWithIdentifier: network.identifier)
             
             XCTAssertEqual(expected, actual, "Expected \(expected) for address \(address) and network \(network), but got \(actual)")
         }

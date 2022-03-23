@@ -15,25 +15,25 @@ import BeaconClientWallet
 import BeaconTransportP2PMatrix
 
 class BeaconViewModel: ObservableObject {
-    private static let examplePeerID = "17dfcd9f-6d39-f132-4204-a5d43ea27a3e"
+    private static let examplePeerID = "e3a82598-d047-59db-3e7e-12948caa6cbf"
     private static let examplePeerName = "Beacon Example Dapp"
-    private static let examplePeerPublicKey = "6727156064cc9c25193e3b0a75eb41b2deedcb17871baa2a897a64c3f99b31bf"
+    private static let examplePeerPublicKey = "4d318cbfc236985a44f6114cc46d62806e50d3d8c4e0867651e8e68efac8e37c"
     private static let examplePeerRelayServer = "beacon-node-1.sky.papers.tech"
     private static let examplePeerVersion = "3"
     
     private static func exampleTezosAccount(network: Tezos.Network) throws -> Tezos.Account {
         try Tezos.Account(
-            network: network,
             publicKey: "edpktpzo8UZieYaJZgCHP6M6hKHPdWBSNqxvmEt6dwWRgxDh1EAFw9",
-            address: "tz1Mg6uXUhJzuCh4dH2mdBdYBuaiVZCCZsak"
+            address: "tz1Mg6uXUhJzuCh4dH2mdBdYBuaiVZCCZsak",
+            network: network
         )
     }
 
     private static func exampleSubstrateAccount(network: Substrate.Network) throws -> Substrate.Account {
         try Substrate.Account(
-            network: network,
             publicKey: "628f3940a6210a2135ba355f7ff9f8e9fbbfd04f8571e99e1df75554d4bcd24f",
-            address: "5EHw6XmdpoaaJiPMXFKr1CcHcXPVYZemc9NoKHhEoguavzJN"
+            address: "5EHw6XmdpoaaJiPMXFKr1CcHcXPVYZemc9NoKHhEoguavzJN",
+            network: network
         )
     }
     
