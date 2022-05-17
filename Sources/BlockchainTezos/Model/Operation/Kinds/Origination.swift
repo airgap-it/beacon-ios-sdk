@@ -19,7 +19,7 @@ extension Tezos.Operation {
         public let storageLimit: String?
         public let balance: String
         public let delegate: String?
-        public let script: String
+        public let script: Script
         
         public init(
             source: String? = nil,
@@ -29,7 +29,7 @@ extension Tezos.Operation {
             storageLimit: String? = nil,
             balance: String,
             delegate: String? = nil,
-            script: String
+            script: Script
         ) {
             kind = .origination
             self.source = source

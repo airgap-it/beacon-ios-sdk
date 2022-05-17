@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                  = "BeaconTransportP2PMatrix"
-    spec.version               = "3.1.0"
+    spec.version               = "3.1.1"
     spec.summary               = "Beacon is an implementation of the wallet interaction standard tzip-10 which describes the connection of a dApp with a wallet. BeaconTransportP2PMatrix provides a P2P implementation which uses Matrix network for the communication."
     spec.description           = <<-DESC
       Beacon is an implementation of the Tezos wallet interaction standard tzip-10 which describes the connection of a dApp with a wallet. BeaconTransportP2PMatrix provides a P2P implementation which uses Matrix network for the communication."
