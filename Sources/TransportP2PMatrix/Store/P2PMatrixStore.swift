@@ -262,7 +262,7 @@ extension Transport.P2P.Matrix {
                     self.storageManager.add(
                         [.p2p(.init(from: peer, relayServer: senderIdentifier.relayServer))],
                         overwrite: true,
-                        compareBy: { lhs, rhs in lhs.publicKey == rhs.publicKey },
+                        distinguishBy: { [$0.publicKey] },
                         completion: completion
                     )
                 }

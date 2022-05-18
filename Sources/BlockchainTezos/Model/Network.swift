@@ -11,7 +11,7 @@ import BeaconCore
 extension Tezos {
     
     /// A group of values defining a network in Tezos..
-    public struct Network: NetworkProtocol, Codable, Equatable {
+    public struct Network: NetworkProtocol, Codable, Hashable {
         /// A type of the network
         public let type: `Type`
         

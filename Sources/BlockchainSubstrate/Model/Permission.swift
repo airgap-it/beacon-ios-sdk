@@ -45,7 +45,7 @@ extension Substrate {
         // MARK: Scope
         
         /// Types of Substrate permissions supported in Beacon.
-        public enum Scope: String, Codable, Equatable {
+        public enum Scope: String, Codable, Hashable {
             case transfer
             case signPayloadJSON = "sign_payload_json"
             case signPayloadRaw = "sign_payload_raw"
