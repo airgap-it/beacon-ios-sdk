@@ -189,7 +189,7 @@ extension MatrixClient {
                     from: state,
                     isPolling: state.isPolling.merging([node: false], uniquingKeysWith: { lhs, rhs in rhs }),
                     pollingRetries: state.pollingRetries.merging(
-                        [node: state.pollingRetries.get(node, orDefault: 0)],
+                        [node: state.pollingRetries[node, default: 0]],
                         uniquingKeysWith: { lhs, rhs in rhs }
                     )
                 )

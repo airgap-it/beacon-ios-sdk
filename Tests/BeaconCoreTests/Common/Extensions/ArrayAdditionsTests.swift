@@ -12,16 +12,12 @@ import XCTest
 class ArrayAdditionsTests: XCTestCase {
     
     func testPartitioned() throws {
-        let n = 10
+        let numbers = [1, 2, 3, 4, 5]
         
-        let numbers = Array(0..<n)
-        let evenExpected = numbers.filter { $0 % 2 == 0 }
-        let oddExpected = numbers.filter { $0 % 2 != 0 }
+        let (first, second) = numbers.partitioned(by: Set([0, 3, 4]))
         
-        let (even, odd) = numbers.partitioned(by: { $0 % 2 == 0 })
-        
-        XCTAssertEqual(evenExpected, even)
-        XCTAssertEqual(oddExpected, odd)
+        XCTAssertEqual([1, 4, 5], first)
+        XCTAssertEqual([2, 3], second)
     }
     
     func testUnzip() throws {

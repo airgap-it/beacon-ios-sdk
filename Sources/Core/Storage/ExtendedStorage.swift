@@ -15,7 +15,7 @@ public protocol ExtendedStorage: Storage {
     func add(
         _ peers: [Beacon.Peer],
         overwrite: Bool,
-        compareBy predicate: @escaping (Beacon.Peer, Beacon.Peer) -> Bool,
+        distinguishBy selectKeys: @escaping (Beacon.Peer) -> [AnyHashable],
         completion: @escaping (Result<(), Error>) -> ()
     )
     
@@ -27,7 +27,7 @@ public protocol ExtendedStorage: Storage {
     func add<T: AppMetadataProtocol>(
         _ appMetadata: [T],
         overwrite: Bool,
-        compareBy predicate: @escaping (T, T) -> Bool,
+        distinguishBy selectKeys: @escaping (T) -> [AnyHashable],
         completion: @escaping (Result<(), Error>) -> ()
     )
     
@@ -43,7 +43,7 @@ public protocol ExtendedStorage: Storage {
     func add<T: PermissionProtocol>(
         _ permissions: [T],
         overwrite: Bool,
-        compareBy predicate: @escaping (T, T) -> Bool,
+        distinguishBy selectKeys: @escaping (T) -> [AnyHashable],
         completion: @escaping (Result<(), Error>) -> ()
     )
     

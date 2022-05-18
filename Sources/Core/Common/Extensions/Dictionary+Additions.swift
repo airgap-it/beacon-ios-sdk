@@ -32,10 +32,6 @@ public extension Dictionary {
         }
     }
     
-    func get(_ key: Key, orDefault defaultValue: Value) -> Value {
-        self[key] ?? defaultValue
-    }
-    
     mutating func getAndDispose(_ key: Key) -> Value? {
         guard let value = self[key] else { return nil }
         self.removeValue(forKey: key)

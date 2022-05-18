@@ -204,7 +204,7 @@ public class MatrixClient {
             switch result {
             case let .success(response):
                 selfStrong.store.state {
-                    if let state = $0.get(ifFailure: disposableCompletion), !state.isPolling.get(node, orDefault: false) {
+                    if let state = $0.get(ifFailure: disposableCompletion), !state.isPolling[node, default: false] {
                         disposableCompletion(.success(()))
                     }
                 
@@ -220,7 +220,7 @@ public class MatrixClient {
                 }
             case let .failure(error):
                 selfStrong.store.state {
-                    if let state = $0.get(ifFailure: disposableCompletion), !state.isPolling.get(node, orDefault: false) {
+                    if let state = $0.get(ifFailure: disposableCompletion), !state.isPolling[node, default: false] {
                         disposableCompletion(.failure(error))
                     }
                     
@@ -247,7 +247,7 @@ public class MatrixClient {
                         continuation(.success(()))
                     case let .failure(error):
                         strongSelf.store.state {
-                            guard let state = try? $0.get(), state.pollingRetries.get(node, orDefault: 0) < Beacon.P2PMatrixConfiguration.matrixMaxSyncRetries else {
+                            guard let state = try? $0.get(), state.pollingRetries[node, default: 0] < Beacon.P2PMatrixConfiguration.matrixMaxSyncRetries else {
                                 /* max retries exceeded */
                                 continuation(.failure(error))
                                 return

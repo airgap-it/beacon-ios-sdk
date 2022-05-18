@@ -25,8 +25,13 @@ public class MockExtendedStorage : ExtendedStorage {
         storage.set(peers, completion: completion)
     }
     
-    public func add(_ peers: [Beacon.Peer], overwrite: Bool, compareBy predicate: @escaping (Beacon.Peer, Beacon.Peer) -> Bool, completion: @escaping (Result<(), Error>) -> ()) {
-        storage.add(peers, overwrite: overwrite, compareBy: predicate, completion: completion)
+    public func add(
+        _ peers: [Beacon.Peer],
+        overwrite: Bool,
+        distinguishBy selectKeys: @escaping (Beacon.Peer) -> [AnyHashable],
+        completion: @escaping (Result<(), Error>) -> ()
+    ) {
+        storage.add(peers, overwrite: overwrite, distinguishBy: selectKeys, completion: completion)
     }
     
     public func findPeers(where predicate: @escaping (Beacon.Peer) -> Bool, completion: @escaping (Result<Beacon.Peer?, Error>) -> ()) {
@@ -47,8 +52,13 @@ public class MockExtendedStorage : ExtendedStorage {
         storage.set(appMetadata, completion: completion)
     }
     
-    public func add<T>(_ appMetadata: [T], overwrite: Bool, compareBy predicate: @escaping (T, T) -> Bool, completion: @escaping (Result<(), Error>) -> ()) where T : AppMetadataProtocol {
-        storage.add(appMetadata, overwrite: overwrite, compareBy: predicate, completion: completion)
+    public func add<T>(
+        _ appMetadata: [T],
+        overwrite: Bool,
+        distinguishBy selectKeys: @escaping (T) -> [AnyHashable],
+        completion: @escaping (Result<(), Error>) -> ()
+    ) where T : AppMetadataProtocol {
+        storage.add(appMetadata, overwrite: overwrite, distinguishBy: selectKeys, completion: completion)
     }
     
     public func findAppMetadata<T>(where predicate: @escaping (T) -> Bool, completion: @escaping (Result<T?, Error>) -> ()) where T : AppMetadataProtocol {
@@ -85,8 +95,13 @@ public class MockExtendedStorage : ExtendedStorage {
         storage.set(permissions, completion: completion)
     }
     
-    public func add<T>(_ permissions: [T], overwrite: Bool, compareBy predicate: @escaping (T, T) -> Bool, completion: @escaping (Result<(), Error>) -> ()) where T : PermissionProtocol {
-        storage.add(permissions, overwrite: overwrite, compareBy: predicate, completion: completion)
+    public func add<T>(
+        _ permissions: [T],
+        overwrite: Bool,
+        distinguishBy selectKeys: @escaping (T) -> [AnyHashable],
+        completion: @escaping (Result<(), Error>) -> ()
+    ) where T : PermissionProtocol {
+        storage.add(permissions, overwrite: overwrite, distinguishBy: selectKeys, completion: completion)
     }
     
     public func findPermissions<T>(where predicate: @escaping (T) -> Bool, completion: @escaping (Result<T?, Error>) -> ()) where T : PermissionProtocol {

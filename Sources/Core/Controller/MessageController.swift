@@ -65,7 +65,7 @@ class MessageController: MessageControllerProtocol {
     }
         
     private func onIncoming<B: Blockchain>(_ request: B.Request.Permission, ofType type: B.Type, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-        storageManager.add([request.appMetadata], completion: completion)
+        storageManager.add([request.appMetadata], overwrite: true, completion: completion)
     }
     
     // MARK: Outgoing Messages
@@ -150,7 +150,12 @@ class MessageController: MessageControllerProtocol {
             
             blockchain.creator.extractPermission(from: request, and: response) { result in
                 guard let permissions = result.get(ifFailure: completion) else { return }
-                self.storageManager.add(permissions, completion: completion)
+                self.storageManager.add(
+                    permissions,
+                    overwrite: true,
+                    distinguishBy: { [$0.accountID, $0.senderID] },
+                    completion: completion
+                )
             }
         } catch {
             completion(.failure(error))

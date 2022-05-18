@@ -9,7 +9,7 @@
 import Foundation
 
 /// Metadata describing a dApp.
-public protocol AppMetadataProtocol: Equatable, Codable {
+public protocol AppMetadataProtocol: Hashable, Codable {
     
     static var blockchainIdentifier: String? { get }
     

@@ -11,7 +11,7 @@ import BeaconCore
 extension Substrate {
     
     /// Substrate network data.
-    public struct Network: NetworkProtocol, Codable, Equatable {
+    public struct Network: NetworkProtocol, Codable, Hashable {
         /// The genesis hash of the chain.
         public let genesisHash: String
         

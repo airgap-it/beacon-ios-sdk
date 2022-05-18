@@ -9,7 +9,7 @@
 import Foundation
 
 /// Granted permissions data.
-public protocol PermissionProtocol: Equatable, Codable {
+public protocol PermissionProtocol: Hashable, Codable {
     
     static var blockchainIdentifier: String? { get }
     

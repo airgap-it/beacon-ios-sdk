@@ -12,15 +12,15 @@ import Foundation
 
 public extension Array {
     
-    func partitioned(by predicate: (Element) throws -> Bool) rethrows -> ([Element], [Element]) {
+    func partitioned(by indices: Set<Int>) -> ([Element], [Element]) {
         var first: [Element] = []
         var second: [Element] = []
         
-        try forEach {
-            if try predicate($0) {
-                first.append($0)
+        enumerated().forEach { (index, element) in
+            if indices.contains(index) {
+                first.append(element)
             } else {
-                second.append($0)
+                second.append(element)
             }
         }
         
@@ -57,11 +57,23 @@ public extension Array {
         return dictionary
     }
     
-    mutating func distinguish<Key: Hashable>(by selectKey: (Element) -> Key) {
+    mutating func distinguish<Key: Hashable>(by selectKey: (Element) -> Key, mode: DistinguishMode = .keepFirst) {
         var dictionary = [Key: Element]()
         forEach {
             let key = selectKey($0)
-            if dictionary[key] == nil {
+            if dictionary[key] == nil || mode == .keepLast {
+                dictionary[key] = $0
+            }
+        }
+        
+        self = Array(dictionary.values)
+    }
+    
+    mutating func distinguish(by selectKeys: (Element) -> [AnyHashable], mode: DistinguishMode = .keepFirst) where Element: Hashable {
+        var dictionary = [Int: Element]()
+        forEach {
+            let key = selectKeys($0).reduce(0) { (acc, next) in acc + next.hashValue }
+            if dictionary[key] == nil || mode == .keepLast {
                 dictionary[key] = $0
             }
         }
@@ -107,4 +119,11 @@ public extension Array where Element: Hashable {
     func distinct() -> [Element] {
         Array(Set(self))
     }
+}
+
+// MARK: Types
+
+public enum DistinguishMode {
+    case keepFirst
+    case keepLast
 }

@@ -11,7 +11,7 @@ import BeaconCore
 extension Substrate {
     
     /// Substrate account data.
-    public struct Account: Codable, Equatable {
+    public struct Account: Codable, Hashable {
         
         /// The value that identifies the account.
         public let accountID: String
