@@ -28,6 +28,9 @@ public func allTests() -> [XCTestCaseEntry] {
         testCase(DictionaryAdditionsTests.allTests),
         testCase(ResultAdditionsTests.allTests),
         testCase(StringAdditionsTests.allTests),
+        
+        // MARK: Storage
+        testCase(StorageManagerTests.allTests)
     ]
 }
 #endif

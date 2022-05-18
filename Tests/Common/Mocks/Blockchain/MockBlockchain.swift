@@ -25,7 +25,7 @@ public struct MockBlockchain: Blockchain {
     public let creator: MockBlockchainCreator
     public let storageExtension: BlockchainStorageExtension
     
-    public init(creator: MockBlockchainCreator = .init(), storageExtension: MockBlockchainStorageExtension = .init()) {
+    public init(creator: MockBlockchainCreator = .init(), storageExtension: MockBlockchainStorageExtension = .init(storage: MockExtendedStorage())) {
         self.creator = creator
         self.storageExtension = storageExtension
     }
@@ -68,14 +68,18 @@ public struct MockBlockchainCreator: BlockchainCreator {
 }
 
 public struct MockBlockchainStorageExtension: BlockchainStorageExtension {
-    public init() {}
+    private let storage: ExtendedStorage
     
-    public func removeAppMetadata(where predicate: ((AnyAppMetadata) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
-        completion(.success(()))
+    public init(storage: ExtendedStorage) {
+        self.storage = storage
     }
     
-    public func removePermissions(where predicate: ((AnyPermission) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
-        completion(.success(()))
+    public func removeAppMetadata(where predicate: ((AnyAppMetadata) -> Bool)? = nil, completion: @escaping (Result<(), Error>) -> ()) {
+        storage.removeAppMetadata(ofType: MockBlockchain.AppMetadata.self, where: predicate, completion: completion)
+    }
+    
+    public func removePermissions(where predicate: ((AnyPermission) -> Bool)? = nil, completion: @escaping (Result<(), Error>) -> ()) {
+        storage.removePermissions(ofType: MockBlockchain.Permission.self, where: predicate, completion: completion)
     }
 }
 
