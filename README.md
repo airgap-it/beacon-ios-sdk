@@ -33,7 +33,7 @@ https://github.com/airgap-it/beacon-ios-sdk
 Add the following dependency in your `Package.swift` file:
 
 ```swift
-.package(url: "https://github.com/airgap-it/beacon-ios-sdk", from: "3.1.0")
+.package(url: "https://github.com/airgap-it/beacon-ios-sdk", from: "3.1.2")
 ```
 
 ### CocoaPods
@@ -44,18 +44,18 @@ To add `Beacon iOS SDK` using [CocoaPods](https://cocoapods.org/), add the `Beac
 target 'MyTarget' do
     use_frameworks!
     
-    pod 'BeaconCore', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0'
+    pod 'BeaconCore', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.2'
 
     // optional
-    pod 'BeaconClientWallet', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0'
+    pod 'BeaconClientWallet', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.2'
 
     // optional
-    pod 'BeaconBlockchainSubstrate', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0'
+    pod 'BeaconBlockchainSubstrate', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.2'
     // optional
-    pod 'BeaconBlockchainTezos', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0'
+    pod 'BeaconBlockchainTezos', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.2'
 
     // optional
-    pod 'BeaconTransportP2PMatrix', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.0'
+    pod 'BeaconTransportP2PMatrix', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '3.1.2'
 end
 ```
 

@@ -33,7 +33,7 @@ struct DecoratedStorage: ExtendedStorage {
     func add(
         _ peers: [Beacon.Peer],
         overwrite: Bool,
-        compareBy predicate: @escaping (Beacon.Peer, Beacon.Peer) -> Bool,
+        distinguishBy selectKeys: @escaping (Beacon.Peer) -> [AnyHashable],
         completion: @escaping (Result<(), Error>) -> ()
     ) {
         add(
@@ -41,7 +41,7 @@ struct DecoratedStorage: ExtendedStorage {
             select: storage.getPeers,
             insert: storage.set,
             overwrite: overwrite,
-            compareBy: predicate,
+            distinguishBy: selectKeys,
             completion: completion
         )
     }
@@ -67,7 +67,7 @@ struct DecoratedStorage: ExtendedStorage {
     func add<T: AppMetadataProtocol>(
         _ appMetadata: [T],
         overwrite: Bool,
-        compareBy predicate: @escaping (T, T) -> Bool,
+        distinguishBy selectKeys: @escaping (T) -> [AnyHashable],
         completion: @escaping (Result<(), Error>) -> ()
     ) {
         add(
@@ -75,7 +75,7 @@ struct DecoratedStorage: ExtendedStorage {
             select: storage.getAppMetadata,
             insert: storage.set,
             overwrite: overwrite,
-            compareBy: predicate,
+            distinguishBy: selectKeys,
             completion: completion
         )
     }
@@ -130,7 +130,7 @@ struct DecoratedStorage: ExtendedStorage {
     func add<T: PermissionProtocol>(
         _ permissions: [T],
         overwrite: Bool,
-        compareBy predicate: @escaping (T, T) -> Bool,
+        distinguishBy selectKeys: @escaping (T) -> [AnyHashable],
         completion: @escaping (Result<(), Error>) -> ()
     ) {
         add(
@@ -138,7 +138,7 @@ struct DecoratedStorage: ExtendedStorage {
             select: storage.getPermissions,
             insert: storage.set,
             overwrite: overwrite,
-            compareBy: predicate,
+            distinguishBy: selectKeys,
             completion: completion
         )
     }
@@ -212,24 +212,21 @@ struct DecoratedStorage: ExtendedStorage {
         select: SelectCollection<T>,
         insert: @escaping InsertCollection<T>,
         overwrite: Bool,
-        compareBy predicate: @escaping (T, T) -> Bool,
+        distinguishBy selectKeys: @escaping (T) -> [AnyHashable],
         completion: @escaping (Result<(), Error>) -> ()
     ) {
         select { result in
-            guard var stored = result.get(ifFailure: completion) else { return }
-            let (new, existing) = elements.partitioned { toAdd in
-                !stored.contains { inStorage in predicate(toAdd, inStorage) }
-            }
+            guard let stored = result.get(ifFailure: completion)?.distinguished(by: selectKeys, mode: .keepLast) else { return }
+            
+            let matching = findMatchingIndices(of: stored, and: elements, distinguishBy: selectKeys)
+            let (existing, new) = elements.partitioned(by: Set(matching.map({ $0.1 })))
             
             if overwrite {
-                existing.forEach {
-                    if let index = stored.firstIndex(of: $0) {
-                        stored[index] = $0
-                    }
-                }
+                let (_, toKeep) = stored.partitioned(by: Set(matching.map({ $0.0 })))
+                insert(toKeep + existing.distinguished(by: selectKeys, mode: .keepLast) + new, completion)
+            } else {
+                insert(stored + new, completion)
             }
-            
-            insert(stored + new, completion)
         }
     }
     
@@ -286,5 +283,23 @@ struct DecoratedStorage: ExtendedStorage {
     
     private func removeAll<T>(ofType type: T.Type, insert: @escaping InsertCollection<T>, completion: @escaping (Result<(), Error>) -> ()) {
         insert([], completion)
+    }
+    
+    private func findMatchingIndices<T>(of first: [T], and second: [T], distinguishBy selectKeys: @escaping (T) -> [AnyHashable]) ->[(Int, Int)] {
+        var indices = [Int: [Int]]()
+        
+        indices.fillWith(first, selectHashables: selectKeys)
+        indices.fillWith(second, selectHashables: selectKeys)
+        
+        return indices.values.filter { $0.count == 2 }.map { ($0[0], $0[1]) }
+    }
+}
+
+private extension Dictionary where Key == Int {
+    mutating func fillWith<T>(_ elements: [T], selectHashables: @escaping (T) -> [AnyHashable]) where Value == Array<Int> {
+        elements.enumerated().forEach { (index, element) in
+            let hash = selectHashables(element).reduce(0) { (acc, next) in acc &+ next.hashValue }
+            self[hash, default: []].append(index)
+        }
     }
 }

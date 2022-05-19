@@ -62,7 +62,7 @@ extension Tezos {
         // MARK: Scope
         
         /// Types of Tezos permissions supported in Beacon.
-        public enum Scope: String, Codable, Equatable {
+        public enum Scope: String, Codable, Hashable {
             case sign
             case operationRequest = "operation_request"
         }

@@ -158,7 +158,7 @@ extension Beacon {
                 guard let peerOrNil = result.get(ifFailure: completion) else { return }
                 guard let peer = peerOrNil else { return }
                 
-                self.stopListening(to: [peer], completion: completion)
+                self.remove([peer], completion: completion)
             }
         }
         

@@ -56,10 +56,10 @@ public class StorageManager: ExtendedStorage, SecureStorage {
     public func add(
         _ peers: [Beacon.Peer],
         overwrite: Bool = false,
-        compareBy predicate: @escaping (Beacon.Peer, Beacon.Peer) -> Bool = { $0 == $1 },
+        distinguishBy selectKeys: @escaping (Beacon.Peer) -> [AnyHashable] = { [$0] },
         completion: @escaping (Result<(), Swift.Error>) -> ()
     ) {
-        storage.add(peers, overwrite: overwrite, compareBy: predicate, completion: completion)
+        storage.add(peers, overwrite: overwrite, distinguishBy: selectKeys, completion: completion)
     }
     
     public func findPeers(where predicate: @escaping (Beacon.Peer) -> Bool, completion: @escaping (Result<Beacon.Peer?, Swift.Error>) -> ()) {
@@ -73,14 +73,13 @@ public class StorageManager: ExtendedStorage, SecureStorage {
         
             self.storage.removePeers(where: predicate) { result in
                 guard result.isSuccess(else: completion) else { return }
+                let removedSenderIDs = Set(toRemove.compactMap { try? self.identifierCreator.senderID(from: try HexString(from: $0.publicKey)) })
         
-                self.removeAllPermissions(
-                    where: { (permission: AnyPermission) in toRemove.contains {
-                        let senderID = try? self.identifierCreator.senderID(from: try HexString(from: $0.publicKey))
-                        return senderID == permission.senderID
-                    } },
-                    completion: completion
-                )
+                self.removeAllPermissions(where: { (permission: AnyPermission) in removedSenderIDs.contains(permission.senderID) }) { result in
+                    guard result.isSuccess(else: completion) else { return }
+                    
+                    self.removeAllAppMetadata(where: { (appMetadata: AnyAppMetadata) in removedSenderIDs.contains(appMetadata.senderID) }, completion: completion)
+                }
             }
         }
     }
@@ -102,10 +101,10 @@ public class StorageManager: ExtendedStorage, SecureStorage {
     public func add<T: AppMetadataProtocol>(
         _ appMetadata: [T],
         overwrite: Bool = false,
-        compareBy predicate: @escaping (T, T) -> Bool = { $0 == $1 },
+        distinguishBy selectKeys: @escaping (T) -> [AnyHashable] = { [$0] },
         completion: @escaping (Result<(), Swift.Error>) -> ()
     ) {
-        storage.add(appMetadata, overwrite: overwrite, compareBy: predicate, completion: completion)
+        storage.add(appMetadata, overwrite: overwrite, distinguishBy: selectKeys, completion: completion)
     }
     
     public func findAppMetadata<T: AppMetadataProtocol>(
@@ -170,10 +169,10 @@ public class StorageManager: ExtendedStorage, SecureStorage {
     public func add<T: PermissionProtocol>(
         _ permissions: [T],
         overwrite: Bool = false,
-        compareBy predicate: @escaping (T, T) -> Bool = { $0 == $1 },
+        distinguishBy selectKeys: @escaping (T) -> [AnyHashable] = { [$0] },
         completion: @escaping (Result<(), Swift.Error>) -> ()
     ) {
-        storage.add(permissions, overwrite: overwrite, compareBy: predicate, completion: completion)
+        storage.add(permissions, overwrite: overwrite, distinguishBy: selectKeys, completion: completion)
     }
     
     public func findPermissions<T: PermissionProtocol>(

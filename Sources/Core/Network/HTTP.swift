@@ -12,6 +12,12 @@ public class HTTP {
     private let session: URLSession
     
     private var ongoingTasks: [String: Set<URLSessionTask>] = [:]
+    private let ongoingTasksQueue: DispatchQueue = .init(
+        label: "it.airgap.beacon-sdk.HTTP.ongoingTasks",
+        qos: .default,
+        attributes: [],
+        target: .global(qos: .default)
+    )
     
     init(session: URLSession) {
         self.session = session
@@ -76,35 +82,47 @@ public class HTTP {
     // MARK: Task Management
     
     public func cancelTasks(for url: URL, and method: HTTP.Method) {
-        guard let tasks = ongoingTasks.get(for: url, and: method) else { return }
-        
-        tasks.forEach { $0.cancel() }
-        ongoingTasks.removeTasks(for: url, and: method)
+        ongoingTasksQueue.async {
+            guard let tasks = self.ongoingTasks.get(for: url, and: method) else { return }
+            
+            tasks.forEach { $0.cancel() }
+            self.ongoingTasks.removeTasks(for: url, and: method)
+        }
     }
     
     public func cancelAllTasks() {
-        ongoingTasks.values.flatMap { $0 }.forEach { $0.cancel() }
-        ongoingTasks.removeAll()
+        ongoingTasksQueue.async {
+            self.ongoingTasks.values.flatMap { $0 }.forEach { $0.cancel() }
+            self.ongoingTasks.removeAll()
+        }
     }
     
     public func suspendTasks(for url: URL, and method: HTTP.Method) {
-        guard let tasks = ongoingTasks.get(for: url, and: method) else { return }
-        
-        tasks.forEach { $0.suspend() }
+        ongoingTasksQueue.async {
+            guard let tasks = self.ongoingTasks.get(for: url, and: method) else { return }
+            
+            tasks.forEach { $0.suspend() }
+        }
     }
     
     public func suspendAllTasks() {
-        ongoingTasks.values.flatMap { $0 }.forEach { $0.suspend() }
+        ongoingTasksQueue.async {
+            self.ongoingTasks.values.flatMap { $0 }.forEach { $0.suspend() }
+        }
     }
     
     public func resumeTasks(for url: URL, and method: HTTP.Method) {
-        guard let tasks = ongoingTasks.get(for: url, and: method) else { return }
-        
-        tasks.forEach { $0.resume() }
+        ongoingTasksQueue.async {
+            guard let tasks = self.ongoingTasks.get(for: url, and: method) else { return }
+            
+            tasks.forEach { $0.resume() }
+        }
     }
     
     public func resumeAllTasks() {
-        ongoingTasks.values.flatMap { $0 }.forEach { $0.resume() }
+        ongoingTasksQueue.async {
+            self.ongoingTasks.values.flatMap { $0 }.forEach { $0.resume() }
+        }
     }
     
     // MARK: Call Handlers
@@ -139,8 +157,10 @@ public class HTTP {
                 return
             }
             
-            selfStrong.ongoingTasks.remove(for: request, element: dataTask)
-            
+            selfStrong.ongoingTasksQueue.async {
+                selfStrong.ongoingTasks.remove(for: request, element: dataTask)
+            }
+                
             switch result {
             case let .success((data, _)):
                 completion(selfStrong.parse(data: data))
@@ -157,7 +177,10 @@ public class HTTP {
             }
         }
         
-        ongoingTasks.append(for: request, element: dataTask)
+        ongoingTasksQueue.async {
+            self.ongoingTasks.append(for: request, element: dataTask)
+        }
+        
         dataTask.resume()
     }
     
