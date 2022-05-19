@@ -157,7 +157,7 @@ public class HTTP {
                 return
             }
             
-            selfStrong.ongoingTasksQueue.async {
+            selfStrong.ongoingTasksQueue.async {
                 selfStrong.ongoingTasks.remove(for: request, element: dataTask)
             }
                 
