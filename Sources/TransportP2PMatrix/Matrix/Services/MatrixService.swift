@@ -10,7 +10,14 @@ import BeaconCore
     
 class MatrixService {
     let http: HTTP
+    
     private var ongoingCalls: Set<OngoingCall> = []
+    private let ongoingTasksQueue: DispatchQueue = .init(
+        label: "it.airgap.beacon-sdk.MatrixService.ongoingTasks",
+        qos: .default,
+        attributes: [],
+        target: .global(qos: .default)
+    )
     
     init(http: HTTP) {
         self.http = http
@@ -19,48 +26,64 @@ class MatrixService {
     // MARK: Call Management
     
     func addOngoing(_ call: OngoingCall) {
-        ongoingCalls.insert(call)
+        ongoingTasksQueue.async {
+            self.ongoingCalls.insert(call)
+        }
     }
     
     func removeOngoing(_ call: OngoingCall) {
-        ongoingCalls.remove(call)
+        ongoingTasksQueue.async {
+            self.ongoingCalls.remove(call)
+        }
     }
     
     func cancel(for node: String) {
-        for call in ongoingCalls where call.url.host == node {
-            http.cancelTasks(for: call.url, and: call.method)
-            ongoingCalls.remove(call)
+        ongoingTasksQueue.async {
+            for call in self.ongoingCalls where call.url.host == node {
+                self.http.cancelTasks(for: call.url, and: call.method)
+                self.ongoingCalls.remove(call)
+            }
         }
     }
     
     func cancelAll() {
-        for call in ongoingCalls {
-            http.cancelTasks(for: call.url, and: call.method)
+        ongoingTasksQueue.async {
+            for call in self.ongoingCalls {
+                self.http.cancelTasks(for: call.url, and: call.method)
+            }
+            self.ongoingCalls.removeAll()
         }
-        ongoingCalls.removeAll()
     }
     
     func suspend(for node: String) {
-        for call in ongoingCalls where call.url.host == node {
-            http.suspendTasks(for: call.url, and: call.method)
+        ongoingTasksQueue.async {
+            for call in self.ongoingCalls where call.url.host == node {
+                self.http.suspendTasks(for: call.url, and: call.method)
+            }
         }
     }
     
     func suspendAll() {
-        for call in ongoingCalls {
-            http.suspendTasks(for: call.url, and: call.method)
+        ongoingTasksQueue.async {
+            for call in self.ongoingCalls {
+                self.http.suspendTasks(for: call.url, and: call.method)
+            }
         }
     }
     
     func resume(for node: String) {
-        for call in ongoingCalls where call.url.host == node {
-            http.resumeTasks(for: call.url, and: call.method)
+        ongoingTasksQueue.async {
+            for call in self.ongoingCalls where call.url.host == node {
+                self.http.resumeTasks(for: call.url, and: call.method)
+            }
         }
     }
     
     func resumeAll() {
-        for call in ongoingCalls {
-            http.resumeTasks(for: call.url, and: call.method)
+        ongoingTasksQueue.async {
+            for call in self.ongoingCalls {
+                self.http.resumeTasks(for: call.url, and: call.method)
+            }
         }
     }
     

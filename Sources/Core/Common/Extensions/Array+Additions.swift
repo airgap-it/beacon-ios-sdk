@@ -57,7 +57,7 @@ public extension Array {
         return dictionary
     }
     
-    mutating func distinguish<Key: Hashable>(by selectKey: (Element) -> Key, mode: DistinguishMode = .keepFirst) {
+    func distinguished<Key: Hashable>(by selectKey: (Element) -> Key, mode: DistinguishMode = .keepFirst) -> [Element] {
         var dictionary = [Key: Element]()
         forEach {
             let key = selectKey($0)
@@ -66,10 +66,14 @@ public extension Array {
             }
         }
         
-        self = Array(dictionary.values)
+        return Array(dictionary.values)
     }
     
-    mutating func distinguish(by selectKeys: (Element) -> [AnyHashable], mode: DistinguishMode = .keepFirst) where Element: Hashable {
+    mutating func distinguish<Key: Hashable>(by selectKey: (Element) -> Key, mode: DistinguishMode = .keepFirst) {
+        self = distinguished(by: selectKey, mode: mode)
+    }
+    
+    func distinguished(by selectKeys: (Element) -> [AnyHashable], mode: DistinguishMode = .keepFirst) -> [Element] where Element: Hashable {
         var dictionary = [Int: Element]()
         forEach {
             let key = selectKeys($0).reduce(0) { (acc, next) in acc + next.hashValue }
@@ -78,7 +82,11 @@ public extension Array {
             }
         }
         
-        self = Array(dictionary.values)
+        return Array(dictionary.values)
+    }
+    
+    mutating func distinguish(by selectKeys: (Element) -> [AnyHashable], mode: DistinguishMode = .keepFirst) where Element: Hashable {
+        self = distinguished(by: selectKeys, mode: mode)
     }
     
     func shifted(by offset: Int) -> [Element] {
