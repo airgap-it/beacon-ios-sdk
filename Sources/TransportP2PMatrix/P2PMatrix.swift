@@ -487,12 +487,11 @@ private extension MatrixClient {
             return
         }
     
-        var joinEventListener: EventListener!
-        joinEventListener = EventListener { [weak self] event in
+        let joinEventListener = EventListener { [weak self] (listener, event) in
             switch event {
             case let .join(join):
                 if join.roomID == room.id && join.userID == member {
-                    self?.unsubscribe(joinEventListener)
+                    self?.unsubscribe(listener)
                     completion()
                 }
             default:

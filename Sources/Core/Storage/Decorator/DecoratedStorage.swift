@@ -216,17 +216,14 @@ struct DecoratedStorage: ExtendedStorage {
         completion: @escaping (Result<(), Error>) -> ()
     ) {
         select { result in
-            guard var stored = result.get(ifFailure: completion) else { return }
-            stored.distinguish(by: selectKeys, mode: .keepLast)
+            guard let stored = result.get(ifFailure: completion)?.distinguished(by: selectKeys, mode: .keepLast) else { return }
             
             let matching = findMatchingIndices(of: stored, and: elements, distinguishBy: selectKeys)
-            var (existing, new) = elements.partitioned(by: Set(matching.map({ $0.1 })))
+            let (existing, new) = elements.partitioned(by: Set(matching.map({ $0.1 })))
             
             if overwrite {
                 let (_, toKeep) = stored.partitioned(by: Set(matching.map({ $0.0 })))
-                existing.distinguish(by: selectKeys, mode: .keepLast)
-                
-                insert(toKeep + existing + new, completion)
+                insert(toKeep + existing.distinguished(by: selectKeys, mode: .keepLast) + new, completion)
             } else {
                 insert(stored + new, completion)
             }
