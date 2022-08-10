@@ -15,8 +15,11 @@ public class Transport {
     
     private var status: Status = .disconnected
     
-    @Disposable private var savedMessages: [Result<SerializedConnectionMessage, Swift.Error>]?
-    private var listeners: Set<Listener> = []
+    @Disposable private var savedConnectionMessages: [Result<SerializedConnectionMessage, Swift.Error>]?
+    private var connectionMessageListeners: Set<ConnectionMessageListener> = []
+    
+    @Disposable private var savedPairingMessages: [Result<BeaconPairingMessage, Swift.Error>]?
+    private var pairingMessageListeners: Set<PairingMessageListener> = []
     
     private var connectedPeers: Set<Beacon.Peer> = []
     
@@ -74,7 +77,7 @@ public class Transport {
                 self.queue.async {
                     if result.isSuccess {
                         self.status = .disconnected
-                        self.listeners.removeAll()
+                        self.connectionMessageListeners.removeAll()
                     }
                     completion(result)
                 }
@@ -151,25 +154,59 @@ public class Transport {
         wrapped.send(message, completion: completion)
     }
     
-    // MARK: Subscription
-    
-    final func add(_ listener: Listener) {
-        listeners.insert(listener)
+    func pair() {
+        wrapped.pair()
     }
     
-    final func remove(_ listener: Listener) {
-        listeners.remove(listener)
+    // MARK: Subscription
+    
+    final func add(_ listener: ConnectionMessageListener) {
+        queue.async {
+            self.connectionMessageListeners.insert(listener)
+        }
+    }
+    
+    final func remove(_ listener: ConnectionMessageListener) {
+        queue.async {
+            self.connectionMessageListeners.remove(listener)
+        }
     }
     
     final func notify(with result: Result<SerializedConnectionMessage, Swift.Error>) {
         queue.async {
             guard self.status == .connected || self.status == .connecting else {
-                self.savedMessages = (self.savedMessages ?? []) + [result]
+                self.savedConnectionMessages = (self.savedConnectionMessages ?? []) + [result]
                 return
             }
             
-            self.listeners.forEach { listener in
-                self.savedMessages?.forEach { listener.notify(with: $0) }
+            self.connectionMessageListeners.forEach { listener in
+                self.savedConnectionMessages?.forEach { listener.notify(with: $0) }
+                listener.notify(with: result)
+            }
+        }
+    }
+    
+    final func add(_ listener: PairingMessageListener) {
+        queue.async {
+            self.pairingMessageListeners.insert(listener)
+        }
+    }
+    
+    final func remove(_ listener: PairingMessageListener) {
+        queue.async {
+            self.pairingMessageListeners.remove(listener)
+        }
+    }
+    
+    final func notify(with result: Result<BeaconPairingMessage, Swift.Error>) {
+        queue.async {
+            guard self.status == .connected || self.status == .connecting else {
+                self.savedPairingMessages = (self.savedPairingMessages ?? []) + [result]
+                return
+            }
+            
+            self.pairingMessageListeners.forEach { listener in
+                self.savedPairingMessages?.forEach { listener.notify(with: $0) }
                 listener.notify(with: result)
             }
         }
@@ -184,7 +221,8 @@ public class Transport {
         case paused
     }
     
-    typealias Listener = DistinguishableListener<Result<SerializedConnectionMessage, Swift.Error>>
+    typealias ConnectionMessageListener = DistinguishableListener<Result<SerializedConnectionMessage, Swift.Error>>
+    typealias PairingMessageListener = DistinguishableListener<Result<BeaconPairingMessage, Swift.Error>>
 }
 
 // MARK: Protocol
@@ -197,6 +235,8 @@ protocol TransportProtocol {
     
     func connect(new peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Swift.Error>) -> ())
     func disconnect(from peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Swift.Error>) -> ())
+    
+    func pair()
     
     func send(_ message: SerializedConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ())
 }

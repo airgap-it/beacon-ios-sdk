@@ -52,6 +52,16 @@ struct BeaconView: View {
                 Button("Pause") { viewModel.pause() }
                 Button("Resume") { viewModel.resume() }
             }
+//
+//            HStack {
+//                Button("Show Permissions") { viewModel.showPermissions() }
+//                Button("Remove Permissions") { viewModel.removePermissions() }
+//            }
+//
+//            HStack {
+//                Button("Show AppMetadata") { viewModel.showAppMetadata() }
+//                Button("Remove AppMetadata") { viewModel.removeAppMetadata() }
+//            }
             
             ScrollView(.vertical) {
                 Text(viewModel.beaconRequest ?? "-- Request --")

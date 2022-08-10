@@ -10,9 +10,9 @@ import Foundation
 
 public extension Transport.P2P {
     
-    struct PairingResponse: Identifiable, Codable {
+    struct PairingResponse: Identifiable, Hashable, Codable, BeaconPairingResponseProtocol, TransportP2PPairingMessageProtocol {
         public let id: String
-        public let type: String
+        public let type: PairingMessage.Kind
         public let name: String
         public let version: String
         public let publicKey: String
@@ -20,15 +20,19 @@ public extension Transport.P2P {
         public let icon: String?
         public let appURL: String?
         
-        public init(id: String, type: String, name: String, version: String, publicKey: String, relayServer: String, icon: String?, appURL: String?) {
+        public init(id: String, name: String, version: String, publicKey: String, relayServer: String, icon: String?, appURL: String?) {
+            self.type = .response
             self.id = id
-            self.type = type
             self.name = name
             self.version = version
             self.publicKey = publicKey
             self.relayServer = relayServer
             self.icon = icon
             self.appURL = appURL
+        }
+        
+        public func toPeer() -> Beacon.Peer {
+            .p2p(.init(name: name, publicKey: publicKey, relayServer: relayServer, version: version, icon: icon, appURL: URL(string: appURL)))
         }
         
         // MARK: Codable

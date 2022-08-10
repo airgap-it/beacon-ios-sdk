@@ -85,7 +85,7 @@ class ConnectionController: ConnectionControllerProtocol {
     }
     
     func listen<B: Blockchain>(onRequest listener: @escaping (Result<BeaconConnectionMessage<B>, Error>) -> ()) {
-        let listener = Transport.Listener { [weak self] connectionMessageResult in
+        let listener = Transport.ConnectionMessageListener { [weak self] connectionMessageResult in
             guard let selfStrong = self else {
                 return
             }
@@ -167,6 +167,28 @@ class ConnectionController: ConnectionControllerProtocol {
             completion(.failure(error))
         }
     }
+    
+    // MARK: Pairing
+    
+    func pair(using connectionKind: Beacon.Connection.Kind, onMessage listener: @escaping (Result<BeaconPairingMessage, Error>) -> ()) {
+        do {
+            guard let transport = transports.first(where: { $0.kind == connectionKind }) else {
+                throw Beacon.Error.transportNotSupported(connectionKind)
+            }
+            
+            let listener = Transport.PairingMessageListener { [weak transport] selfListener, pairingMessage in
+                listener(pairingMessage)
+                
+                guard let pairingMessage = try? pairingMessage.get(), case .response(_) = pairingMessage else { return }
+                transport?.remove(selfListener)
+            }
+            
+            transport.add(listener)
+            transport.pair()
+        } catch {
+            listener(.failure(error))
+        }
+    }
 }
 
 public protocol ConnectionControllerProtocol {
@@ -177,6 +199,8 @@ public protocol ConnectionControllerProtocol {
     
     func listen<B: Blockchain>(onRequest listener: @escaping (Result<BeaconConnectionMessage<B>, Error>) -> ())
     func send<B: Blockchain>(_ message: BeaconConnectionMessage<B>, completion: @escaping (Result<(), Error>) -> ())
+    
+    func pair(using connectionKind: Beacon.Connection.Kind, onMessage listener: @escaping (Result<BeaconPairingMessage, Error>) -> ())
     
     func onNew(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ())
     func onRemoved(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ())

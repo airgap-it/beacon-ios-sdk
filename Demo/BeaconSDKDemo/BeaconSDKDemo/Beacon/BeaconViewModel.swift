@@ -15,10 +15,10 @@ import BeaconClientWallet
 import BeaconTransportP2PMatrix
 
 class BeaconViewModel: ObservableObject {
-    private static let examplePeerID = "e3a82598-d047-59db-3e7e-12948caa6cbf"
+    private static let examplePeerID = "a9412179-f232-31fe-2f56-6d2174bba46e"
     private static let examplePeerName = "Beacon Example Dapp"
-    private static let examplePeerPublicKey = "4d318cbfc236985a44f6114cc46d62806e50d3d8c4e0867651e8e68efac8e37c"
-    private static let examplePeerRelayServer = "beacon-node-1.sky.papers.tech"
+    private static let examplePeerPublicKey = "0128c550a0e3d74e60971f1611a5be23835299200956c8d5cb26077ef3bc8be2"
+    private static let examplePeerRelayServer = "beacon-node-1.hope-3.papers.tech"
     private static let examplePeerVersion = "3"
     
     private static func exampleTezosAccount(network: Tezos.Network) throws -> Tezos.Account {

@@ -19,6 +19,7 @@
 		A3DD2BB527CCD65A0040FF1D /* BeaconClientWallet in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB427CCD65A0040FF1D /* BeaconClientWallet */; };
 		A3DD2BB727CCD65A0040FF1D /* BeaconCore in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB627CCD65A0040FF1D /* BeaconCore */; };
 		A3DD2BB927CCD65A0040FF1D /* BeaconTransportP2PMatrix in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB827CCD65A0040FF1D /* BeaconTransportP2PMatrix */; };
+		A3E6FB1C28A3DB1500F1B8B4 /* BeaconClientDApp in Frameworks */ = {isa = PBXBuildFile; productRef = A3E6FB1B28A3DB1500F1B8B4 /* BeaconClientDApp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 				A3DD2BB327CCD65A0040FF1D /* BeaconBlockchainTezos in Frameworks */,
 				A3DD2BB127CCD65A0040FF1D /* BeaconBlockchainSubstrate in Frameworks */,
 				A3DD2BB927CCD65A0040FF1D /* BeaconTransportP2PMatrix in Frameworks */,
+				A3E6FB1C28A3DB1500F1B8B4 /* BeaconClientDApp in Frameworks */,
 				A3DD2BB727CCD65A0040FF1D /* BeaconCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,6 +98,7 @@
 				49C97F9925ADB07F002F6366 /* BeaconSDKDemoUITests */,
 				49C97F7B25ADB07E002F6366 /* Products */,
 				EF339F87834EDDBD6064FFD8 /* Pods */,
+				A3E6FB1A28A3DB1500F1B8B4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -164,6 +167,13 @@
 			name = Packages;
 			sourceTree = "<group>";
 		};
+		A3E6FB1A28A3DB1500F1B8B4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		EF339F87834EDDBD6064FFD8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -193,6 +203,7 @@
 				A3DD2BB427CCD65A0040FF1D /* BeaconClientWallet */,
 				A3DD2BB627CCD65A0040FF1D /* BeaconCore */,
 				A3DD2BB827CCD65A0040FF1D /* BeaconTransportP2PMatrix */,
+				A3E6FB1B28A3DB1500F1B8B4 /* BeaconClientDApp */,
 			);
 			productName = BeaconSDKDemo;
 			productReference = 49C97F7A25ADB07E002F6366 /* BeaconSDKDemo.app */;
@@ -650,6 +661,10 @@
 		A3DD2BB827CCD65A0040FF1D /* BeaconTransportP2PMatrix */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BeaconTransportP2PMatrix;
+		};
+		A3E6FB1B28A3DB1500F1B8B4 /* BeaconClientDApp */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BeaconClientDApp;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

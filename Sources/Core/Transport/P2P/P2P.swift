@@ -35,7 +35,7 @@ public extension Transport {
                 client.start { [weak self] result in
                     guard result.isSuccess(else: completion) else { return }
                     guard let selfStrong = self else {
-                        completion(.failure(Beacon.Error.unknown))
+                        completion(.failure(Beacon.Error.unknown()))
                         return
                     }
                     
@@ -88,6 +88,17 @@ public extension Transport {
                     completion(.success(p2pPeers.map { .p2p($0) }))
                 } catch {
                     completion(.failure(error))
+                }
+            }
+            
+            func pair() {
+                client.createPairingRequest { result in
+                    self.owner?.notify(with: result.map({ .request(.p2p($0)) }))
+                    guard let pairingRequest = try? result.get() else { return }
+                    
+                    self.client.listenForPairingResponse(withID: pairingRequest.id) { [weak self] pairingResponse in
+                        self?.owner?.notify(with: pairingResponse.map({ .response(.p2p($0)) }))
+                    }
                 }
             }
             
