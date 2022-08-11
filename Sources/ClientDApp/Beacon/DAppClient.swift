@@ -135,6 +135,11 @@ extension Beacon {
                     switch beaconMessage {
                     case let .response(response):
                         listener(.success(response))
+                        strongSelf.processResponse(response, withOrigin: connectionMessage.origin) { processResult in
+                            if case let .failure(error) = processResult {
+                                listener(.failure(Error(error)))
+                            }
+                        }
                     case let .disconnect(disconnect):
                         strongSelf.removePeer(withPublicKey: disconnect.origin.id) { _ in }
                     default:
@@ -175,6 +180,22 @@ extension Beacon {
                         completion(.failure(Error(error)))
                     }
                 }
+            }
+        }
+        
+        private func processResponse<B: Blockchain>(
+            _ response: BeaconResponse<B>,
+            withOrigin origin: Connection.ID,
+            completion: @escaping (Result<(), Error>) -> ()
+        ) {
+            switch response {
+            case let .permission(permission):
+                accountController.onPermissionResponse(permission, ofType: B.self, origin: origin) { result in
+                    completion(result.withBeaconError())
+                }
+            default:
+                /* no action*/
+                completion(.success(()))
             }
         }
         

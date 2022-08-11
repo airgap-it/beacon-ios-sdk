@@ -23,6 +23,31 @@ extension Substrate {
             self.time = time
         }
         
+        public func extractIncomingPermission(
+            from request: PermissionSubstrateRequest,
+            and response: PermissionSubstrateResponse,
+            withOrigin origin: Beacon.Connection.ID,
+            completion: @escaping (Result<[Substrate.Permission], Swift.Error>) -> ()
+        ) {
+            runCatching(completion: completion) {
+                let permissions: [Substrate.Permission] = try response.accounts.map {
+                    let accountID = try self.identifierCreator.accountID(forAddress: $0.address, onNetworkWithIdentifier: $0.network?.identifier)
+                    let senderID = try self.identifierCreator.senderID(from: try HexString(from: origin.id))
+                    
+                    return Substrate.Permission(
+                        accountID: accountID,
+                        senderID: senderID,
+                        connectedAt: self.time.currentTimeMillis,
+                        appMetadata: response.appMetadata,
+                        scopes: response.scopes,
+                        account: $0
+                    )
+                }
+                
+                completion(.success(permissions))
+            }
+        }
+        
         public func extractOutgoingPermission(
             from request: PermissionSubstrateRequest,
             and response: PermissionSubstrateResponse,

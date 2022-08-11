@@ -23,6 +23,38 @@ extension Tezos {
             self.time = time
         }
         
+        public func extractIncomingPermission(
+            from request: BlockchainType.Request.Permission,
+            and response: BlockchainType.Response.Permission,
+            withOrigin origin: Beacon.Connection.ID,
+            completion: @escaping (Result<[BlockchainType.Permission], Swift.Error>) -> ()
+        ) {
+            storageManager.findPeers(where: { $0.publicKey == origin.id }) { result in
+                guard let peerOrNil = result.get(ifFailure: completion) else { return }
+                runCatching(completion: completion) {
+                    guard let peer = peerOrNil else {
+                        throw Error.noMatchingAppMetadata
+                    }
+                    
+                    let senderID = try self.identifierCreator.senderID(from: try HexString(from: origin.id))
+                    let appMetadata = AppMetadata(senderID: senderID, name: peer.name, icon: peer.icon)
+
+                    let permission = Tezos.Permission(
+                        accountID: response.account.accountID,
+                        senderID: senderID,
+                        connectedAt: self.time.currentTimeMillis,
+                        address: response.account.address,
+                        publicKey: response.account.publicKey,
+                        network: response.account.network,
+                        appMetadata: appMetadata,
+                        scopes: response.scopes
+                    )
+                    
+                    completion(.success([permission]))
+                }
+            }
+        }
+        
         public func extractOutgoingPermission(
             from request: PermissionTezosRequest,
             and response: PermissionTezosResponse,

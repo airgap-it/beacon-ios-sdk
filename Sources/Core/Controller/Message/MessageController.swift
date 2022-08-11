@@ -15,7 +15,8 @@ class MessageController: MessageControllerProtocol {
     private let identifierCreator: IdentifierCreatorProtocol
     private let time: TimeProtocol
     
-    private var pendingRequests: [String: BeaconRequestProtocol] = [:]
+    private var outgoingRequests: [String: BeaconRequestProtocol] = [:]
+    private var incomingRequests: [String: BeaconRequestProtocol] = [:]
     private let queue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.MessageController", attributes: [], target: .global(qos: .default))
     
     init(blockchainRegistry: BlockchainRegistryProtocol, storageManager: StorageManager, identifierCreator: IdentifierCreatorProtocol, time: TimeProtocol) {
@@ -36,19 +37,28 @@ class MessageController: MessageControllerProtocol {
         message.toBeaconMessage(withOrigin: origin, andDestination: destination) { (result: Result<BeaconMessage<B>, Swift.Error>) in
             guard let beaconMessage = result.get(ifFailure: completion) else { return }
             
-            self.onIncoming(beaconMessage) { result in
+            self.onIncoming(beaconMessage, withOrigin: origin) { result in
                 guard result.isSuccess(else: completion) else { return }
                 completion(.success(beaconMessage))
             }
         }
     }
     
-    private func onIncoming<B: Blockchain>(_ message: BeaconMessage<B>, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    private func onIncoming<B: Blockchain>(_ message: BeaconMessage<B>, withOrigin origin: Beacon.Connection.ID, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         switch message {
         case let .request(request):
             self.queue.async {
-                self.savePendingRequest(request)
+                self.saveIncomingRequest(request)
                 self.onIncoming(request, completion: completion)
+            }
+        case let .response(response):
+            queue.async {
+                guard let request: BeaconRequest<B> = self.getOutgoingRequest(forID: response.id, response: response) else {
+                    completion(.failure(Beacon.Error.noPendingRequest(id: message.id)))
+                    return
+                }
+                
+                self.onIncoming(response, respondingTo: request, withOrigin: origin, completion: completion)
             }
         default:
             completion(.success(()))
@@ -67,6 +77,52 @@ class MessageController: MessageControllerProtocol {
         
     private func onIncoming<B: Blockchain>(_ request: B.Request.Permission, ofType type: B.Type, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         storageManager.add([request.appMetadata], overwrite: true, completion: completion)
+    }
+    
+    private func onIncoming<B: Blockchain>(
+        _ response: BeaconResponse<B>,
+        respondingTo request: BeaconRequest<B>,
+        withOrigin origin: Beacon.Connection.ID,
+        completion: @escaping (Result<(), Swift.Error>) -> ()
+    ) {
+        do {
+            switch response {
+            case let .permission(response):
+                guard case let .permission(request) = request else { throw Error.invalidRequest }
+                onIncoming(response, ofType: B.self, respondingTo: request, withOrigin: origin, completion: completion)
+            default:
+                /* no action */
+                completion(.success(()))
+            }
+        } catch {
+            completion(.failure(error))
+        }
+    }
+    
+    private func onIncoming<B: Blockchain>(
+        _ response: B.Response.Permission,
+        ofType type: B.Type,
+        respondingTo request: B.Request.Permission,
+        withOrigin origin: Beacon.Connection.ID,
+        completion: @escaping (Result<(), Swift.Error>) -> ()
+    ) {
+        do {
+            guard let blockchain: B = blockchainRegistry.get() else {
+                throw Beacon.Error.blockchainNotFound(type.identifier)
+            }
+            
+            blockchain.creator.extractIncomingPermission(from: request, and: response, withOrigin: origin) { result in
+                guard let permissions = result.get(ifFailure: completion) else { return }
+                self.storageManager.add(
+                    permissions,
+                    overwrite: true,
+                    distinguishBy: { [$0.accountID, $0.senderID] },
+                    completion: completion
+                )
+            }
+        } catch {
+            completion(.failure(error))
+        }
     }
     
     // MARK: Outgoing Messages
@@ -97,9 +153,14 @@ class MessageController: MessageControllerProtocol {
         completion: @escaping (Result<(), Swift.Error>) -> ()
     ) {
         switch message {
+        case let .request(request):
+            self.queue.async {
+                self.saveOutgoingRequest(request, terminal: terminal)
+                self.onOutgoing(request, completion: completion)
+            }
         case let .response(response):
             queue.async {
-                guard let request: BeaconRequest<B> = self.getPendingRequest(forID: message.id, keepEntry: !terminal) else {
+                guard let request: BeaconRequest<B> = self.getIncomingRequest(forID: message.id, keepEntry: !terminal) else {
                     completion(.failure(Beacon.Error.noPendingRequest(id: message.id)))
                     return
                 }
@@ -112,6 +173,11 @@ class MessageController: MessageControllerProtocol {
         }
     }
     
+    private func onOutgoing<B: Blockchain>(_ request: BeaconRequest<B>, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+        /* no action */
+        completion(.success(()))
+    }
+    
     private func onOutgoing<B: Blockchain>(
         _ response: BeaconResponse<B>,
         respondingTo request: BeaconRequest<B>,
@@ -120,14 +186,7 @@ class MessageController: MessageControllerProtocol {
         do {
             switch response {
             case let .permission(response):
-                guard let request: B.Request.Permission = {
-                    switch request {
-                    case let .permission(content):
-                        return content
-                    case .blockchain(_):
-                        return nil
-                    }
-                }() else { throw Error.invalidRequest }
+                guard case let .permission(request) = request else { throw Error.invalidRequest }
                 onOutgoing(response, ofType: B.self, respondingTo: request, completion: completion)
             default:
                 /* no action */
@@ -163,15 +222,38 @@ class MessageController: MessageControllerProtocol {
         }
     }
     
-    private func savePendingRequest<B: Blockchain>(_ request: BeaconRequest<B>) {
-        pendingRequests[request.id] = request
+    private func saveOutgoingRequest<B: Blockchain>(_ request: BeaconRequest<B>, terminal: Bool) {
+        if !terminal {
+            outgoingRequests[request.id] = request
+        }
     }
     
-    private func getPendingRequest<B: Blockchain>(forID id: String, keepEntry: Bool) -> BeaconRequest<B>? {
+    private func saveIncomingRequest<B: Blockchain>(_ request: BeaconRequest<B>) {
+        incomingRequests[request.id] = request
+    }
+    
+    private func getOutgoingRequest<B: Blockchain>(forID id: String, response: BeaconResponse<B>) -> BeaconRequest<B>? {
+        let keepEntry: Bool = {
+            switch response {
+            case .acknowledge(_):
+                return true
+            default:
+                return false
+            }
+        }()
+        
         if keepEntry {
-            return pendingRequests[id] as? BeaconRequest<B>
+            return outgoingRequests[id] as? BeaconRequest<B>
         } else {
-            return pendingRequests.removeValue(forKey: id) as? BeaconRequest<B>
+            return outgoingRequests.removeValue(forKey: id) as? BeaconRequest<B>
+        }
+    }
+    
+    private func getIncomingRequest<B: Blockchain>(forID id: String, keepEntry: Bool) -> BeaconRequest<B>? {
+        if keepEntry {
+            return incomingRequests[id] as? BeaconRequest<B>
+        } else {
+            return incomingRequests.removeValue(forKey: id) as? BeaconRequest<B>
         }
     }
     

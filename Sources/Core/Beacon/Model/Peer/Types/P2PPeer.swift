@@ -48,7 +48,16 @@ extension Beacon {
             icon: String? = nil,
             appURL: URL? = nil
         ) {
-            self.init(id: id, name: name, publicKey: publicKey, relayServer: relayServer, version: version, icon: icon, appURL: appURL)
+            self.init(
+                id: id,
+                name: name,
+                publicKey: publicKey,
+                relayServer: relayServer,
+                version: version,
+                icon: icon,
+                appURL: appURL,
+                isPaired: false
+            )
         }
         
         init(
