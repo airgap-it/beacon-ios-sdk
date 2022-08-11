@@ -17,7 +17,7 @@ public protocol ExtendedP2PMatrixStoragePlugin: P2PMatrixStoragePlugin {
 // MARK: Extensions
 
 extension ExtendedP2PMatrixStoragePlugin {
-    func extend() -> ExtendedP2PMatrixStoragePlugin {
+    public func extend() -> ExtendedP2PMatrixStoragePlugin {
         self
     }
 }

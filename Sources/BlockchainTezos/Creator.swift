@@ -23,7 +23,7 @@ extension Tezos {
             self.time = time
         }
         
-        public func extractPermission(
+        public func extractOutgoingPermission(
             from request: PermissionTezosRequest,
             and response: PermissionTezosResponse,
             completion: @escaping (Result<[Tezos.Permission], Swift.Error>) -> ()

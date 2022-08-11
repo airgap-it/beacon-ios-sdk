@@ -148,7 +148,7 @@ class MessageController: MessageControllerProtocol {
                 throw Beacon.Error.blockchainNotFound(type.identifier)
             }
             
-            blockchain.creator.extractPermission(from: request, and: response) { result in
+            blockchain.creator.extractOutgoingPermission(from: request, and: response) { result in
                 guard let permissions = result.get(ifFailure: completion) else { return }
                 self.storageManager.add(
                     permissions,

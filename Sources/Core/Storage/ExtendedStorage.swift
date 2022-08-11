@@ -66,7 +66,7 @@ public protocol ExtendedStorage: Storage {
 
 extension ExtendedStorage {
     
-    func extend() -> ExtendedStorage {
+    public func extend() -> ExtendedStorage {
         self
     }
 }

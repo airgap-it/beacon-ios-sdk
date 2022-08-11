@@ -23,7 +23,7 @@ extension Substrate {
             self.time = time
         }
         
-        public func extractPermission(
+        public func extractOutgoingPermission(
             from request: PermissionSubstrateRequest,
             and response: PermissionSubstrateResponse,
             completion: @escaping (Result<[Substrate.Permission], Swift.Error>) -> ()

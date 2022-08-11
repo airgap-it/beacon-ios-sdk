@@ -25,7 +25,11 @@ public protocol P2PMatrixStoragePlugin: StoragePlugin {
 // MARK: Extensions
 
 extension P2PMatrixStoragePlugin {
-    func extend() -> ExtendedP2PMatrixStoragePlugin {
-        DecoratedP2PMatrixStoragePlugin(storagePlugin: self)
+    public func extend() -> ExtendedP2PMatrixStoragePlugin {
+        if let extended = self as? ExtendedP2PMatrixStoragePlugin {
+            return extended
+        } else {
+            return DecoratedP2PMatrixStoragePlugin(storagePlugin: self)
+        }
     }
 }

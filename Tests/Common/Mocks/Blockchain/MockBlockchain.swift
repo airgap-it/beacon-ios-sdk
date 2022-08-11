@@ -51,7 +51,7 @@ public struct MockBlockchainCreator: BlockchainCreator {
     
     public init() {}
     
-    public func extractPermission(
+    public func extractOutgoingPermission(
         from request: BlockchainType.Request.Permission,
         and response: BlockchainType.Response.Permission,
         completion: @escaping (Result<[BlockchainType.Permission], Error>) -> ()
