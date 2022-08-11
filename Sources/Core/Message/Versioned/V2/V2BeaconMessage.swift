@@ -43,18 +43,19 @@ public enum V2BeaconMessage<BlockchainType: Blockchain>: V2BeaconMessageProtocol
     }
     
     public func toBeaconMessage(
-        with origin: Beacon.Origin,
+        withOrigin origin: Beacon.Connection.ID,
+        andDestination destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<BlockchainType>, Error>) -> ()
     ) {
         switch self {
         case let .acknowledgeResponse(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         case let .errorResponse(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         case let .disconnectMessage(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         case let .blockchainMessage(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         }
     }
     

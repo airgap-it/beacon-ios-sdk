@@ -15,7 +15,7 @@ public class Transport {
     
     private var status: Status = .disconnected
     
-    @Disposable private var savedConnectionMessages: [Result<SerializedConnectionMessage, Swift.Error>]?
+    @Disposable private var savedConnectionMessages: [Result<SerializedIncomingConnectionMessage, Swift.Error>]?
     private var connectionMessageListeners: Set<ConnectionMessageListener> = []
     
     @Disposable private var savedPairingMessages: [Result<BeaconPairingMessage, Swift.Error>]?
@@ -150,7 +150,7 @@ public class Transport {
         }
     }
     
-    func send(_ message: SerializedConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    func send(_ message: SerializedOutgoingConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         wrapped.send(message, completion: completion)
     }
     
@@ -182,7 +182,7 @@ public class Transport {
         }
     }
     
-    final func notify(with result: Result<SerializedConnectionMessage, Swift.Error>) {
+    final func notify(with result: Result<SerializedIncomingConnectionMessage, Swift.Error>) {
         queue.async {
             guard self.status == .connected || self.status == .connecting else {
                 self.savedConnectionMessages = (self.savedConnectionMessages ?? []) + [result]
@@ -231,7 +231,7 @@ public class Transport {
         case paused
     }
     
-    typealias ConnectionMessageListener = DistinguishableListener<Result<SerializedConnectionMessage, Swift.Error>>
+    typealias ConnectionMessageListener = DistinguishableListener<Result<SerializedIncomingConnectionMessage, Swift.Error>>
     typealias PairingMessageListener = DistinguishableListener<Result<BeaconPairingMessage, Swift.Error>>
 }
 
@@ -250,5 +250,5 @@ protocol TransportProtocol {
     func pair()
     func pair(with pairingRequest: BeaconPairingRequest, completion: @escaping (Result<BeaconPairingResponse, Error>) -> ())
     
-    func send(_ message: SerializedConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ())
+    func send(_ message: SerializedOutgoingConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ())
 }

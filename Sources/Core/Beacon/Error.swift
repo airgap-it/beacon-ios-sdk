@@ -32,6 +32,8 @@ extension Beacon {
         
         // MARK: Connection
         
+        case missingPairedPeer
+        
         ///
         /// Could not establish connections of the requested types.
         ///

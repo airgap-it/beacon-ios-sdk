@@ -27,6 +27,10 @@ extension Beacon {
         public var publicKey: String { common.publicKey }
         public var version: String { common.version }
         
+        public func toConnectionID() -> Beacon.Connection.ID {
+            common.toConnectionID()
+        }
+        
         private var common: PeerProtocol {
             switch self {
             case let .p2p(content):
@@ -66,4 +70,6 @@ public protocol PeerProtocol {
     var name: String { get }
     var publicKey: String { get }
     var version: String { get }
+    
+    func toConnectionID() -> Beacon.Connection.ID
 }

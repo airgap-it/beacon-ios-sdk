@@ -54,13 +54,7 @@ class DAppClientDependencyRegistry: ExtendedDependencyRegistry {
         dependencyRegistry.http(urlSession: urlSession)
     }
     
-    var migration: Migration {
-        dependencyRegistry.migration.register([
-            Migration.P2PMatrix.From1_0_4(storageManager: self.storageManager)
-        ])
-        
-        return dependencyRegistry.migration
-    }
+    var migration: Migration { dependencyRegistry.migration }
     
     var identifierCreator: IdentifierCreatorProtocol { dependencyRegistry.identifierCreator }
     var time: TimeProtocol { dependencyRegistry.time }

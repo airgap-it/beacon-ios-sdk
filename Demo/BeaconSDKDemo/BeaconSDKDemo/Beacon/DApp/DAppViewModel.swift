@@ -48,42 +48,21 @@ class DAppViewModel: ObservableObject {
         }
     }
     
-    func sendResponse() {
-//        if let request = awaitingTezosRequest {
-//            beaconRequest = nil
-//            awaitingTezosRequest = nil
-//
-//            do {
-//                beaconClient?.respond(with: try response(from: request)) { result in
-//                    switch result {
-//                    case .success(_):
-//                        print("Sent the response")
-//                    case let .failure(error):
-//                        print("Failed to send the response, got error: \(error)")
-//                    }
-//                }
-//            } catch {
-//                print("Failed to send the response, got error: \(error)")
-//            }
-//        }
-//
-//        if let request = awaitingSubstrateRequest {
-//            beaconRequest = nil
-//            awaitingSubstrateRequest = nil
-//
-//            do {
-//                beaconClient?.respond(with: try response(from: request)) { result in
-//                    switch result {
-//                    case .success(_):
-//                        print("Sent the response")
-//                    case let .failure(error):
-//                        print("Failed to send the response, got error: \(error)")
-//                    }
-//                }
-//            } catch {
-//                print("Failed to send the response, got error: \(error)")
-//            }
-//        }
+    func clearResponse() {
+        DispatchQueue.main.async {
+            self.beaconResponse = nil
+        }
+    }
+    
+    func requestPermission() {
+        beaconClient?.requestTezosPermission { result in
+            switch result {
+            case .success(_):
+                print("Sent the request")
+            case let .failure(error):
+                print("Failed to send the request, got error: \(error)")
+            }
+        }
     }
     
     func pair() {

@@ -112,7 +112,7 @@ class WalletClientTests: XCTestCase {
         let appMetadata = AnyAppMetadata(senderID: dAppID, name: "mockApp")
         storage.set([appMetadata]) { _ in }
         
-        let origin = Beacon.Origin.init(kind: connectionKind, id: dAppID)
+        let origin = Beacon.Connection.ID.init(kind: connectionKind, id: dAppID)
         
         let requests = beaconRequests(senderID: dAppID, appMetadata: appMetadata, origin: origin)
         let versioned = beaconVersionedRequests(senderID: dAppID, requests: requests)
@@ -150,7 +150,7 @@ class WalletClientTests: XCTestCase {
         let appMetadata = AnyAppMetadata(senderID: dAppID, name: "mockApp")
         storage.set([appMetadata]) { _ in }
         
-        let origin = Beacon.Origin.p2p(id: dAppID)
+        let origin = Beacon.Connection.ID.p2p(id: dAppID)
         
         let requests = beaconRequests(senderID: dAppID, appMetadata: appMetadata, origin: origin)
         let versioned = beaconVersionedRequests(senderID: dAppID, requests: requests).map { (origin, $0) }
@@ -188,7 +188,7 @@ class WalletClientTests: XCTestCase {
                 "Expected messageController#onOutgoing to be called with specified responses and senderID"
             )
             XCTAssertEqual(
-                versioned.map { BeaconConnectionMessage(origin: Beacon.Origin(kind: self.connectionKind, id: self.beaconID), content: $0) },
+                versioned.map { BeaconIncomingConnectionMessage(origin: Beacon.Connection.ID(kind: self.connectionKind, id: self.beaconID), content: $0) },
                 self.connectionController.sendMessageCalls(),
                 "Expected connectionController#sendMessage to be called with converted versioned responses"
             )

@@ -37,7 +37,10 @@ public enum BlockchainSubstrateRequest: BlockchainBeaconRequestProtocol, Equatab
     public var senderID: String { common.senderID }
     
     /// The origination data of this request.
-    public var origin: Beacon.Origin { common.origin }
+    public var origin: Beacon.Connection.ID { common.origin }
+    
+    /// The destination data of this request.
+    public var destination: Beacon.Connection.ID { common.destination }
     
     /// The account identifier of the account that is requested to handle this request. May be `nil`.
     public var accountID: String? { common.accountID }

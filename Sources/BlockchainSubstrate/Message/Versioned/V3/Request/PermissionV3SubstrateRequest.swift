@@ -29,7 +29,8 @@ public struct PermissionV3SubstrateRequest: PermissionV3BeaconRequestContentData
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<Substrate>, Error>) -> ()
     ) {
         completion(.success(.request(
@@ -39,6 +40,7 @@ public struct PermissionV3SubstrateRequest: PermissionV3BeaconRequestContentData
                     version: version,
                     senderID: senderID,
                     origin: origin,
+                    destination: destination,
                     appMetadata: appMetadata.toAppMetadata(),
                     scopes: scopes,
                     networks: networks

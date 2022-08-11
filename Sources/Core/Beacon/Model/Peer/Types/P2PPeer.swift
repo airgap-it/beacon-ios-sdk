@@ -56,6 +56,10 @@ extension Beacon {
             self.appURL = appURL
         }
         
+        public func toConnectionID() -> Beacon.Connection.ID {
+            .p2p(id: publicKey)
+        }
+        
         // MARK: Codable
         
         public init(from decoder: Decoder) throws {

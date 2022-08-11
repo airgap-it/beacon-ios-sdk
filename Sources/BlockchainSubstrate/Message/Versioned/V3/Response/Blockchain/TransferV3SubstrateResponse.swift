@@ -49,7 +49,8 @@ public struct TransferV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<Substrate>, Swift.Error>) -> ()
     ) {
         runCatching(completion: completion) {
@@ -59,7 +60,7 @@ public struct TransferV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol
                     .init(
                         id: id,
                         version: version,
-                        requestOrigin: origin,
+                        destination: destination,
                         transactionHash: transactionHash
                     )
                 )
@@ -68,7 +69,7 @@ public struct TransferV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol
                     .init(
                         id: id,
                         version: version,
-                        requestOrigin: origin,
+                        destination: destination,
                         transactionHash: transactionHash,
                         signature: signature,
                         payload: payload
@@ -79,7 +80,7 @@ public struct TransferV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol
                     .init(
                         id: id,
                         version: version,
-                        requestOrigin: origin,
+                        destination: destination,
                         signature: signature,
                         payload: payload
                     )

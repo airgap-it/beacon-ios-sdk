@@ -30,7 +30,7 @@ struct DAppView: View {
                     Button("Pair") { viewModel.pair() }
                 }.frame(alignment: .trailing)
                 
-                Button("Respond") { viewModel.sendResponse() }
+                Button("Request Permission") { viewModel.requestPermission() }
                 
                 HStack {
                     Button("Start") { viewModel.start() }
@@ -38,6 +38,8 @@ struct DAppView: View {
                     Button("Pause") { viewModel.pause() }
                     Button("Resume") { viewModel.resume() }
                 }
+                
+                Button("Clear Response") { viewModel.clearResponse() }
                 
                 ScrollView(.vertical) {
                     Text(viewModel.beaconResponse ?? "-- Response --")

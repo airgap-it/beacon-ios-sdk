@@ -54,6 +54,10 @@ extension Tezos {
             }
         }
         
+        public func extractAccounts(from response: PermissionTezosResponse, completion: @escaping (Result<[String], Swift.Error>) -> ()) {
+            completion(.success([response.account.accountID]))
+        }
+        
         // MARK: Types
         
         enum Error: Swift.Error {

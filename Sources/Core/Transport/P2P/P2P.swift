@@ -122,8 +122,8 @@ public extension Transport {
                 }
             }
             
-            func send(_ message: SerializedConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-                storageManager.findPeers(where: { $0.publicKey == message.origin.id }) { result in
+            func send(_ message: SerializedOutgoingConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+                storageManager.findPeers(where: { $0.publicKey == message.destination.id }) { result in
                     guard let found = result.get(ifFailure: completion) else { return }
                     guard let peer = found else {
                         completion(.failure(Error.unknownRecipient))
@@ -132,7 +132,7 @@ public extension Transport {
                     
                     switch peer {
                     case let .p2p(p2pPeer):
-                        switch message.origin.kind {
+                        switch message.destination.kind {
                         case .p2p:
                             self.send(message.content, to: p2pPeer, completion: completion)
                         }
@@ -159,8 +159,8 @@ public extension Transport {
             
             private func listen(to peer: Beacon.P2PPeer) throws {
                 try client.listen(to: peer) { [weak self] result in
-                    let message: Result<SerializedConnectionMessage, Swift.Error> = result.map {
-                        SerializedConnectionMessage(origin: .p2p(id: peer.publicKey), content: $0)
+                    let message: Result<SerializedIncomingConnectionMessage, Swift.Error> = result.map {
+                        SerializedIncomingConnectionMessage(origin: .p2p(id: peer.publicKey), content: $0)
                         
                     }
                     self?.owner?.notify(with: message)

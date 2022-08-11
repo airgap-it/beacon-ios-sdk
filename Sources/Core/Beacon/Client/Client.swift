@@ -156,14 +156,14 @@ extension Beacon {
         ///
         public func removeAllPeers(completion: @escaping (_ result: Result<(), Error>) -> ()) {
             storageManager.getPeers { result in
-                guard let peers = result.get(ifFailure: completion) else { return }
+                guard let peers = result.get(ifFailureWithBeaconError: completion) else { return }
                 self.remove(peers, completion: completion)
             }
         }
         
         public func removePeer(withPublicKey publicKey: String, completion: @escaping (Result<(), Error>) -> ()) {
             storageManager.findPeers(where: { $0.publicKey == publicKey }) { result in
-                guard let peerOrNil = result.get(ifFailure: completion) else { return }
+                guard let peerOrNil = result.get(ifFailureWithBeaconError: completion) else { return }
                 guard let peer = peerOrNil else { return }
                 
                 self.remove([peer], completion: completion)
@@ -272,17 +272,24 @@ extension Beacon {
             try serializer.deserialize(message: serialized, to: type)
         }
         
+        // MARK: Origin
+        
+        public func ownOrigin(from destination: Connection.ID) -> Connection.ID {
+            .init(from: destination, id: HexString(from: app.keyPair.publicKey).asString())
+        }
+        
         // MARK: Private
         
-        private func disconnect(_ peer: Beacon.Peer, completion: @escaping (Result<(), Error>) -> ()) {
+        private func disconnect(_ peer: Peer, completion: @escaping (Result<(), Error>) -> ()) {
             do {
-                let origin = Beacon.Origin(kind: peer.kind, id: peer.publicKey)
+                let destination = Connection.ID(kind: peer.kind, id: peer.publicKey)
                 let message: BeaconMessage<AnyBlockchain> = .disconnect(
                     .init(
                         id: try crypto.guid(),
                         senderID: beaconID,
                         version: peer.version,
-                        origin: origin
+                        origin: ownOrigin(from: destination),
+                        destination: destination
                     )
                 )
                 send(message, terminalMessage: true, completion: completion)
@@ -293,18 +300,18 @@ extension Beacon {
         
         public func send<B: Blockchain>(_ message: BeaconMessage<B>, terminalMessage: Bool, completion: @escaping (Result<(), Error>) -> ()) {
             messageController.onOutgoing(message, with: beaconID, terminal: terminalMessage) { result in
-                guard let (origin, versionedMessage) = result.get(ifFailure: completion) else { return }
-                self.send(BeaconConnectionMessage(origin: origin, content: versionedMessage), completion: completion)
+                guard let (destination, versionedMessage) = result.get(ifFailureWithBeaconError: completion) else { return }
+                self.send(BeaconOutgoingConnectionMessage(destination: destination, content: versionedMessage), completion: completion)
             }
         }
         
-        private func send<B: Blockchain>(_ message: BeaconConnectionMessage<B>, completion: @escaping (Result<(), Error>) -> ()) {
+        private func send<B: Blockchain>(_ message: BeaconOutgoingConnectionMessage<B>, completion: @escaping (Result<(), Error>) -> ()) {
             connectionController.send(message) { result in
                 completion(result.withBeaconError())
             }
         }
         
-        private func stopListening(to peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
+        private func stopListening(to peers: [Peer], completion: @escaping (Result<(), Error>) -> ()) {
             storageManager.remove(peers) { result in
                 guard result.isSuccess(else: completion) else { return }
                 self.connectionController.onRemoved(peers) { result in

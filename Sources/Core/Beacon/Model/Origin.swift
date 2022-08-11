@@ -11,6 +11,7 @@ import Foundation
 extension Beacon {
     
     /// A group of values that identify the source of an incoming request.
+    @available(*, deprecated, message: "Use Beacon.Connection.ID instead.")
     public struct Origin: Equatable, Codable {
         
         /// The type of connection the request originated from.

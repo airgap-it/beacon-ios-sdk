@@ -34,7 +34,7 @@ extension Beacon {
                 storage: storage,
                 secureStorage: secureStorage
             ) { result in
-                guard let beacon = result.get(ifFailure: completion) else { return }
+                guard let beacon = result.get(ifFailureWithBeaconError: completion) else { return }
                 
                 do {
                     let client = WalletClient(
@@ -80,16 +80,22 @@ extension Beacon {
         /// - Parameter result: A result representing the incoming request, either `BeaconRequest<T>` or `Beacon.Error` if message processing failed.
         ///
         public func listen<B: Blockchain>(onRequest listener: @escaping (_ result: Result<BeaconRequest<B>, Error>) -> ()) {
-            connectionController.listen { [weak self] (result: Result<BeaconConnectionMessage<B>, Swift.Error>) in
-                guard let connectionMessage = result.get(ifFailure: listener) else { return }
-                self?.messageController.onIncoming(connectionMessage.content, with: connectionMessage.origin) { (result: Result<BeaconMessage<B>, Swift.Error>) in
-                    guard let beaconMessage = result.get(ifFailure: listener) else { return }
+            connectionController.listen { [weak self] (result: Result<BeaconIncomingConnectionMessage<B>, Swift.Error>) in
+                guard let connectionMessage = result.get(ifFailureWithBeaconError: listener) else { return }
+                guard let selfStrong = self else { return }
+                
+                selfStrong.messageController.onIncoming(
+                    connectionMessage.content,
+                    withOrigin: connectionMessage.origin,
+                    andDestination: selfStrong.ownOrigin(from: connectionMessage.origin)
+                ) { (result: Result<BeaconMessage<B>, Swift.Error>) in
+                    guard let beaconMessage = result.get(ifFailureWithBeaconError: listener) else { return }
                     switch beaconMessage {
                     case let .request(request):
                         listener(.success(request))
-                        self?.acknowledge(request) { _ in }
+                        selfStrong.acknowledge(request) { _ in }
                     case let .disconnect(disconnect):
-                        self?.removePeer(withPublicKey: disconnect.origin.id) { _ in }
+                        selfStrong.removePeer(withPublicKey: disconnect.origin.id) { _ in }
                     default:
                         /* ignore other messages */
                         break

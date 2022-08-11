@@ -33,10 +33,11 @@ public struct DisconnectV3BeaconMessageContent<BlockchainType: Blockchain>: V3Be
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<BlockchainType>, Error>) -> ()
     ) {
-        let message = DisconnectBeaconMessage(id: id, senderID: senderID, version: version, origin: origin)
+        let message = DisconnectBeaconMessage(id: id, senderID: senderID, version: version, origin: origin, destination: destination)
         completion(.success(.disconnect(message)))
     }
 }

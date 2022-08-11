@@ -58,7 +58,7 @@ public extension Result {
         }
     }
     
-    func get<T>(ifFailure completion: @escaping (Result<T, Beacon.Error>) -> ()) -> Success? {
+    func get<T>(ifFailureWithBeaconError completion: @escaping (Result<T, Beacon.Error>) -> ()) -> Success? {
         switch self {
         case let .success(value):
             return value

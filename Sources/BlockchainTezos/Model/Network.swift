@@ -12,6 +12,8 @@ extension Tezos {
     
     /// A group of values defining a network in Tezos..
     public struct Network: NetworkProtocol, Codable, Hashable {
+        public static var mainnet: Network { .init(type: .mainnet) }
+        
         /// A type of the network
         public let type: `Type`
         

@@ -22,14 +22,16 @@ struct AnyBlockchainRequest: BlockchainRequest {
         public var version: String
         public var senderID: String
         public var appMetadata: AppMetadata
-        public var origin: Beacon.Origin
+        public var origin: Beacon.Connection.ID
+        public var destination: Beacon.Connection.ID
     }
     
     struct Blockchain: BlockchainBeaconRequestProtocol, Equatable {
         public var id: String
         public var version: String
         public var senderID: String
-        public var origin: Beacon.Origin
+        public var origin: Beacon.Connection.ID
+        public var destination: Beacon.Connection.ID
         public var accountID: String?
     }
 }

@@ -29,10 +29,11 @@ class MessageController: MessageControllerProtocol {
     
     func onIncoming<B: Blockchain>(
         _ message: VersionedBeaconMessage<B>,
-        with origin: Beacon.Origin,
+        withOrigin origin: Beacon.Connection.ID,
+        andDestination destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<B>, Swift.Error>) -> ()
     ) {
-        message.toBeaconMessage(with: origin) { (result: Result<BeaconMessage<B>, Swift.Error>) in
+        message.toBeaconMessage(withOrigin: origin, andDestination: destination) { (result: Result<BeaconMessage<B>, Swift.Error>) in
             guard let beaconMessage = result.get(ifFailure: completion) else { return }
             
             self.onIncoming(beaconMessage) { result in
@@ -74,7 +75,7 @@ class MessageController: MessageControllerProtocol {
         _ message: BeaconMessage<B>,
         with beaconID: String,
         terminal: Bool,
-        completion: @escaping (Result<(Beacon.Origin, VersionedBeaconMessage<B>), Swift.Error>) -> ()
+        completion: @escaping (Result<(Beacon.Connection.ID, VersionedBeaconMessage<B>), Swift.Error>) -> ()
     ) {
         self.onOutgoing(message, terminal: terminal) { result in
             do {
@@ -83,7 +84,7 @@ class MessageController: MessageControllerProtocol {
                 let senderHash = try self.identifierCreator.senderID(from: try HexString(from: beaconID))
                 let versionedMessage = try VersionedBeaconMessage(from: message, senderID: senderHash)
                 
-                completion(.success((message.associatedOrigin, versionedMessage)))
+                completion(.success((message.destination, versionedMessage)))
             } catch {
                 completion(.failure(error))
             }
@@ -186,7 +187,8 @@ class MessageController: MessageControllerProtocol {
 public protocol MessageControllerProtocol {
     func onIncoming<B: Blockchain>(
         _ message: VersionedBeaconMessage<B>,
-        with origin: Beacon.Origin,
+        withOrigin origin: Beacon.Connection.ID,
+        andDestination destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<B>, Error>) -> ()
     )
     
@@ -194,6 +196,6 @@ public protocol MessageControllerProtocol {
         _ message: BeaconMessage<B>,
         with beaconID: String,
         terminal: Bool,
-        completion: @escaping (Result<(Beacon.Origin, VersionedBeaconMessage<B>), Error>) -> ()
+        completion: @escaping (Result<(Beacon.Connection.ID, VersionedBeaconMessage<B>), Error>) -> ()
     )
 }

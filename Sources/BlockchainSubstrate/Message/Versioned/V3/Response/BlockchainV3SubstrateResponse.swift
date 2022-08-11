@@ -29,7 +29,8 @@ public enum BlockchainV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<Substrate>, Error>) -> ()
     ) {
         switch self {
@@ -39,6 +40,7 @@ public enum BlockchainV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol
                 version: version,
                 senderID: senderID,
                 origin: origin,
+                destination: destination,
                 completion: completion
             )
         case let .signPayload(content):
@@ -47,6 +49,7 @@ public enum BlockchainV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol
                 version: version,
                 senderID: senderID,
                 origin: origin,
+                destination: destination,
                 completion: completion
             )
         }

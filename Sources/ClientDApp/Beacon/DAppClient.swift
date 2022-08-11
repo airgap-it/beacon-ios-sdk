@@ -12,18 +12,34 @@ extension Beacon {
     
     public class DAppClient: Client, BeaconProducer {
         private let accountController: AccountControllerProtocol
+        private let identifierCreator: IdentifierCreatorProtocol
+        
+        private var _senderID: String? = nil
+        public func senderID() throws -> String {
+            guard let senderID = _senderID else {
+                let senderID = try self.identifierCreator.senderID(from: HexString(from: app.keyPair.publicKey))
+                self._senderID = senderID
+                
+                return senderID
+            }
+            
+            return senderID
+        }
         
         public init(
-            app: Beacon.Application,
+            app: Application,
             beaconID: String,
             storageManager: StorageManager,
             connectionController: ConnectionControllerProtocol,
             messageController: MessageControllerProtocol,
             accountController: AccountControllerProtocol,
             crypto: Crypto,
-            serializer: Serializer
+            serializer: Serializer,
+            identifierCreator: IdentifierCreatorProtocol
         ) {
             self.accountController = accountController
+            self.identifierCreator = identifierCreator
+            
             super.init(
                 app: app,
                 beaconID: beaconID,
@@ -49,7 +65,7 @@ extension Beacon {
                 storage: storage,
                 secureStorage: secureStorage
             ) { result in
-                guard let beacon = result.get(ifFailure: completion) else { return }
+                guard let beacon = result.get(ifFailureWithBeaconError: completion) else { return }
                 let extendedDependencyRegistry = beacon.dependencyRegistry.extend()
                 
                 if extendedDependencyRegistry.storageManager.dAppClientPlugin == nil {
@@ -65,7 +81,8 @@ extension Beacon {
                         messageController: extendedDependencyRegistry.messageController,
                         accountController: extendedDependencyRegistry.accountController,
                         crypto: extendedDependencyRegistry.crypto,
-                        serializer: extendedDependencyRegistry.serializer
+                        serializer: extendedDependencyRegistry.serializer,
+                        identifierCreator: extendedDependencyRegistry.identifierCreator
                     )
                     
                     completion(.success(client))
@@ -77,7 +94,7 @@ extension Beacon {
         
         // MARK: Pairing
         
-        public func pair(using connectionKind: Beacon.Connection.Kind = .p2p, onMessage listener: @escaping (Result<BeaconPairingMessage, Beacon.Error>) -> ()) {
+        public func pair(using connectionKind: Connection.Kind = .p2p, onMessage listener: @escaping (Result<BeaconPairingMessage, Error>) -> ()) {
             connectionController.pair(using: connectionKind) { pairResult in
                 do {
                     let pairingMessage = try pairResult.get()
@@ -105,15 +122,21 @@ extension Beacon {
         /// - Parameter result: A result representing the incoming request, either `BeaconResponse<T>` or `Beacon.Error` if message processing failed.
         ///
         public func listen<B: Blockchain>(onResponse listener: @escaping (_ result: Result<BeaconResponse<B>, Error>) -> ()) {
-            connectionController.listen { [weak self] (result: Result<BeaconConnectionMessage<B>, Swift.Error>) in
-                guard let connectionMessage = result.get(ifFailure: listener) else { return }
-                self?.messageController.onIncoming(connectionMessage.content, with: connectionMessage.origin) { (result: Result<BeaconMessage<B>, Swift.Error>) in
-                    guard let beaconMessage = result.get(ifFailure: listener) else { return }
+            connectionController.listen { [weak self] (result: Result<BeaconIncomingConnectionMessage<B>, Swift.Error>) in
+                guard let connectionMessage = result.get(ifFailureWithBeaconError: listener) else { return }
+                guard let strongSelf = self else { return }
+                
+                strongSelf.messageController.onIncoming(
+                    connectionMessage.content,
+                    withOrigin: connectionMessage.origin,
+                    andDestination: strongSelf.ownOrigin(from: connectionMessage.origin)
+                ) { (result: Result<BeaconMessage<B>, Swift.Error>) in
+                    guard let beaconMessage = result.get(ifFailureWithBeaconError: listener) else { return }
                     switch beaconMessage {
                     case let .response(response):
                         listener(.success(response))
                     case let .disconnect(disconnect):
-                        self?.removePeer(withPublicKey: disconnect.origin.id) { _ in }
+                        strongSelf.removePeer(withPublicKey: disconnect.origin.id) { _ in }
                     default:
                         /* ignore other messages */
                         break
@@ -122,8 +145,37 @@ extension Beacon {
             }
         }
         
-        public func request<B: Blockchain>(with request: BeaconRequest<B>, completion: @escaping (_ result: Result<(), Beacon.Error>) -> ()) {
-            
+        public func request<B: Blockchain>(with request: BeaconRequest<B>, completion: @escaping (_ result: Result<(), Error>) -> ()) {
+            send(.request(request), terminalMessage: false, completion: completion)
+        }
+        
+        // MARK: Utils
+        
+        public func prepareRequest(for connectionKind: Connection.Kind, completion: @escaping (Result<BeaconRequestMetadata, Error>) -> ()) {
+            accountController.getActivePeer { peerResult in
+                guard let activePeerOrNil = peerResult.get(ifFailureWithBeaconError: completion) else { return }
+                guard let activePeer = activePeerOrNil else {
+                    completion(.failure(Error.missingPairedPeer))
+                    return
+                }
+                
+                self.accountController.getActiveAccount { accountResult in
+                    guard let activeAccount = accountResult.get(ifFailureWithBeaconError: completion) else { return }
+                    
+                    do {
+                        completion(.success(.init(
+                            id: try self.crypto.guid(),
+                            version: Beacon.Configuration.beaconVersion,
+                            senderID: try self.senderID(),
+                            origin: .init(kind: connectionKind, id: HexString(from: self.app.keyPair.publicKey).asString()),
+                            destination: activePeer.toConnectionID(),
+                            accountID: activeAccount?.accountID
+                        )))
+                    } catch {
+                        completion(.failure(Error(error)))
+                    }
+                }
+            }
         }
         
         // MARK: Types

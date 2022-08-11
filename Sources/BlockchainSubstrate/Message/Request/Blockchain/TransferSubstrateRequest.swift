@@ -23,7 +23,10 @@ public struct TransferSubstrateRequest: BlockchainBeaconRequestProtocol, Identif
     public let senderID: String
     
     /// The origination data of this request.
-    public let origin: Beacon.Origin
+    public let origin: Beacon.Connection.ID
+    
+    /// The destination data of this request.
+    public let destination: Beacon.Connection.ID
     
     /// The account identifier of the account that is requested to handle this request.
     public let accountID: String?
