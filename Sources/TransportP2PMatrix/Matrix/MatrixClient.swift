@@ -98,7 +98,7 @@ public class MatrixClient {
             }
             
             guard let selfStrong = self else {
-                completion(.failure(Beacon.Error.unknown))
+                completion(.failure(Beacon.Error.unknown()))
                 return
             }
             

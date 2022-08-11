@@ -38,7 +38,7 @@ extension Beacon {
                 
                 do {
                     let client = WalletClient(
-                        name: beacon.app,
+                        app: beacon.app,
                         beaconID: beacon.beaconID,
                         storageManager: beacon.dependencyRegistry.storageManager,
                         connectionController: try beacon.dependencyRegistry.connectionController(configuredWith: configuration.connections),
