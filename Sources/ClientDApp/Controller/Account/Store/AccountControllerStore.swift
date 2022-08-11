@@ -202,16 +202,18 @@ private extension StorageManager {
     func getActivePeer(orDefault defaultID: String?, completion: @escaping (Result<String?, Swift.Error>) -> ()) {
         getActivePeer { getResult in
             guard let activePeer = getResult.get(ifFailure: completion) else { return }
-            
-            if let activePeer = activePeer, activePeer == defaultID {
+            guard let defaultID = defaultID else {
                 completion(.success(activePeer))
-            } else if let defaultID = defaultID {
+                return
+            }
+            
+            if activePeer == defaultID {
+                completion(.success(activePeer))
+            } else {
                 self.setActivePeer(defaultID) { setResult in
                     guard setResult.isSuccess(else: completion) else { return }
                     completion(.success(defaultID))
                 }
-            } else {
-                completion(.success(nil))
             }
         }
     }
