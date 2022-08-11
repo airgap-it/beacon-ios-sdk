@@ -116,7 +116,7 @@ public class Crypto {
     }
     
     public func decrypt(message: [UInt8], withPublicKey publicKey: [UInt8], andSecretKey secretKey: [UInt8]) throws -> [UInt8] {
-        let curve25519PublicKey = try cryptoProvider.convertToCurve25519(ed25519PublicKey: secretKey)
+        let curve25519PublicKey = try cryptoProvider.convertToCurve25519(ed25519PublicKey: publicKey)
         let curve25519SecretKey = try cryptoProvider.convertToCurve25519(ed25519SecretKey: secretKey)
         
         return try cryptoProvider.decrypt(message: message, withPublicKey: curve25519PublicKey, andSecretKey: curve25519SecretKey)

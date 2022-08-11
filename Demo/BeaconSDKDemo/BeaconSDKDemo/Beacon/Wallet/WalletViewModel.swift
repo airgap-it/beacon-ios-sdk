@@ -33,17 +33,41 @@ class WalletViewModel: ObservableObject {
         )
     }
     
+    @Published private(set) var started: Bool = false
     @Published private(set) var beaconRequest: String? = nil
-    
     @Published var pairingRequest: String = WalletViewModel.examplePairingRequest
     
     private var awaitingTezosRequest: BeaconRequest<Tezos>? = nil
     private var awaitingSubstrateRequest: BeaconRequest<Substrate>? = nil
     
-    private var beaconClient: Beacon.WalletClient?
+    private var beaconClient: Beacon.WalletClient? = nil {
+        didSet {
+            started = beaconClient != nil
+        }
+    }
     
-    init() {
+    init() {}
+    
+    func start() {
         startBeacon()
+    }
+    
+    func stop() {
+        beaconClient?.disconnect {
+            print("disconnected \($0)")
+        }
+    }
+    
+    func pause() {
+        beaconClient?.pause {
+            print("paused \($0)")
+        }
+    }
+    
+    func resume() {
+        beaconClient?.resume {
+            print("resumed \($0)")
+        }
     }
     
     func sendResponse() {
@@ -88,7 +112,7 @@ class WalletViewModel: ObservableObject {
         self.beaconClient?.pair(with: pairingRequest) { result in
             switch result {
             case .success(_):
-                print("Pairing succeeded.")
+                print("Pairing succeeded")
             case let .failure(error):
                 print("Failed to pair, got error: \(error)")
             }
@@ -106,25 +130,7 @@ class WalletViewModel: ObservableObject {
         }
     }
     
-    func stop() {
-        beaconClient?.disconnect {
-            print("disconnected \($0)")
-        }
-    }
-    
-    func pause() {
-        beaconClient?.pause {
-            print("paused \($0)")
-        }
-    }
-    
-    func resume() {
-        beaconClient?.resume {
-            print("resumed \($0)")
-        }
-    }
-    
-    func startBeacon() {
+    private func startBeacon() {
         guard beaconClient == nil else {
             listenForRequests()
             return
@@ -133,7 +139,7 @@ class WalletViewModel: ObservableObject {
         do {
             Beacon.WalletClient.create(
                 with: .init(
-                    name: "iOS Beacon SDK Demo",
+                    name: "iOS Beacon SDK Demo (Wallet)",
                     blockchains: [Tezos.factory, Substrate.factory],
                     connections: [try Transport.P2P.Matrix.connection()]
                 )
@@ -141,8 +147,11 @@ class WalletViewModel: ObservableObject {
                 switch result {
                 case let .success(client):
                     print("Beacon client created")
-                    self.beaconClient = client
-                    self.listenForRequests()
+                    
+                    DispatchQueue.main.async {
+                        self.beaconClient = client
+                        self.listenForRequests()
+                    }
                 case let .failure(error):
                     print("Could not create Beacon client, got error: \(error)")
                 }

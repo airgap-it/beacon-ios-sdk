@@ -16,6 +16,7 @@
 		A376970928A4F978004CCFFB /* DAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376970828A4F978004CCFFB /* DAppView.swift */; };
 		A376970C28A4F992004CCFFB /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376970B28A4F992004CCFFB /* WalletView.swift */; };
 		A376970F28A4F9B0004CCFFB /* WalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376970E28A4F9B0004CCFFB /* WalletViewModel.swift */; };
+		A376971428A51666004CCFFB /* DAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376971328A51666004CCFFB /* DAppViewModel.swift */; };
 		A3DD2BB127CCD65A0040FF1D /* BeaconBlockchainSubstrate in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB027CCD65A0040FF1D /* BeaconBlockchainSubstrate */; };
 		A3DD2BB327CCD65A0040FF1D /* BeaconBlockchainTezos in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB227CCD65A0040FF1D /* BeaconBlockchainTezos */; };
 		A3DD2BB527CCD65A0040FF1D /* BeaconClientWallet in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB427CCD65A0040FF1D /* BeaconClientWallet */; };
@@ -59,6 +60,7 @@
 		A376970828A4F978004CCFFB /* DAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAppView.swift; sourceTree = "<group>"; };
 		A376970B28A4F992004CCFFB /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		A376970E28A4F9B0004CCFFB /* WalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewModel.swift; sourceTree = "<group>"; };
+		A376971328A51666004CCFFB /* DAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAppViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				A376970828A4F978004CCFFB /* DAppView.swift */,
+				A376971328A51666004CCFFB /* DAppViewModel.swift */,
 			);
 			path = DApp;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				49C8DCF226273A040019EBD4 /* BeaconView.swift in Sources */,
 				A376970928A4F978004CCFFB /* DAppView.swift in Sources */,
 				A376970F28A4F9B0004CCFFB /* WalletViewModel.swift in Sources */,
+				A376971428A51666004CCFFB /* DAppViewModel.swift in Sources */,
 				49C97F7E25ADB07E002F6366 /* BeaconSDKDemoApp.swift in Sources */,
 				A376970C28A4F992004CCFFB /* WalletView.swift in Sources */,
 			);
@@ -503,10 +507,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"BeaconSDKDemo/Preview Content\"";
-				DEVELOPMENT_TEAM = 7VLXNQ52UC;
+				DEVELOPMENT_TEAM = 4S89CS946G;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = BeaconSDKDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -525,10 +529,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"BeaconSDKDemo/Preview Content\"";
-				DEVELOPMENT_TEAM = 7VLXNQ52UC;
+				DEVELOPMENT_TEAM = 4S89CS946G;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = BeaconSDKDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

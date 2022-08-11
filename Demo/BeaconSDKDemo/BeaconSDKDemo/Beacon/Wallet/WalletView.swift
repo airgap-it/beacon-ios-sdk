@@ -12,34 +12,41 @@ import SwiftUI
 struct WalletView: View {
     @ObservedObject var viewModel = WalletViewModel()
     
+    @ViewBuilder
     var body: some View {
-        VStack(alignment: .trailing, spacing: 10) {
-            VStack(alignment: .leading, spacing: 2) {
-                Text("Pairing Request:").bold()
-                TextEditor(text: $viewModel.pairingRequest)
-                    .frame(maxHeight: 100)
-                    
+        if !viewModel.started {
+            VStack(alignment: .center) {
+                Button("Start Wallet") { viewModel.start() }
             }
-            
-            HStack {
-                Button("Unpair") { viewModel.unpair() }
-                Button("Pair") { viewModel.pair() }
-            }.frame(maxWidth: .infinity, alignment: .trailing)
-            
-            Button("Respond") { viewModel.sendResponse() }
-            
-            HStack {
-                Button("Start") { viewModel.startBeacon() }
-                Button("Stop") { viewModel.stop() }
-                Button("Pause") { viewModel.pause() }
-                Button("Resume") { viewModel.resume() }
-            }
-            
-            ScrollView(.vertical) {
-                Text(viewModel.beaconRequest ?? "-- Request --")
-            }.frame(maxWidth: .infinity)
-            
-        }.padding()
+        } else {
+            VStack(alignment: .trailing, spacing: 10) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Pairing Request:").bold()
+                    TextEditor(text: $viewModel.pairingRequest)
+                        .frame(maxHeight: 100)
+                        
+                }
+                
+                HStack {
+                    Button("Unpair") { viewModel.unpair() }
+                    Button("Pair") { viewModel.pair() }
+                }.frame(maxWidth: .infinity, alignment: .trailing)
+                
+                Button("Respond") { viewModel.sendResponse() }
+                
+                HStack {
+                    Button("Start") { viewModel.start() }
+                    Button("Stop") { viewModel.stop() }
+                    Button("Pause") { viewModel.pause() }
+                    Button("Resume") { viewModel.resume() }
+                }
+                
+                ScrollView(.vertical) {
+                    Text(viewModel.beaconRequest ?? "-- Request --")
+                }.frame(maxWidth: .infinity)
+                
+            }.padding()
+        }
     }
 }
 

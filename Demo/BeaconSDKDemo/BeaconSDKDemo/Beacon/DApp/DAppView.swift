@@ -8,8 +8,43 @@
 import SwiftUI
 
 struct DAppView: View {
+    @ObservedObject var viewModel = DAppViewModel()
+    
+    @ViewBuilder
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        if !viewModel.started {
+            VStack(alignment: .center) {
+                Button("Start DApp") { viewModel.start() }
+            }
+        } else {
+            VStack(alignment: .trailing, spacing: 10) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Pairing Request:").bold()
+                    Text(viewModel.pairingRequest ?? "-- Pairing Request --")
+                        .textSelection(.enabled)
+                        .frame(maxWidth: .infinity)
+                }.frame(maxWidth: .infinity, alignment: .leading)
+                
+                HStack {
+                    Button("Unpair") { viewModel.unpair() }
+                    Button("Pair") { viewModel.pair() }
+                }.frame(alignment: .trailing)
+                
+                Button("Respond") { viewModel.sendResponse() }
+                
+                HStack {
+                    Button("Start") { viewModel.start() }
+                    Button("Stop") { viewModel.stop() }
+                    Button("Pause") { viewModel.pause() }
+                    Button("Resume") { viewModel.resume() }
+                }
+                
+                ScrollView(.vertical) {
+                    Text(viewModel.beaconResponse ?? "-- Response --")
+                }.frame(maxWidth: .infinity)
+                
+            }.padding()
+        }
     }
 }
 
