@@ -33,8 +33,11 @@ extension Beacon {
                         storageManager: beacon.dependencyRegistry.storageManager,
                         connectionController: try beacon.dependencyRegistry.connectionController(configuredWith: configuration.connections),
                         messageController: beacon.dependencyRegistry.messageController,
-                        crypto: beacon.dependencyRegistry.crypto
+                        crypto: beacon.dependencyRegistry.crypto,
+                        serializer: beacon.dependencyRegistry.serializer
                     )
+                    
+                    completion(.success(client))
                 } catch {
                     completion(.failure(Error(error)))
                 }

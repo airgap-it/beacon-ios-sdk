@@ -16,6 +16,9 @@ extension Beacon {
         /// The application details set by the user
         public let app: Application
         
+        /// The name of the application set by the user
+        public var name: String { app.name }
+        
         /// A unique ID of this Beacon instance
         public let beaconID: String
         
@@ -23,6 +26,7 @@ extension Beacon {
         public let connectionController: ConnectionControllerProtocol
         public let messageController: MessageControllerProtocol
         public let crypto: Crypto
+        public let serializer: Serializer
         
         public init(
             app: Application,
@@ -30,7 +34,8 @@ extension Beacon {
             storageManager: StorageManager,
             connectionController: ConnectionControllerProtocol,
             messageController: MessageControllerProtocol,
-            crypto: Crypto
+            crypto: Crypto,
+            serializer: Serializer
         ) {
             self.app = app
             self.beaconID = beaconID
@@ -38,6 +43,7 @@ extension Beacon {
             self.connectionController = connectionController
             self.messageController = messageController
             self.crypto = crypto
+            self.serializer = serializer
         }
         
         // MARK: Connection
@@ -89,6 +95,8 @@ extension Beacon {
                 completion(result.withBeaconError())
             }
         }
+        
+        // MARK: Storage Management
         
         ///
         /// Adds new peers.
@@ -249,6 +257,22 @@ extension Beacon {
                 completion(result.withBeaconError())
             }
         }
+        
+        // MARK: Pairing
+        
+        public func serializePairingData(_ pairingMessage: BeaconPairingMessage) throws -> String {
+            try serializer.serialize(message: pairingMessage)
+        }
+        
+        public func deserializePairingData(_ serialized: String) throws -> BeaconPairingMessage {
+            try deserializePairingData(serialized, ofType: BeaconPairingMessage.self)
+        }
+        
+        public func deserializePairingData<T : BeaconPairingMessageProtocol & Decodable>(_ serialized: String, ofType type: T.Type) throws -> T {
+            try serializer.deserialize(message: serialized, to: type)
+        }
+        
+        // MARK: Private
         
         private func disconnect(_ peer: Beacon.Peer, completion: @escaping (Result<(), Error>) -> ()) {
             do {
