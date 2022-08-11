@@ -26,6 +26,7 @@ extension Beacon {
         public var name: String { common.name }
         public var publicKey: String { common.publicKey }
         public var version: String { common.version }
+        public var isPaired: Bool { common.isPaired }
         
         public func toConnectionID() -> Beacon.Connection.ID {
             common.toConnectionID()
@@ -70,6 +71,7 @@ public protocol PeerProtocol {
     var name: String { get }
     var publicKey: String { get }
     var version: String { get }
+    var isPaired: Bool { get }
     
     func toConnectionID() -> Beacon.Connection.ID
 }

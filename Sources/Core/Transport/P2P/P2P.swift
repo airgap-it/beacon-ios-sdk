@@ -59,8 +59,12 @@ public extension Transport {
                 let p2pPeers: [Beacon.P2PPeer] = peers.filterP2P()
 
                 p2pPeers.forEachAsync(
-                    body: {
-                        self.client.sendPairingResponse(to: $0, completion: $1)
+                    body: { (peer: Beacon.P2PPeer, innerCompletion: @escaping (Result<(), Swift.Error>) -> ()) -> () in
+                        if peer.isPaired {
+                            self.client.sendPairingResponse(to: peer, completion: innerCompletion)
+                        } else {
+                            innerCompletion(.success(()))
+                        }
                     }
                 ) { results in
                     guard results.allSatisfy({ $0.isSuccess }) else {
@@ -104,8 +108,15 @@ public extension Transport {
                     self.owner?.notify(with: result.map({ .request(.p2p($0)) }))
                     guard let pairingRequest = try? result.get() else { return }
                     
-                    self.client.listenForPairingResponse(withID: pairingRequest.id) { [weak self] pairingResponse in
-                        self?.owner?.notify(with: pairingResponse.map({ .response(.p2p($0)) }))
+                    self.client.listenForPairingResponse(withID: pairingRequest.id) { [weak self] pairingResponseResult in
+                        do {
+                            let pairingResponse = try pairingResponseResult.get()
+                            self?.addAndConnectPeer(from: .response(pairingResponse)) { result in
+                                self?.owner?.notify(with: result.map({ .response(.p2p(pairingResponse)) }))
+                            }
+                        } catch {
+                            self?.owner?.notify(with: Result<BeaconPairingMessage, Swift.Error>.failure(error))
+                        }
                     }
                 }
             }
@@ -171,8 +182,8 @@ public extension Transport {
                 self.client.send(message: message, to: recipient, completion: completion)
             }
             
-            private func addAndConnectPeer(from request: Transport.P2P.PairingMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-                let peer = request.toPeer()
+            private func addAndConnectPeer(from message: Transport.P2P.PairingMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+                let peer = message.toPeer()
                 switch peer {
                 case let .p2p(p2pPeer):
                     storageManager.add([.p2p(p2pPeer)], overwrite: true) { addResult in

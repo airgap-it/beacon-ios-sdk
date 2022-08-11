@@ -55,6 +55,8 @@ class DAppViewModel: ObservableObject {
     }
     
     func requestPermission() {
+        /* should be performed AFTER a successful pairing */
+        
         beaconClient?.requestTezosPermission { result in
             switch result {
             case .success(_):
