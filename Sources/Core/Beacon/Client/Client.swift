@@ -13,8 +13,8 @@ extension Beacon {
     /// Base for Bacon clients.
     open class Client {
         
-        /// The name of the application set by the user
-        public let name: String
+        /// The application details set by the user
+        public let app: Application
         
         /// A unique ID of this Beacon instance
         public let beaconID: String
@@ -25,14 +25,14 @@ extension Beacon {
         public let crypto: Crypto
         
         public init(
-            name: String,
+            app: Application,
             beaconID: String,
             storageManager: StorageManager,
             connectionController: ConnectionControllerProtocol,
             messageController: MessageControllerProtocol,
             crypto: Crypto
         ) {
-            self.name = name
+            self.app = app
             self.beaconID = beaconID
             self.storageManager = storageManager
             self.connectionController = connectionController

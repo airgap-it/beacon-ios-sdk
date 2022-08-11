@@ -153,7 +153,7 @@ public class HTTP {
         var dataTask: URLSessionTask!
         dataTask = session.dataTask(with: request) { [weak self] result in
             guard let selfStrong = self else {
-                completion(.failure(Beacon.Error.unknown))
+                completion(.failure(Beacon.Error.unknown()))
                 return
             }
             
@@ -249,7 +249,7 @@ private extension URLSession {
     func dataTask(with request: URLRequest, completion: @escaping (Result<(Data, HTTPURLResponse), Error>) -> ()) -> URLSessionDataTask {
         return dataTask(with: request) { (data, response, error) in
             guard let data = data, let response = response as? HTTPURLResponse else {
-                completion(.failure(error ?? Beacon.Error.unknown))
+                completion(.failure(error ?? Beacon.Error.unknown()))
                 return
             }
             guard (200..<300).contains(response.statusCode) else {
