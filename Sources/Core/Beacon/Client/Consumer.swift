@@ -16,4 +16,7 @@ public protocol BeaconConsumer {
     /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
     ///
     func respond<B: Blockchain>(with response: BeaconResponse<B>, completion: @escaping (_ result: Result<(), Beacon.Error>) -> ())
+    
+    func pair(with pairingRequest: BeaconPairingRequest, completion: @escaping (Result<BeaconPairingResponse, Beacon.Error>) -> ())
+    func pair(with pairingRequest: String, completion: @escaping (Result<BeaconPairingResponse, Beacon.Error>) -> ())
 }

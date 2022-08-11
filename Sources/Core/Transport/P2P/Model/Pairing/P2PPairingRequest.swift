@@ -31,7 +31,7 @@ public extension Transport.P2P {
         }
         
         public func toPeer() -> Beacon.Peer {
-            .p2p(.init(name: name, publicKey: publicKey, relayServer: relayServer, version: version, icon: icon, appURL: URL(string: appURL)))
+            .p2p(.init(id: id, name: name, publicKey: publicKey, relayServer: relayServer, version: version, icon: icon, appURL: URL(string: appURL)))
         }
         
         // MARK: Codable

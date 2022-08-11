@@ -189,6 +189,18 @@ class ConnectionController: ConnectionControllerProtocol {
             listener(.failure(error))
         }
     }
+    
+    func pair(with pairingRequest: BeaconPairingRequest, completion: @escaping (Result<BeaconPairingResponse, Error>) -> ()) {
+        runCatching(completion: completion) {
+            runCatching(completion: completion) {
+                guard let transport = transports.first(where: { $0.supportsPairing(for: pairingRequest )}) else {
+                    throw Beacon.Error.transportNotSupported(.init(from: pairingRequest))
+                }
+                
+                transport.pair(with: pairingRequest, completion: completion)
+            }
+        }
+    }
 }
 
 public protocol ConnectionControllerProtocol {
@@ -198,10 +210,20 @@ public protocol ConnectionControllerProtocol {
     func resume(completion: @escaping (Result<(), Error>) -> ())
     
     func listen<B: Blockchain>(onRequest listener: @escaping (Result<BeaconConnectionMessage<B>, Error>) -> ())
+    func onNew(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ())
+    func onRemoved(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ())
+    
     func send<B: Blockchain>(_ message: BeaconConnectionMessage<B>, completion: @escaping (Result<(), Error>) -> ())
     
     func pair(using connectionKind: Beacon.Connection.Kind, onMessage listener: @escaping (Result<BeaconPairingMessage, Error>) -> ())
-    
-    func onNew(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ())
-    func onRemoved(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ())
+    func pair(with pairingRequest: BeaconPairingRequest, completion: @escaping (Result<BeaconPairingResponse, Error>) -> ())
+}
+
+private extension Beacon.Connection.Kind {
+    init(from pairingRequest: BeaconPairingRequest) {
+        switch pairingRequest {
+        case .p2p(_):
+            self = .p2p
+        }
+    }
 }

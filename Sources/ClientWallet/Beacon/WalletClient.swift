@@ -54,6 +54,23 @@ extension Beacon {
             }
         }
         
+        // MARK: Pairing
+        
+        public func pair(with pairingRequest: BeaconPairingRequest, completion: @escaping (Result<BeaconPairingResponse, Error>) -> ()) {
+            connectionController.pair(with: pairingRequest) { result in
+                completion(result.withBeaconError())
+            }
+        }
+        
+        public func pair(with pairingRequest: String, completion: @escaping (Result<BeaconPairingResponse, Error>) -> ()) {
+            do {
+                let pairingRequest = try deserializePairingData(pairingRequest, ofType: BeaconPairingRequest.self)
+                pair(with: pairingRequest, completion: completion)
+            } catch {
+                completion(.failure(Error(error)))
+            }
+        }
+        
         // MARK: Connection
         
         ///

@@ -154,8 +154,18 @@ public class Transport {
         wrapped.send(message, completion: completion)
     }
     
+    // MARK: Pairing
+    
+    func supportsPairing(for pairingRequest: BeaconPairingRequest) -> Bool {
+        wrapped.supportsPairing(for: pairingRequest)
+    }
+    
     func pair() {
         wrapped.pair()
+    }
+    
+    func pair(with pairingRequest: BeaconPairingRequest, completion: @escaping (Result<BeaconPairingResponse, Error>) -> ()) {
+        wrapped.pair(with: pairingRequest, completion: completion)
     }
     
     // MARK: Subscription
@@ -235,8 +245,10 @@ protocol TransportProtocol {
     
     func connect(new peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Swift.Error>) -> ())
     func disconnect(from peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Swift.Error>) -> ())
-    
+
+    func supportsPairing(for pairingRequest: BeaconPairingRequest) -> Bool
     func pair()
+    func pair(with pairingRequest: BeaconPairingRequest, completion: @escaping (Result<BeaconPairingResponse, Error>) -> ())
     
     func send(_ message: SerializedConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ())
 }
