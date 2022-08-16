@@ -113,17 +113,17 @@ class ConnectionControllerTests: XCTestCase {
         let versioned = beaconVersionedRequests()
         
         let beaconConnectionMessages = versioned.enumerated().map { (index, message) in
-            BeaconConnectionMessage(origin: .p2p(id: "id#\(index)"), content: message)
+            BeaconIncomingConnectionMessage(origin: .p2p(id: "id#\(index)"), content: message)
         }
         
         let serializedConnectionMessages = try beaconConnectionMessages.map {
-            SerializedConnectionMessage(origin: $0.origin, content: try serializer.serialize(message: $0.content))
+            SerializedIncomingConnectionMessage(origin: $0.origin, content: try serializer.serialize(message: $0.content))
         }
         
-        var received: [BeaconConnectionMessage<MockBlockchain>] = []
+        var received: [BeaconIncomingConnectionMessage<MockBlockchain>] = []
         initBeacon { _ in
             self.connectionController.connect { _ in
-                self.connectionController.listen { (result: Result<BeaconConnectionMessage<MockBlockchain>, Error>) in
+                self.connectionController.listen { (result: Result<BeaconIncomingConnectionMessage<MockBlockchain>, Error>) in
                     switch result {
                     case let .success(message):
                         queue.async(flags: .barrier) {
@@ -220,9 +220,9 @@ class ConnectionControllerTests: XCTestCase {
             return
         }
         
-        let beaconConnectionMessage = BeaconConnectionMessage(origin: .p2p(id: "id"), content: versioned)
-        let serializedConnectionMessage = SerializedConnectionMessage(
-            origin: beaconConnectionMessage.origin,
+        let beaconConnectionMessage = BeaconOutgoingConnectionMessage(destination: .p2p(id: "id"), content: versioned)
+        let serializedConnectionMessage = SerializedOutgoingConnectionMessage(
+            destination: beaconConnectionMessage.destination,
             content: try serializer.serialize(message: beaconConnectionMessage.content)
         )
         

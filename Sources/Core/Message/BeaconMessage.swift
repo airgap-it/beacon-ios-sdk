@@ -44,6 +44,7 @@ public enum BeaconMessage<B: Blockchain>: BeaconMessageProtocol, Equatable {
     
     public var id: String { common.id }
     public var version: String { common.version }
+    public var destination: Beacon.Connection.ID { common.destination }
     
     private var common: BeaconMessageProtocol {
         switch self {
@@ -55,17 +56,6 @@ public enum BeaconMessage<B: Blockchain>: BeaconMessageProtocol, Equatable {
             return content
         }
     }
-    
-    var associatedOrigin: Beacon.Origin {
-        switch self {
-        case let .request(content):
-            return content.origin
-        case let .response(content):
-            return content.requestOrigin
-        case let.disconnect(content):
-            return content.origin
-        }
-    }
 }
 
 // MARK: Protocol
@@ -73,4 +63,5 @@ public enum BeaconMessage<B: Blockchain>: BeaconMessageProtocol, Equatable {
 public protocol BeaconMessageProtocol {
     var id: String { get }
     var version: String { get }
+    var destination: Beacon.Connection.ID { get }
 }

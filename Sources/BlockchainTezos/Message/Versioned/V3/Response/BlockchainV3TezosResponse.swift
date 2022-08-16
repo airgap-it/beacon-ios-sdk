@@ -32,7 +32,8 @@ public enum BlockchainV3TezosResponse: BlockchainV3BeaconResponseContentDataProt
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<Tezos>, Error>) -> ()
     ) {
         switch self {
@@ -42,6 +43,7 @@ public enum BlockchainV3TezosResponse: BlockchainV3BeaconResponseContentDataProt
                 version: version,
                 senderID: senderID,
                 origin: origin,
+                destination: destination,
                 completion: completion
             )
         case let .signPayload(content):
@@ -50,6 +52,7 @@ public enum BlockchainV3TezosResponse: BlockchainV3BeaconResponseContentDataProt
                 version: version,
                 senderID: senderID,
                 origin: origin,
+                destination: destination,
                 completion: completion
             )
         case let .broadcast(content):
@@ -58,6 +61,7 @@ public enum BlockchainV3TezosResponse: BlockchainV3BeaconResponseContentDataProt
                 version: version,
                 senderID: senderID,
                 origin: origin,
+                destination: destination,
                 completion: completion
             )
         }

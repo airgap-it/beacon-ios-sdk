@@ -44,17 +44,7 @@ extension Transport.P2P.Matrix {
         
         public func create(with dependencyRegistry: DependencyRegistry) throws -> P2PClient {
             let extendedDependencyRegistry = extendedDependencyRegistry(from: dependencyRegistry)
-            
-            if extendedDependencyRegistry.storageManager.p2pMatrixPlugin == nil {
-                extendedDependencyRegistry.storageManager.addPlugins([storagePlugin.extend()])
-            }
-            
-            return Transport.P2P.Matrix(
-                matrixClient: try extendedDependencyRegistry.matrixClient(urlSession: urlSession),
-                store: try extendedDependencyRegistry.p2pMatrixStore(urlSession: urlSession, matrixNodes: matrixNodes),
-                security: try extendedDependencyRegistry.p2pMatrixSecurity(),
-                communicator: try extendedDependencyRegistry.p2pMatrixCommunicator()
-            )
+            return try extendedDependencyRegistry.p2pMatrix(storagePlugin: storagePlugin, matrixNodes: matrixNodes, urlSession: urlSession)
         }
     }
 }

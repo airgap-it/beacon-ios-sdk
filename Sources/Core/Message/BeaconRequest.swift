@@ -30,7 +30,8 @@ public enum BeaconRequest<B: Blockchain>: BeaconRequestProtocol, Equatable {
     public var id: String { common.id }
     public var version: String { common.version }
     public var senderID: String { common.senderID }
-    public var origin: Beacon.Origin { common.origin }
+    public var origin: Beacon.Connection.ID { common.origin }
+    public var destination: Beacon.Connection.ID { common.destination }
     
     private var common: BeaconRequestProtocol {
         switch self {
@@ -46,7 +47,7 @@ public enum BeaconRequest<B: Blockchain>: BeaconRequestProtocol, Equatable {
 
 public protocol BeaconRequestProtocol: BeaconMessageProtocol {
     var senderID: String { get }
-    var origin: Beacon.Origin { get }
+    var origin: Beacon.Connection.ID { get }
 }
 
 public protocol PermissionBeaconRequestProtocol: BeaconRequestProtocol {

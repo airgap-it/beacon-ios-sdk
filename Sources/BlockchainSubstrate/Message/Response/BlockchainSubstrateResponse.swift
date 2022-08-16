@@ -34,7 +34,7 @@ public enum BlockchainSubstrateResponse: BlockchainBeaconResponseProtocol, Equat
     public var version: String { common.version }
     
     /// The origination data of the request.
-    public var requestOrigin: Beacon.Origin { common.requestOrigin }
+    public var destination: Beacon.Connection.ID { common.destination }
     
     private var common: BlockchainBeaconResponseProtocol {
         switch self {

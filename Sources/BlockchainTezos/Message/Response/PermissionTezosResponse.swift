@@ -18,8 +18,8 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Identif
     /// The version of the message.
     public let version: String
     
-    /// The origination data of the request.
-    public let requestOrigin: Beacon.Origin
+    /// The destination data of the response.
+    public let destination: Beacon.Connection.ID
     
     /// The account that is granting the permissions.
     public let account: Tezos.Account
@@ -37,7 +37,7 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Identif
         self.init(
             id: request.id,
             version: request.version,
-            requestOrigin: request.origin,
+            destination: request.origin,
             account: account,
             scopes: scopes
         )
@@ -46,13 +46,13 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Identif
     public init(
         id: String,
         version: String,
-        requestOrigin: Beacon.Origin,
+        destination: Beacon.Connection.ID,
         account: Tezos.Account,
         scopes: [Tezos.Permission.Scope]
     ) {
         self.id = id
         self.version = version
-        self.requestOrigin = requestOrigin
+        self.destination = destination
         self.account = account
         self.scopes = scopes
     }

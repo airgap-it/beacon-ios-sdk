@@ -18,8 +18,8 @@ public struct SignPayloadTezosResponse: BlockchainBeaconResponseProtocol, Identi
     /// The version of the message.
     public let version: String
     
-    /// The origination data of the request.
-    public let requestOrigin: Beacon.Origin
+    /// The destination data of this response.
+    public let destination: Beacon.Connection.ID
     
     /// The signature type.
     public let signingType: Tezos.SigningType
@@ -31,16 +31,16 @@ public struct SignPayloadTezosResponse: BlockchainBeaconResponseProtocol, Identi
         self.init(
             id: request.id,
             version: request.version,
-            requestOrigin: request.origin,
+            destination: request.origin,
             signingType: request.signingType,
             signature: signature
         )
     }
     
-    public init(id: String, version: String, requestOrigin: Beacon.Origin, signingType: Tezos.SigningType, signature: String) {
+    public init(id: String, version: String, destination: Beacon.Connection.ID, signingType: Tezos.SigningType, signature: String) {
         self.id = id
         self.version = version
-        self.requestOrigin = requestOrigin
+        self.destination = destination
         self.signingType = signingType
         self.signature = signature
     }

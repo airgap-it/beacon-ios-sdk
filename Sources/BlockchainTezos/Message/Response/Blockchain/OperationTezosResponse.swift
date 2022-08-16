@@ -19,19 +19,19 @@ public struct OperationTezosResponse: BlockchainBeaconResponseProtocol, Identifi
     public let version: String
     
     /// The origination data of the request.
-    public let requestOrigin: Beacon.Origin
+    public let destination: Beacon.Connection.ID
     
     /// The hash of the broadcast operations.
     public let transactionHash: String
     
     public init(from request: OperationTezosRequest, transactionHash: String) {
-        self.init(id: request.id, version: request.version, requestOrigin: request.origin, transactionHash: transactionHash)
+        self.init(id: request.id, version: request.version, destination: request.origin, transactionHash: transactionHash)
     }
     
-    public init(id: String, version: String, requestOrigin: Beacon.Origin, transactionHash: String) {
+    public init(id: String, version: String, destination: Beacon.Connection.ID, transactionHash: String) {
         self.id = id
         self.version = version
-        self.requestOrigin = requestOrigin
+        self.destination = destination
         self.transactionHash = transactionHash
     }
 }

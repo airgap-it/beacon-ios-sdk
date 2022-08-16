@@ -43,7 +43,8 @@ public struct BlockchainV3BeaconResponseContent<Data: BlockchainV3BeaconResponse
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<Data.BlockchainType>, Swift.Error>) -> ()
     ) {
         blockchainData.toBeaconMessage(
@@ -51,6 +52,7 @@ public struct BlockchainV3BeaconResponseContent<Data: BlockchainV3BeaconResponse
             version: version,
             senderID: senderID,
             origin: origin,
+            destination: destination,
             completion: completion
         )
     }
@@ -100,7 +102,8 @@ public protocol BlockchainV3BeaconResponseContentDataProtocol: Codable, Equatabl
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<BlockchainType>, Error>) -> ()
     )
 }

@@ -46,6 +46,15 @@ extension Transport.P2P.Matrix {
             try crypto.encrypt(message: pairingPayload, withPublicKey: publicKey)
         }
         
+        func decryptPairingPayload(_ pairingPayload: [UInt8]) throws -> String {
+            let utf8Bytes = try crypto.decrypt(message: pairingPayload, withPublicKey: app.keyPair.publicKey, andSecretKey: app.keyPair.secretKey)
+            guard let payload = String(bytes: utf8Bytes, encoding: .utf8) else {
+                throw Beacon.Error.unknown("Failed to decode pairing payload string while decrypting.")
+            }
+            
+            return payload
+        }
+        
         func encrypt(message: String, with publicKey: [UInt8]) throws -> [UInt8] {
             let keyPair = try getOrCreateClientSessionKeyPair(for: publicKey)
             

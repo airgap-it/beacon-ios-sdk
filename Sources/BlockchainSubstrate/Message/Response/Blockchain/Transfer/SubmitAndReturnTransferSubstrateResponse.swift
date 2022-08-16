@@ -15,8 +15,8 @@ public struct SubmitAndReturnTransferSubstrateResponse: BlockchainBeaconResponse
     /// The version of the message.
     public let version: String
     
-    /// The origination data of the request.
-    public let requestOrigin: Beacon.Origin
+    /// The destination data of the response.
+    public let destination: Beacon.Connection.ID
     
     public let transactionHash: String
     
@@ -32,17 +32,17 @@ public struct SubmitAndReturnTransferSubstrateResponse: BlockchainBeaconResponse
         self.init(
             id: request.id,
             version: request.version,
-            requestOrigin: request.origin,
+            destination: request.origin,
             transactionHash: transactionHash,
             signature: signature,
             payload: payload
         )
     }
     
-    public init(id: String, version: String, requestOrigin: Beacon.Origin, transactionHash: String, signature: String, payload: String? = nil) {
+    public init(id: String, version: String, destination: Beacon.Connection.ID, transactionHash: String, signature: String, payload: String? = nil) {
         self.id = id
         self.version = version
-        self.requestOrigin = requestOrigin
+        self.destination = destination
         self.transactionHash = transactionHash
         self.signature = signature
         self.payload = payload

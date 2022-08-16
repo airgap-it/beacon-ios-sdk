@@ -30,7 +30,8 @@ public enum BlockchainV3TezosRequest: BlockchainV3BeaconRequestContentDataProtoc
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         accountID: String,
         completion: @escaping (Result<BeaconMessage<Tezos>, Error>) -> ()
     ) {
@@ -41,6 +42,7 @@ public enum BlockchainV3TezosRequest: BlockchainV3BeaconRequestContentDataProtoc
                 version: version,
                 senderID: senderID,
                 origin: origin,
+                destination: destination,
                 accountID: accountID,
                 completion: completion
             )
@@ -50,6 +52,7 @@ public enum BlockchainV3TezosRequest: BlockchainV3BeaconRequestContentDataProtoc
                 version: version,
                 senderID: senderID,
                 origin: origin,
+                destination: destination,
                 accountID: accountID,
                 completion: completion
             )
@@ -59,6 +62,7 @@ public enum BlockchainV3TezosRequest: BlockchainV3BeaconRequestContentDataProtoc
                 version: version,
                 senderID: senderID,
                 origin: origin,
+                destination: destination,
                 accountID: accountID,
                 completion: completion
             )

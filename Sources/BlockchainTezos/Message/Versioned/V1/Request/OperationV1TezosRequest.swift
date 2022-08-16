@@ -68,7 +68,8 @@ public struct OperationV1TezosRequest: V1BeaconMessageProtocol {
     }
     
     public func toBeaconMessage(
-        with origin: Beacon.Origin,
+        withOrigin origin: Beacon.Connection.ID,
+        andDestination destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<Tezos>, Swift.Error>) -> ()
     ) {
         runCatching(completion: completion) {
@@ -82,6 +83,7 @@ public struct OperationV1TezosRequest: V1BeaconMessageProtocol {
                                         version: version,
                                         senderID: beaconID,
                                         origin: origin,
+                                        destination: destination,
                                         accountID: nil,
                                         appMetadata: appMetadata,
                                         network: network,

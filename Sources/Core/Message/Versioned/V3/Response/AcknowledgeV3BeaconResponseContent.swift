@@ -38,10 +38,11 @@ public struct AcknowledgeV3BeaconResponseContent<BlockchainType: Blockchain>: V3
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<BlockchainType>, Error>) -> ()
     ) {
-        let message = AcknowledgeBeaconResponse(id: id, version: version, requestOrigin: origin)
+        let message = AcknowledgeBeaconResponse(id: id, version: version, destination: destination)
         completion(.success(.response(.acknowledge(message))))
     }
     

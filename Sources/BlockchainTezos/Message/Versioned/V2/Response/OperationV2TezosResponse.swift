@@ -50,7 +50,8 @@ public struct OperationV2TezosResponse: V2BeaconMessageProtocol {
     }
     
     public func toBeaconMessage(
-        with origin: Beacon.Origin,
+        withOrigin origin: Beacon.Connection.ID,
+        andDestination destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<Tezos>, Swift.Error>) -> ()
     ) {
         completion(.success(.response(
@@ -59,7 +60,7 @@ public struct OperationV2TezosResponse: V2BeaconMessageProtocol {
                     .init(
                         id: id,
                         version: version,
-                        requestOrigin: origin,
+                        destination: destination,
                         transactionHash: transactionHash
                     )
                 )

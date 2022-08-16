@@ -91,8 +91,8 @@ class ResultAdditionsTests: XCTestCase {
         let success: Result<String, Error> = .success(value)
         let failure: Result<String, Error> = .failure(Error.unknown)
         
-        let successResult = success.get(ifFailure: { (_: Result<(), Beacon.Error>) in successCompletionCalled = true })
-        let failureResult = failure.get(ifFailure: { (_: Result<(), Beacon.Error>) in failureCompletionCalled = true })
+        let successResult = success.get(ifFailureWithBeaconError: { (_: Result<(), Beacon.Error>) in successCompletionCalled = true })
+        let failureResult = failure.get(ifFailureWithBeaconError: { (_: Result<(), Beacon.Error>) in failureCompletionCalled = true })
         
         XCTAssertEqual(value, successResult, "Expected a success result to return the specified value")
         XCTAssertFalse(successCompletionCalled, "Expected the success completion not to be called")

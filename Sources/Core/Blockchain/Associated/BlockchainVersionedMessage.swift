@@ -74,13 +74,13 @@ struct AnyBlockchainV1Message: BlockchainV1Message {
         self.type = _type.rawValue
     }
     
-    func toBeaconMessage(with origin: Beacon.Origin, completion: @escaping (Result<BeaconMessage<AnyBlockchain>, Error>) -> ()) {
+    func toBeaconMessage(withOrigin origin: Beacon.Connection.ID, andDestination destination: Beacon.Connection.ID, completion: @escaping (Result<BeaconMessage<AnyBlockchain>, Error>) -> ()) {
         runCatching(completion: completion) {
             switch _type {
             case .request:
-                completion(.success(.request(.blockchain(.init(id: id, version: version, senderID: beaconID, origin: origin, accountID: nil)))))
+                completion(.success(.request(.blockchain(.init(id: id, version: version, senderID: beaconID, origin: origin, destination: destination, accountID: nil)))))
             case .response:
-                completion(.success(.response(.blockchain(.init(id: id, version: version, requestOrigin: origin)))))
+                completion(.success(.response(.blockchain(.init(id: id, version: version, destination: destination)))))
             case .unknown:
                 throw Beacon.Error.unknownBeaconMessage
             }
@@ -136,13 +136,13 @@ struct AnyBlockchainV2Message: BlockchainV2Message {
         self.type = _type.rawValue
     }
     
-    func toBeaconMessage(with origin: Beacon.Origin, completion: @escaping (Result<BeaconMessage<AnyBlockchain>, Error>) -> ()) {
+    func toBeaconMessage(withOrigin origin: Beacon.Connection.ID, andDestination destination: Beacon.Connection.ID, completion: @escaping (Result<BeaconMessage<AnyBlockchain>, Error>) -> ()) {
         runCatching(completion: completion) {
             switch _type {
             case .request:
-                completion(.success(.request(.blockchain(.init(id: id, version: version, senderID: senderID, origin: origin, accountID: nil)))))
+                completion(.success(.request(.blockchain(.init(id: id, version: version, senderID: senderID, origin: origin, destination: destination, accountID: nil)))))
             case .response:
-                completion(.success(.response(.blockchain(.init(id: id, version: version, requestOrigin: origin)))))
+                completion(.success(.response(.blockchain(.init(id: id, version: version, destination: destination)))))
             case .unknown:
                 throw Beacon.Error.unknownBeaconMessage
             }
@@ -179,7 +179,8 @@ enum AnyBlockchainV3Message: BlockchainV3Message {
             id: String,
             version: String,
             senderID: String,
-            origin: Beacon.Origin,
+            origin: Beacon.Connection.ID,
+            destination: Beacon.Connection.ID,
             completion: @escaping (Result<BeaconMessage<AnyBlockchain>, Error>) -> ()
         ) {
             completion(.success(.request(
@@ -189,7 +190,8 @@ enum AnyBlockchainV3Message: BlockchainV3Message {
                         version: version,
                         senderID: senderID,
                         appMetadata: appMetadata,
-                        origin: origin
+                        origin: origin,
+                        destination: destination
                     )
                 )
             )))
@@ -205,13 +207,14 @@ enum AnyBlockchainV3Message: BlockchainV3Message {
             id: String,
             version: String,
             senderID: String,
-            origin: Beacon.Origin,
+            origin: Beacon.Connection.ID,
+            destination: Beacon.Connection.ID,
             accountID: String,
             completion: @escaping (Result<BeaconMessage<AnyBlockchain>, Error>) -> ()
         ) {
             completion(.success(.request(
                 .blockchain(
-                    .init(id: id, version: version, senderID: senderID, origin: origin, accountID: accountID)
+                    .init(id: id, version: version, senderID: senderID, origin: origin, destination: destination, accountID: accountID)
                 )
             )))
         }
@@ -226,12 +229,13 @@ enum AnyBlockchainV3Message: BlockchainV3Message {
             id: String,
             version: String,
             senderID: String,
-            origin: Beacon.Origin,
+            origin: Beacon.Connection.ID,
+            destination: Beacon.Connection.ID,
             completion: @escaping (Result<BeaconMessage<AnyBlockchain>, Error>) -> ()
         ) {
             completion(.success(.response(
                 .permission(
-                    .init(id: id, version: version, requestOrigin: origin)
+                    .init(id: id, version: version, destination: destination)
                 )
             )))
         }
@@ -246,12 +250,13 @@ enum AnyBlockchainV3Message: BlockchainV3Message {
             id: String,
             version: String,
             senderID: String,
-            origin: Beacon.Origin,
+            origin: Beacon.Connection.ID,
+            destination: Beacon.Connection.ID,
             completion: @escaping (Result<BeaconMessage<AnyBlockchain>, Error>) -> ()
         ) {
             completion(.success(.response(
                 .blockchain(
-                    .init(id: id, version: version, requestOrigin: origin)
+                    .init(id: id, version: version, destination: destination)
                 )
             )))
         }

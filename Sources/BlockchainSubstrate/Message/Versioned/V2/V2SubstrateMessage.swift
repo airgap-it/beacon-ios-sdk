@@ -17,7 +17,11 @@ public struct V2SubstrateMessage: BlockchainV2Message {
         throw Beacon.Error.messageVersionNotSupported(version: "2", blockchainIdentifier: Substrate.identifier)
     }
     
-    public func toBeaconMessage(with origin: Beacon.Origin, completion: @escaping (Result<BeaconMessage<Substrate>, Error>) -> ()) {
+    public func toBeaconMessage(
+        withOrigin origin: Beacon.Connection.ID,
+        andDestination destination: Beacon.Connection.ID,
+        completion: @escaping (Result<BeaconMessage<Substrate>, Error>) -> ()
+    ) {
         completion(.failure(Beacon.Error.messageVersionNotSupported(version: "2", blockchainIdentifier: Substrate.identifier)))
     }
 }

@@ -35,7 +35,7 @@ public extension Transport {
                 client.start { [weak self] result in
                     guard result.isSuccess(else: completion) else { return }
                     guard let selfStrong = self else {
-                        completion(.failure(Beacon.Error.unknown))
+                        completion(.failure(Beacon.Error.unknown()))
                         return
                     }
                     
@@ -59,8 +59,12 @@ public extension Transport {
                 let p2pPeers: [Beacon.P2PPeer] = peers.filterP2P()
 
                 p2pPeers.forEachAsync(
-                    body: {
-                        self.client.sendPairingResponse(to: $0, completion: $1)
+                    body: { (peer: Beacon.P2PPeer, innerCompletion: @escaping (Result<(), Swift.Error>) -> ()) -> () in
+                        if !peer.isPaired {
+                            self.client.sendPairingResponse(to: peer, completion: innerCompletion)
+                        } else {
+                            innerCompletion(.success(()))
+                        }
                     }
                 ) { results in
                     guard results.allSatisfy({ $0.isSuccess }) else {
@@ -91,8 +95,46 @@ public extension Transport {
                 }
             }
             
-            func send(_ message: SerializedConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
-                storageManager.findPeers(where: { $0.publicKey == message.origin.id }) { result in
+            func supportsPairing(for pairingRequest: BeaconPairingRequest) -> Bool {
+                if case .p2p = pairingRequest {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            
+            func pair() {
+                client.createPairingRequest { result in
+                    self.owner?.notify(with: result.map({ .request(.p2p($0)) }))
+                    guard let pairingRequest = try? result.get() else { return }
+                    
+                    self.client.listenForPairingResponse(withID: pairingRequest.id) { [weak self] pairingResponseResult in
+                        do {
+                            let pairingResponse = try pairingResponseResult.get()
+                            self?.addAndConnectPeer(from: .response(pairingResponse)) { result in
+                                self?.owner?.notify(with: result.map({ .response(.p2p(pairingResponse)) }))
+                            }
+                        } catch {
+                            self?.owner?.notify(with: Result<BeaconPairingMessage, Swift.Error>.failure(error))
+                        }
+                    }
+                }
+            }
+            
+            func pair(with pairingRequest: BeaconPairingRequest, completion: @escaping (Result<BeaconPairingResponse, Swift.Error>) -> ()) {
+                switch pairingRequest {
+                case .p2p(let p2pPairingRequest):
+                    client.createPairingResponse(from: p2pPairingRequest) { responseResult in
+                        self.addAndConnectPeer(from: .request(p2pPairingRequest)) { addResult in
+                            guard addResult.isSuccess(else: completion) else { return }
+                            completion(responseResult.map({ .p2p($0) }))
+                        }
+                    }
+                }
+            }
+            
+            func send(_ message: SerializedOutgoingConnectionMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+                storageManager.findPeers(where: { $0.publicKey == message.destination.id }) { result in
                     guard let found = result.get(ifFailure: completion) else { return }
                     guard let peer = found else {
                         completion(.failure(Error.unknownRecipient))
@@ -101,7 +143,7 @@ public extension Transport {
                     
                     switch peer {
                     case let .p2p(p2pPeer):
-                        switch message.origin.kind {
+                        switch message.destination.kind {
                         case .p2p:
                             self.send(message.content, to: p2pPeer, completion: completion)
                         }
@@ -128,8 +170,8 @@ public extension Transport {
             
             private func listen(to peer: Beacon.P2PPeer) throws {
                 try client.listen(to: peer) { [weak self] result in
-                    let message: Result<SerializedConnectionMessage, Swift.Error> = result.map {
-                        SerializedConnectionMessage(origin: .p2p(id: peer.publicKey), content: $0)
+                    let message: Result<SerializedIncomingConnectionMessage, Swift.Error> = result.map {
+                        SerializedIncomingConnectionMessage(origin: .p2p(id: peer.publicKey), content: $0)
                         
                     }
                     self?.owner?.notify(with: message)
@@ -138,6 +180,18 @@ public extension Transport {
             
             private func send(_ message: String, to recipient: Beacon.P2PPeer, completion: @escaping (Result<(), Swift.Error>) -> ()) {
                 self.client.send(message: message, to: recipient, completion: completion)
+            }
+            
+            private func addAndConnectPeer(from message: Transport.P2P.PairingMessage, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+                let peer = message.toPeer()
+                switch peer {
+                case let .p2p(p2pPeer):
+                    storageManager.add([.p2p(p2pPeer)], overwrite: true) { addResult in
+                        guard addResult.isSuccess(else: completion) else { return }
+                        
+                        self.owner?.connect(new: [.p2p(p2pPeer)], completion: completion)
+                    }
+                }
             }
         }
         

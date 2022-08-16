@@ -54,24 +54,25 @@ public extension V3BeaconMessage {
             id: String,
             version: String,
             senderID: String,
-            origin: Beacon.Origin,
+            origin: Beacon.Connection.ID,
+            destination: Beacon.Connection.ID,
             completion: @escaping (Result<BeaconMessage<BlockchainType>, Error>) -> ()
         ) {
             switch self {
             case let .permissionRequest(content):
-                content.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, completion: completion)
+                content.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, destination: destination, completion: completion)
             case let .blockchainRequest(content):
-                content.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, completion: completion)
+                content.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, destination: destination, completion: completion)
             case let .permissionResponse(content):
-                content.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, completion: completion)
+                content.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, destination: destination, completion: completion)
             case let .blockchainResponse(content):
-                content.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, completion: completion)
+                content.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, destination: destination, completion: completion)
             case let .acknowledgeResponse(content):
-                content.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, completion: completion)
+                content.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, destination: destination, completion: completion)
             case let .errorResponse(content):
-                content.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, completion: completion)
+                content.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, destination: destination, completion: completion)
             case let .disconnectMessage(content):
-                content.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, completion: completion)
+                content.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, destination: destination, completion: completion)
             }
         }
         
@@ -158,7 +159,8 @@ public protocol V3BeaconMessageContentProtocol: Equatable, Codable {
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<BlockchainType>, Error>) -> ()
     )
 }

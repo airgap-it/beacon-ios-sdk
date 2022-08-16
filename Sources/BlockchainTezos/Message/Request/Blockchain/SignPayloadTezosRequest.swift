@@ -25,7 +25,10 @@ public struct SignPayloadTezosRequest: BlockchainBeaconRequestProtocol, Identifi
     public let appMetadata: Tezos.AppMetadata?
     
     /// The origination data of this request.
-    public let origin: Beacon.Origin
+    public let origin: Beacon.Connection.ID
+    
+    /// The destination data of this request.
+    public let destination: Beacon.Connection.ID
     
     /// THe account identifier of the account that is requested to handle this request. May be `nil`.
     public let accountID: String?
@@ -38,26 +41,4 @@ public struct SignPayloadTezosRequest: BlockchainBeaconRequestProtocol, Identifi
     
     /// The address of the account with which the payload should be signed.
     public let sourceAddress: String
-    
-    init(
-        id: String,
-        version: String,
-        senderID: String,
-        appMetadata: Tezos.AppMetadata?,
-        origin: Beacon.Origin,
-        accountID: String?,
-        signingType: Tezos.SigningType,
-        payload: String,
-        sourceAddress: String
-    ) {
-        self.id = id
-        self.version = version
-        self.senderID = senderID
-        self.appMetadata = appMetadata
-        self.origin = origin
-        self.accountID = accountID
-        self.signingType = signingType
-        self.payload = payload
-        self.sourceAddress = sourceAddress
-    }
 }

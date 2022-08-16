@@ -38,10 +38,11 @@ public struct V3BeaconMessage<BlockchainType: Blockchain>: V3BeaconMessageProtoc
     
     
     public func toBeaconMessage(
-        with origin: Beacon.Origin,
+        withOrigin origin: Beacon.Connection.ID,
+        andDestination destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<BlockchainType>, Error>) -> ()
     ) {
-        message.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, completion: completion)
+        message.toBeaconMessage(id: id, version: version, senderID: senderID, origin: origin, destination: destination, completion: completion)
     }
     
     // MARK: Types

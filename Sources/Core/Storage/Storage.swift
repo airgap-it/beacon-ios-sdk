@@ -43,7 +43,11 @@ public protocol Storage {
 // MARK: Extensions
 
 extension Storage {
-    func extend() -> ExtendedStorage {
-        DecoratedStorage(storage: self)
+    public func extend() -> ExtendedStorage {
+        if let extended = self as? ExtendedStorage {
+            return extended
+        } else {
+            return DecoratedStorage(storage: self)
+        }
     }
 }

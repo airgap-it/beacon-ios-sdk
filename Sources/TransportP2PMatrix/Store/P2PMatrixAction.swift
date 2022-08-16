@@ -14,6 +14,7 @@ extension Transport.P2P.Matrix.Store {
         case onChannelCreated(recipient: String, channelID: String)
         case onChannelEvent(sender: String, channelID: String)
         case onChannelClosed(channelID: String)
+        
         case hardReset
     }
 }

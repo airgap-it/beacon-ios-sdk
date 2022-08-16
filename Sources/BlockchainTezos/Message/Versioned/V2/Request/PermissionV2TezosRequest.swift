@@ -63,7 +63,8 @@ public struct PermissionV2TezosRequest: V2BeaconMessageProtocol {
     }
     
     public func toBeaconMessage(
-        with origin: Beacon.Origin,
+        withOrigin origin: Beacon.Connection.ID,
+        andDestination destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<Tezos>, Swift.Error>) -> ()
     ) {
         completion(.success(.request(
@@ -73,6 +74,7 @@ public struct PermissionV2TezosRequest: V2BeaconMessageProtocol {
                     version: version,
                     senderID: senderID,
                     origin: origin,
+                    destination: destination,
                     appMetadata: appMetadata.toAppMetadata(),
                     network: network,
                     scopes: scopes

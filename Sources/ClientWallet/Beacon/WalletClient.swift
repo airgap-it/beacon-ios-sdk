@@ -11,7 +11,7 @@ import BeaconCore
 extension Beacon {
     
     /// Asynchronous client that comunicates with dApps.
-    public class WalletClient: Client {
+    public class WalletClient: Client, BeaconConsumer {
         
         // MARK: Initialization
         
@@ -34,22 +34,32 @@ extension Beacon {
                 storage: storage,
                 secureStorage: secureStorage
             ) { result in
-                guard let beacon = result.get(ifFailure: completion) else { return }
+                guard let beacon = result.get(ifFailureWithBeaconError: completion) else { return }
+                let extendedDependencyRegistry = beacon.dependencyRegistry.extend()
                 
                 do {
-                    let client = WalletClient(
-                        name: beacon.app.name,
-                        beaconID: beacon.beaconID,
-                        storageManager: beacon.dependencyRegistry.storageManager,
-                        connectionController: try beacon.dependencyRegistry.connectionController(configuredWith: configuration.connections),
-                        messageController: beacon.dependencyRegistry.messageController,
-                        crypto: beacon.dependencyRegistry.crypto
-                    )
-                    
+                    let client = try extendedDependencyRegistry.walletClient(connections: configuration.connections)
                     completion(.success(client))
                 } catch {
                     completion(.failure(Error(error)))
                 }
+            }
+        }
+        
+        // MARK: Pairing
+        
+        public func pair(with pairingRequest: BeaconPairingRequest, completion: @escaping (Result<BeaconPairingResponse, Error>) -> ()) {
+            connectionController.pair(with: pairingRequest) { result in
+                completion(result.withBeaconError())
+            }
+        }
+        
+        public func pair(with pairingRequest: String, completion: @escaping (Result<BeaconPairingResponse, Error>) -> ()) {
+            do {
+                let pairingRequest = try deserializePairingData(pairingRequest, ofType: BeaconPairingRequest.self)
+                pair(with: pairingRequest, completion: completion)
+            } catch {
+                completion(.failure(Error(error)))
             }
         }
         
@@ -62,16 +72,22 @@ extension Beacon {
         /// - Parameter result: A result representing the incoming request, either `BeaconRequest<T>` or `Beacon.Error` if message processing failed.
         ///
         public func listen<B: Blockchain>(onRequest listener: @escaping (_ result: Result<BeaconRequest<B>, Error>) -> ()) {
-            connectionController.listen { [weak self] (result: Result<BeaconConnectionMessage<B>, Swift.Error>) in
-                guard let connectionMessage = result.get(ifFailure: listener) else { return }
-                self?.messageController.onIncoming(connectionMessage.content, with: connectionMessage.origin) { (result: Result<BeaconMessage<B>, Swift.Error>) in
-                    guard let beaconMessage = result.get(ifFailure: listener) else { return }
+            connectionController.listen { [weak self] (result: Result<BeaconIncomingConnectionMessage<B>, Swift.Error>) in
+                guard let connectionMessage = result.get(ifFailureWithBeaconError: listener) else { return }
+                guard let selfStrong = self else { return }
+                
+                selfStrong.messageController.onIncoming(
+                    connectionMessage.content,
+                    withOrigin: connectionMessage.origin,
+                    andDestination: selfStrong.ownOrigin(from: connectionMessage.origin)
+                ) { (result: Result<BeaconMessage<B>, Swift.Error>) in
+                    guard let beaconMessage = result.get(ifFailureWithBeaconError: listener) else { return }
                     switch beaconMessage {
                     case let .request(request):
                         listener(.success(request))
-                        self?.acknowledge(request) { _ in }
+                        selfStrong.acknowledge(request) { _ in }
                     case let .disconnect(disconnect):
-                        self?.removePeer(withPublicKey: disconnect.origin.id) { _ in }
+                        selfStrong.removePeer(withPublicKey: disconnect.origin.id) { _ in }
                     default:
                         /* ignore other messages */
                         break
@@ -164,94 +180,6 @@ extension Beacon {
         ///
         public func removeAllMetadata(completion: @escaping (_ result: Result<(), Error>) -> ()) {
             storageManager.removeAllAppMetadata { result in
-                completion(result.withBeaconError())
-            }
-        }
-        
-        ///
-        /// Returns an array of granted permissions.
-        ///
-        /// - Parameter completion: The closure called when the call completes.
-        /// - Parameter result: A result representing an array of stored `Permission` instances or `Beacon.Error` if the call failed.
-        ///
-        public func getPermissions<T: PermissionProtocol>(completion: @escaping (_ result: Result<[T], Error>) -> ()) {
-            storageManager.getPermissions { result in
-                completion(result.withBeaconError())
-            }
-        }
-        
-        ///
-        /// Returns permissions that have been granted for the specified `accountIdentifier`.
-        ///
-        /// - Parameter completion: The closure called when the call completes.
-        /// - Parameter result: A result representing the found `Permission` or `nil`, or `Beacon.Error` if the call failed..
-        ///
-        public func getPermissions<T: PermissionProtocol>(forAccountIdentifier accountIdentifier: String, completion: @escaping (_ result: Result<T?, Error>) -> ()) {
-            storageManager.findPermissions(where: { $0.accountID == accountIdentifier }) { result in
-                completion(result.withBeaconError())
-            }
-        }
-        
-        ///
-        /// Removes permissions that have been granted for the specified `accountIdentifier`.
-        ///
-        /// - Parameter completion: The closure called when the call completes.
-        /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
-        ///
-        public func removePermissions<T: PermissionProtocol>(
-            ofType type: T.Type,
-            forAccountIdentifier accountIdentifier: String,
-            completion: @escaping (_ result: Result<(), Error>) -> ()
-        ) {
-            storageManager.removePermissions(where: { (permission: T) in permission.accountID == accountIdentifier }) { result in
-                completion(result.withBeaconError())
-            }
-        }
-        
-        ///
-        /// Removes permissions that have been granted for the specified `accountIdentifier`.
-        ///
-        /// - Parameter completion: The closure called when the call completes.
-        /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
-        ///
-        public func removePermissions(forAccountIdentifier accountIdentifier: String, completion: @escaping (_ result: Result<(), Error>) -> ()) {
-            storageManager.removeAllPermissions(where: { $0.accountID == accountIdentifier }) { result in
-                completion(result.withBeaconError())
-            }
-        }
-        
-        ///
-        /// Removes the specified permissions.
-        ///
-        /// - Parameter completion: The closure called when the call completes.
-        /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
-        ///
-        public func remove<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (_ result: Result<(), Error>) -> ()) {
-            storageManager.remove(permissions) { result in
-                completion(result.withBeaconError())
-            }
-        }
-        
-        ///
-        /// Removes all granted permissions.
-        ///
-        /// - Parameter completion: The closure called when the call completes.
-        /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
-        ///
-        public func removeAllPermissions<T: PermissionProtocol>(ofType type: T.Type, completion: @escaping (_ result: Result<(), Error>) -> ()) {
-            storageManager.removePermissions(ofType: type) { result in
-                completion(result.withBeaconError())
-            }
-        }
-        
-        ///
-        /// Removes all granted permissions.
-        ///
-        /// - Parameter completion: The closure called when the call completes.
-        /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
-        ///
-        public func removeAllPermissions(completion: @escaping (_ result: Result<(), Error>) -> ()) {
-            storageManager.removeAllPermissions { result in
                 completion(result.withBeaconError())
             }
         }

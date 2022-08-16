@@ -15,6 +15,13 @@ class SubstrateDependencyRegistry: ExtendedDependencyRegistry {
         self.dependencyRegistry = dependencyRegistry
     }
     
+    // MARK: Blockchain
+    
+    var substrate: Substrate { weakSubstrate.value }
+    private lazy var weakSubstrate: LazyWeakReference<Substrate> = LazyWeakReference { [unowned self] in
+        Substrate(creator: substrateCreator, storageExtension: substrateStorageExtension)
+    }
+    
     // MARK: Creator
     
     var substrateCreator: Substrate.Creator { weakSubstrateCreator.value }

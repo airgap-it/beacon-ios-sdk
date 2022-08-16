@@ -18,7 +18,8 @@ public extension Transport.P2P {
         private let communicator: Communicator
         
         private var eventListeners: [HexString: MatrixClient.EventListener] = [:]
-        private var internalListeners: [MatrixClient.EventListener] = []
+        private var pairingListeners: Set<MatrixClient.EventListener> = []
+        private var internalListeners: Set<MatrixClient.EventListener> = []
         
         private let joinQueue: DispatchQueue = .init(
             label: "it.airgap.beacon-sdk.Transport.P2P.Matrix.join",
@@ -84,7 +85,7 @@ public extension Transport.P2P {
                             }
                         }
                         
-                        self.internalListeners.append(inviteListener)
+                        self.internalListeners.update(with: inviteListener)
                         self.matrixClient.subscribe(for: .invite, with: inviteListener)
                         
                         completion(.success(()))
@@ -106,6 +107,7 @@ public extension Transport.P2P {
                 self.matrixClient.unsubscribeAll()
                 self.eventListeners.removeAll()
                 self.internalListeners.removeAll()
+                self.pairingListeners.removeAll()
                 completion(.success(()))
             }
         }
@@ -172,6 +174,60 @@ public extension Transport.P2P {
                 guard result.isSuccess(else: completion) else { return }
                 self.matrixClient.resetHard(completion: completion)
             }
+        }
+        
+        // MARK: Pairing
+        
+        public func createPairingRequest(completion: @escaping (Result<(Transport.P2P.PairingRequest), Swift.Error>) -> ()) {
+            store.state {
+                guard let state = $0.get(ifFailure: completion) else { return }
+                
+                runCatching(completion: completion) {
+                    let pairingRequest = try self.communicator.pairingRequest(relayServer: state.relayServer)
+                    
+                    completion(.success(pairingRequest))
+                }
+            }
+        }
+        
+        public func createPairingResponse(from request: Transport.P2P.PairingRequest, completion: @escaping (Result<(Transport.P2P.PairingResponse), Swift.Error>) -> ()) {
+            store.state {
+                guard let state = $0.get(ifFailure: completion) else { return }
+                
+                runCatching(completion: completion) {
+                    let pairingResponse = self.communicator.pairingResponse(from: request, relayServer: state.relayServer)
+                    
+                    completion(.success(pairingResponse))
+                }
+            }
+        }
+        
+        public func listenForPairingResponse(withID id: String, listener: @escaping (Result<Transport.P2P.PairingResponse, Swift.Error>) -> ()) {
+            let pairingMessageListener = MatrixClient.EventListener { [weak self] selfListener, event in
+                do {
+                    guard let selfStrong = self else { return }
+                    
+                    guard case let .textMessage(textMessage) = event else { return }
+                    guard selfStrong.communicator.recognizeChannelOpeningMessage(textMessage.message) else { return }
+                    
+                    let (_, encryptedPayload) = try selfStrong.communicator.destructChannelOpeningMessage(textMessage.message)
+                    let payload = try selfStrong.security.decryptPairingPayload(try HexString(from: encryptedPayload).asBytes())
+                    let pairingResponse = selfStrong.communicator.pairingResponse(fromPayload: payload)
+                    
+                    guard pairingResponse.id == id else { return }
+                    
+                    listener(.success(pairingResponse))
+                    
+                    selfStrong.pairingListeners.remove(selfListener)
+                    selfStrong.matrixClient.unsubscribe(selfListener)
+                    
+                } catch {
+                    listener(.failure(error))
+                }
+            }
+            
+            pairingListeners.update(with: pairingMessageListener)
+            matrixClient.subscribe(for: .textMessage, with: pairingMessageListener)
         }
         
         // MARK: Incoming Messages
@@ -271,7 +327,7 @@ public extension Transport.P2P {
                     let publicKey = try HexString(from: peer.publicKey).asBytes()
                     let recipient = try self.communicator.recipientIdentifier(for: publicKey, on: peer.relayServer)
                     let payload = try self.security.encryptPairingPayload(
-                        try self.communicator.pairingPayload(for: peer, relayServer: state.relayServer),
+                        try self.communicator.pairingResponsePayload(for: peer, relayServer: state.relayServer),
                         with: publicKey
                     )
                     let message = self.communicator.channelOpeningMessage(
@@ -487,11 +543,11 @@ private extension MatrixClient {
             return
         }
     
-        let joinEventListener = EventListener { [weak self] (listener, event) in
+        let joinEventListener = EventListener { [weak self] selfListener, event in
             switch event {
             case let .join(join):
                 if join.roomID == room.id && join.userID == member {
-                    self?.unsubscribe(listener)
+                    self?.unsubscribe(selfListener)
                     completion()
                 }
             default:
