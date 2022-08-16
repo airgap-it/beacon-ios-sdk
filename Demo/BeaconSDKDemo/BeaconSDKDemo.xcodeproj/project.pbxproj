@@ -13,12 +13,16 @@
 		49C97F8525ADB07F002F6366 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49C97F8425ADB07F002F6366 /* Preview Assets.xcassets */; };
 		49C97F9025ADB07F002F6366 /* BeaconSDKDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97F8F25ADB07F002F6366 /* BeaconSDKDemoTests.swift */; };
 		49C97F9B25ADB07F002F6366 /* BeaconSDKDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97F9A25ADB07F002F6366 /* BeaconSDKDemoUITests.swift */; };
-		49C97FAE25ADB0F8002F6366 /* BeaconViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C97FAC25ADB0F8002F6366 /* BeaconViewModel.swift */; };
+		A376970928A4F978004CCFFB /* DAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376970828A4F978004CCFFB /* DAppView.swift */; };
+		A376970C28A4F992004CCFFB /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376970B28A4F992004CCFFB /* WalletView.swift */; };
+		A376970F28A4F9B0004CCFFB /* WalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376970E28A4F9B0004CCFFB /* WalletViewModel.swift */; };
+		A376971428A51666004CCFFB /* DAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376971328A51666004CCFFB /* DAppViewModel.swift */; };
 		A3DD2BB127CCD65A0040FF1D /* BeaconBlockchainSubstrate in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB027CCD65A0040FF1D /* BeaconBlockchainSubstrate */; };
 		A3DD2BB327CCD65A0040FF1D /* BeaconBlockchainTezos in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB227CCD65A0040FF1D /* BeaconBlockchainTezos */; };
 		A3DD2BB527CCD65A0040FF1D /* BeaconClientWallet in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB427CCD65A0040FF1D /* BeaconClientWallet */; };
 		A3DD2BB727CCD65A0040FF1D /* BeaconCore in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB627CCD65A0040FF1D /* BeaconCore */; };
 		A3DD2BB927CCD65A0040FF1D /* BeaconTransportP2PMatrix in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB827CCD65A0040FF1D /* BeaconTransportP2PMatrix */; };
+		A3E6FB1C28A3DB1500F1B8B4 /* BeaconClientDApp in Frameworks */ = {isa = PBXBuildFile; productRef = A3E6FB1B28A3DB1500F1B8B4 /* BeaconClientDApp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,10 +54,13 @@
 		49C97F9625ADB07F002F6366 /* BeaconSDKDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeaconSDKDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C97F9A25ADB07F002F6366 /* BeaconSDKDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconSDKDemoUITests.swift; sourceTree = "<group>"; };
 		49C97F9C25ADB07F002F6366 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		49C97FAC25ADB0F8002F6366 /* BeaconViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconViewModel.swift; sourceTree = "<group>"; };
 		49C97FAD25ADB0F8002F6366 /* BeaconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconView.swift; sourceTree = "<group>"; };
 		88B042342683367400979229 /* beacon-ios-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "beacon-ios-sdk"; path = ../..; sourceTree = "<group>"; };
 		88BC03AC2705FD130095C508 /* beacon-ios-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "beacon-ios-sdk"; path = ../..; sourceTree = "<group>"; };
+		A376970828A4F978004CCFFB /* DAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAppView.swift; sourceTree = "<group>"; };
+		A376970B28A4F992004CCFFB /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
+		A376970E28A4F9B0004CCFFB /* WalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewModel.swift; sourceTree = "<group>"; };
+		A376971328A51666004CCFFB /* DAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAppViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +72,7 @@
 				A3DD2BB327CCD65A0040FF1D /* BeaconBlockchainTezos in Frameworks */,
 				A3DD2BB127CCD65A0040FF1D /* BeaconBlockchainSubstrate in Frameworks */,
 				A3DD2BB927CCD65A0040FF1D /* BeaconTransportP2PMatrix in Frameworks */,
+				A3E6FB1C28A3DB1500F1B8B4 /* BeaconClientDApp in Frameworks */,
 				A3DD2BB727CCD65A0040FF1D /* BeaconCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,6 +104,7 @@
 				49C97F9925ADB07F002F6366 /* BeaconSDKDemoUITests */,
 				49C97F7B25ADB07E002F6366 /* Products */,
 				EF339F87834EDDBD6064FFD8 /* Pods */,
+				A3E6FB1A28A3DB1500F1B8B4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -150,7 +159,8 @@
 		49C97FAB25ADB0F8002F6366 /* Beacon */ = {
 			isa = PBXGroup;
 			children = (
-				49C97FAC25ADB0F8002F6366 /* BeaconViewModel.swift */,
+				A376970A28A4F985004CCFFB /* Wallet */,
+				A376970728A4F95C004CCFFB /* DApp */,
 				49C97FAD25ADB0F8002F6366 /* BeaconView.swift */,
 			);
 			path = Beacon;
@@ -162,6 +172,31 @@
 				88BC03AC2705FD130095C508 /* beacon-ios-sdk */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		A376970728A4F95C004CCFFB /* DApp */ = {
+			isa = PBXGroup;
+			children = (
+				A376970828A4F978004CCFFB /* DAppView.swift */,
+				A376971328A51666004CCFFB /* DAppViewModel.swift */,
+			);
+			path = DApp;
+			sourceTree = "<group>";
+		};
+		A376970A28A4F985004CCFFB /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				A376970B28A4F992004CCFFB /* WalletView.swift */,
+				A376970E28A4F9B0004CCFFB /* WalletViewModel.swift */,
+			);
+			path = Wallet;
+			sourceTree = "<group>";
+		};
+		A3E6FB1A28A3DB1500F1B8B4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		EF339F87834EDDBD6064FFD8 /* Pods */ = {
@@ -193,6 +228,7 @@
 				A3DD2BB427CCD65A0040FF1D /* BeaconClientWallet */,
 				A3DD2BB627CCD65A0040FF1D /* BeaconCore */,
 				A3DD2BB827CCD65A0040FF1D /* BeaconTransportP2PMatrix */,
+				A3E6FB1B28A3DB1500F1B8B4 /* BeaconClientDApp */,
 			);
 			productName = BeaconSDKDemo;
 			productReference = 49C97F7A25ADB07E002F6366 /* BeaconSDKDemo.app */;
@@ -308,8 +344,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				49C8DCF226273A040019EBD4 /* BeaconView.swift in Sources */,
-				49C97FAE25ADB0F8002F6366 /* BeaconViewModel.swift in Sources */,
+				A376970928A4F978004CCFFB /* DAppView.swift in Sources */,
+				A376970F28A4F9B0004CCFFB /* WalletViewModel.swift in Sources */,
+				A376971428A51666004CCFFB /* DAppViewModel.swift in Sources */,
 				49C97F7E25ADB07E002F6366 /* BeaconSDKDemoApp.swift in Sources */,
+				A376970C28A4F992004CCFFB /* WalletView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,10 +507,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"BeaconSDKDemo/Preview Content\"";
-				DEVELOPMENT_TEAM = 7VLXNQ52UC;
+				DEVELOPMENT_TEAM = 4S89CS946G;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = BeaconSDKDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -490,10 +529,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"BeaconSDKDemo/Preview Content\"";
-				DEVELOPMENT_TEAM = 7VLXNQ52UC;
+				DEVELOPMENT_TEAM = 4S89CS946G;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = BeaconSDKDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -650,6 +689,10 @@
 		A3DD2BB827CCD65A0040FF1D /* BeaconTransportP2PMatrix */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BeaconTransportP2PMatrix;
+		};
+		A3E6FB1B28A3DB1500F1B8B4 /* BeaconClientDApp */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BeaconClientDApp;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

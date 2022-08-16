@@ -10,14 +10,14 @@ import Foundation
 import Base58Swift
 
 class Base58CheckSerializer: Serializer {
-    func serialize<T: Codable>(message: T) throws -> String {
+    func serialize<T: Encodable>(message: T) throws -> String {
         let encoder = JSONEncoder()
         let jsonRaw = try encoder.encode(message)
         
         return Base58.base58CheckEncode(Array(jsonRaw))
     }
     
-    func deserialize<T: Codable>(message: String, to type: T.Type) throws -> T {
+    func deserialize<T: Decodable>(message: String, to type: T.Type) throws -> T {
         let decoder = JSONDecoder()
         guard let decoded = Base58.base58CheckDecode(message) else {
             throw Error.base58check

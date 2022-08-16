@@ -44,7 +44,8 @@ public struct SignPayloadV3SubstrateRequest: BlockchainV3SubstrateRequestProtoco
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         accountID: String,
         completion: @escaping (Result<BeaconMessage<Substrate>, Error>) -> ()
     ) {
@@ -68,6 +69,7 @@ public struct SignPayloadV3SubstrateRequest: BlockchainV3SubstrateRequestProtoco
                                                     version: version,
                                                     senderID: senderID,
                                                     origin: origin,
+                                                    destination: destination,
                                                     accountID: accountID,
                                                     address: account.address,
                                                     payload: payload,

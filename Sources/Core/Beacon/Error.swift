@@ -32,6 +32,8 @@ extension Beacon {
         
         // MARK: Connection
         
+        case missingPairedPeer
+        
         ///
         /// Could not establish connections of the requested types.
         ///
@@ -92,7 +94,7 @@ extension Beacon {
         /// Invalid peer data for the specified Beacon version.
         ///
         /// - peer: The invalid data.
-        /// - `version`: Beacon version of the peer.
+        /// - version: Beacon version of the peer.
         ///
         case invalidPeer(_ peer: Peer, version: String)
         
@@ -103,6 +105,13 @@ extension Beacon {
         /// - causedBy: An array of the initial causes of the error, if known.
         ///
         case sendFailed(_ kinds: [Connection.Kind], causedBy: [Swift.Error])
+        
+        ///
+        /// The requested transport is not supported by the client.
+        ///
+        /// - kind: Type of requested connection.
+        /// 
+        case transportNotSupported(_ kind: Connection.Kind)
         
         ///
         /// Relay server URL is invalid.
@@ -133,14 +142,14 @@ extension Beacon {
         /// The message is not supported in the target Beacon version.
         ///
         /// - message: The message that could not be processed.
-        /// - `version`: The target message version.
+        /// - version: The target message version.
         ///
         case messageNotSupportedInVersion(message: BeaconMessageProtocol, version: String)
         
         ///
         /// The message version is not supported by the target blockchain.
         ///
-        ///  - `version`: The message version that could not be processed.
+        ///  - version: The message version that could not be processed.
         ///  - blockchainIdentifier: The target blockchain identifier.
         ///
         case messageVersionNotSupported(version: String, blockchainIdentifier: String)
@@ -149,7 +158,7 @@ extension Beacon {
         /// The message type is not recognized.
         ///
         /// - message: The message type that could not be processed.
-        /// - `version`: The target message version.
+        /// - version: The target message version.
         ///
         case unknownMessageType(_ messageType: String, version: String)
         
@@ -161,7 +170,7 @@ extension Beacon {
         ///
         /// The message belongs to a different blockchain than expected.
         ///
-        /// - `blockchainIdentifier`: The identifier of the unexpected blockchain.
+        /// - blockchainIdentifier: The identifier of the unexpected blockchain.
         /// 
         case unexpectedBlockchainIdentifier(_ blockchainIdentifier: String)
         
@@ -169,7 +178,8 @@ extension Beacon {
         
         ///
         /// The requested account does not exist in Beacon.
-        /// - `accountID`: The account identifier.
+        ///
+        /// - accountID: The account identifier.
         /// 
         case accountNotFound(_ accountID: String)
         
@@ -187,8 +197,12 @@ extension Beacon {
         ///
         case other(_ error: Swift.Error)
         
+        ///
         /// Unknown type of error.
-        case unknown
+        ///
+        /// - description: An optional description of the error.
+        ///
+        case unknown(_ description: String? = nil)
         
         public init(_ error: Swift.Error) {
             guard let beaconError = error as? Error else {

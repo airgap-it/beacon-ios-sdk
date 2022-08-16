@@ -12,12 +12,12 @@ import Foundation
 public class MockSerializer: Serializer {
     public init() {}
     
-    public func serialize<T>(message: T) throws -> String where T: Decodable, T: Encodable {
+    public func serialize<T: Encodable>(message: T) throws -> String {
         let encoder = JSONEncoder()
         return String(data: try encoder.encode(message), encoding: .utf8) ?? ""
     }
     
-    public func deserialize<T>(message: String, to type: T.Type) throws -> T where T: Decodable, T: Encodable {
+    public func deserialize<T: Decodable>(message: String, to type: T.Type) throws -> T {
         let decoder = JSONDecoder()
         return try decoder.decode(type, from: Data(message.utf8))
     }

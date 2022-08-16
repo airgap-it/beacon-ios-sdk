@@ -45,16 +45,17 @@ public enum VersionedBeaconMessage<BlockchainType: Blockchain>: VersionedBeaconM
     }
     
     public func toBeaconMessage(
-        with origin: Beacon.Origin,
+        withOrigin origin: Beacon.Connection.ID,
+        andDestination destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<BlockchainType>, Error>) -> ()
     ) {
         switch self {
         case let .v1(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         case let .v2(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         case let .v3(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         }
     }
     
@@ -114,7 +115,8 @@ public protocol VersionedBeaconMessageProtocol: Codable, Equatable {
     
     init(from beaconMessage: BeaconMessage<BlockchainType>, senderID: String) throws
     func toBeaconMessage(
-        with origin: Beacon.Origin,
+        withOrigin origin: Beacon.Connection.ID,
+        andDestination destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<BlockchainType>, Error>) -> ()
     )
 }

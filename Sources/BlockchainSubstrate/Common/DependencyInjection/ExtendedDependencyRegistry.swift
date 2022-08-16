@@ -10,6 +10,10 @@ import BeaconCore
 
 protocol ExtendedDependencyRegistry: DependencyRegistry {
     
+    // MARK: Blockchain
+    
+    var substrate: Substrate { get }
+    
     // MARK: Creator
     
     var substrateCreator: Substrate.Creator { get }

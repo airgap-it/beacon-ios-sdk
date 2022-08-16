@@ -28,12 +28,7 @@ extension Tezos {
         
         public func create(with dependencyRegistry: DependencyRegistry) -> Tezos {
             let extendedDependencyRegistry = extendedDependencyRegistry(from: dependencyRegistry)
-         
-            return Tezos(
-                wallet: extendedDependencyRegistry.tezosWallet,
-                creator: extendedDependencyRegistry.tezosCreator,
-                storageExtension: extendedDependencyRegistry.tezosStorageExtension
-            )
+            return extendedDependencyRegistry.tezos
         }
         
         public func createShadow(with dependencyRegistry: DependencyRegistry) -> ShadowBlockchain {

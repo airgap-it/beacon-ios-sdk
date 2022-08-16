@@ -58,26 +58,27 @@ public enum V2TezosMessage: BlockchainV2Message {
     }
     
     public func toBeaconMessage(
-        with origin: Beacon.Origin,
+        withOrigin origin: Beacon.Connection.ID,
+        andDestination destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<Tezos>, Swift.Error>) -> ()
     ) {
         switch self {
         case let .permissionRequest(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         case let .operationRequest(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         case let .signPayloadRequest(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         case let .broadcastRequest(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         case let .permissionResponse(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         case let .operationResponse(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         case let .signPayloadResponse(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         case let .broadcastResponse(content):
-            content.toBeaconMessage(with: origin, completion: completion)
+            content.toBeaconMessage(withOrigin: origin, andDestination: destination, completion: completion)
         }
     }
     

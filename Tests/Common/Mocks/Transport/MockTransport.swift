@@ -20,7 +20,10 @@ public class MockTransport: Transport {
     public private(set) var connectPeersCalls: [[Beacon.Peer]] = []
     public private(set) var disconnectPeersCalls: [[Beacon.Peer]] = []
     
-    public var sendMessageCalls: [SerializedConnectionMessage] = []
+    public private(set) var sendMessageCalls: [SerializedOutgoingConnectionMessage] = []
+    
+    public private(set) var pairIncomingMessageCalls: [BeaconPairingRequest] = []
+    public private(set) var pairOutgoingMessageCalls: Int = 0
     
     public init(kind: Beacon.Connection.Kind) {
         let wrapped = Wrapped()
@@ -39,7 +42,7 @@ public class MockTransport: Transport {
             }
             
             mock.startCalls += 1
-            completion(mock.isFailing ? .failure(Beacon.Error.unknown) : .success(()))
+            completion(mock.isFailing ? .failure(Beacon.Error.unknown()) : .success(()))
         }
         
         public func stop(completion: @escaping (Result<(), Error>) -> ()) {
@@ -49,7 +52,7 @@ public class MockTransport: Transport {
             }
             
             mock.stopCalls += 1
-            completion(mock.isFailing ? .failure(Beacon.Error.unknown) : .success(()))
+            completion(mock.isFailing ? .failure(Beacon.Error.unknown()) : .success(()))
         }
         
         public func pause(completion: @escaping (Result<(), Error>) -> ()) {
@@ -59,7 +62,7 @@ public class MockTransport: Transport {
             }
             
             mock.pauseCalls += 1
-            completion(mock.isFailing ? .failure(Beacon.Error.unknown) : .success(()))
+            completion(mock.isFailing ? .failure(Beacon.Error.unknown()) : .success(()))
         }
         
         public func resume(completion: @escaping (Result<(), Error>) -> ()) {
@@ -69,7 +72,7 @@ public class MockTransport: Transport {
             }
             
             mock.resumeCalls += 1
-            completion(mock.isFailing ? .failure(Beacon.Error.unknown) : .success(()))
+            completion(mock.isFailing ? .failure(Beacon.Error.unknown()) : .success(()))
         }
         
         public func connect(new peers: [Beacon.Peer], completion: @escaping (Result<[Beacon.Peer], Error>) -> ()) {
@@ -80,7 +83,7 @@ public class MockTransport: Transport {
             
             mock.connectPeersCalls.append(peers)
             if mock.isFailing {
-                completion(.failure(Beacon.Error.unknown))
+                completion(.failure(Beacon.Error.unknown()))
             } else {
                 let connected = peers.filter {
                     switch $0 {
@@ -101,7 +104,7 @@ public class MockTransport: Transport {
             
             mock.disconnectPeersCalls.append(peers)
             if mock.isFailing {
-                completion(.failure(Beacon.Error.unknown))
+                completion(.failure(Beacon.Error.unknown()))
             } else {
                 let disconnected = peers.filter {
                     switch $0 {
@@ -114,7 +117,7 @@ public class MockTransport: Transport {
             }
         }
         
-        public func send(_ message: SerializedConnectionMessage, completion: @escaping (Result<(), Error>) -> ()) {
+        public func send(_ message: SerializedOutgoingConnectionMessage, completion: @escaping (Result<(), Error>) -> ()) {
             guard let mock = owner else {
                 completion(.success(()))
                 return
@@ -122,6 +125,38 @@ public class MockTransport: Transport {
             
             mock.sendMessageCalls.append(message)
             completion(.success(()))
+        }
+        
+        public func supportsPairing(for pairingRequest: BeaconPairingRequest) -> Bool {
+            true
+        }
+        
+        public func pair() {
+            guard let mock = owner else {
+                return
+            }
+            
+            mock.pairOutgoingMessageCalls += 1
+        }
+        
+        public func pair(with pairingRequest: BeaconPairingRequest, completion: @escaping (Result<BeaconPairingResponse, Error>) -> ()) {
+            let response = BeaconPairingResponse.p2p(.init(
+                id: pairingRequest.id,
+                name: pairingRequest.name,
+                version: pairingRequest.version,
+                publicKey: pairingRequest.publicKey,
+                relayServer: "",
+                icon: nil,
+                appURL: nil
+            ))
+            
+            guard let mock = owner else {
+                completion(.success(response))
+                return
+            }
+            
+            mock.pairIncomingMessageCalls.append(pairingRequest)
+            completion(.success(response))
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  BeaconViewModel.swift
+//  WalletViewModel.swift
 //  BeaconSDKDemo
 //
 //  Created by Julia Samol on 20.11.20.
@@ -14,12 +14,8 @@ import BeaconBlockchainTezos
 import BeaconClientWallet
 import BeaconTransportP2PMatrix
 
-class BeaconViewModel: ObservableObject {
-    private static let examplePeerID = "e3a82598-d047-59db-3e7e-12948caa6cbf"
-    private static let examplePeerName = "Beacon Example Dapp"
-    private static let examplePeerPublicKey = "4d318cbfc236985a44f6114cc46d62806e50d3d8c4e0867651e8e68efac8e37c"
-    private static let examplePeerRelayServer = "beacon-node-1.sky.papers.tech"
-    private static let examplePeerVersion = "3"
+class WalletViewModel: ObservableObject {
+    private static let examplePairingRequest = "3NDKTWt2x3L5cYYtM2jL8YcpgmPR8EQbNNa4yoffDb1qXTMTydqVPkgHRjcWBcvmxTLAQ4D8JrvkrYvfnKjwvXTeojrzHN4KvnX6kYzgwtoDruE8hiwJynSDcFihkWaaUZKkTrkDYqz24c1Si6xWtkUa5SGuqDq2sE6TQhHita59BVWhh4zqyST8DKTnYEdSy93B6ei29cWcgmQamYPBSXLqn6toadS6yZUUH9mV2w8dhwvgXC9bDK4oGDxzT7zTofrP8bRwXPUUc3NGRc2MGhahTS5XsaFWqjxbKBX8JK7jSUHR9fJfxHoVQtav66BtVMtVtEt"
     
     private static func exampleTezosAccount(network: Tezos.Network) throws -> Tezos.Account {
         try Tezos.Account(
@@ -37,31 +33,41 @@ class BeaconViewModel: ObservableObject {
         )
     }
     
+    @Published private(set) var started: Bool = false
     @Published private(set) var beaconRequest: String? = nil
-    
-    @Published var id: String = BeaconViewModel.examplePeerID
-    @Published var name: String = BeaconViewModel.examplePeerName
-    @Published var publicKey: String = BeaconViewModel.examplePeerPublicKey
-    @Published var relayServer: String = BeaconViewModel.examplePeerRelayServer
-    @Published var version: String = BeaconViewModel.examplePeerVersion
+    @Published var pairingRequest: String = WalletViewModel.examplePairingRequest
     
     private var awaitingTezosRequest: BeaconRequest<Tezos>? = nil
     private var awaitingSubstrateRequest: BeaconRequest<Substrate>? = nil
     
-    private var peer: Beacon.P2PPeer {
-        Beacon.P2PPeer(
-            id: id,
-            name: name,
-            publicKey: publicKey,
-            relayServer: relayServer,
-            version: version
-        )
+    private var beaconClient: Beacon.WalletClient? = nil {
+        didSet {
+            started = beaconClient != nil
+        }
     }
     
-    private var beaconClient: Beacon.WalletClient?
+    init() {}
     
-    init() {
+    func start() {
         startBeacon()
+    }
+    
+    func stop() {
+        beaconClient?.disconnect {
+            print("disconnected \($0)")
+        }
+    }
+    
+    func pause() {
+        beaconClient?.pause {
+            print("paused \($0)")
+        }
+    }
+    
+    func resume() {
+        beaconClient?.resume {
+            print("resumed \($0)")
+        }
     }
     
     func sendResponse() {
@@ -102,19 +108,19 @@ class BeaconViewModel: ObservableObject {
         }
     }
     
-    func addPeer() {
-        self.beaconClient?.add([.p2p(peer)]) { result in
+    func pair() {
+        self.beaconClient?.pair(with: pairingRequest) { result in
             switch result {
             case .success(_):
-                print("Peer added")
+                print("Pairing succeeded")
             case let .failure(error):
-                print("Could not add the peer, got error: \(error)")
+                print("Failed to pair, got error: \(error)")
             }
         }
     }
     
-    func removePeer() {
-        beaconClient?.remove([.p2p(peer)]) { result in
+    func unpair() {
+        beaconClient?.removeAllPeers { result in
             switch result {
             case .success(_):
                 print("Successfully removed peers")
@@ -124,25 +130,7 @@ class BeaconViewModel: ObservableObject {
         }
     }
     
-    func stop() {
-        beaconClient?.disconnect {
-            print("disconnected \($0)")
-        }
-    }
-    
-    func pause() {
-        beaconClient?.pause {
-            print("paused \($0)")
-        }
-    }
-    
-    func resume() {
-        beaconClient?.resume {
-            print("resumed \($0)")
-        }
-    }
-    
-    func startBeacon() {
+    private func startBeacon() {
         guard beaconClient == nil else {
             listenForRequests()
             return
@@ -151,7 +139,7 @@ class BeaconViewModel: ObservableObject {
         do {
             Beacon.WalletClient.create(
                 with: .init(
-                    name: "iOS Beacon SDK Demo",
+                    name: "iOS Beacon SDK Demo (Wallet)",
                     blockchains: [Tezos.factory, Substrate.factory],
                     connections: [try Transport.P2P.Matrix.connection()]
                 )
@@ -159,8 +147,11 @@ class BeaconViewModel: ObservableObject {
                 switch result {
                 case let .success(client):
                     print("Beacon client created")
-                    self.beaconClient = client
-                    self.listenForRequests()
+                    
+                    DispatchQueue.main.async {
+                        self.beaconClient = client
+                        self.listenForRequests()
+                    }
                 case let .failure(error):
                     print("Could not create Beacon client, got error: \(error)")
                 }
@@ -229,7 +220,7 @@ class BeaconViewModel: ObservableObject {
         switch request {
         case let .permission(content):
             return .permission(
-                try PermissionTezosResponse(from: content, account: BeaconViewModel.exampleTezosAccount(network: content.network))
+                try PermissionTezosResponse(from: content, account: Self.exampleTezosAccount(network: content.network))
             )
         case let .blockchain(blockchain):
             switch blockchain {
@@ -245,7 +236,7 @@ class BeaconViewModel: ObservableObject {
         switch request {
         case let .permission(content):
             return .permission(
-                try PermissionSubstrateResponse(from: content, accounts: [BeaconViewModel.exampleSubstrateAccount(network: content.networks.first!)])
+                try PermissionSubstrateResponse(from: content, accounts: [Self.exampleSubstrateAccount(network: content.networks.first!)])
             )
         case let .blockchain(blockchain):
             switch blockchain {

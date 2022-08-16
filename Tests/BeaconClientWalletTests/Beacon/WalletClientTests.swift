@@ -26,8 +26,9 @@ class WalletClientTests: XCTestCase {
     private var blockchainRegistry: MockBlockchainRegistry!
     private var identifierCreator: MockIdentifierCreator!
     private var crypto: Crypto!
+    private var serializer: MockSerializer!
     
-    private let dAppVersion: String = "2"
+    private let dAppVersion: String = "3"
     private let dAppID: String = "dAppID"
     private let connectionKind: Beacon.Connection.Kind = .p2p
     private let beaconID: String = "beaconID"
@@ -35,6 +36,7 @@ class WalletClientTests: XCTestCase {
     override func setUpWithError() throws {
         identifierCreator = MockIdentifierCreator()
         crypto = Crypto(provider: SodiumCryptoProvider())
+        serializer = MockSerializer()
         
         storage = MockStorage()
         secureStorage = MockSecureStorage()
@@ -48,21 +50,30 @@ class WalletClientTests: XCTestCase {
         messageController.dAppVersion = dAppVersion
         
         beaconClient = Beacon.WalletClient(
-            name: "mockApp",
+            app: .init(
+                keyPair: .init(secretKey: [0], publicKey: [0]),
+                name: "mockApp"
+            ),
             beaconID: beaconID,
             storageManager: storageManager,
             connectionController: connectionController,
             messageController: messageController,
-            crypto: crypto
+            crypto: crypto,
+            serializer: serializer
         )
     }
     
     override func tearDownWithError() throws {
         beaconClient = nil
-        messageController = nil
-        connectionController = nil
-        storageManager = nil
         storage = nil
+        secureStorage = nil
+        storageManager = nil
+        connectionController = nil
+        messageController = nil
+        blockchainRegistry = nil
+        identifierCreator = nil
+        crypto = nil
+        serializer = nil
     }
     
     func testClientConnectsToDApp() {
@@ -112,7 +123,7 @@ class WalletClientTests: XCTestCase {
         let appMetadata = AnyAppMetadata(senderID: dAppID, name: "mockApp")
         storage.set([appMetadata]) { _ in }
         
-        let origin = Beacon.Origin.init(kind: connectionKind, id: dAppID)
+        let origin = Beacon.Connection.ID.init(kind: connectionKind, id: dAppID)
         
         let requests = beaconRequests(senderID: dAppID, appMetadata: appMetadata, origin: origin)
         let versioned = beaconVersionedRequests(senderID: dAppID, requests: requests)
@@ -150,7 +161,7 @@ class WalletClientTests: XCTestCase {
         let appMetadata = AnyAppMetadata(senderID: dAppID, name: "mockApp")
         storage.set([appMetadata]) { _ in }
         
-        let origin = Beacon.Origin.p2p(id: dAppID)
+        let origin = Beacon.Connection.ID.p2p(id: dAppID)
         
         let requests = beaconRequests(senderID: dAppID, appMetadata: appMetadata, origin: origin)
         let versioned = beaconVersionedRequests(senderID: dAppID, requests: requests).map { (origin, $0) }
@@ -188,7 +199,7 @@ class WalletClientTests: XCTestCase {
                 "Expected messageController#onOutgoing to be called with specified responses and senderID"
             )
             XCTAssertEqual(
-                versioned.map { BeaconConnectionMessage(origin: Beacon.Origin(kind: self.connectionKind, id: self.beaconID), content: $0) },
+                versioned.map { BeaconOutgoingConnectionMessage(destination: Beacon.Connection.ID(kind: self.connectionKind, id: self.beaconID), content: $0) },
                 self.connectionController.sendMessageCalls(),
                 "Expected connectionController#sendMessage to be called with converted versioned responses"
             )

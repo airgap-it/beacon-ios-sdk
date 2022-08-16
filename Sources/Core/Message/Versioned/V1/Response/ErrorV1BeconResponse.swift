@@ -44,7 +44,8 @@ public struct ErrorV1BeaconResponse<BlockchainType: Blockchain>: V1BeaconMessage
     }
     
     public func toBeaconMessage(
-        with origin: Beacon.Origin,
+        withOrigin origin: Beacon.Connection.ID,
+        andDestination destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<BlockchainType>, Swift.Error>) -> ()
     ) {
         do {
@@ -55,7 +56,7 @@ public struct ErrorV1BeaconResponse<BlockchainType: Blockchain>: V1BeaconMessage
             let message = ErrorBeaconResponse<BlockchainType>(
                 id: id,
                 version: version,
-                requestOrigin: origin,
+                destination: destination,
                 errorType: errorType
             )
             completion(.success(.response(.error(message))))

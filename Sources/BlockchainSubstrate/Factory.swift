@@ -28,11 +28,7 @@ extension Substrate {
         
         public func create(with dependencyRegistry: DependencyRegistry) -> Substrate {
             let extendedDependencyRegistry = extendedDependencyRegistry(from: dependencyRegistry)
-            
-            return Substrate(
-                creator: extendedDependencyRegistry.substrateCreator,
-                storageExtension: extendedDependencyRegistry.substrateStorageExtension
-            )
+            return extendedDependencyRegistry.substrate
         }
         
         public func createShadow(with dependencyRegistry: DependencyRegistry) -> ShadowBlockchain {

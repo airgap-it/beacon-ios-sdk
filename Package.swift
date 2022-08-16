@@ -13,6 +13,7 @@ let package = Package(
         .library(name: "BeaconCore", targets: ["BeaconCore"]),
         .library(name: "BeaconBlockchainSubstrate", targets: ["BeaconBlockchainSubstrate"]),
         .library(name: "BeaconBlockchainTezos", targets: ["BeaconBlockchainTezos"]),
+        .library(name: "BeaconClientDApp", targets: ["BeaconClientDApp"]),
         .library(name: "BeaconClientWallet", targets: ["BeaconClientWallet"]),
         .library(name: "BeaconTransportP2PMatrix", targets: ["BeaconTransportP2PMatrix"])
     ],
@@ -36,6 +37,7 @@ let package = Package(
         ),
         .target(name: "BeaconBlockchainSubstrate", dependencies: ["BeaconCore"], path: "Sources/BlockchainSubstrate"),
         .target(name: "BeaconBlockchainTezos", dependencies: ["BeaconCore"], path: "Sources/BlockchainTezos"),
+        .target(name: "BeaconClientDApp", dependencies: ["BeaconCore"], path: "Sources/ClientDApp"),
         .target(name: "BeaconClientWallet", dependencies: ["BeaconCore"], path: "Sources/ClientWallet"),
         .target(name: "BeaconTransportP2PMatrix", dependencies: ["BeaconCore"], path: "Sources/TransportP2PMatrix"),
         
@@ -46,6 +48,7 @@ let package = Package(
                 "BeaconCore",
                 "BeaconBlockchainSubstrate",
                 "BeaconBlockchainTezos",
+                "BeaconClientDApp",
                 "BeaconClientWallet",
                 "BeaconTransportP2PMatrix"
             ],
@@ -55,6 +58,11 @@ let package = Package(
             name: "BeaconCoreTests",
             dependencies: ["BeaconCore", "Common"],
             path: "Tests/BeaconCoreTests"
+        ),
+        .testTarget(
+            name: "BeaconClientDAppTests",
+            dependencies: ["BeaconClientDApp", "Common"],
+            path: "Tests/BeaconClientDAppTests"
         ),
         .testTarget(
             name: "BeaconClientWalletTests",

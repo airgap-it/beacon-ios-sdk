@@ -12,6 +12,16 @@ extension Tezos {
     
     /// A group of values defining a network in Tezos..
     public struct Network: NetworkProtocol, Codable, Hashable {
+        public static let mainnet: Network = .init(type: .mainnet)
+        
+        public static let ghostnet: Network = .init(type: .ghostnet)
+        public static let mondaynet: Network = .init(type: .mondaynet)
+        public static let dailynet: Network = .init(type: .dailynet)
+        
+        public static let ithacanet: Network = .init(type: .ithacanet)
+        public static let jakartanet: Network = .init(type: .jakartanet)
+        public static let kathmandunet: Network = .init(type: .kathmandunet)
+        
         /// A type of the network
         public let type: `Type`
         
@@ -52,6 +62,10 @@ extension Tezos {
         public enum `Type`: String, Codable {
             case mainnet
             
+            case ghostnet
+            case mondaynet
+            case dailynet
+            
             @available(*, deprecated, message: "'Delphinet' is no longer a maintained Tezos test network and will be removed from Beacon in future versions.")
             case delphinet
             
@@ -60,9 +74,17 @@ extension Tezos {
             
             @available(*, deprecated, message: "'Florencenet' is no longer a maintained Tezos test network and will be removed from Beacon in future versions.")
             case florencenet
+            
+            @available(*, deprecated, message: "'Granadanet' is no longer a maintained Tezos test network and will be removed from Beacon in future versions.")
             case granadanet
+            
+            @available(*, deprecated, message: "'Hangzhounet' is no longer a maintained Tezos test network and will be removed from Beacon in future versions.")
             case hangzhounet
+            
             case ithacanet
+            case jakartanet
+            case kathmandunet
+            
             case custom
         }
     }

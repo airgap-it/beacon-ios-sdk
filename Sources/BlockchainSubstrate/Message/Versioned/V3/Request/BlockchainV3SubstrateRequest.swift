@@ -27,7 +27,8 @@ public enum BlockchainV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         accountID: String,
         completion: @escaping (Result<BeaconMessage<Substrate>, Error>) -> ()
     ) {
@@ -38,6 +39,7 @@ public enum BlockchainV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
                 version: version,
                 senderID: senderID,
                 origin: origin,
+                destination: destination,
                 accountID: accountID,
                 completion: completion
             )
@@ -47,6 +49,7 @@ public enum BlockchainV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
                 version: version,
                 senderID: senderID,
                 origin: origin,
+                destination: destination,
                 accountID: accountID,
                 completion: completion
             )

@@ -21,12 +21,16 @@ public struct DisconnectBeaconMessage: BeaconMessageProtocol, Identifiable, Equa
     public let version: String
     
     /// The origination data of the message.
-    public let origin: Beacon.Origin
+    public let origin: Beacon.Connection.ID
     
-    public init(id: String, senderID: String, version: String, origin: Beacon.Origin) {
+    /// The destination data of the message.
+    public let destination: Beacon.Connection.ID
+    
+    public init(id: String, senderID: String, version: String, origin: Beacon.Connection.ID, destination: Beacon.Connection.ID) {
         self.id = id
         self.senderID = senderID
         self.version = version
         self.origin = origin
+        self.destination = destination
     }
 }

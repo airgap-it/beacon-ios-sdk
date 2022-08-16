@@ -23,7 +23,10 @@ public struct PermissionTezosRequest: PermissionBeaconRequestProtocol, Identifia
     public let senderID: String
     
     /// The origination data of this request.
-    public let origin: Beacon.Origin
+    public let origin: Beacon.Connection.ID
+    
+    /// The destination data of this request.
+    public let destination: Beacon.Connection.ID
     
     /// The metadata describing the dApp asking for permissions.
     public let appMetadata: AppMetadata

@@ -23,6 +23,8 @@ class MessageControllerTests: XCTestCase {
     private let dAppID = "01"
     private let dAppVersion = "2"
     
+    private let walletID = "02"
+    
     private let beaconID = "00"
 
     override func setUpWithError() throws {
@@ -57,14 +59,15 @@ class MessageControllerTests: XCTestCase {
         let appMetadata = AnyAppMetadata(senderID: dAppID, name: "mockApp")
         storage.appMetadata = [appMetadata]
         
-        let origin = Beacon.Origin.p2p(id: dAppID)
+        let origin = Beacon.Connection.ID.p2p(id: dAppID)
+        let destination = Beacon.Connection.ID.p2p(id: walletID)
         let requests = beaconRequests(senderID: dAppID, appMetadata: appMetadata, origin: origin)
         let versionedRequests = beaconVersionedRequests(senderID: dAppID, requests: requests)
         
         testExpectation.expectedFulfillmentCount = versionedRequests.count
         
         for (index, versioned) in versionedRequests.enumerated() {
-            messageController.onIncoming(versioned, with: origin) { (result: Result<BeaconMessage<MockBlockchain>, Swift.Error>) in
+            messageController.onIncoming(versioned, withOrigin: origin, andDestination: destination) { (result: Result<BeaconMessage<MockBlockchain>, Swift.Error>) in
                 switch result {
                 case let .success(request):
                     XCTAssertEqual(.request(requests[index]), request, "Expected converted incoming message to match the specified request")
@@ -88,25 +91,26 @@ class MessageControllerTests: XCTestCase {
         let appMetadata = AnyAppMetadata(senderID: dAppID, name: "mockApp")
         storage.appMetadata = [appMetadata]
         
-        let requestOrigin = Beacon.Origin.p2p(id: dAppID)
+        let origin = Beacon.Connection.ID.p2p(id: walletID)
+        let destination = Beacon.Connection.ID.p2p(id: dAppID)
         let pendingRequest: BeaconMessage<MockBlockchain> = .request(.permission(permissionBeaconRequest(version: dAppVersion)))
         let versionedPendingRequest = try VersionedBeaconMessage(
             from: pendingRequest,
             senderID: dAppID
         )
         
-        let responses = beaconResponses(id: pendingRequest.id, version: dAppVersion, requestOrigin: requestOrigin)
+        let responses = beaconResponses(id: pendingRequest.id, version: dAppVersion, destination: destination)
         let versionedResponses = beaconVersionedResponses(senderID: beaconID, responses: responses)
         
         testExpectation.expectedFulfillmentCount = responses.count
         
         initBeacon { _ in
             for (index, response) in responses.enumerated() {
-                self.messageController.onIncoming(versionedPendingRequest, with: requestOrigin) { (_: Result<BeaconMessage<MockBlockchain>, Swift.Error>) in
+                self.messageController.onIncoming(versionedPendingRequest, withOrigin: origin, andDestination: destination) { (_: Result<BeaconMessage<MockBlockchain>, Swift.Error>) in
                     self.messageController.onOutgoing(.response(response), with: self.beaconID, terminal: false) { result in
                         switch result {
                         case let .success((origin, versioned)):
-                            XCTAssertEqual(requestOrigin, origin, "Expected returned origin to match the request origin")
+                            XCTAssertEqual(destination, origin, "Expected returned origin to match the request origin")
                             XCTAssertEqual(
                                 versionedResponses[index],
                                 versioned,
@@ -169,7 +173,8 @@ class MessageControllerTests: XCTestCase {
         
         storage.appMetadata = []
         
-        let origin = Beacon.Origin.p2p(id: dAppID)
+        let origin = Beacon.Connection.ID.p2p(id: dAppID)
+        let destination = Beacon.Connection.ID.p2p(id: walletID)
         let appMetadata = AnyAppMetadata(senderID: dAppID, name: "mockApp")
         let permissionRequest: BeaconMessage<MockBlockchain> = .request(.permission(permissionBeaconRequest(appMetadata: appMetadata, version: dAppVersion)))
         let versionedRequest = try VersionedBeaconMessage(
@@ -177,7 +182,7 @@ class MessageControllerTests: XCTestCase {
             senderID: dAppID
         )
         
-        messageController.onIncoming(versionedRequest, with: origin) { (result: Result<BeaconMessage<MockBlockchain>, Swift.Error>) in
+        messageController.onIncoming(versionedRequest, withOrigin: origin, andDestination: destination) { (result: Result<BeaconMessage<MockBlockchain>, Swift.Error>) in
             switch result {
             case .success(_):
                 XCTAssertEqual(

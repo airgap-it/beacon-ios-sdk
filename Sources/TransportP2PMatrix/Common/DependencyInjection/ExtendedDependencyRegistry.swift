@@ -10,6 +10,10 @@ import BeaconCore
 
 protocol ExtendedDependencyRegistry: DependencyRegistry {
     
+    // MARK: Client
+    
+    func p2pMatrix(storagePlugin: P2PMatrixStoragePlugin, matrixNodes: [String], urlSession: URLSession) throws -> Transport.P2P.Matrix
+    
     // MARK: P2P
     
     func p2pMatrixCommunicator() throws -> Transport.P2P.Matrix.Communicator
