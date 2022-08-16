@@ -17,8 +17,8 @@ public struct PermissionSubstrateResponse: PermissionBeaconResponseProtocol, Ide
     /// The version of the message.
     public let version: String
     
-    /// The origination data of the request.
-    public let requestOrigin: Beacon.Origin
+    /// The destination data of this response.
+    public let destination: Beacon.Connection.ID
     
     public let appMetadata: Substrate.AppMetadata
     
@@ -36,7 +36,7 @@ public struct PermissionSubstrateResponse: PermissionBeaconResponseProtocol, Ide
         self.init(
             id: request.id,
             version: request.version,
-            requestOrigin: request.origin,
+            destination: request.origin,
             appMetadata: request.appMetadata,
             scopes: scopes,
             accounts: accounts
@@ -46,14 +46,14 @@ public struct PermissionSubstrateResponse: PermissionBeaconResponseProtocol, Ide
     public init(
         id: String,
         version: String,
-        requestOrigin: Beacon.Origin,
+        destination: Beacon.Connection.ID,
         appMetadata: Substrate.AppMetadata,
         scopes: [Substrate.Permission.Scope],
         accounts: [Substrate.Account]
     ) {
         self.id = id
         self.version = version
-        self.requestOrigin = requestOrigin
+        self.destination = destination
         self.appMetadata = appMetadata
         self.scopes = scopes
         self.accounts = accounts

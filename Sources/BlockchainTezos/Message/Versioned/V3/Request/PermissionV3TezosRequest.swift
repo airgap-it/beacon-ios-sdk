@@ -29,7 +29,8 @@ public struct PermissionV3TezosRequest: PermissionV3BeaconRequestContentDataProt
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<Tezos>, Error>) -> ()
     ) {
         completion(.success(.request(
@@ -39,6 +40,7 @@ public struct PermissionV3TezosRequest: PermissionV3BeaconRequestContentDataProt
                     version: version,
                     senderID: senderID,
                     origin: origin,
+                    destination: destination,
                     appMetadata: appMetadata.toAppMetadata(),
                     network: network,
                     scopes: scopes

@@ -29,7 +29,8 @@ public struct BroadcastV3TezosRequest: Equatable, Codable {
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         accountID: String,
         completion: @escaping (Result<BeaconMessage<Tezos>, Error>) -> ()
     ) {
@@ -45,6 +46,7 @@ public struct BroadcastV3TezosRequest: Equatable, Codable {
                                         senderID: senderID,
                                         appMetadata: appMetadata,
                                         origin: origin,
+                                        destination: destination,
                                         accountID: accountID,
                                         network: network,
                                         signedTransaction: signedTransaction

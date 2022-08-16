@@ -37,10 +37,11 @@ public struct DisconnectV1BeaconMessage<BlockchainType: Blockchain>: V1BeaconMes
     }
     
     public func toBeaconMessage(
-        with origin: Beacon.Origin,
+        withOrigin origin: Beacon.Connection.ID,
+        andDestination destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<BlockchainType>, Swift.Error>) -> ()
     ) {
-        let message = DisconnectBeaconMessage(id: id, senderID: beaconID, version: version, origin: origin)
+        let message = DisconnectBeaconMessage(id: id, senderID: beaconID, version: version, origin: origin, destination: destination)
         completion(.success(.disconnect(message)))
     }
     

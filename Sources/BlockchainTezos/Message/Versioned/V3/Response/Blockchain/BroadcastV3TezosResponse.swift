@@ -27,7 +27,8 @@ public struct BroadcastV3TezosResponse: Equatable, Codable {
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<Tezos>, Error>) -> ()
     ) {
         completion(.success(.response(
@@ -36,7 +37,7 @@ public struct BroadcastV3TezosResponse: Equatable, Codable {
                     .init(
                         id: id,
                         version: version,
-                        requestOrigin: origin,
+                        destination: destination,
                         transactionHash: transactionHash
                     )
                 )

@@ -17,16 +17,16 @@ public struct AcknowledgeBeaconResponse: BeaconResponseProtocol, Identifiable, E
     /// The version of the message.
     public let version: String
     
-    /// The originiation data of the request.
-    public let requestOrigin: Beacon.Origin
+    /// The destination data of the response.
+    public let destination: Beacon.Connection.ID
     
     public init(from request: BeaconRequestProtocol) {
-        self.init(id: request.id, version: request.version, requestOrigin: request.origin)
+        self.init(id: request.id, version: request.version, destination: request.origin)
     }
     
-    public init(id: String, version: String, requestOrigin: Beacon.Origin) {
+    public init(id: String, version: String, destination: Beacon.Connection.ID) {
         self.id = id
         self.version = version
-        self.requestOrigin = requestOrigin
+        self.destination = destination
     }
 }

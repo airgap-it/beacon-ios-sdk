@@ -39,7 +39,8 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<Tezos>, Error>) -> ()
     ) {
         completion(.success(.response(
@@ -47,7 +48,7 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
                 .init(
                     id: id,
                     version: version,
-                    requestOrigin: origin,
+                    destination: destination,
                     account: .init(accountID: accountID, network: network, publicKey: publicKey, address: address),
                     scopes: scopes
                 )

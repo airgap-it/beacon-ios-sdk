@@ -15,6 +15,21 @@ class P2PMatrixDependencyRegistry: ExtendedDependencyRegistry {
         self.dependencyRegistry = dependencyRegistry
     }
     
+    // MARK: Client
+    
+    func p2pMatrix(storagePlugin: P2PMatrixStoragePlugin, matrixNodes: [String], urlSession: URLSession) throws -> Transport.P2P.Matrix {
+        if storageManager.p2pMatrixPlugin == nil {
+            storageManager.addPlugins([storagePlugin.extend()])
+        }
+        
+        return Transport.P2P.Matrix(
+            matrixClient: try matrixClient(urlSession: urlSession),
+            store: try p2pMatrixStore(urlSession: urlSession, matrixNodes: matrixNodes),
+            security: try p2pMatrixSecurity(),
+            communicator: try p2pMatrixCommunicator()
+        )
+    }
+    
     // MARK: P2P
     
     func p2pMatrixCommunicator() throws -> Transport.P2P.Matrix.Communicator {
@@ -37,7 +52,7 @@ class P2PMatrixDependencyRegistry: ExtendedDependencyRegistry {
         Transport.P2P.Matrix.Store(
             app: try app(),
             communicator: try p2pMatrixCommunicator(),
-            matrixClient: matrixClient(urlSession: urlSession),
+            matrixClient: try matrixClient(urlSession: urlSession),
             matrixNodes: matrixNodes,
             storageManager: storageManager,
             migration: migration
@@ -46,7 +61,7 @@ class P2PMatrixDependencyRegistry: ExtendedDependencyRegistry {
     
     // MARK: Matrix
     
-    func matrixClient(urlSession: URLSession) -> MatrixClient {
+    func matrixClient(urlSession: URLSession) throws -> MatrixClient {
         let http = self.http(urlSession: urlSession)
         
         return MatrixClient(

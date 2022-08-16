@@ -17,8 +17,8 @@ public struct ErrorBeaconResponse<B: Blockchain>: BeaconResponseProtocol, Identi
     /// The version of the message.
     public let version: String
     
-    /// The originiation data of the request.
-    public let requestOrigin: Beacon.Origin
+    /// The destination data of the response.
+    public let destination: Beacon.Connection.ID
     
     /// The type of the error.
     public let errorType: Beacon.ErrorType<B>
@@ -30,7 +30,7 @@ public struct ErrorBeaconResponse<B: Blockchain>: BeaconResponseProtocol, Identi
         self.init(
             id: request.id,
             version: request.version,
-            requestOrigin: request.origin,
+            destination: request.origin,
             errorType: errorType,
             description: description
         )
@@ -40,7 +40,7 @@ public struct ErrorBeaconResponse<B: Blockchain>: BeaconResponseProtocol, Identi
         self.init(
             id: request.id,
             version: request.version,
-            requestOrigin: request.origin,
+            destination: request.origin,
             errorType: errorType,
             description: description
         )
@@ -49,13 +49,13 @@ public struct ErrorBeaconResponse<B: Blockchain>: BeaconResponseProtocol, Identi
     public init(
         id: String,
         version: String,
-        requestOrigin: Beacon.Origin,
+        destination: Beacon.Connection.ID,
         errorType: Beacon.ErrorType<B>,
         description: String? = nil
     ) {
         self.id = id
         self.version = version
-        self.requestOrigin = requestOrigin
+        self.destination = destination
         self.errorType = errorType
         self.description = description
     }

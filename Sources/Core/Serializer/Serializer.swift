@@ -9,6 +9,6 @@
 import Foundation
 
 public protocol Serializer: AnyObject {
-    func serialize<T: Codable>(message: T) throws -> String
-    func deserialize<T: Codable>(message: String, to type: T.Type) throws -> T
+    func serialize<T: Encodable>(message: T) throws -> String
+    func deserialize<T: Decodable>(message: String, to type: T.Type) throws -> T
 }

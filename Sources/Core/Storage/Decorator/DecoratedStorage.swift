@@ -13,24 +13,24 @@ private typealias InsertCollection<T> = ([T], @escaping (Result<(), Error>) -> (
 
 private typealias TransformElement<T, S> = (T) -> S
 
-struct DecoratedStorage: ExtendedStorage {
+public struct DecoratedStorage: ExtendedStorage {
     private let storage: Storage
     
-    init(storage: Storage) {
+    public init(storage: Storage) {
         self.storage = storage
     }
     
     // MARK: Peers
     
-    func getPeers(completion: @escaping (Result<[Beacon.Peer], Error>) -> ()) {
+    public func getPeers(completion: @escaping (Result<[Beacon.Peer], Error>) -> ()) {
         storage.getPeers(completion: completion)
     }
     
-    func set(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
+    public func set(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
         storage.set(peers, completion: completion)
     }
     
-    func add(
+    public func add(
         _ peers: [Beacon.Peer],
         overwrite: Bool,
         distinguishBy selectKeys: @escaping (Beacon.Peer) -> [AnyHashable],
@@ -46,25 +46,25 @@ struct DecoratedStorage: ExtendedStorage {
         )
     }
     
-    func findPeers(where predicate: @escaping (Beacon.Peer) -> Bool, completion: @escaping (Result<Beacon.Peer?, Error>) -> ()) {
+    public func findPeers(where predicate: @escaping (Beacon.Peer) -> Bool, completion: @escaping (Result<Beacon.Peer?, Error>) -> ()) {
         find(where: predicate, select: storage.getPeers, completion: completion)
     }
     
-    func removePeers(where predicate: ((Beacon.Peer) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
+    public func removePeers(where predicate: ((Beacon.Peer) -> Bool)?, completion: @escaping (Result<(), Error>) -> ()) {
         remove(where: predicate, select: storage.getPeers, insert: storage.set, completion: completion)
     }
     
     // MARK: AppMetadata
     
-    func getAppMetadata<T: AppMetadataProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
+    public func getAppMetadata<T: AppMetadataProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
         storage.getAppMetadata(completion: completion)
     }
     
-    func set<T: AppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
+    public func set<T: AppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
         storage.set(appMetadata, completion: completion)
     }
     
-    func add<T: AppMetadataProtocol>(
+    public func add<T: AppMetadataProtocol>(
         _ appMetadata: [T],
         overwrite: Bool,
         distinguishBy selectKeys: @escaping (T) -> [AnyHashable],
@@ -80,18 +80,18 @@ struct DecoratedStorage: ExtendedStorage {
         )
     }
     
-    func findAppMetadata<T: AppMetadataProtocol>(
+    public func findAppMetadata<T: AppMetadataProtocol>(
         where predicate: @escaping (T) -> Bool,
         completion: @escaping (Result<T?, Error>) -> ()
     ) {
         find(where: predicate, select: storage.getAppMetadata, completion: completion)
     }
     
-    func removeAppMetadata<T: AppMetadataProtocol>(where predicate: @escaping ((T) -> Bool), completion: @escaping (Result<(), Error>) -> ()) {
+    public func removeAppMetadata<T: AppMetadataProtocol>(where predicate: @escaping ((T) -> Bool), completion: @escaping (Result<(), Error>) -> ()) {
         remove(where: predicate, select: storage.getAppMetadata, insert: storage.set, completion: completion)
     }
     
-    func removeAppMetadata<T: AppMetadataProtocol>(ofType type: T.Type, where predicate: ((AnyAppMetadata) -> Bool)? = nil, completion: @escaping (Result<(), Error>) -> ()) {
+    public func removeAppMetadata<T: AppMetadataProtocol>(ofType type: T.Type, where predicate: ((AnyAppMetadata) -> Bool)? = nil, completion: @escaping (Result<(), Error>) -> ()) {
         if let predicate = predicate {
             remove(
                 where: predicate,
@@ -105,29 +105,29 @@ struct DecoratedStorage: ExtendedStorage {
         }
     }
     
-    func getLegacyAppMetadata<T: LegacyAppMetadataProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
+    public func getLegacyAppMetadata<T: LegacyAppMetadataProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
         storage.getLegacyAppMetadata(completion: completion)
     }
     
-    func setLegacy<T: LegacyAppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
+    public func setLegacy<T: LegacyAppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (Result<(), Error>) -> ()) {
         storage.setLegacy(appMetadata, completion: completion)
     }
     
-    func removeLegacyAppMetadata<T: LegacyAppMetadataProtocol>(ofType type: T.Type, completion: @escaping (Result<(), Error>) -> ()) {
+    public func removeLegacyAppMetadata<T: LegacyAppMetadataProtocol>(ofType type: T.Type, completion: @escaping (Result<(), Error>) -> ()) {
         removeAll(ofType: T.self, insert: storage.setLegacy, completion: completion)
     }
     
     // MARK: Permissions
     
-    func getPermissions<T: PermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
+    public func getPermissions<T: PermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
         storage.getPermissions(completion: completion)
     }
     
-    func set<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
+    public func set<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
         storage.set(permissions, completion: completion)
     }
     
-    func add<T: PermissionProtocol>(
+    public func add<T: PermissionProtocol>(
         _ permissions: [T],
         overwrite: Bool,
         distinguishBy selectKeys: @escaping (T) -> [AnyHashable],
@@ -143,18 +143,18 @@ struct DecoratedStorage: ExtendedStorage {
         )
     }
     
-    func findPermissions<T: PermissionProtocol>(
+    public func findPermissions<T: PermissionProtocol>(
         where predicate: @escaping (T) -> Bool,
         completion: @escaping (Result<T?, Error>) -> ()
     ) {
         find(where: predicate, select: storage.getPermissions, completion: completion)
     }
     
-    func removePermissions<T: PermissionProtocol>(where predicate: @escaping ((T) -> Bool), completion: @escaping (Result<(), Error>) -> ()) {
+    public func removePermissions<T: PermissionProtocol>(where predicate: @escaping ((T) -> Bool), completion: @escaping (Result<(), Error>) -> ()) {
         remove(where: predicate, select: storage.getPermissions, insert: storage.set, completion: completion)
     }
     
-    func removePermissions<T: PermissionProtocol>(ofType type: T.Type, where predicate: ((AnyPermission) -> Bool)? = nil, completion: @escaping (Result<(), Error>) -> ()) {
+    public func removePermissions<T: PermissionProtocol>(ofType type: T.Type, where predicate: ((AnyPermission) -> Bool)? = nil, completion: @escaping (Result<(), Error>) -> ()) {
         if let predicate = predicate {
             remove(
                 where: predicate,
@@ -168,37 +168,37 @@ struct DecoratedStorage: ExtendedStorage {
         }
     }
     
-    func getLegacyPermissions<T: LegacyPermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
+    public func getLegacyPermissions<T: LegacyPermissionProtocol>(completion: @escaping (Result<[T], Error>) -> ()) {
         storage.getLegacyPermissions(completion: completion)
     }
     
-    func setLegacy<T: LegacyPermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
+    public func setLegacy<T: LegacyPermissionProtocol>(_ permissions: [T], completion: @escaping (Result<(), Error>) -> ()) {
         storage.setLegacy(permissions, completion: completion)
     }
     
-    func removeLegacyPermissions<T: LegacyPermissionProtocol>(ofType type: T.Type, completion: @escaping (Result<(), Error>) -> ()) {
+    public func removeLegacyPermissions<T: LegacyPermissionProtocol>(ofType type: T.Type, completion: @escaping (Result<(), Error>) -> ()) {
         removeAll(ofType: T.self, insert: storage.setLegacy, completion: completion)
     }
     
     // MARK: SDK
     
-    func getSDKVersion(completion: @escaping (Result<String?, Error>) -> ()) {
+    public func getSDKVersion(completion: @escaping (Result<String?, Error>) -> ()) {
         storage.getSDKVersion(completion: completion)
     }
     
-    func setSDKVersion(_ version: String, completion: @escaping (Result<(), Error>) -> ()) {
+    public func setSDKVersion(_ version: String, completion: @escaping (Result<(), Error>) -> ()) {
         storage.setSDKVersion(version, completion: completion)
     }
     
-    func getMigrations(completion: @escaping (Result<Set<String>, Error>) -> ()) {
+    public func getMigrations(completion: @escaping (Result<Set<String>, Error>) -> ()) {
         storage.getMigrations(completion: completion)
     }
     
-    func setMigrations(_ migrations: Set<String>, completion: @escaping (Result<(), Error>) -> ()) {
+    public func setMigrations(_ migrations: Set<String>, completion: @escaping (Result<(), Error>) -> ()) {
         storage.setMigrations(migrations, completion: completion)
     }
     
-    func addMigrations(_ migrations: Set<String>, completion: @escaping (Result<(), Error>) -> ()) {
+    public func addMigrations(_ migrations: Set<String>, completion: @escaping (Result<(), Error>) -> ()) {
         storage.getMigrations { result in
             guard let oldMigrations = result.get(ifFailure: completion) else { return }
             self.storage.setMigrations(oldMigrations.union(migrations), completion: completion)
@@ -223,7 +223,11 @@ struct DecoratedStorage: ExtendedStorage {
             
             if overwrite {
                 let (_, toKeep) = stored.partitioned(by: Set(matching.map({ $0.0 })))
-                insert(toKeep + existing.distinguished(by: selectKeys, mode: .keepLast) + new, completion)
+                insert(
+                    toKeep +
+                    existing.distinguished(by: selectKeys, mode: .keepLast) +
+                    new.distinguished(by: selectKeys, mode: .keepLast
+                ), completion)
             } else {
                 insert(stored + new, completion)
             }

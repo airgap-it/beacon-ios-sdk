@@ -106,6 +106,21 @@ public class Crypto {
         
         return try cryptoProvider.encrypt(message: message, withPublicKey: curve25519Key)
     }
+    
+    public func decrypt(message: String, withPublicKey publicKey: [UInt8], andSecretKey secretKey: [UInt8]) throws -> [UInt8] {
+        try decrypt(message: [UInt8](message.utf8), withPublicKey: publicKey, andSecretKey: secretKey)
+    }
+    
+    public func decrypt(message: HexString, withPublicKey publicKey: [UInt8], andSecretKey secretKey: [UInt8]) throws -> [UInt8] {
+        try decrypt(message: try message.asBytes(), withPublicKey: publicKey, andSecretKey: secretKey)
+    }
+    
+    public func decrypt(message: [UInt8], withPublicKey publicKey: [UInt8], andSecretKey secretKey: [UInt8]) throws -> [UInt8] {
+        let curve25519PublicKey = try cryptoProvider.convertToCurve25519(ed25519PublicKey: publicKey)
+        let curve25519SecretKey = try cryptoProvider.convertToCurve25519(ed25519SecretKey: secretKey)
+        
+        return try cryptoProvider.decrypt(message: message, withPublicKey: curve25519PublicKey, andSecretKey: curve25519SecretKey)
+    }
 
     public func encrypt(message: String, withSharedKey key: [UInt8]) throws -> [UInt8] {
         try encrypt(message: [UInt8](message.utf8), withSharedKey: key)

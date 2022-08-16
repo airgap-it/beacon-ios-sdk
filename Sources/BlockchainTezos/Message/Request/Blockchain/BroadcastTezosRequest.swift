@@ -25,7 +25,10 @@ public struct BroadcastTezosRequest: BlockchainBeaconRequestProtocol, Identifiab
     public let appMetadata: Tezos.AppMetadata?
     
     /// The origination data of this request.
-    public let origin: Beacon.Origin
+    public let origin: Beacon.Connection.ID
+    
+    /// The destination data of this request.
+    public let destination: Beacon.Connection.ID
     
     /// The account identifier of the account that is requested to handle this request. May be `nil`.
     public let accountID: String?
@@ -41,7 +44,8 @@ public struct BroadcastTezosRequest: BlockchainBeaconRequestProtocol, Identifiab
         version: String,
         senderID: String,
         appMetadata: Tezos.AppMetadata?,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         accountID: String?,
         network: Tezos.Network,
         signedTransaction: String
@@ -51,6 +55,7 @@ public struct BroadcastTezosRequest: BlockchainBeaconRequestProtocol, Identifiab
         self.senderID = senderID
         self.appMetadata = appMetadata
         self.origin = origin
+        self.destination = destination
         self.accountID = accountID
         self.network = network
         self.signedTransaction = signedTransaction

@@ -43,7 +43,8 @@ public struct PermissionV3BeaconRequestContent<Data: PermissionV3BeaconRequestCo
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<Data.BlockchainType>, Swift.Error>) -> ()
     ) {
         blockchainData.toBeaconMessage(
@@ -51,6 +52,7 @@ public struct PermissionV3BeaconRequestContent<Data: PermissionV3BeaconRequestCo
             version: version,
             senderID: senderID,
             origin: origin,
+            destination: destination,
             completion: completion
         )
     }
@@ -99,7 +101,8 @@ public protocol PermissionV3BeaconRequestContentDataProtocol: Codable, Equatable
         id: String,
         version: String,
         senderID: String,
-        origin: Beacon.Origin,
+        origin: Beacon.Connection.ID,
+        destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<BlockchainType>, Error>) -> ()
     )
 }

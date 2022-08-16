@@ -17,8 +17,8 @@ public class MockMessageController: MessageControllerProtocol {
     
     public var connectionKind: Beacon.Connection.Kind
     
-    private var _onIncomingCalls: [(Any, Beacon.Origin)] = []
-    public func onIncomingCalls<B: Blockchain>() -> [(VersionedBeaconMessage<B>, Beacon.Origin)] {
+    private var _onIncomingCalls: [(Any, Beacon.Connection.ID)] = []
+    public func onIncomingCalls<B: Blockchain>() -> [(VersionedBeaconMessage<B>, Beacon.Connection.ID)] {
         _onIncomingCalls.compactMap {
             guard let versioned = $0.0 as? VersionedBeaconMessage<B> else {
                 return nil
@@ -50,14 +50,15 @@ public class MockMessageController: MessageControllerProtocol {
     
     public func onIncoming<B: Blockchain>(
         _ message: VersionedBeaconMessage<B>,
-        with origin: Beacon.Origin,
+        withOrigin origin: Beacon.Connection.ID,
+        andDestination destination: Beacon.Connection.ID,
         completion: @escaping (Result<BeaconMessage<B>, Swift.Error>) -> ()
     ) {
         _onIncomingCalls.append((message, origin))
         if isFailing {
-            completion(.failure(Beacon.Error.unknown))
+            completion(.failure(Beacon.Error.unknown()))
         } else {
-            message.toBeaconMessage(with: origin) { beaconMessage in
+            message.toBeaconMessage(withOrigin: origin, andDestination: destination) { beaconMessage in
                 completion(beaconMessage)
             }
         }
@@ -67,22 +68,22 @@ public class MockMessageController: MessageControllerProtocol {
         _ message: BeaconMessage<B>,
         with beaconID: String,
         terminal: Bool,
-        completion: @escaping (Result<(Beacon.Origin, VersionedBeaconMessage<B>), Swift.Error>) -> ()
+        completion: @escaping (Result<(Beacon.Connection.ID, VersionedBeaconMessage<B>), Swift.Error>) -> ()
     ) {
         anyOnOutgoingCalls.append((message, beaconID))
         if isFailing {
-            completion(.failure(Beacon.Error.unknown))
+            completion(.failure(Beacon.Error.unknown()))
         } else {
-            let result: Result<(Beacon.Origin, VersionedBeaconMessage), Swift.Error> = runCatching {
+            let result: Result<(Beacon.Connection.ID, VersionedBeaconMessage), Swift.Error> = runCatching {
                 return try VersionedBeaconMessage(from: message, senderID: beaconID)
-            }.map { ((Beacon.Origin(kind: connectionKind, id: beaconID), $0)) }
+            }.map { ((Beacon.Connection.ID(kind: connectionKind, id: beaconID), $0)) }
             
             completion(result)
         }
     }
 }
 
-public typealias OnIncomingArguments = (VersionedBeaconMessage<MockBlockchain>, Beacon.Origin)
+public typealias OnIncomingArguments = (VersionedBeaconMessage<MockBlockchain>, Beacon.Connection.ID)
 public func == (lhs: OnIncomingArguments, rhs: OnIncomingArguments) -> Bool {
     lhs.0 == rhs.0 && lhs.1 == rhs.1
 }

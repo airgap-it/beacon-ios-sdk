@@ -10,6 +10,10 @@ import BeaconCore
 
 protocol ExtendedDependencyRegistry: DependencyRegistry {
     
+    // MARK: Blockchain
+    
+    var tezos: Tezos { get }
+    
     // MARK: Wallet
     
     var tezosWallet: Tezos.Wallet { get }

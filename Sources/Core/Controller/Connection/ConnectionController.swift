@@ -84,8 +84,8 @@ class ConnectionController: ConnectionControllerProtocol {
         }
     }
     
-    func listen<B: Blockchain>(onRequest listener: @escaping (Result<BeaconConnectionMessage<B>, Error>) -> ()) {
-        let listener = Transport.Listener { [weak self] connectionMessageResult in
+    func listen<B: Blockchain>(onRequest listener: @escaping (Result<BeaconIncomingConnectionMessage<B>, Error>) -> ()) {
+        let listener = Transport.ConnectionMessageListener { [weak self] connectionMessageResult in
             guard let selfStrong = self else {
                 return
             }
@@ -94,7 +94,7 @@ class ConnectionController: ConnectionControllerProtocol {
             case let .success(message):
                 do {
                     let versioned = try selfStrong.serializer.deserialize(message: message.content, to: VersionedBeaconMessage<B>.self)
-                    let connection = BeaconConnectionMessage(origin: message.origin, content: versioned)
+                    let connection = BeaconIncomingConnectionMessage(origin: message.origin, content: versioned)
                 
                     listener(.success(connection))
                 } catch {
@@ -145,10 +145,10 @@ class ConnectionController: ConnectionControllerProtocol {
     
     // MARK: Send
     
-    func send<B: Blockchain>(_ message: BeaconConnectionMessage<B>, completion: @escaping (Result<(), Error>) -> ()) {
+    func send<B: Blockchain>(_ message: BeaconOutgoingConnectionMessage<B>, completion: @escaping (Result<(), Error>) -> ()) {
         do {
             let serialized = try serializer.serialize(message: message.content)
-            let serializedConnectionMessage = SerializedConnectionMessage(origin: message.origin, content: serialized)
+            let serializedConnectionMessage = SerializedOutgoingConnectionMessage(destination: message.destination, content: serialized)
             
             transports.forEachAsync(body: { $0.send(serializedConnectionMessage, completion: $1) }) { results in
                 guard results.allSatisfy({ $0.isSuccess }) else {
@@ -167,6 +167,40 @@ class ConnectionController: ConnectionControllerProtocol {
             completion(.failure(error))
         }
     }
+    
+    // MARK: Pairing
+    
+    func pair(using connectionKind: Beacon.Connection.Kind, onMessage listener: @escaping (Result<BeaconPairingMessage, Error>) -> ()) {
+        do {
+            guard let transport = transports.first(where: { $0.kind == connectionKind }) else {
+                throw Beacon.Error.transportNotSupported(connectionKind)
+            }
+            
+            let listener = Transport.PairingMessageListener { [weak transport] selfListener, pairingMessage in
+                listener(pairingMessage)
+                
+                guard let pairingMessage = try? pairingMessage.get(), case .response(_) = pairingMessage else { return }
+                transport?.remove(selfListener)
+            }
+            
+            transport.add(listener)
+            transport.pair()
+        } catch {
+            listener(.failure(error))
+        }
+    }
+    
+    func pair(with pairingRequest: BeaconPairingRequest, completion: @escaping (Result<BeaconPairingResponse, Error>) -> ()) {
+        runCatching(completion: completion) {
+            runCatching(completion: completion) {
+                guard let transport = transports.first(where: { $0.supportsPairing(for: pairingRequest )}) else {
+                    throw Beacon.Error.transportNotSupported(.init(from: pairingRequest))
+                }
+                
+                transport.pair(with: pairingRequest, completion: completion)
+            }
+        }
+    }
 }
 
 public protocol ConnectionControllerProtocol {
@@ -175,9 +209,21 @@ public protocol ConnectionControllerProtocol {
     func pause(completion: @escaping (Result<(), Error>) -> ())
     func resume(completion: @escaping (Result<(), Error>) -> ())
     
-    func listen<B: Blockchain>(onRequest listener: @escaping (Result<BeaconConnectionMessage<B>, Error>) -> ())
-    func send<B: Blockchain>(_ message: BeaconConnectionMessage<B>, completion: @escaping (Result<(), Error>) -> ())
-    
+    func listen<B: Blockchain>(onRequest listener: @escaping (Result<BeaconIncomingConnectionMessage<B>, Error>) -> ())
     func onNew(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ())
     func onRemoved(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ())
+    
+    func send<B: Blockchain>(_ message: BeaconOutgoingConnectionMessage<B>, completion: @escaping (Result<(), Error>) -> ())
+    
+    func pair(using connectionKind: Beacon.Connection.Kind, onMessage listener: @escaping (Result<BeaconPairingMessage, Error>) -> ())
+    func pair(with pairingRequest: BeaconPairingRequest, completion: @escaping (Result<BeaconPairingResponse, Error>) -> ())
+}
+
+private extension Beacon.Connection.Kind {
+    init(from pairingRequest: BeaconPairingRequest) {
+        switch pairingRequest {
+        case .p2p(_):
+            self = .p2p
+        }
+    }
 }

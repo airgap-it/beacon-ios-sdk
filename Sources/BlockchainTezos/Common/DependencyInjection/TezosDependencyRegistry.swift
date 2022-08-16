@@ -15,6 +15,13 @@ class TezosDependencyRegistry: ExtendedDependencyRegistry {
         self.dependencyRegistry = dependencyRegistry
     }
     
+    // MARK: Blockchain
+    
+    var tezos: Tezos { weakTezos.value }
+    private lazy var weakTezos: LazyWeakReference<Tezos> = LazyWeakReference { [unowned self] in
+        Tezos(wallet: tezosWallet, creator: tezosCreator, storageExtension: tezosStorageExtension)
+    }
+    
     // MARK: Wallet
     
     var tezosWallet: Tezos.Wallet { weakTezosWallet.value }

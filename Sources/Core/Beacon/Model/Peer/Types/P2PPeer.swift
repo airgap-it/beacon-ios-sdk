@@ -37,6 +37,8 @@ extension Beacon {
         /// An optional URL for the peer application.
         public let appURL: URL?
         
+        public let isPaired: Bool
+        
         public init(
             id: String? = nil,
             name: String,
@@ -46,6 +48,28 @@ extension Beacon {
             icon: String? = nil,
             appURL: URL? = nil
         ) {
+            self.init(
+                id: id,
+                name: name,
+                publicKey: publicKey,
+                relayServer: relayServer,
+                version: version,
+                icon: icon,
+                appURL: appURL,
+                isPaired: false
+            )
+        }
+        
+        init(
+            id: String? = nil,
+            name: String,
+            publicKey: String,
+            relayServer: String,
+            version: String,
+            icon: String? = nil,
+            appURL: URL? = nil,
+            isPaired: Bool = false
+        ) {
             kind = .p2p
             self.id = id
             self.name = name
@@ -54,6 +78,11 @@ extension Beacon {
             self.version = version
             self.icon = icon
             self.appURL = appURL
+            self.isPaired = isPaired
+        }
+        
+        public func toConnectionID() -> Beacon.Connection.ID {
+            .p2p(id: publicKey)
         }
         
         // MARK: Codable
@@ -69,6 +98,7 @@ extension Beacon {
             version = try values.decodeIfPresent(String.self, forKey: .version) ?? "1"
             icon = try values.decodeIfPresent(String.self, forKey: .icon)
             appURL = try values.decodeIfPresent(URL.self, forKey: .appURL)
+            isPaired = try values.decodeIfPresent(Bool.self, forKey: .isPaired) ?? /* backwards compatibilty */ true
         }
         
         enum CodingKeys: String, CodingKey {
@@ -80,6 +110,7 @@ extension Beacon {
             case version
             case icon
             case appURL
+            case isPaired
         }
         
         // MARK: Internal
@@ -92,7 +123,8 @@ extension Beacon {
             relayServer: String? = nil,
             version: String? = nil,
             icon: String?? = nil,
-            appURL: URL?? = nil
+            appURL: URL?? = nil,
+            isPaired: Bool? = nil
         ) {
             self.init(
                 id: id ?? peer.id,
@@ -101,7 +133,8 @@ extension Beacon {
                 relayServer: relayServer ?? peer.relayServer,
                 version: version ?? peer.version,
                 icon: icon ?? peer.icon,
-                appURL: appURL ?? peer.appURL
+                appURL: appURL ?? peer.appURL,
+                isPaired: isPaired ?? peer.isPaired
             )
         }
     }
