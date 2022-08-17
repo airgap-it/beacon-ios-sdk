@@ -19,7 +19,7 @@ public struct PermissionV2TezosRequest: V2BeaconMessageProtocol {
     public let scopes: [Tezos.Permission.Scope]
     
     init(
-        version: String,
+        version: String = V2BeaconMessage<Tezos>.version,
         id: String,
         senderID: String,
         appMetadata: AppMetadata,

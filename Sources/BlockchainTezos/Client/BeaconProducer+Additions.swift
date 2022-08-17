@@ -26,7 +26,7 @@ public extension BeaconProducer where Self: Beacon.Client {
                 let request: BeaconRequest<Tezos> = .permission(
                     .init(
                         id: requestMetadata.id,
-                        version: requestMetadata.version,
+                        version: Tezos.Configuration.messageVersion,
                         senderID: requestMetadata.senderID,
                         origin: requestMetadata.origin,
                         destination: requestMetadata.destination,
@@ -59,7 +59,7 @@ public extension BeaconProducer where Self: Beacon.Client {
                     .operation(
                         .init(
                             id: requestMetadata.id,
-                            version: requestMetadata.version,
+                            version: Tezos.Configuration.messageVersion,
                             senderID: requestMetadata.senderID,
                             origin: requestMetadata.origin,
                             destination: requestMetadata.destination,
@@ -95,7 +95,7 @@ public extension BeaconProducer where Self: Beacon.Client {
                     .signPayload(
                         .init(
                             id: requestMetadata.id,
-                            version: requestMetadata.version,
+                            version: Tezos.Configuration.messageVersion,
                             senderID: requestMetadata.senderID,
                             appMetadata: try self.ownMetadata(),
                             origin: requestMetadata.origin,
@@ -130,7 +130,7 @@ public extension BeaconProducer where Self: Beacon.Client {
                     .broadcast(
                         .init(
                             id: requestMetadata.id,
-                            version: requestMetadata.version,
+                            version: Tezos.Configuration.messageVersion,
                             senderID: requestMetadata.senderID,
                             appMetadata: try self.ownMetadata(),
                             origin: requestMetadata.origin,

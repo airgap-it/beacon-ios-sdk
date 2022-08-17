@@ -8,12 +8,14 @@
 import Foundation
 
 public struct V3BeaconMessage<BlockchainType: Blockchain>: V3BeaconMessageProtocol {
+    public static var version: String { "3" }
+    
     public var id: String
     public var version: String
     public var senderID: String
     public var message: Content
     
-    public init(id: String, version: String, senderID: String, message: Content) {
+    public init(id: String, version: String = Self.version, senderID: String, message: Content) {
         self.id = id
         self.version = version
         self.senderID = senderID

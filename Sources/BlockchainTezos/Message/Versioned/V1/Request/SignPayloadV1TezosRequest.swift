@@ -17,7 +17,7 @@ public struct SignPayloadV1TezosRequest: V1BeaconMessageProtocol {
     public let payload: String
     public let sourceAddress: String
     
-    init(version: String, id: String, beaconID: String, payload: String, sourceAddress: String) {
+    init(version: String = V1BeaconMessage<Tezos>.version, id: String, beaconID: String, payload: String, sourceAddress: String) {
         type = SignPayloadV1TezosRequest.type
         self.version = version
         self.id = id

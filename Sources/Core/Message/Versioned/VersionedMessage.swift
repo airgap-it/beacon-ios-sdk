@@ -76,13 +76,13 @@ public enum VersionedBeaconMessage<BlockchainType: Blockchain>: VersionedBeaconM
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let version = try container.decode(String.self, forKey: .version)
+        let version = try container.decodeIfPresent(String.self, forKey: .version) ?? "2"
         switch version.major {
-        case "1":
+        case V1BeaconMessage<BlockchainType>.version:
             self = .v1(try V1BeaconMessage(from: decoder))
-        case "2":
+        case V2BeaconMessage<BlockchainType>.version:
             self = .v2(try V2BeaconMessage(from: decoder))
-        case "3":
+        case V3BeaconMessage<BlockchainType>.version:
             self = .v3(try V3BeaconMessage(from: decoder))
         default:
             // fallback to the newest version
