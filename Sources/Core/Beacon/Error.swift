@@ -183,6 +183,8 @@ extension Beacon {
         /// 
         case accountNotFound(_ accountID: String)
         
+        case noActiveAccount
+        
         // MARK: P2P
         
         /// No P2P nodes have been configured.

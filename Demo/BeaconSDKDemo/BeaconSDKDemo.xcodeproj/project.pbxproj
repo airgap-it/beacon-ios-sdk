@@ -61,6 +61,7 @@
 		A376970B28A4F992004CCFFB /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		A376970E28A4F9B0004CCFFB /* WalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewModel.swift; sourceTree = "<group>"; };
 		A376971328A51666004CCFFB /* DAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAppViewModel.swift; sourceTree = "<group>"; };
+		A3EF856428B623A300EDCC92 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +98,7 @@
 		49C97F7125ADB07E002F6366 = {
 			isa = PBXGroup;
 			children = (
+				A3EF856428B623A300EDCC92 /* Podfile */,
 				88BC03AB2705FD130095C508 /* Packages */,
 				88B042342683367400979229 /* beacon-ios-sdk */,
 				49C97F7C25ADB07E002F6366 /* BeaconSDKDemo */,

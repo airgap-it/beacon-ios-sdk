@@ -15,7 +15,7 @@ extension AccountController.Store {
         case onPeerRemoved(peer: Beacon.Peer)
         case resetActivePeer
         
-        case onNewActiveAccount(account: Account)
+        case onNewActiveAccount(account: PairedAccount)
         case resetActiveAccount
         
         case hardReset

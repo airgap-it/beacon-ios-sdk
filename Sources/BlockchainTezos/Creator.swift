@@ -86,8 +86,8 @@ extension Tezos {
             }
         }
         
-        public func extractAccounts(from response: PermissionTezosResponse, completion: @escaping (Result<[String], Swift.Error>) -> ()) {
-            completion(.success([response.account.accountID]))
+        public func extractAccounts(from response: PermissionTezosResponse, completion: @escaping (Result<[BeaconCore.Account], Swift.Error>) -> ()) {
+            completion(.success([.init(accountID: response.account.accountID, address: response.account.address)]))
         }
         
         // MARK: Types

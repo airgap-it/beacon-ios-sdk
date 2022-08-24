@@ -44,7 +44,6 @@ public extension BeaconProducer where Self: Beacon.Client {
     }
     
     func requestSubstrateTransfer(
-        sourceAddress: String,
         amount: String,
         recipient: String,
         mode: TransferSubstrateRequest.Mode,
@@ -54,6 +53,10 @@ public extension BeaconProducer where Self: Beacon.Client {
     ) {
         prepareRequest(for: connectionKind) {
             guard let requestMetadata = $0.get(ifFailure: completion) else { return }
+            guard let account = requestMetadata.account else {
+                completion(.failure(.noActiveAccount))
+                return
+            }
             
             let request: BeaconRequest<Substrate> = .blockchain(
                 .transfer(
@@ -63,8 +66,8 @@ public extension BeaconProducer where Self: Beacon.Client {
                         senderID: requestMetadata.senderID,
                         origin: requestMetadata.origin,
                         destination: requestMetadata.destination,
-                        accountID: requestMetadata.accountID,
-                        sourceAddress: sourceAddress,
+                        accountID: account.accountID,
+                        sourceAddress: account.address,
                         amount: amount,
                         recipient: recipient,
                         network: network,
@@ -78,7 +81,6 @@ public extension BeaconProducer where Self: Beacon.Client {
     }
     
     func requestSubstrateSignPayload(
-        address: String,
         payload: Substrate.SignerPayload,
         mode: SignPayloadSubstrateRequest.Mode,
         using connectionKind: Beacon.Connection.Kind = .p2p,
@@ -86,6 +88,10 @@ public extension BeaconProducer where Self: Beacon.Client {
     ) {
         prepareRequest(for: connectionKind) {
             guard let requestMetadata = $0.get(ifFailure: completion) else { return }
+            guard let account = requestMetadata.account else {
+                completion(.failure(.noActiveAccount))
+                return
+            }
             
             let request: BeaconRequest<Substrate> = .blockchain(
                 .signPayload(
@@ -95,8 +101,8 @@ public extension BeaconProducer where Self: Beacon.Client {
                         senderID: requestMetadata.senderID,
                         origin: requestMetadata.origin,
                         destination: requestMetadata.destination,
-                        accountID: requestMetadata.accountID,
-                        address: address,
+                        accountID: account.accountID,
+                        address: account.address,
                         payload: payload,
                         mode: mode
                     )

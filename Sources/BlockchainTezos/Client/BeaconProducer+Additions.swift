@@ -44,17 +44,19 @@ public extension BeaconProducer where Self: Beacon.Client {
     }
     
     func requestTezosOperation(
-        sourceAddress: String,
         operationDetails: [Tezos.Operation] = [],
         on network: Tezos.Network = .mainnet,
-        accountID: String? = nil,
         using connectionKind: Beacon.Connection.Kind = .p2p,
         completion: @escaping (Result<(), Beacon.Error>) -> ()
     ) {
-        prepareRequest(for: connectionKind) {
-            guard let requestMetadata = $0.get(ifFailure: completion) else { return }
+        prepareRequest(for: connectionKind) { requestMetadataResult in
+            guard let requestMetadata = requestMetadataResult.get(ifFailure: completion) else { return }
             
             do {
+                guard let account = requestMetadata.account else {
+                    throw Beacon.Error.noActiveAccount
+                }
+                
                 let request: BeaconRequest<Tezos> = .blockchain(
                     .operation(
                         .init(
@@ -63,11 +65,11 @@ public extension BeaconProducer where Self: Beacon.Client {
                             senderID: requestMetadata.senderID,
                             origin: requestMetadata.origin,
                             destination: requestMetadata.destination,
-                            accountID: accountID ?? requestMetadata.accountID,
+                            accountID: account.accountID,
                             appMetadata: try self.ownMetadata(),
                             network: network,
                             operationDetails: operationDetails,
-                            sourceAddress: sourceAddress
+                            sourceAddress: account.address
                         )
                     )
                 )
@@ -82,8 +84,6 @@ public extension BeaconProducer where Self: Beacon.Client {
     func requestTezosSignPayload(
         signingType: Tezos.SigningType,
         payload: String,
-        sourceAddress: String,
-        accountID: String? = nil,
         using connectionKind: Beacon.Connection.Kind = .p2p,
         completion: @escaping (Result<(), Beacon.Error>) -> ()
     ) {
@@ -91,6 +91,10 @@ public extension BeaconProducer where Self: Beacon.Client {
             guard let requestMetadata = $0.get(ifFailure: completion) else { return }
             
             do {
+                guard let account = requestMetadata.account else {
+                    throw Beacon.Error.noActiveAccount
+                }
+                
                 let request: BeaconRequest<Tezos> = .blockchain(
                     .signPayload(
                         .init(
@@ -100,10 +104,10 @@ public extension BeaconProducer where Self: Beacon.Client {
                             appMetadata: try self.ownMetadata(),
                             origin: requestMetadata.origin,
                             destination: requestMetadata.destination,
-                            accountID: accountID ?? requestMetadata.accountID,
+                            accountID: account.accountID,
                             signingType: signingType,
                             payload: payload,
-                            sourceAddress: sourceAddress
+                            sourceAddress: account.address
                         )
                     )
                 )
@@ -118,7 +122,6 @@ public extension BeaconProducer where Self: Beacon.Client {
     func requestTezosBroadcast(
         signedTransaction: String,
         on network: Tezos.Network = .mainnet,
-        accountID: String? = nil,
         using connectionKind: Beacon.Connection.Kind = .p2p,
         completion: @escaping (Result<(), Beacon.Error>) -> ()
     ) {
@@ -126,6 +129,10 @@ public extension BeaconProducer where Self: Beacon.Client {
             guard let requestMetadata = $0.get(ifFailure: completion) else { return }
             
             do {
+                guard let account = requestMetadata.account else {
+                    throw Beacon.Error.noActiveAccount
+                }
+                
                 let request: BeaconRequest<Tezos> = .blockchain(
                     .broadcast(
                         .init(
@@ -135,7 +142,7 @@ public extension BeaconProducer where Self: Beacon.Client {
                             appMetadata: try self.ownMetadata(),
                             origin: requestMetadata.origin,
                             destination: requestMetadata.destination,
-                            accountID: accountID ?? requestMetadata.accountID,
+                            accountID: account.accountID,
                             network: network,
                             signedTransaction: signedTransaction
                         )

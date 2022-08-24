@@ -125,7 +125,7 @@ extension AccountController {
                 }
             }
             
-            private func onNewActiveAccount(_ account: Account, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+            private func onNewActiveAccount(_ account: PairedAccount, completion: @escaping (Result<(), Swift.Error>) -> ()) {
                 withState {
                     guard let state = $0.get(ifFailure: completion) else { return }
                     
