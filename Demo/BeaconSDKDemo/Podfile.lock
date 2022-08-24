@@ -1,26 +1,29 @@
 PODS:
   - Base58Swift (2.1.10):
     - BigInt (~> 5.0.0)
-  - BeaconBlockchainSubstrate (3.0.1-beta.2):
-    - BeaconCore (~> 3.0.1-beta.2)
-  - BeaconBlockchainTezos (3.0.1-beta.2):
-    - BeaconCore (~> 3.0.1-beta.2)
-  - BeaconClientWallet (3.0.1-beta.2):
-    - BeaconCore (~> 3.0.1-beta.2)
-  - BeaconCore (3.0.1-beta.2):
+  - BeaconBlockchainSubstrate (3.2.1-beta.1):
+    - BeaconCore (~> 3.2.1-beta.1)
+  - BeaconBlockchainTezos (3.2.1-beta.1):
+    - BeaconCore (~> 3.2.1-beta.1)
+  - BeaconClientDApp (3.2.1-beta.1):
+    - BeaconCore (~> 3.2.1-beta.1)
+  - BeaconClientWallet (3.2.1-beta.1):
+    - BeaconCore (~> 3.2.1-beta.1)
+  - BeaconCore (3.2.1-beta.1):
     - Base58Swift (~> 2.1.0)
     - Sodium (~> 0.9.1)
-  - BeaconTransportP2PMatrix (3.0.1-beta.2):
-    - BeaconCore (~> 3.0.1-beta.2)
+  - BeaconTransportP2PMatrix (3.2.1-beta.1):
+    - BeaconCore (~> 3.2.1-beta.1)
   - BigInt (5.0.0)
   - Sodium (0.9.1)
 
 DEPENDENCIES:
-  - BeaconBlockchainSubstrate (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.0.1-beta.2`)
-  - BeaconBlockchainTezos (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.0.1-beta.2`)
-  - BeaconClientWallet (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.0.1-beta.2`)
-  - BeaconCore (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.0.1-beta.2`)
-  - BeaconTransportP2PMatrix (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.0.1-beta.2`)
+  - BeaconBlockchainSubstrate (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.2.1-beta.1`)
+  - BeaconBlockchainTezos (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.2.1-beta.1`)
+  - BeaconClientDApp (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.2.1-beta.1`)
+  - BeaconClientWallet (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.2.1-beta.1`)
+  - BeaconCore (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.2.1-beta.1`)
+  - BeaconTransportP2PMatrix (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.2.1-beta.1`)
 
 SPEC REPOS:
   trunk:
@@ -31,47 +34,54 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   BeaconBlockchainSubstrate:
     :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.0.1-beta.2
+    :tag: 3.2.1-beta.1
   BeaconBlockchainTezos:
     :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.0.1-beta.2
+    :tag: 3.2.1-beta.1
+  BeaconClientDApp:
+    :git: https://github.com/airgap-it/beacon-ios-sdk
+    :tag: 3.2.1-beta.1
   BeaconClientWallet:
     :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.0.1-beta.2
+    :tag: 3.2.1-beta.1
   BeaconCore:
     :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.0.1-beta.2
+    :tag: 3.2.1-beta.1
   BeaconTransportP2PMatrix:
     :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.0.1-beta.2
+    :tag: 3.2.1-beta.1
 
 CHECKOUT OPTIONS:
   BeaconBlockchainSubstrate:
     :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.0.1-beta.2
+    :tag: 3.2.1-beta.1
   BeaconBlockchainTezos:
     :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.0.1-beta.2
+    :tag: 3.2.1-beta.1
+  BeaconClientDApp:
+    :git: https://github.com/airgap-it/beacon-ios-sdk
+    :tag: 3.2.1-beta.1
   BeaconClientWallet:
     :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.0.1-beta.2
+    :tag: 3.2.1-beta.1
   BeaconCore:
     :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.0.1-beta.2
+    :tag: 3.2.1-beta.1
   BeaconTransportP2PMatrix:
     :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.0.1-beta.2
+    :tag: 3.2.1-beta.1
 
 SPEC CHECKSUMS:
   Base58Swift: 53d551f0b33d9478fa63b3445e453a772d6b31a7
-  BeaconBlockchainSubstrate: b103de5e417e894ecee60e0c75fa9088055a6723
-  BeaconBlockchainTezos: 9dbf9a1b99455f396e51353ee58e7f967e0a0316
-  BeaconClientWallet: d3bcdcdd5f3ea4b145006c2ecdd1dcf3e470e42d
-  BeaconCore: 327a353796ceaa2b9c1273a5808e86d85a6f7f10
-  BeaconTransportP2PMatrix: f9beb4d6b75e7b908b96019813a8873f5e9c6528
+  BeaconBlockchainSubstrate: d49d392bd6924884490fddccaa338395c90625b7
+  BeaconBlockchainTezos: ae7fb8a833cf99d6f44ff6245bc2decb20cb59e5
+  BeaconClientDApp: 36ee6927d9303e1de74ec5aa02ea0a328a313eb1
+  BeaconClientWallet: 6ad8244caa51b11257c2082c53ec2326f12f4d2c
+  BeaconCore: fe47e9d9fdfe94abd04922b27c4ab540cbf56ee7
+  BeaconTransportP2PMatrix: 796fd8d4960c7fa5f14130e9099694f99644f775
   BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
   Sodium: 23d11554ecd556196d313cf6130d406dfe7ac6da
 
-PODFILE CHECKSUM: e50406f284bb49188717fd5f2187394fee86868a
+PODFILE CHECKSUM: c2c9d9958829778009f88ca2c970e2b69133a0b5
 
 COCOAPODS: 1.11.2

@@ -1,9 +1,9 @@
 Pod::Spec.new do |spec|
     spec.name                  = "BeaconClientDApp"
     spec.version               = "3.2.1-beta.1"
-    spec.summary               = "Beacon is an implementation of the wallet interaction standard tzip-10 which describes the connection of a dApp with a wallet. BeaconClientWallet provides the Beacon implementation for wallets."
+    spec.summary               = "Beacon is an implementation of the wallet interaction standard tzip-10 which describes the connection of a dApp with a wallet. BeaconClientDApp provides the Beacon implementation for dApps."
     spec.description           = <<-DESC
-      Beacon is an implementation of the Tezos wallet interaction standard tzip-10 which describes the connection of a dApp with a wallet. BeaconClientWallet provides the Beacon implementation for wallets.
+      Beacon is an implementation of the Tezos wallet interaction standard tzip-10 which describes the connection of a dApp with a wallet. BeaconClientDApp provides the Beacon implementation for dApps.
                      DESC
     spec.homepage              = "https://walletbeacon.io"
     spec.license               = { :type => "MIT", :file => "LICENSE" }
