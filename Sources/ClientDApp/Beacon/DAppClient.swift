@@ -106,6 +106,18 @@ extension Beacon {
             }
         }
         
+        public func clearActiveAccount(completion: @escaping (Result<(), Error>) -> ()) {
+            accountController.clearActiveAccount { result in
+                completion(result.withBeaconError())
+            }
+        }
+        
+        public func reset(completion: @escaping (Result<(), Error>) -> ()) {
+            accountController.clearAll { result in
+                completion(result.withBeaconError())
+            }
+        }
+        
         // MARK: Connection
         
         ///
