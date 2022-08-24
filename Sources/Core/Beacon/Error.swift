@@ -184,6 +184,8 @@ extension Beacon {
         case accountNotFound(_ accountID: String)
         
         case noActiveAccount
+
+        case noAccountNetworkFound(_ accountID: String)
         
         // MARK: P2P
         

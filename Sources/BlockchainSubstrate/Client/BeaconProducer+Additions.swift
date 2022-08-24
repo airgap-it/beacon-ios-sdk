@@ -47,7 +47,7 @@ public extension BeaconProducer where Self: Beacon.Client {
         amount: String,
         recipient: String,
         mode: TransferSubstrateRequest.Mode,
-        on network: Substrate.Network,
+        on network: Substrate.Network? = nil,
         using connectionKind: Beacon.Connection.Kind = .p2p,
         completion: @escaping (Result<(), Beacon.Error>) -> ()
     ) {
@@ -58,25 +58,29 @@ public extension BeaconProducer where Self: Beacon.Client {
                 return
             }
             
-            let request: BeaconRequest<Substrate> = .blockchain(
-                .transfer(
-                    .init(
-                        id: requestMetadata.id,
-                        version: Substrate.Configuration.messageVersion,
-                        senderID: requestMetadata.senderID,
-                        origin: requestMetadata.origin,
-                        destination: requestMetadata.destination,
-                        accountID: account.accountID,
-                        sourceAddress: account.address,
-                        amount: amount,
-                        recipient: recipient,
-                        network: network,
-                        mode: mode
+            self.getNetwork(forAcountID: account.accountID) { networkResult in
+                guard let network = network ?? networkResult.get(ifFailure: completion) else { return }
+            
+                let request: BeaconRequest<Substrate> = .blockchain(
+                    .transfer(
+                        .init(
+                            id: requestMetadata.id,
+                            version: Substrate.Configuration.messageVersion,
+                            senderID: requestMetadata.senderID,
+                            origin: requestMetadata.origin,
+                            destination: requestMetadata.destination,
+                            accountID: account.accountID,
+                            sourceAddress: account.address,
+                            amount: amount,
+                            recipient: recipient,
+                            network: network,
+                            mode: mode
+                        )
                     )
                 )
-            )
-            
-            self.request(with: request, completion: completion)
+                
+                self.request(with: request, completion: completion)
+            }
         }
     }
     
@@ -110,6 +114,18 @@ public extension BeaconProducer where Self: Beacon.Client {
             )
             
             self.request(with: request, completion: completion)
+        }
+    }
+    
+    private func getNetwork(forAcountID accountID: String, completion: @escaping (Result<Substrate.Network, Beacon.Error>) -> ()) {
+        getPermissions(forAccountIdentifier: accountID) { (result: Result<Substrate.Permission?, Beacon.Error>) -> () in
+            guard let permission = result.get(ifFailure: completion) else { return }
+            guard let network = permission?.account.network else {
+                completion(.failure(.noAccountNetworkFound(accountID)))
+                return
+            }
+            
+            completion(.success(network))
         }
     }
 }
