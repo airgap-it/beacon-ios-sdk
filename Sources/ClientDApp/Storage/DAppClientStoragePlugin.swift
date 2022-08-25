@@ -12,8 +12,8 @@ public protocol DAppClientStoragePlugin: StoragePlugin {
     
     // MARK: Account
     
-    func getActiveAccount(completion: @escaping (Result<Account?, Error>) -> ())
-    func setActiveAccount(_ account: Account?, completion: @escaping (Result<(), Error>) -> ())
+    func getActiveAccount(completion: @escaping (Result<PairedAccount?, Error>) -> ())
+    func setActiveAccount(_ account: PairedAccount?, completion: @escaping (Result<(), Error>) -> ())
     
     // MARK: Peer
     

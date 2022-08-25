@@ -79,9 +79,14 @@ extension Substrate {
             }
         }
         
-        public func extractAccounts(from response: PermissionSubstrateResponse, completion: @escaping (Result<[String], Swift.Error>) -> ()) {
+        public func extractAccounts(from response: PermissionSubstrateResponse, completion: @escaping (Result<[BeaconCore.Account], Swift.Error>) -> ()) {
             completeCatching(completion: completion) {
-                try response.accounts.map { try identifierCreator.accountID(forAddress: $0.address, onNetworkWithIdentifier: $0.network?.identifier) }
+                try response.accounts.map {
+                    .init(
+                        accountID: try identifierCreator.accountID(forAddress: $0.address, onNetworkWithIdentifier: $0.network?.identifier),
+                        address: $0.address
+                    )
+                }
             }
         }
         

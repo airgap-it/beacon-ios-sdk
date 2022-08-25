@@ -98,6 +98,26 @@ extension Beacon {
             }
         }
         
+        // MARK: Accounts
+        
+        public func getActiveAccount(completion: @escaping (Result<Account?, Error>) -> ()) {
+            accountController.getActiveAccount { result in
+                completion(result.map({ $0?.account }).withBeaconError())
+            }
+        }
+        
+        public func clearActiveAccount(completion: @escaping (Result<(), Error>) -> ()) {
+            accountController.clearActiveAccount { result in
+                completion(result.withBeaconError())
+            }
+        }
+        
+        public func reset(completion: @escaping (Result<(), Error>) -> ()) {
+            accountController.clearAll { result in
+                completion(result.withBeaconError())
+            }
+        }
+        
         // MARK: Connection
         
         ///
@@ -159,7 +179,7 @@ extension Beacon {
                             senderID: try self.senderID(),
                             origin: .init(kind: connectionKind, id: HexString(from: self.app.keyPair.publicKey).asString()),
                             destination: activePeer.toConnectionID(),
-                            accountID: activeAccount?.accountID
+                            account: activeAccount?.account
                         )))
                     } catch {
                         completion(.failure(Error(error)))

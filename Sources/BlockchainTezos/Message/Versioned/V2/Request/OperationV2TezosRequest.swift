@@ -19,7 +19,7 @@ public struct OperationV2TezosRequest: V2BeaconMessageProtocol {
     public let sourceAddress: String
     
     init(
-        version: String,
+        version: String = V2BeaconMessage<Tezos>.version,
         id: String,
         senderID: String,
         network: Tezos.Network,

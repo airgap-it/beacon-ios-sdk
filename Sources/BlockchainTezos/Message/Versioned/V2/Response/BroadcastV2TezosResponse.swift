@@ -16,7 +16,7 @@ public struct BroadcastV2TezosResponse: V2BeaconMessageProtocol {
     public let senderID: String
     public let transactionHash: String
     
-    init(version: String, id: String, senderID: String, transactionHash: String) {
+    init(version: String = V2BeaconMessage<Tezos>.version, id: String, senderID: String, transactionHash: String) {
         type = BroadcastV2TezosResponse.type
         self.version = version
         self.id = id
