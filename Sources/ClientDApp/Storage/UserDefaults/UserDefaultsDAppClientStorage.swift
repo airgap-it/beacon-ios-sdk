@@ -19,13 +19,13 @@ struct UserDefaultsDAppClientStorage: DAppClientStorage {
     
     // MARK: Account
     
-    func getActiveAccount(completion: @escaping (Result<Account?, Error>) -> ()) {
+    func getActiveAccount(completion: @escaping (Result<PairedAccount?, Error>) -> ()) {
         completeCatching(completion: completion) {
-            try userDefaults.get(Account.self, forKey: .activeAccount)
+            try userDefaults.get(PairedAccount.self, forKey: .activeAccount)
         }
     }
     
-    func setActiveAccount(_ account: Account?, completion: @escaping (Result<(), Error>) -> ()) {
+    func setActiveAccount(_ account: PairedAccount?, completion: @escaping (Result<(), Error>) -> ()) {
         completeCatching(completion: completion) {
             if let account = account {
                 try userDefaults.set(account, forKey: .activeAccount)

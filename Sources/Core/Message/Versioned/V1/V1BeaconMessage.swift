@@ -9,6 +9,7 @@
 import Foundation
     
 public enum V1BeaconMessage<BlockchainType: Blockchain>: V1BeaconMessageProtocol {
+    public static var version: String { "1" }
     
     public typealias BlockchainBeaconMessage = BlockchainType.VersionedMessage.V1
     

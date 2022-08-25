@@ -10,7 +10,7 @@ import Foundation
 @testable import BeaconClientDApp
 
 public class MockAccountController: AccountControllerProtocol {
-    private var activeAccount: Account? = nil
+    private var activeAccount: PairedAccount? = nil
     private var activePeer: Beacon.Peer? = nil
     
     public init() {}
@@ -32,7 +32,7 @@ public class MockAccountController: AccountControllerProtocol {
         completion(.success(activePeer))
     }
     
-    public func getActiveAccount(completion: @escaping (Result<Account?, Error>) -> ()) {
+    public func getActiveAccount(completion: @escaping (Result<PairedAccount?, Error>) -> ()) {
         completion(.success(activeAccount))
     }
     

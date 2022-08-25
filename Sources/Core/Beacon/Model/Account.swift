@@ -9,10 +9,10 @@ import Foundation
 
 public struct Account: Equatable, Codable {
     public let accountID: String
-    public let peerID: String
+    public let address: String
     
-    public init(accountID: String, peerID: String) {
+    public init(accountID: String, address: String) {
         self.accountID = accountID
-        self.peerID = peerID
+        self.address = address
     }
 }

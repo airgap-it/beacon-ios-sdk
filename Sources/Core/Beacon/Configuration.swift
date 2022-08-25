@@ -14,7 +14,7 @@ public extension Beacon {
         
         // MARK: SDK
         
-        public static let sdkVersion: String = "3.0.0"
+        public static let sdkVersion: String = "3.2.1"
         
         public static let beaconVersion: String = "3"
         

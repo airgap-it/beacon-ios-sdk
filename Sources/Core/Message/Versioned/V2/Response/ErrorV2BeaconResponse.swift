@@ -15,7 +15,7 @@ public struct ErrorV2BeaconResponse<BlockchainType: Blockchain>: V2BeaconMessage
     public let senderID: String
     public let errorType: String
     
-    public init(version: String, id: String, senderID: String, errorType: String) {
+    public init(version: String = V2BeaconMessage<BlockchainType>.version, id: String, senderID: String, errorType: String) {
         self.type = ErrorV2BeaconResponse.type
         self.version = version
         self.id = id

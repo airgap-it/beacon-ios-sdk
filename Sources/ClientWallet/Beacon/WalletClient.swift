@@ -154,7 +154,7 @@ extension Beacon {
         /// - Parameter completion: The closure called when the call completes.
         /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
         ///
-        public func remove<T: AppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (_ result: Result<(), Error>) -> ()) {
+        public func removeAppMetadata<T: AppMetadataProtocol>(_ appMetadata: [T], completion: @escaping (_ result: Result<(), Error>) -> ()) {
             storageManager.remove(appMetadata) { result in
                 completion(result.withBeaconError())
             }
