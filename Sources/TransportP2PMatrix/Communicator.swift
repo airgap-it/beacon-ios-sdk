@@ -92,7 +92,7 @@ extension Transport.P2P.Matrix {
             .init(
                 id: request.id,
                 name: app.name,
-                version: request.version,
+                version: Beacon.Configuration.beaconVersion,
                 publicKey: HexString(from: keyPair.publicKey).asString(),
                 relayServer: relayServer,
                 icon: app.icon,

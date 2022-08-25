@@ -27,12 +27,12 @@ public struct SignPayloadTezosResponse: BlockchainBeaconResponseProtocol, Identi
     /// The payload signature.
     public let signature: String
     
-    public init(from request: SignPayloadTezosRequest, signature: String) {
+    public init(from request: SignPayloadTezosRequest, signingType: Tezos.SigningType? = nil, signature: String) {
         self.init(
             id: request.id,
             version: request.version,
             destination: request.origin,
-            signingType: request.signingType,
+            signingType: signingType ?? request.signingType,
             signature: signature
         )
     }

@@ -17,11 +17,11 @@ struct DecoratedDAppClientStoragePlugin: ExtendedDAppClientStoragePlugin {
     
     // MARK: Account
     
-    func getActiveAccount(completion: @escaping (Result<Account?, Error>) -> ()) {
+    func getActiveAccount(completion: @escaping (Result<PairedAccount?, Error>) -> ()) {
         storagePlugin.getActiveAccount(completion: completion)
     }
     
-    func setActiveAccount(_ account: Account?, completion: @escaping (Result<(), Error>) -> ()) {
+    func setActiveAccount(_ account: PairedAccount?, completion: @escaping (Result<(), Error>) -> ()) {
         storagePlugin.setActiveAccount(account, completion: completion)
     }
     

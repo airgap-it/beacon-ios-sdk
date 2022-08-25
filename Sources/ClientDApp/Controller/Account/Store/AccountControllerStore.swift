@@ -125,22 +125,30 @@ extension AccountController {
                 }
             }
             
-            private func onNewActiveAccount(_ account: Account, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+            private func onNewActiveAccount(_ account: PairedAccount, completion: @escaping (Result<(), Swift.Error>) -> ()) {
                 withState {
                     guard let state = $0.get(ifFailure: completion) else { return }
                     
                     if account.peerID == state.activePeer?.publicKey {
-                        self.state = .init(from: state, activeAccount: account)
-                        completion(.success(()))
-                    } else {
-                        self.storageManager.findActivePeer(id: account.peerID) { findResult in
-                            guard let foundPeer = findResult.get(ifFailure: completion) else { return }
+                        self.storageManager.setActiveAccount(account) {
+                            guard $0.isSuccess(else: completion) else { return }
                             
-                            self.getAndUpdateActivePeer(activePeer: state.activePeer, newPeer: foundPeer) { updateResult in
-                                guard let activePeer = updateResult.get(ifFailure: completion) else { return }
+                            self.state = .init(from: state, activeAccount: account)
+                            completion(.success(()))
+                        }
+                    } else {
+                        self.storageManager.setActiveAccount(account) { setResult in
+                            guard setResult.isSuccess(else: completion) else { return }
+                            
+                            self.storageManager.findActivePeer(id: account.peerID) { findResult in
+                                guard let foundPeer = findResult.get(ifFailure: completion) else { return }
                                 
-                                self.state = .init(from: state, activeAccount: account, activePeer: activePeer)
-                                completion(.success(()))
+                                self.getAndUpdateActivePeer(activePeer: state.activePeer, newPeer: foundPeer) { updateResult in
+                                    guard let activePeer = updateResult.get(ifFailure: completion) else { return }
+            
+                                    self.state = .init(from: state, activeAccount: account, activePeer: activePeer)
+                                    completion(.success(()))
+                                }
                             }
                         }
                     }

@@ -25,7 +25,7 @@ public protocol BlockchainCreator {
     
     func extractAccounts(
         from response: BlockchainType.Response.Permission,
-        completion: @escaping (Result<[String], Swift.Error>) -> ()
+        completion: @escaping (Result<[Account], Swift.Error>) -> ()
     )
 }
 
@@ -59,7 +59,7 @@ struct AnyBlockchainCreator: BlockchainCreator {
     
     func extractAccounts(
         from response: BlockchainType.Response.Permission,
-        completion: @escaping (Result<[String], Swift.Error>) -> ()
+        completion: @escaping (Result<[Account], Swift.Error>) -> ()
     ) {
         completion(.success([]))
     }

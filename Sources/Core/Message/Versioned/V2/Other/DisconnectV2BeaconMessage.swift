@@ -14,7 +14,7 @@ public struct DisconnectV2BeaconMessage<BlockchainType: Blockchain>: V2BeaconMes
     public let id: String
     public let senderID: String
     
-    public init(version: String, id: String, senderID: String) {
+    public init(version: String = V2BeaconMessage<BlockchainType>.version, id: String, senderID: String) {
         self.type = DisconnectV2BeaconMessage.type
         self.version = version
         self.id = id

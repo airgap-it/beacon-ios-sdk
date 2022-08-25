@@ -22,7 +22,7 @@ public struct BeaconRequestMetadata {
     public let senderID: String
     public let origin: Beacon.Connection.ID
     public let destination: Beacon.Connection.ID
-    public let accountID: String?
+    public let account: Account?
     
     public init(
         id: String,
@@ -30,13 +30,13 @@ public struct BeaconRequestMetadata {
         senderID: String,
         origin: Beacon.Connection.ID,
         destination: Beacon.Connection.ID,
-        accountID: String?
+        account: Account?
     ) {
         self.id = id
         self.version = version
         self.senderID = senderID
         self.origin = origin
         self.destination = destination
-        self.accountID = accountID
+        self.account = account
     }
 }

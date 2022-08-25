@@ -24,13 +24,13 @@ extension StorageManager: ExtendedDAppClientStoragePlugin {
         return plugin.extend()
     }
     
-    public func getActiveAccount(completion: @escaping (Result<Account?, Swift.Error>) -> ()) {
+    public func getActiveAccount(completion: @escaping (Result<PairedAccount?, Swift.Error>) -> ()) {
         runCatching(completion: completion) {
             try extendedDAppClientStoragePlugin().getActiveAccount(completion: completion)
         }
     }
     
-    public func setActiveAccount(_ account: Account?, completion: @escaping (Result<(), Swift.Error>) -> ()) {
+    public func setActiveAccount(_ account: PairedAccount?, completion: @escaping (Result<(), Swift.Error>) -> ()) {
         runCatching(completion: completion) {
             try extendedDAppClientStoragePlugin().setActiveAccount(account, completion: completion)
         }

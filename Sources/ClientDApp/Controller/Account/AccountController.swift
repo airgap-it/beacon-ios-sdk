@@ -29,8 +29,8 @@ class AccountController: AccountControllerProtocol {
         
             blockchain.creator.extractAccounts(from: response) { result in
                 guard let accounts = result.get(ifFailure: completion) else { return }
-                if let accountID = accounts.first /* TODO: other selection criteria? */ {
-                    let account = Account(accountID: accountID, peerID: origin.id)
+                if let account = accounts.first /* TODO: other selection criteria? */ {
+                    let account = PairedAccount(account: account, peerID: origin.id)
                     self.store.intent(action: .onNewActiveAccount(account: account), completion: completion)
                 } else {
                     completion(.success(()))
@@ -46,7 +46,7 @@ class AccountController: AccountControllerProtocol {
         }
     }
     
-    func getActiveAccount(completion: @escaping (Result<Account?, Error>) -> ()) {
+    func getActiveAccount(completion: @escaping (Result<PairedAccount?, Error>) -> ()) {
         store.state {
             guard let state = $0.get(ifFailure: completion) else { return }
             completion(.success(state.activeAccount))
@@ -69,7 +69,7 @@ public protocol AccountControllerProtocol {
     func onPermissionResponse<B: Blockchain>(_ response: B.Response.Permission, ofType type: B.Type, origin: Beacon.Connection.ID, completion: @escaping (Result<(), Error>) -> ())
     
     func getActivePeer(completion: @escaping (Result<Beacon.Peer?, Error>) -> ())
-    func getActiveAccount(completion: @escaping (Result<Account?, Error>) -> ())
+    func getActiveAccount(completion: @escaping (Result<PairedAccount?, Error>) -> ())
     func clearActiveAccount(completion: @escaping (Result<(), Error>) -> ())
     func clearAll(completion: @escaping (Result<(), Error>) -> ())
 }

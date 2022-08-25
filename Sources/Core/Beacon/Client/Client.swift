@@ -137,7 +137,7 @@ extension Beacon {
         /// - Parameter completion: The closure called when the call completes.
         /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
         ///
-        public func remove(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
+        public func removePeers(_ peers: [Beacon.Peer], completion: @escaping (Result<(), Error>) -> ()) {
             stopListening(to: peers) { result in
                 peers.forEachAsync(body: { self.disconnect($0, completion: $1) }) { _ in
                     /* ignore disconnect results */
@@ -157,7 +157,7 @@ extension Beacon {
         public func removeAllPeers(completion: @escaping (_ result: Result<(), Error>) -> ()) {
             storageManager.getPeers { result in
                 guard let peers = result.get(ifFailureWithBeaconError: completion) else { return }
-                self.remove(peers, completion: completion)
+                self.removePeers(peers, completion: completion)
             }
         }
         
@@ -166,7 +166,7 @@ extension Beacon {
                 guard let peerOrNil = result.get(ifFailureWithBeaconError: completion) else { return }
                 guard let peer = peerOrNil else { return }
                 
-                self.remove([peer], completion: completion)
+                self.removePeers([peer], completion: completion)
             }
         }
         
@@ -228,7 +228,7 @@ extension Beacon {
         /// - Parameter completion: The closure called when the call completes.
         /// - Parameter result: The result of the call represented as either `Void` if the call was successful or `Beacon.Error` if it failed.
         ///
-        public func remove<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (_ result: Result<(), Error>) -> ()) {
+        public func removePermissions<T: PermissionProtocol>(_ permissions: [T], completion: @escaping (_ result: Result<(), Error>) -> ()) {
             storageManager.remove(permissions) { result in
                 completion(result.withBeaconError())
             }
