@@ -11,7 +11,7 @@ import Foundation
 public extension String {
     
     var isHex: Bool {
-        range(of: "^(\(HexString.prefix))?([0-9a-fA-F]{2})+$", options: .regularExpression) != nil
+        range(of: "^(\(HexString.prefix))?([0-9a-fA-F]{2})*$", options: .regularExpression) != nil
     }
     
     func prefix(before separator: Character) -> String {

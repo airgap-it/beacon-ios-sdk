@@ -41,7 +41,7 @@ extension Micheline {
             case let .int(value):
                 try container.encode(value, forKey: .int)
             case let .bytes(value):
-                try container.encode(HexString(from: value).asString(withPrefix: true), forKey: .bytes)
+                try container.encode(HexString(from: value).asString(withPrefix: false), forKey: .bytes)
             }
         }
         
