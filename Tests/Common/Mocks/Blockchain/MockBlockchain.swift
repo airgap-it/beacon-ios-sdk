@@ -82,8 +82,11 @@ public struct MockBlockchainCreator: BlockchainCreator {
         completion(.success(permissions))
     }
     
-    public func extractAccounts(from response: MockResponse.Permission, completion: @escaping (Result<[String], Error>) -> ()) {
-        completion(.success(response.accountIDs))
+    public func extractAccounts(from response: MockResponse.Permission, completion: @escaping (Result<[Account], Error>) -> ()) {
+        let accounts: [Account] = response.accountIDs.map {
+            .init(accountID: $0, address: "address")
+        }
+        completion(.success(accounts))
     }
 }
 

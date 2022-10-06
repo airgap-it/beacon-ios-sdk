@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                  = "BeaconBlockchainSubstrate"
-    spec.version               = "3.2.1"
+    spec.version               = "3.2.2"
     spec.summary               = "Beacon is an implementation of the wallet interaction standard tzip-10 which describes the connection of a dApp with a wallet. BeaconBlockchainSubstrate provides a set of messages, utility functions and other components specific for Substrate blockchains."
     spec.description           = <<-DESC
       Beacon is an implementation of the Tezos wallet interaction standard tzip-10 which describes the connection of a dApp with a wallet. BeaconBlockchainSubstrate provides a set of messages, utility functions and other components specific for Substrate blockchains.
