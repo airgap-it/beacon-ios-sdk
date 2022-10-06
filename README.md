@@ -265,6 +265,12 @@ beaconClient.respond(with: BeaconResponse<Tezos>.error(errorResponse)) { /* ... 
 ---
 ## Related Projects
 
-[Beacon SDK](https://github.com/airgap-it/beacon-sdk) - an SDK for web developers (dApp & wallet)
+### AirGap Projects
 
-[Beacon Android SDK](https://github.com/airgap-it/beacon-android-sdk) - an SDK for Android developers (wallet)
+[Beacon SDK](https://github.com/airgap-it/beacon-sdk) - an SDK for web developers
+
+[Beacon Android SDK](https://github.com/airgap-it/beacon-android-sdk) - an SDK for Android developers
+
+### Community Projects
+
+[Beacon Flutter SDK](https://github.com/TalaoDAO/beacon) - an SDK for Flutter developers
