@@ -61,7 +61,15 @@ public extension Transport {
                 p2pPeers.forEachAsync(
                     body: { (peer: Beacon.P2PPeer, innerCompletion: @escaping (Result<(), Swift.Error>) -> ()) -> () in
                         if !peer.isPaired {
-                            self.client.sendPairingResponse(to: peer, completion: innerCompletion)
+                            self.client.sendPairingResponse(to: peer) { innerResult in
+                                guard innerResult.isSuccess(else: innerCompletion) else { return }
+                                self.storageManager.add(
+                                    [.p2p(.init(from: peer, isPaired: true))],
+                                    overwrite: true,
+                                    distinguishBy: { [$0.id] },
+                                    completion: innerCompletion
+                                )
+                            }
                         } else {
                             innerCompletion(.success(()))
                         }
