@@ -11,7 +11,7 @@ Please, use it to fill out the issue, if you don't, the issue will be closed imm
 
 ### Bug Report
 
-- [ ] I'm using the latest version of the SDK. <!-- If not, you should update and check if the issue perists before continuing here. -->
+- [ ] I'm using the latest version of the SDK. <!-- If not, you should update and check if the issue persists before continuing here. -->
 - [ ] I've seen [the docs](https://docs.walletbeacon.io) and [the demo code](https://github.com/airgap-it/beacon-ios-sdk/tree/develop/Demo/BeaconSDKDemo). <!-- Not a must, but consider checking them if you haven't already. -->
 - [ ] I'm using the SDK directly (not via a 3rd party library or application).
     <!-- You may ignore the following checks, if you ticked the above. -->
