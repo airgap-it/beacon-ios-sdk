@@ -18,9 +18,15 @@ extension Tezos {
         public static let mondaynet: Network = .init(type: .mondaynet)
         public static let dailynet: Network = .init(type: .dailynet)
         
+        @available(*, deprecated, message: "'Ithacanet' is no longer a maintained Tezos test network and will be removed from Beacon in future versions.")
         public static let ithacanet: Network = .init(type: .ithacanet)
+        
+        @available(*, deprecated, message: "'Jakartanet' is no longer a maintained Tezos test network and will be removed from Beacon in future versions.")
         public static let jakartanet: Network = .init(type: .jakartanet)
+        
         public static let kathmandunet: Network = .init(type: .kathmandunet)
+        public static let limanet: Network = .init(type: .limanet)
+        public static let mumbainet: Network = .init(type: .mumbainet)
         
         /// A type of the network
         public let type: `Type`
@@ -81,9 +87,15 @@ extension Tezos {
             @available(*, deprecated, message: "'Hangzhounet' is no longer a maintained Tezos test network and will be removed from Beacon in future versions.")
             case hangzhounet
             
+            @available(*, deprecated, message: "'Ithacanet' is no longer a maintained Tezos test network and will be removed from Beacon in future versions.")
             case ithacanet
+            
+            @available(*, deprecated, message: "'Jakartanet' is no longer a maintained Tezos test network and will be removed from Beacon in future versions.")
             case jakartanet
+            
             case kathmandunet
+            case limanet
+            case mumbainet
             
             case custom
         }
