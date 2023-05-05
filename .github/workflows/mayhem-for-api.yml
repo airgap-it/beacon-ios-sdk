@@ -48,15 +48,15 @@ jobs:
       # mode & send stacktraces back on "500 Internal Server Error" responses
       # (don't do this in production though!)
       - name: Start your API
-        run: ./run_your_api.sh & # <- ✏️ update this
+        run: ./run_your_api.sh & # <- f0222f325944fd792715490eaf74c1918e0baec8
 
       - name: Mayhem for API
         uses: ForAllSecure/mapi-action@193b709971cc377675e33284aecbf9229853e010
         continue-on-error: true
         with:
           mapi-token: ${{ secrets.MAPI_TOKEN }}
-          api-url: http://localhost:8080 # <- ✏️ update this
-          api-spec: http://localhost:8080/openapi.json # <- ✏️ update this
+          api-url: http://localhost:8080 # <- f0222f325944fd792715490eaf74c1918e0baec8
+          api-spec: http://localhost:8080/openapi.json # <- f0222f325944fd792715490eaf74c1918e0baec8
           duration: 60
           sarif-report: mapi.sarif
 
