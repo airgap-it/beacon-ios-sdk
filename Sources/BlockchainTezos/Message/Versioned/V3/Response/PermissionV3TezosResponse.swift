@@ -14,13 +14,20 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
     public let address: String
     public let network: Tezos.Network
     public let scopes: [Tezos.Permission.Scope]
+    public let appMetadata: Tezos.AppMetadata?
+    public let threshold: Tezos.Threshold?
+    public let notification: Tezos.Notification?
     
-    init(accountID: String, publicKey: String, address: String, network: Tezos.Network, scopes: [Tezos.Permission.Scope]) {
+    init(accountID: String, publicKey: String, address: String, network: Tezos.Network, scopes: [Tezos.Permission.Scope],
+         appMetadata: Tezos.AppMetadata?, threshold: Tezos.Threshold?, notification: Tezos.Notification?) {
         self.accountID = accountID
         self.publicKey = publicKey
         self.address = address
         self.network = network
         self.scopes = scopes
+        self.appMetadata = appMetadata
+        self.threshold = threshold
+        self.notification = notification
     }
     
     // MARK: BeaconMessage Compatibility
@@ -31,7 +38,10 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
             publicKey: permissionResponse.account.publicKey,
             address: permissionResponse.account.address,
             network: permissionResponse.account.network,
-            scopes: permissionResponse.scopes
+            scopes: permissionResponse.scopes,
+            appMetadata: permissionResponse.appMetadata,
+            threshold: permissionResponse.threshold,
+            notification: permissionResponse.notification
         )
     }
     
@@ -50,7 +60,9 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
                     version: version,
                     destination: destination,
                     account: .init(accountID: accountID, network: network, publicKey: publicKey, address: address),
-                    scopes: scopes
+                    scopes: scopes,
+                    threshold: threshold,
+                    notification: notification
                 )
             )
         )))
@@ -64,5 +76,8 @@ public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataPr
         case address
         case network
         case scopes
+        case threshold
+        case notification
+        case appMetadata
     }
 }

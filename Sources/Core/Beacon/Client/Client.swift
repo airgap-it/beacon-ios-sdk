@@ -27,6 +27,19 @@ extension Beacon {
         public let messageController: MessageControllerProtocol
         public let crypto: Crypto
         public let serializer: Serializer
+        public var identifierCreator: IdentifierCreatorProtocol
+        private var _senderID: String? = nil
+        
+        public func senderID() throws -> String {
+            guard let senderID = _senderID else {
+                let senderID = try self.identifierCreator.senderID(from: HexString(from: app.keyPair.publicKey))
+                self._senderID = senderID
+                
+                return senderID
+            }
+            
+            return senderID
+        }
         
         public init(
             app: Application,
@@ -35,7 +48,8 @@ extension Beacon {
             connectionController: ConnectionControllerProtocol,
             messageController: MessageControllerProtocol,
             crypto: Crypto,
-            serializer: Serializer
+            serializer: Serializer,
+            identifierCreator: IdentifierCreatorProtocol
         ) {
             self.app = app
             self.beaconID = beaconID
@@ -44,6 +58,7 @@ extension Beacon {
             self.messageController = messageController
             self.crypto = crypto
             self.serializer = serializer
+            self.identifierCreator = identifierCreator
         }
         
         // MARK: Connection
