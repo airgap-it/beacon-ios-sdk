@@ -9,6 +9,9 @@ import Foundation
 import BeaconCore
 
 public extension BeaconConsumer where Self: Beacon.Client {
+    func ownMetadata() throws -> Substrate.AppMetadata {
+        .init(senderID: try senderID(), name: app.name, icon: app.icon)
+    }
    
     func respondToSubstratePermission(
         _ request: PermissionSubstrateRequest,

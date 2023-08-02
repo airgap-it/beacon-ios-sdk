@@ -59,7 +59,8 @@ class WalletClientTests: XCTestCase {
             connectionController: connectionController,
             messageController: messageController,
             crypto: crypto,
-            serializer: serializer
+            serializer: serializer,
+            identifierCreator: identifierCreator
         )
     }
     
@@ -249,7 +250,7 @@ class WalletClientTests: XCTestCase {
         let toRemove = Array(peers[2...])
         storage.peers = peers
         
-        beaconClient.remove(toRemove) { result in
+        beaconClient.removePeers(toRemove) { result in
             switch result {
             case .success(_):
                 XCTAssertEqual(self.storage.peers, toKeep, "Expected storage not to contain the removed peers")

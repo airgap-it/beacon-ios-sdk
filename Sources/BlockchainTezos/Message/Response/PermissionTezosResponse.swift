@@ -27,10 +27,18 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Identif
     /// The list of granted permissions.
     public let scopes: [Tezos.Permission.Scope]
     
+    public let appMetadata: Tezos.AppMetadata?
+    
+    public let threshold: Tezos.Threshold?
+    
+    public let notification: Tezos.Notification?
+    
     public init(
         from request: Tezos.Request.Permission,
         account: Tezos.Account,
-        scopes: [Tezos.Permission.Scope]? = nil
+        scopes: [Tezos.Permission.Scope]? = nil,
+        threshold: Tezos.Threshold? = nil,
+        notification: Tezos.Notification? = nil
     ) {
         let scopes = scopes ?? request.scopes
         
@@ -39,7 +47,33 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Identif
             version: request.version,
             destination: request.origin,
             account: account,
-            scopes: scopes
+            scopes: scopes,
+            appMetadata: nil,
+            threshold: threshold,
+            notification: notification
+        )
+    }
+    
+    public init<T>(
+        from request: Tezos.Request.Permission,
+        account: Tezos.Account,
+        scopes: [Tezos.Permission.Scope]? = nil,
+        consumer : T,
+        threshold: Tezos.Threshold? = nil,
+        notification: Tezos.Notification? = nil
+    )throws where T:BeaconConsumer, T:Beacon.Client {
+        let scopes = scopes ?? request.scopes
+        let appMetadata: Tezos.AppMetadata? = try consumer.ownMetadata()
+        
+        self.init(
+            id: request.id,
+            version: request.version,
+            destination: request.origin,
+            account: account,
+            scopes: scopes,
+            appMetadata: appMetadata,
+            threshold: threshold,
+            notification: notification
         )
     }
     
@@ -48,12 +82,18 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Identif
         version: String,
         destination: Beacon.Connection.ID,
         account: Tezos.Account,
-        scopes: [Tezos.Permission.Scope]
+        scopes: [Tezos.Permission.Scope],
+        appMetadata: Tezos.AppMetadata? = nil,
+        threshold: Tezos.Threshold? = nil,
+        notification: Tezos.Notification? = nil
     ) {
         self.id = id
         self.version = version
         self.destination = destination
         self.account = account
         self.scopes = scopes
+        self.appMetadata = appMetadata
+        self.threshold = threshold
+        self.notification = notification
     }
 }
