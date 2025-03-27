@@ -293,6 +293,12 @@ extension Beacon {
             .init(from: destination, id: HexString(from: app.keyPair.publicKey).asString())
         }
         
+        // MARK: ID
+        
+        public func senderID(from publicKey: [UInt8]) throws -> String {
+            try identifierCreator.senderID(from: publicKey)
+        }
+        
         // MARK: Private
         
         private func disconnect(_ peer: Peer, completion: @escaping (Result<(), Error>) -> ()) {
