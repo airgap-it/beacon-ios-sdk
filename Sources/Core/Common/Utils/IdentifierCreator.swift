@@ -27,9 +27,13 @@ public class IdentifierCreator: IdentifierCreatorProtocol {
         return Base58.base58CheckEncode(hash)
     }
     
-    public func senderID(from publicKey: HexString) throws -> String {
+    public func senderID(from publicKey: [UInt8]) throws -> String {
         let hash = try crypto.hash(message: publicKey, size: 5)
         return Base58.base58CheckEncode(hash)
+    }
+    
+    public func senderID(from publicKey: HexString) throws -> String {
+        try senderID(from: publicKey.asBytes())
     }
 }
 
@@ -37,5 +41,6 @@ public class IdentifierCreator: IdentifierCreatorProtocol {
 
 public protocol IdentifierCreatorProtocol {
     func accountID(forAddress address: String, onNetworkWithIdentifier networkIdentifier: String?) throws -> String
+    func senderID(from publicKey: [UInt8]) throws -> String
     func senderID(from publicKey: HexString) throws -> String
 }
