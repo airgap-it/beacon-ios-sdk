@@ -66,7 +66,7 @@ public extension Transport {
                                 self.storageManager.add(
                                     [.p2p(.init(from: peer, isPaired: true))],
                                     overwrite: true,
-                                    distinguishBy: { [$0.id] },
+                                    distinguishBy: { [$0.publicKey] },
                                     completion: innerCompletion
                                 )
                             }

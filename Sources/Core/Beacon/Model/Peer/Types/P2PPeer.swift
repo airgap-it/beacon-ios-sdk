@@ -16,9 +16,6 @@ extension Beacon {
         /// Type of connection which the data applies to.
         public let kind: Beacon.Connection.Kind
         
-        /// A unique identifier for the peer.
-        public let id: String?
-        
         /// The name of the peer.
         public let name: String
         
@@ -40,7 +37,6 @@ extension Beacon {
         public let isPaired: Bool
         
         public init(
-            id: String? = nil,
             name: String,
             publicKey: String,
             relayServer: String,
@@ -49,7 +45,6 @@ extension Beacon {
             appURL: URL? = nil
         ) {
             self.init(
-                id: id,
                 name: name,
                 publicKey: publicKey,
                 relayServer: relayServer,
@@ -71,7 +66,6 @@ extension Beacon {
             isPaired: Bool = false
         ) {
             kind = .p2p
-            self.id = id
             self.name = name
             self.publicKey = publicKey
             self.relayServer = relayServer
@@ -91,7 +85,6 @@ extension Beacon {
             let values = try decoder.container(keyedBy: CodingKeys.self)
             
             kind = .p2p
-            id = try values.decodeIfPresent(String.self, forKey: .id)
             name = try values.decode(String.self, forKey: .name)
             publicKey = try values.decode(String.self, forKey: .publicKey)
             relayServer = try values.decode(String.self, forKey: .relayServer)
@@ -103,7 +96,6 @@ extension Beacon {
         
         enum CodingKeys: String, CodingKey {
             case kind
-            case id
             case name
             case publicKey
             case relayServer
@@ -117,7 +109,6 @@ extension Beacon {
         
         public init(
             from peer: P2PPeer,
-            id: String?? = nil,
             name: String? = nil,
             publicKey: String? = nil,
             relayServer: String? = nil,
@@ -127,7 +118,6 @@ extension Beacon {
             isPaired: Bool? = nil
         ) {
             self.init(
-                id: id ?? peer.id,
                 name: name ?? peer.name,
                 publicKey: publicKey ?? peer.publicKey,
                 relayServer: relayServer ?? peer.relayServer,

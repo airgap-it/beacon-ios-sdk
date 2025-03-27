@@ -37,7 +37,7 @@ extension AccountController {
                     guard let activeAccount = accountResult.get(ifFailure: completion) else { return }
                     self.storageManager.getActivePeer(orDefault: activeAccount?.peerID) { peerIDResult in
                         guard let activePeerID = peerIDResult.get(ifFailure: completion) else { return }
-                        self.storageManager.findActivePeer(id: activePeerID) { peerResult in
+                        self.storageManager.findActivePeer(publicKey: activePeerID) { peerResult in
                             guard let activePeer = peerResult.get(ifFailure: completion) else { return }
                             
                             completion(.success(.init(
@@ -140,7 +140,7 @@ extension AccountController {
                         self.storageManager.setActiveAccount(account) { setResult in
                             guard setResult.isSuccess(else: completion) else { return }
                             
-                            self.storageManager.findActivePeer(id: account.peerID) { findResult in
+                            self.storageManager.findActivePeer(publicKey: account.peerID) { findResult in
                                 guard let foundPeer = findResult.get(ifFailure: completion) else { return }
                                 
                                 self.getAndUpdateActivePeer(activePeer: state.activePeer, newPeer: foundPeer) { updateResult in
@@ -186,7 +186,7 @@ extension AccountController {
                 
                 storageManager.setActivePeer(newPeer?.publicKey) { setResult in
                     guard setResult.isSuccess(else: completion) else { return }
-                    self.storageManager.findActivePeer(id: newPeer?.id) { findResult in
+                    self.storageManager.findActivePeer(publicKey: newPeer?.publicKey) { findResult in
                         guard let newActivePeer = findResult.get(ifFailure: completion) else { return }
                         
                         if let newActivePeer = newActivePeer {
@@ -226,12 +226,12 @@ private extension StorageManager {
         }
     }
     
-    func findActivePeer(id: String?, completion: @escaping (Result<Beacon.Peer?, Swift.Error>) -> ()) {
-        guard let id = id else {
+    func findActivePeer(publicKey: String?, completion: @escaping (Result<Beacon.Peer?, Swift.Error>) -> ()) {
+        guard let publicKey = publicKey else {
             completion(.success(nil))
             return
         }
         
-        findPeers(where: { $0.publicKey == id }, completion: completion)
+        findPeers(where: { $0.publicKey == publicKey }, completion: completion)
     }
 }
