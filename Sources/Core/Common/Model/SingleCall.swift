@@ -9,7 +9,7 @@
 import Foundation
     
 public class SingleCall<T> {
-    private var completions: [Completion<T>]?
+    private var completions: [Completion]?
     private let queue: DispatchQueue = .init(
         label: "it.airgap.beacon-sdk.CachedCompletion",
         qos: .default,
@@ -20,8 +20,8 @@ public class SingleCall<T> {
     public init() {}
     
     public func run(
-        body: @escaping (@escaping Completion<T>) -> (),
-        onResult completion: @escaping Completion<T>,
+        body: @escaping (@escaping Completion) -> (),
+        onResult completion: @escaping Completion,
         callback: @escaping () -> () = {}
     ) {
         queue.async {
@@ -39,5 +39,5 @@ public class SingleCall<T> {
         }
     }
     
-    public typealias Completion<T> = (Result<T, Swift.Error>) -> ()
+    public typealias Completion = (Result<T, Swift.Error>) -> ()
 }

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Base58Swift
 
 class Base58CheckSerializer: Serializer {
     func serialize<T: Encodable>(message: T) throws -> String {
