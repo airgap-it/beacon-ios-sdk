@@ -18,12 +18,13 @@ public extension BeaconConsumer where Self: Beacon.Client {
         accounts: [Substrate.Account],
         scopes: [Substrate.Permission.Scope]? = nil,
         completion: @escaping (Result<(), Beacon.Error>) -> ()
-    ) {
+    ) throws {
         let response: BeaconResponse<Substrate> = .permission(
-            .init(
+            try .init(
                 from: request,
                 accounts: accounts,
-                scopes: scopes
+                scopes: scopes,
+                consumer: self
             )
         )
         respond(with: response, completion: completion)

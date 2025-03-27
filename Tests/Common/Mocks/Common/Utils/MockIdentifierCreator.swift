@@ -16,6 +16,10 @@ public struct MockIdentifierCreator: IdentifierCreatorProtocol {
         address
     }
     
+    public func senderID(from publicKey: [UInt8]) throws -> String {
+        try senderID(from: HexString(from: publicKey))
+    }
+    
     public func senderID(from publicKey: HexString) throws -> String {
         publicKey.asString()
     }

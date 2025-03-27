@@ -18,12 +18,13 @@ public extension BeaconConsumer where Self: Beacon.Client {
         account: Tezos.Account,
         scopes: [Tezos.Permission.Scope]? = nil,
         completion: @escaping (Result<(), Beacon.Error>) -> ()
-    ) {
+    ) throws {
         let response: BeaconResponse<Tezos> = .permission(
-            .init(
+            try .init(
                 from: request,
                 account: account,
-                scopes: scopes
+                scopes: scopes,
+                consumer: self
             )
         )
         respond(with: response, completion: completion)

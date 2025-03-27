@@ -166,6 +166,7 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
             self.id = beaconMessage.id
             
             let encoder = JSONEncoder()
+            encoder.outputFormatting = [.sortedKeys]
             
             switch beaconMessage {
             case let .request(request):
@@ -256,6 +257,7 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
             self.id = beaconMessage.id
             
             let encoder = JSONEncoder()
+            encoder.outputFormatting = [.sortedKeys]
             
             switch beaconMessage {
             case let .request(request):
@@ -338,6 +340,7 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
             
             public init(from permissionRequest: MockBlockchain.Request.Permission) throws {
                 let encoder = JSONEncoder()
+                encoder.outputFormatting = [.sortedKeys]
                 self.content = String(data: try encoder.encode(permissionRequest), encoding: .utf8)
             }
             
@@ -375,6 +378,7 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
     
             public init(from blockchainRequest: MockBlockchain.Request.Blockchain) throws {
                 let encoder = JSONEncoder()
+                encoder.outputFormatting = [.sortedKeys]
                 self.content = String(data: try encoder.encode(blockchainRequest), encoding: .utf8)
             }
             
@@ -413,6 +417,7 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
             
             public init(from permissionResponse: MockBlockchain.Response.Permission) throws {
                 let encoder = JSONEncoder()
+                encoder.outputFormatting = [.sortedKeys]
                 self.content = String(data: try encoder.encode(permissionResponse), encoding: .utf8)
             }
             
@@ -450,6 +455,7 @@ public struct MockVersionedMessage: BlockchainVersionedMessage {
             
             public init(from blockchainResponse: MockBlockchain.Response.Blockchain) throws {
                 let encoder = JSONEncoder()
+                encoder.outputFormatting = [.sortedKeys]
                 self.content = String(data: try encoder.encode(blockchainResponse), encoding: .utf8)
             }
             
