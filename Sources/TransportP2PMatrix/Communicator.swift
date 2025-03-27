@@ -110,7 +110,7 @@ extension Transport.P2P.Matrix {
         }
         
         func pairingResponsePayload(for peer: Beacon.P2PPeer, relayServer: String) throws -> String {
-            let request = try Transport.P2P.PairingRequest(from: peer)
+            let request = try Transport.P2P.PairingRequest(from: peer, using: crypto)
             let response = pairingResponse(from: request, relayServer: relayServer)
             
             switch response.version.prefix(before: ".") {
@@ -152,13 +152,9 @@ extension Transport.P2P.Matrix {
 }
 
 private extension Transport.P2P.PairingRequest {
-    init(from peer: Beacon.P2PPeer) throws {
-        guard let id = peer.id else {
-            throw Beacon.Error.invalidPeer(.p2p(peer), version: peer.version)
-        }
-        
+    init(from peer: Beacon.P2PPeer, using crypto: Crypto) throws {
         self.init(
-            id: id,
+            id: try crypto.guid(),
             name: peer.name,
             version: peer.version,
             publicKey: peer.publicKey,

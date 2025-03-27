@@ -22,7 +22,6 @@ extension Beacon {
         // MARK: Attributes
         
         public var kind: Beacon.Connection.Kind { common.kind }
-        public var id: String? { common.id }
         public var name: String { common.name }
         public var publicKey: String { common.publicKey }
         public var version: String { common.version }
@@ -69,7 +68,6 @@ extension Beacon {
 
 public protocol PeerProtocol {
     var kind: Beacon.Connection.Kind { get }
-    var id: String? { get }
     var name: String { get }
     var publicKey: String { get }
     var version: String { get }
