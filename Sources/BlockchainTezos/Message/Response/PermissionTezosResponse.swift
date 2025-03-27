@@ -58,10 +58,10 @@ public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Identif
         from request: Tezos.Request.Permission,
         account: Tezos.Account,
         scopes: [Tezos.Permission.Scope]? = nil,
-        consumer : T,
+        consumer: T,
         threshold: Tezos.Threshold? = nil,
         notification: Tezos.Notification? = nil
-    )throws where T:BeaconConsumer, T:Beacon.Client {
+    ) throws where T: BeaconConsumer, T: Beacon.Client {
         let scopes = scopes ?? request.scopes
         let appMetadata: Tezos.AppMetadata? = try consumer.ownMetadata()
         

@@ -29,6 +29,7 @@ public struct PermissionSubstrateResponse: PermissionBeaconResponseProtocol, Ide
     public init(
         from request: Substrate.Request.Permission,
         accounts: [Substrate.Account],
+        appMetadata: Substrate.AppMetadata,
         scopes: [Substrate.Permission.Scope]? = nil
     ) {
         let scopes = scopes ?? request.scopes
@@ -37,7 +38,26 @@ public struct PermissionSubstrateResponse: PermissionBeaconResponseProtocol, Ide
             id: request.id,
             version: request.version,
             destination: request.origin,
-            appMetadata: request.appMetadata,
+            appMetadata: appMetadata,
+            scopes: scopes,
+            accounts: accounts
+        )
+    }
+    
+    public init<T>(
+        from request: Substrate.Request.Permission,
+        accounts: [Substrate.Account],
+        scopes: [Substrate.Permission.Scope]? = nil,
+        consumer: T
+    ) throws where T: BeaconConsumer, T: Beacon.Client {
+        let scopes = scopes ?? request.scopes
+        let appMetadata: Substrate.AppMetadata = try consumer.ownMetadata()
+        
+        self.init(
+            id: request.id,
+            version: request.version,
+            destination: request.origin,
+            appMetadata: appMetadata,
             scopes: scopes,
             accounts: accounts
         )
