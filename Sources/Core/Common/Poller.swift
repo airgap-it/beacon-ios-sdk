@@ -42,7 +42,7 @@ public class Poller<T> {
         guardQueue.async {
             guard self.status != .cancelled else { return }
             
-            let operation: PollerOperation<T> = .init()
+            let operation: PollerOperation = .init()
             operation.notify { [weak self] actionResult in
                 let continuation = { [weak self] (continuationResult: Result<(), Swift.Error>) in
                     guard continuationResult.isSuccess else { return }
@@ -106,7 +106,7 @@ public class Poller<T> {
     
     // MARK: Types
     
-    private class PollerOperation<T>: ResultOperation<T> {
+    private class PollerOperation: ResultOperation<T>, @unchecked Sendable {
         private var action: (() -> ())?
         
         func async(_ action: @escaping () -> ()) {

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Base58Swift
 
 public class IdentifierCreator: IdentifierCreatorProtocol {
     private let crypto: Crypto
