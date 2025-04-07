@@ -2,12 +2,12 @@
   "object": {
     "pins": [
       {
-        "package": "BigInt",
-        "repositoryURL": "https://github.com/leif-ibsen/BigInt.git",
+        "package": "Bits",
+        "repositoryURL": "https://github.com/alja7dali/swift-bits.git",
         "state": {
           "branch": null,
-          "revision": "afb70a0038bfbba845271b60fa9a58d5840f8017",
-          "version": "1.21.0"
+          "revision": "83668ec40d877d9e0012ba93359191cfc4bf04af",
+          "version": "1.0.0"
         }
       },
       {

@@ -13,12 +13,12 @@ class Base58CheckSerializer: Serializer {
         let encoder = JSONEncoder()
         let jsonRaw = try encoder.encode(message)
         
-        return Base58.base58CheckEncode(Array(jsonRaw))
+        return try String(Base58.check(Array(jsonRaw)))
     }
     
     func deserialize<T: Decodable>(message: String, to type: T.Type) throws -> T {
         let decoder = JSONDecoder()
-        guard let decoded = Base58.base58CheckDecode(message) else {
+        guard let decoded = try? Base58.uncheck(message.makeBytes()) else {
             throw Error.base58check
         }
         

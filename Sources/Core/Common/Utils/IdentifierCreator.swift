@@ -24,12 +24,12 @@ public class IdentifierCreator: IdentifierCreatorProtocol {
             }
         }()
         let hash = try crypto.hash(message: input, size: 10)
-        return Base58.base58CheckEncode(hash)
+        return try String(Base58.check(hash))
     }
     
     public func senderID(from publicKey: [UInt8]) throws -> String {
         let hash = try crypto.hash(message: publicKey, size: 5)
-        return Base58.base58CheckEncode(hash)
+        return try String(Base58.check(hash))
     }
     
     public func senderID(from publicKey: HexString) throws -> String {
