@@ -1,110 +1,173 @@
-// Copyright Keefer Taylor, 2019.
+/// Encodes and Decodes bytes using the
+/// Base58 alghorithm
+///
+/// https://en.wikipedia.org/wiki/Base58
 
-import BigInt
-import CommonCrypto
-import Foundation
+// Original implementation taken from: https://github.com/Alja7dali/swift-base58
 
-/// A static utility class which provides Base58 encoding and decoding functionality.
+import CryptoKit
+import Bits
+
+private let Base58EncodingTable: [Byte: Byte] = [
+    0: .one,  1: .two,   2: .three,  3: .four,
+    4: .five, 5: .six,   6: .seven,  7: .eight,
+    8: .nine, 9: .A,    10: .B,     11: .C,
+    12: .D,    13: .E,   14: .F,     15: .G,
+    16: .H,    17: .J,   18: .K,     19: .L,
+    20: .M,    21: .N,   22: .P,     23: .Q,
+    24: .R,    25: .S,   26: .T,     27: .U,
+    28: .V,    29: .W,   30: .X,     31: .Y,
+    32: .Z,    33: .a,   34: .b,     35: .c,
+    36: .d,    37: .e,   38: .f,     39: .g,
+    40: .h,    41: .i,   42: .j,     43: .k,
+    44: .m,    45: .n,   46: .o,     47: .p,
+    48: .q,    49: .r,   50: .s,     51: .t,
+    52: .u,    53: .v,   54: .w,     55: .x,
+    56: .y,    57: .z
+]
+
+private let _encode: (Byte) -> Byte = {
+    Base58EncodingTable[$0] ?? .max
+}
+
+private let Base58DecodingTable: [Byte: Byte] = [
+    .one:  0, .two:  1, .three:  2,  .four: 3,
+    .five:  4, .six:  5, .seven:  6, .eight: 7,
+    .nine:  8,   .A:  9,     .B: 10,     .C: 11,
+    .D: 12,   .E: 13,     .F: 14,     .G: 15,
+    .H: 16,   .J: 17,     .K: 18,     .L: 19,
+    .M: 20,   .N: 21,     .P: 22,     .Q: 23,
+    .R: 24,   .S: 25,     .T: 26,     .U: 27,
+    .V: 28,   .W: 29,     .X: 30,     .Y: 31,
+    .Z: 32,   .a: 33,     .b: 34,     .c: 35,
+    .d: 36,   .e: 37,     .f: 38,     .g: 39,
+    .h: 40,   .i: 41,     .j: 42,     .k: 43,
+    .m: 44,   .n: 45,     .o: 46,     .p: 47,
+    .q: 48,   .r: 49,     .s: 50,     .t: 51,
+    .u: 52,   .v: 53,     .w: 54,     .x: 55,
+    .y: 56,   .z: 57
+]
+
+private let _decode: (Byte) -> Byte? = {
+    Base58DecodingTable[$0]
+}
+
+public enum Base58DecodingError: Error {
+    case invalidByte(Byte)
+}
+
+
+
+public enum Base58UncheckError: Error {
+    case invalidPayload
+}
+
 public enum Base58 {
-    /// Length of checksum appended to Base58Check encoded strings.
-    private static let checksumLength = 4
-    
-    private static let alphabet = [UInt8]("123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz".utf8)
-    private static let zero = BInt(0)
-    private static let radix = BInt(alphabet.count)
-    
-    /// Encode the given bytes into a Base58Check encoded string.
-    /// - Parameter bytes: The bytes to encode.
-    /// - Returns: A base58check encoded string representing the given bytes, or nil if encoding failed.
-    public static func base58CheckEncode(_ bytes: [UInt8]) -> String {
-        let checksum = calculateChecksum(bytes)
-        let checksummedBytes = bytes + checksum
-        return Base58.base58Encode(checksummedBytes)
-    }
-    
-    /// Decode the given Base58Check encoded string to bytes.
-    /// - Parameter input: A base58check encoded input string to decode.
-    /// - Returns: Bytes representing the decoded input, or nil if decoding failed.
-    public static func base58CheckDecode(_ input: String) -> [UInt8]? {
-        guard let decodedChecksummedBytes = base58Decode(input) else {
-            return nil
+    public static func encode(
+        _ bytes: Bytes,
+        alphabet mapper: Optional<(Byte) -> Byte> = .none
+    ) -> Bytes {
+        let mapper = mapper ?? _encode
+        
+        var zerosCount = 0
+        
+        while bytes[zerosCount] == 0 {
+            zerosCount += 1
         }
         
-        let decodedChecksum = decodedChecksummedBytes.suffix(checksumLength)
-        let decodedBytes = decodedChecksummedBytes.prefix(upTo: decodedChecksummedBytes.count - checksumLength)
-        let calculatedChecksum = calculateChecksum([UInt8](decodedBytes))
+        let bytesCount = bytes.count - zerosCount
+        let b58Count = ((bytesCount * 138) / 100) + 1
+        var b58 = Bytes(repeating: 0, count: b58Count)
+        var count = 0
         
-        guard decodedChecksum.elementsEqual(calculatedChecksum, by: { $0 == $1 }) else {
-            return nil
-        }
-        return Array(decodedBytes)
-    }
-    
-    /// Encode the given bytes to a Base58 encoded string.
-    /// - Parameter bytes: The bytes to encode.
-    /// - Returns: A base58 encoded string representing the given bytes, or nil if encoding failed.
-    public static func base58Encode(_ bytes: [UInt8]) -> String {
-        var answer: [UInt8] = []
-        var integerBytes = BInt(magnitude: bytes)
-        
-        while integerBytes > 0 {
-            let (quotient, remainder) = integerBytes.quotientAndRemainder(dividingBy: radix)
-            answer.insert(alphabet[remainder.asInt()!], at: 0)
-            integerBytes = quotient
-        }
-        
-        let prefix = Array(bytes.prefix { $0 == 0 }).map { _ in alphabet[0] }
-        answer.insert(contentsOf: prefix, at: 0)
-        
-        // swiftlint:disable force_unwrapping
-        // Force unwrap as the given alphabet will always decode to UTF8.
-        return String(bytes: answer, encoding: String.Encoding.utf8)!
-        // swiftlint:enable force_unwrapping
-    }
-    
-    /// Decode the given base58 encoded string to bytes.
-    /// - Parameter input: The base58 encoded input string to decode.
-    /// - Returns: Bytes representing the decoded input, or nil if decoding failed.
-    public static func base58Decode(_ input: String) -> [UInt8]? {
-        var answer = zero
-        var i = BInt(1)
-        let byteString = [UInt8](input.utf8)
-        
-        for char in byteString.reversed() {
-            guard let alphabetIndex = alphabet.firstIndex(of: char) else {
-                return nil
+        var x = zerosCount
+        while x < bytesCount {
+            var carry = Int(bytes[x]), i = 0, j = b58Count - 1
+            while j > -1 {
+                if carry != 0 || i < count {
+                    carry += 256 * Int(b58[j])
+                    b58[j] = Byte(carry % 58)
+                    carry /= 58
+                    i += 1
+                }
+                j -= 1
             }
-            answer += (i * BInt(alphabetIndex))
-            i *= radix
+            count = i
+            x += 1
         }
         
-        let bytes = answer.asMagnitudeBytes()
-        // For every leading one on the input we need to add a leading 0 on the output
-        let leadingOnes = byteString.prefix(while: { value in value == alphabet[0]})
-        let leadingZeros: [UInt8] = Array(repeating: 0, count: leadingOnes.count)
-        return leadingZeros + bytes
+        // skip leading zeros
+        var leadingZeros = 0
+        while b58[leadingZeros] == 0 {
+            leadingZeros += 1
+        }
+        
+        return Bytes(repeating: .one, count: zerosCount)
+        + Bytes(b58[leadingZeros...]).map(mapper)
     }
     
-    /// Calculate a checksum for a given input by hashing twice and then taking the first four bytes.
-    /// - Parameter input: The input bytes.
-    /// - Returns: A byte array representing the checksum of the input bytes.
-    private static func calculateChecksum(_ input: [UInt8]) -> [UInt8] {
-        let hashedData = sha256(input)
-        let doubleHashedData = sha256(hashedData)
-        let doubleHashedArray = Array(doubleHashedData)
-        return Array(doubleHashedArray.prefix(checksumLength))
+    public static func decode(
+        _ bytes: Bytes,
+        alphabet mapper: Optional<(Byte) -> Byte?> = .none
+    ) throws -> Bytes {
+        let mapper = mapper ?? _decode
+        
+        var onesCount = 0
+        
+        while bytes[onesCount] == .one {
+            onesCount += 1
+        }
+        
+        let bytesCount = bytes.count - onesCount
+        let b58Count = ((bytesCount * 733) / 1000) + 1 - onesCount
+        var b58 = Bytes(repeating: 0, count: b58Count)
+        var count = 0
+        
+        var x = onesCount
+        while x < bytesCount {
+            guard let b58Index = mapper(bytes[x]) else {
+                throw Base58DecodingError.invalidByte(bytes[x])
+            }
+            var carry = Int(b58Index), i = 0, j = b58Count - 1
+            while j > -1 {
+                if carry != 0 || i < count {
+                    carry += 58 * Int(b58[j])
+                    b58[j] = Byte(carry % 256)
+                    carry /= 256
+                    i += 1
+                }
+                j -= 1
+            }
+            count = i
+            x += 1
+        }
+        
+        // skip leading zeros
+        var leadingZeros = 0
+        while b58[leadingZeros] == 0 {
+            leadingZeros += 1
+        }
+        
+        return Bytes(repeating: 0, count: onesCount)
+        + Bytes(b58[leadingZeros...])
+    }
+
+    public static func check(_ bytes: Bytes) -> Bytes {
+        let digest = [UInt8](SHA256.hash(data: [UInt8](SHA256.hash(data: bytes))))
+        return encode(bytes + digest[0..<4])
     }
     
-    /// Create a sha256 hash of the given data.
-    /// - Parameter data: Input data to hash.
-    /// - Returns: A sha256 hash of the input data.
-    private static func sha256(_ data: [UInt8]) -> [UInt8] {
-        let res = NSMutableData(length: Int(CC_SHA256_DIGEST_LENGTH))!
-        CC_SHA256(
-            (Data(data) as NSData).bytes,
-            CC_LONG(data.count),
-            res.mutableBytes.assumingMemoryBound(to: UInt8.self)
-        )
-        return [UInt8](res as Data)
+    public static func uncheck(_ bytes: Bytes) throws -> Bytes {
+        let payload = try decode(bytes)
+        
+        let result = Array(payload[0..<payload.count-4])
+        let check = payload[payload.count-4..<payload.count]
+        let digest = [UInt8](SHA256.hash(data: [UInt8](SHA256.hash(data: result))))
+        
+        guard check == digest[0..<4] else {
+            throw Base58UncheckError.invalidPayload
+        }
+        
+        return result
     }
 }
