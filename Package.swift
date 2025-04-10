@@ -20,8 +20,8 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(url: "https://github.com/keefertaylor/Base58Swift.git", "2.1.14"..<"3.0.0"),
-        .package(name: "Sodium", url: "https://github.com/jedisct1/swift-sodium.git", "0.9.1"..<"1.0.0"),
+        .package(url: "https://github.com/jedisct1/swift-sodium.git", "0.9.1"..<"1.0.0"),
+        .package(url: "https://github.com/alja7dali/swift-bits.git", from: "1.0.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -29,9 +29,9 @@ let package = Package(
         .target(
             name: "BeaconCore",
             dependencies: [
-                "Sodium",
-                 .product(name: "Clibsodium", package: "Sodium"),
-                "Base58Swift"
+                .product(name: "Sodium", package: "swift-sodium"),
+                .product(name: "Clibsodium", package: "swift-sodium"),
+                .product(name: "Bits", package: "swift-bits"),
             ],
             path: "Sources/Core"
         ),

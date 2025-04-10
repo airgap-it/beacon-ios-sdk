@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Base58Swift
 
 public class IdentifierCreator: IdentifierCreatorProtocol {
     private let crypto: Crypto
@@ -25,12 +24,16 @@ public class IdentifierCreator: IdentifierCreatorProtocol {
             }
         }()
         let hash = try crypto.hash(message: input, size: 10)
-        return Base58.base58CheckEncode(hash)
+        return try String(Base58.check(hash))
+    }
+    
+    public func senderID(from publicKey: [UInt8]) throws -> String {
+        let hash = try crypto.hash(message: publicKey, size: 5)
+        return try String(Base58.check(hash))
     }
     
     public func senderID(from publicKey: HexString) throws -> String {
-        let hash = try crypto.hash(message: publicKey, size: 5)
-        return Base58.base58CheckEncode(hash)
+        try senderID(from: publicKey.asBytes())
     }
 }
 
@@ -38,5 +41,6 @@ public class IdentifierCreator: IdentifierCreatorProtocol {
 
 public protocol IdentifierCreatorProtocol {
     func accountID(forAddress address: String, onNetworkWithIdentifier networkIdentifier: String?) throws -> String
+    func senderID(from publicKey: [UInt8]) throws -> String
     func senderID(from publicKey: HexString) throws -> String
 }

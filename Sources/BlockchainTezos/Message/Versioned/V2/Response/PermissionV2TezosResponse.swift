@@ -17,6 +17,9 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol {
     public let publicKey: String
     public let network: Tezos.Network
     public let scopes: [Tezos.Permission.Scope]
+    let appMetadata: Tezos.AppMetadata?
+    public let threshold: Tezos.Threshold?
+    public let notification: Tezos.Notification?
     
     public init(
         version: String = V2BeaconMessage<Tezos>.version,
@@ -24,7 +27,10 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol {
         senderID: String,
         publicKey: String,
         network: Tezos.Network,
-        scopes: [Tezos.Permission.Scope]
+        scopes: [Tezos.Permission.Scope],
+        appMetadata: Tezos.AppMetadata?,
+        threshold: Tezos.Threshold?,
+        notification: Tezos.Notification?
     ) {
         type = PermissionV2TezosResponse.type
         self.version = version
@@ -33,6 +39,9 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol {
         self.publicKey = publicKey
         self.network = network
         self.scopes = scopes
+        self.appMetadata = appMetadata
+        self.threshold = threshold
+        self.notification = notification
     }
     
     // MARK: BeaconMessage Compatibility
@@ -58,7 +67,11 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol {
             senderID: senderID,
             publicKey: beaconMessage.account.publicKey,
             network: beaconMessage.account.network,
-            scopes: beaconMessage.scopes
+            scopes: beaconMessage.scopes,
+            appMetadata: beaconMessage.appMetadata,
+            threshold: beaconMessage.threshold,
+            notification: beaconMessage.notification
+            
         )
     }
     
@@ -77,7 +90,9 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol {
                         version: version,
                         destination: destination,
                         account: .init(accountID: accountID, network: network, publicKey: publicKey, address: address),
-                        scopes: scopes
+                        scopes: scopes,
+                        threshold: threshold,
+                        notification: notification
                     )
                 )
             )))
@@ -94,6 +109,9 @@ public struct PermissionV2TezosResponse: V2BeaconMessageProtocol {
         case publicKey
         case network
         case scopes
+        case threshold
+        case notification
+        case appMetadata
     }
 }
 

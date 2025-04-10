@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import Base58Swift
 import BeaconCore
+import Base58
 
 extension Tezos {
     
@@ -22,7 +22,7 @@ extension Tezos {
             let publicKey = try PublicKey(from: publicKey)
             let payload = try crypto.hash(message: publicKey.bytes, size: 20)
             
-            return Base58.base58CheckEncode(publicKey.prefix.toAddress() + payload)
+            return String(bytes: Base58.check(publicKey.prefix.toAddress() + payload), encoding: .utf8)!
         }
     }
     
@@ -44,7 +44,7 @@ private extension Tezos.PublicKey {
                 throw Beacon.Error.invalidPublicKey(string)
             }
             
-            guard let decoded = Base58.base58CheckDecode(string) else {
+            guard let decoded = try? Base58.uncheck(string.makeBytes()) else {
                 throw Beacon.Error.invalidPublicKey(string)
             }
             

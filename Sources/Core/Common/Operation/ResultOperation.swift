@@ -7,8 +7,8 @@
 
 import Foundation
 
-public class ResultOperation<T>: AsyncOperation {
-    private var result: ResultState<T> = .pending
+public class ResultOperation<T>: AsyncOperation, @unchecked Sendable {
+    private var result: ResultState = .pending
     private var completionHandlers: [(Result<T, Swift.Error>) -> ()] = []
     
     override init() {
@@ -54,7 +54,7 @@ public class ResultOperation<T>: AsyncOperation {
     
     // MARK: Types
     
-    enum ResultState<T> {
+    enum ResultState {
         case pending
         case finished(Result<T, Swift.Error>)
     }

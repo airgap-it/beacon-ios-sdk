@@ -14,6 +14,7 @@ extension StorageManager {
 
 // MARK: ExtendedP2PMatrixStoragePlugin
 
+extension StorageManager: @retroactive StoragePlugin {}
 extension StorageManager: ExtendedP2PMatrixStoragePlugin {
     
     private func extendedP2PMatrixPlugin() throws -> ExtendedP2PMatrixStoragePlugin {

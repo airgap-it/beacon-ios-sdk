@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class AsyncOperation: Operation {
+public class AsyncOperation: Operation, @unchecked Sendable {
     
     public override var isAsynchronous: Bool { true }
     

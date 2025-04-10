@@ -23,7 +23,7 @@ open class StoreBox<S: StoreProtocol> {
     }
     
     public func state(completion: @escaping (Result<S.State, Error>) -> ()) {
-        let operation = StoreOperation<S.State, S>()
+        let operation = StoreOperation<S.State>()
         
         operation.notify(completion)
         operation.async { [unowned self] in
@@ -34,7 +34,7 @@ open class StoreBox<S: StoreProtocol> {
     }
     
     public func intent(action: S.Action, completion: @escaping (Result<(), Error>) -> () = { _ in /* no action */ }) {
-        let operation = StoreOperation<(), S>()
+        let operation = StoreOperation<()>()
         
         operation.notify(completion)
         operation.async { [unowned self] in
@@ -46,7 +46,7 @@ open class StoreBox<S: StoreProtocol> {
     
     // MARK: Operations
     
-    private class StoreOperation<T, S: StoreProtocol>: ResultOperation<T> {
+    private class StoreOperation<T>: ResultOperation<T>, @unchecked Sendable {
         private var action: (() -> ())?
         
         func async(_ action: @escaping () -> ()) {

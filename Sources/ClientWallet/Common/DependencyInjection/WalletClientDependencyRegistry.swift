@@ -29,7 +29,8 @@ class WalletClientDependencyRegistry: ExtendedDependencyRegistry {
                 connectionController: try connectionController(configuredWith: connections),
                 messageController: messageController,
                 crypto: crypto,
-                serializer: serializer
+                serializer: serializer,
+                identifierCreator: identifierCreator
             )
             
             self.walletClient = walletClient

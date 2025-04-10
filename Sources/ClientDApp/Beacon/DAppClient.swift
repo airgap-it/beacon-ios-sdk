@@ -12,19 +12,6 @@ extension Beacon {
     
     public class DAppClient: Client, BeaconProducer {
         private let accountController: AccountControllerProtocol
-        private let identifierCreator: IdentifierCreatorProtocol
-        
-        private var _senderID: String? = nil
-        public func senderID() throws -> String {
-            guard let senderID = _senderID else {
-                let senderID = try self.identifierCreator.senderID(from: HexString(from: app.keyPair.publicKey))
-                self._senderID = senderID
-                
-                return senderID
-            }
-            
-            return senderID
-        }
         
         public init(
             app: Application,
@@ -38,7 +25,6 @@ extension Beacon {
             identifierCreator: IdentifierCreatorProtocol
         ) {
             self.accountController = accountController
-            self.identifierCreator = identifierCreator
             
             super.init(
                 app: app,
@@ -47,7 +33,8 @@ extension Beacon {
                 connectionController: connectionController,
                 messageController: messageController,
                 crypto: crypto,
-                serializer: serializer
+                serializer: serializer,
+                identifierCreator: identifierCreator
             )
         }
         

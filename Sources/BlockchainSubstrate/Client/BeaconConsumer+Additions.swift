@@ -9,18 +9,22 @@ import Foundation
 import BeaconCore
 
 public extension BeaconConsumer where Self: Beacon.Client {
+    func ownMetadata() throws -> Substrate.AppMetadata {
+        .init(senderID: try senderID(), name: app.name, icon: app.icon)
+    }
    
     func respondToSubstratePermission(
         _ request: PermissionSubstrateRequest,
         accounts: [Substrate.Account],
         scopes: [Substrate.Permission.Scope]? = nil,
         completion: @escaping (Result<(), Beacon.Error>) -> ()
-    ) {
+    ) throws {
         let response: BeaconResponse<Substrate> = .permission(
-            .init(
+            try .init(
                 from: request,
                 accounts: accounts,
-                scopes: scopes
+                scopes: scopes,
+                consumer: self
             )
         )
         respond(with: response, completion: completion)
