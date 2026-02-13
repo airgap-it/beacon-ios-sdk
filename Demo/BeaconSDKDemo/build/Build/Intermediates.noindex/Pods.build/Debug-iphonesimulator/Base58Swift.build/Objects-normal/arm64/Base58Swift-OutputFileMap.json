@@ -1,0 +1,19 @@
+{
+  "" : {
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Base58Swift.build/Objects-normal/arm64/Base58Swift-primary.dia",
+    "emit-module-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Base58Swift.build/Objects-normal/arm64/Base58Swift-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Base58Swift.build/Objects-normal/arm64/Base58Swift-primary-emit-module.dia",
+    "pch" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Base58Swift.build/Objects-normal/arm64/Base58Swift-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Base58Swift.build/Objects-normal/arm64/Base58Swift-primary.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/Pods/Base58Swift/Base58Swift/Base58.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Base58Swift.build/Objects-normal/arm64/Base58.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Base58Swift.build/Objects-normal/arm64/Base58.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Base58Swift.build/Objects-normal/arm64/Base58.dia",
+    "index-unit-output-path" : "/Pods.build/Debug-iphonesimulator/Base58Swift.build/Objects-normal/arm64/Base58.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Base58Swift.build/Objects-normal/arm64/Base58.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Base58Swift.build/Objects-normal/arm64/Base58.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Base58Swift.build/Objects-normal/arm64/Base58.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Base58Swift.build/Objects-normal/arm64/Base58~partial.swiftmodule"
+  }
+}

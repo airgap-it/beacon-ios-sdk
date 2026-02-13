@@ -1,0 +1,44 @@
+{
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/TransportP2PMatrix/Matrix/Model/API/Room/MatrixJoinRequest.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixJoinRequest.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixJoinRequest.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixJoinRequest.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixJoinRequest.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixJoinRequest.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/TransportP2PMatrix/Matrix/Model/API/Room/MatrixJoinResponse.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixJoinResponse.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixJoinResponse.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixJoinResponse.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixJoinResponse.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixJoinResponse.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/TransportP2PMatrix/Matrix/Model/API/Sync/MatrixSyncResponse.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixSyncResponse.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixSyncResponse.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixSyncResponse.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixSyncResponse.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixSyncResponse.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/TransportP2PMatrix/Matrix/Model/API/Sync/Room/MatrixRoomState.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRoomState.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRoomState.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRoomState.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRoomState.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRoomState.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/TransportP2PMatrix/Matrix/Model/API/Sync/Room/MatrixRoomTimeline.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRoomTimeline.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRoomTimeline.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRoomTimeline.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRoomTimeline.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRoomTimeline.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/TransportP2PMatrix/Matrix/Model/API/Sync/Room/MatrixRooms.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRooms.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRooms.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRooms.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRooms.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/Objects-normal/arm64/MatrixRooms.swiftdeps"
+  }
+}

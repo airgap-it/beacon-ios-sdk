@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 extension Beacon {
     
@@ -23,14 +23,14 @@ extension Beacon {
         public static let p2pMaxJoinRetries: Int = 10
         
         public static let defaultRelayServers: [String] = [
-            "beacon-node-1.diamond.papers.tech",
-            "beacon-node-1.sky.papers.tech",
-            "beacon-node-2.sky.papers.tech",
-            "beacon-node-1.hope.papers.tech",
-            "beacon-node-1.hope-2.papers.tech",
-            "beacon-node-1.hope-3.papers.tech",
-            "beacon-node-1.hope-4.papers.tech",
-            "beacon-node-1.hope-5.papers.tech"
+            "beacon-node-1.octez.io",
+            "beacon-node-2.octez.io",
+            "beacon-node-3.octez.io",
+            "beacon-node-4.octez.io",
+            "beacon-node-5.octez.io",
+            "beacon-node-6.octez.io",
+            "beacon-node-7.octez.io",
+            "beacon-node-8.octez.io"
         ].compactMap { $0 }
     }
 }

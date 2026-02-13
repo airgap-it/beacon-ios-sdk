@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
     
 public struct SignPayloadV1TezosResponse: V1BeaconMessageProtocol {
     public let type: String

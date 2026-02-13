@@ -1,0 +1,4 @@
+
+module OctezConnectTransportP2PMatrix.__Swift {
+  exclude header "OctezConnectTransportP2PMatrix-Swift.h"
+}

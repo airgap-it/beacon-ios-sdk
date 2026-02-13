@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public struct PermissionV3TezosResponse: PermissionV3BeaconResponseContentDataProtocol {
     public let accountID: String

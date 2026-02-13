@@ -6,7 +6,7 @@
 //
 
 import Foundation
-@testable import BeaconCore
+@testable import OctezConnectCore
 
 public struct MockNetwork: NetworkProtocol {
     public typealias `Type` = String

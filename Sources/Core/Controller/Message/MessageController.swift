@@ -17,7 +17,7 @@ class MessageController: MessageControllerProtocol {
     
     private var outgoingRequests: [String: BeaconRequestProtocol] = [:]
     private var incomingRequests: [String: BeaconRequestProtocol] = [:]
-    private let queue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.MessageController", attributes: [], target: .global(qos: .default))
+    private let queue: DispatchQueue = .init(label: "io.tezos.octezconnect.MessageController", attributes: [], target: .global(qos: .default))
     
     init(blockchainRegistry: BlockchainRegistryProtocol, storageManager: StorageManager, identifierCreator: IdentifierCreatorProtocol, time: TimeProtocol) {
         self.blockchainRegistry = blockchainRegistry

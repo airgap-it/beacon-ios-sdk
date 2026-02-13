@@ -1,0 +1,79 @@
+{
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Beacon/Beacon.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Beacon.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Beacon.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Beacon.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Beacon.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Beacon.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Beacon/Model/Account.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Account.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Account.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Account.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Account.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Account.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Beacon/Model/AppMetadata.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AppMetadata.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AppMetadata.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AppMetadata.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AppMetadata.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AppMetadata.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Common/Extensions/Array+Additions.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Array+Additions.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Array+Additions.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Array+Additions.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Array+Additions.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Array+Additions.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Common/Model/BeaconApplication.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/BeaconApplication.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/BeaconApplication.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/BeaconApplication.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/BeaconApplication.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/BeaconApplication.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Common/Operation/AsyncOperation.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AsyncOperation.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AsyncOperation.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AsyncOperation.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AsyncOperation.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AsyncOperation.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Common/Utils/Base58.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Base58.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Base58.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Base58.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Base58.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Base58.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Message/Response/AcknowledgeBeaconResponse.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeBeaconResponse.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeBeaconResponse.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeBeaconResponse.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeBeaconResponse.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeBeaconResponse.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Message/Versioned/V2/Response/AcknowledgeV2BeaconResponse.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeV2BeaconResponse.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeV2BeaconResponse.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeV2BeaconResponse.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeV2BeaconResponse.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeV2BeaconResponse.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Message/Versioned/V3/Response/AcknowledgeV3BeaconResponseContent.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeV3BeaconResponseContent.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeV3BeaconResponseContent.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeV3BeaconResponseContent.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeV3BeaconResponseContent.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/AcknowledgeV3BeaconResponseContent.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Serializer/Base58CheckSerializer.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Base58CheckSerializer.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Base58CheckSerializer.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Base58CheckSerializer.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Base58CheckSerializer.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Base58CheckSerializer.swiftdeps"
+  }
+}

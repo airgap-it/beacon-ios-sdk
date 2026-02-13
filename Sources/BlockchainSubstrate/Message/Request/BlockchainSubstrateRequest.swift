@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 /// Substrate specific content of the `BeaconRequest.blockchain` message.
 public enum BlockchainSubstrateRequest: BlockchainBeaconRequestProtocol, Equatable {

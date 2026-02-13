@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public enum SubstrateRequest: BlockchainRequest {
     public typealias Permission = PermissionSubstrateRequest

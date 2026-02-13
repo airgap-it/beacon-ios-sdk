@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 protocol ExtendedDependencyRegistry: DependencyRegistry {
     

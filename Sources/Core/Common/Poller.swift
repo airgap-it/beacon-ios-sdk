@@ -15,8 +15,8 @@ public class Poller<T> {
         return queue
     }()
     
-    private var guardQueue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.Poller.guard", attributes: [], target: .global(qos: .default))
-    private var schedulerQueue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.Poller.scheduler", attributes: [], target: .global(qos: .default))
+    private var guardQueue: DispatchQueue = .init(label: "io.tezos.octezconnect.Poller.guard", attributes: [], target: .global(qos: .default))
+    private var schedulerQueue: DispatchQueue = .init(label: "io.tezos.octezconnect.Poller.scheduler", attributes: [], target: .global(qos: .default))
     
     private(set) var status: Status = .idle
     private let action: (@escaping (Result<T, Swift.Error>) -> ()) -> ()

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 /// Substrate specific contenet of the `BeaconRequest.permission` message.
 public struct PermissionSubstrateRequest: PermissionBeaconRequestProtocol, Identifiable, Equatable, Codable {

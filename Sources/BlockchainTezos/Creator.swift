@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 extension Tezos {
     
@@ -86,7 +86,7 @@ extension Tezos {
             }
         }
         
-        public func extractAccounts(from response: PermissionTezosResponse, completion: @escaping (Result<[BeaconCore.Account], Swift.Error>) -> ()) {
+        public func extractAccounts(from response: PermissionTezosResponse, completion: @escaping (Result<[OctezConnectCore.Account], Swift.Error>) -> ()) {
             completion(.success([.init(accountID: response.account.accountID, address: response.account.address)]))
         }
         

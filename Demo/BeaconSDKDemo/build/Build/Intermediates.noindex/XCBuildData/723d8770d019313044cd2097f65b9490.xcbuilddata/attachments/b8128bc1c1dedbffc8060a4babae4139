@@ -1,0 +1,5 @@
+
+module Base58Swift.Swift {
+  header "Base58Swift-Swift.h"
+  requires objc
+}

@@ -1,0 +1,72 @@
+{
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Beacon/Model/Threshold.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Threshold.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Threshold.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Threshold.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Threshold.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Threshold.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Common/Extensions/String+Additions.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/String+Additions.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/String+Additions.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/String+Additions.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/String+Additions.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/String+Additions.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Common/Store/StoreBox.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StoreBox.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StoreBox.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StoreBox.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StoreBox.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StoreBox.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Common/Utils/Static.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Static.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Static.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Static.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Static.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Static.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Common/Utils/Time.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Time.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Time.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Time.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Time.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Time.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Common/Utils/Try.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Try.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Try.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Try.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Try.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Try.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Storage/Manager/StorageManager.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StorageManager.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StorageManager.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StorageManager.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StorageManager.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StorageManager.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Storage/Storage.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Storage.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Storage.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Storage.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Storage.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Storage.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Storage/StoragePlugin.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StoragePlugin.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StoragePlugin.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StoragePlugin.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StoragePlugin.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/StoragePlugin.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/Core/Transport/Transport.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Transport.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Transport.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Transport.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Transport.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectCore.build/Objects-normal/arm64/Transport.swiftdeps"
+  }
+}

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
     
 /// Body of the `BlockchainTezosResponse.broadcast` message.
 public struct BroadcastTezosResponse: BlockchainBeaconResponseProtocol, Identifiable, Equatable, Codable {

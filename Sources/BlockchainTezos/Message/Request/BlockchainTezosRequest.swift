@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 /// Tezos specific content of the `BeaconRequest.blockchain` message.
 public enum BlockchainTezosRequest: BlockchainBeaconRequestProtocol, Equatable {

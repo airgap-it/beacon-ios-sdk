@@ -1,0 +1,37 @@
+{
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/BlockchainSubstrate/Message/Response/PermissionSubstrateResponse.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/PermissionSubstrateResponse.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/PermissionSubstrateResponse.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/PermissionSubstrateResponse.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/PermissionSubstrateResponse.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/PermissionSubstrateResponse.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/BlockchainSubstrate/Message/SubstrateRequest.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/SubstrateRequest.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/SubstrateRequest.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/SubstrateRequest.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/SubstrateRequest.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/SubstrateRequest.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/BlockchainSubstrate/Message/SubstrateResponse.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/SubstrateResponse.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/SubstrateResponse.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/SubstrateResponse.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/SubstrateResponse.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/SubstrateResponse.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/BlockchainSubstrate/Message/Versioned/V1/V1SubstrateMessage.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/V1SubstrateMessage.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/V1SubstrateMessage.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/V1SubstrateMessage.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/V1SubstrateMessage.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/V1SubstrateMessage.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/BlockchainSubstrate/Message/Versioned/V2/V2SubstrateMessage.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/V2SubstrateMessage.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/V2SubstrateMessage.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/V2SubstrateMessage.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/V2SubstrateMessage.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectBlockchainSubstrate.build/Objects-normal/arm64/V2SubstrateMessage.swiftdeps"
+  }
+}

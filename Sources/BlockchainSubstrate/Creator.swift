@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 extension Substrate {
     
@@ -79,7 +79,7 @@ extension Substrate {
             }
         }
         
-        public func extractAccounts(from response: PermissionSubstrateResponse, completion: @escaping (Result<[BeaconCore.Account], Swift.Error>) -> ()) {
+        public func extractAccounts(from response: PermissionSubstrateResponse, completion: @escaping (Result<[OctezConnectCore.Account], Swift.Error>) -> ()) {
             completeCatching(completion: completion) {
                 try response.accounts.map {
                     .init(

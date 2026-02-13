@@ -1,0 +1,10 @@
+framework module OctezConnectCore {
+  umbrella header "OctezConnectCore-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module OctezConnectCore.__Swift {
+  exclude header "OctezConnectCore-Swift.h"
+}

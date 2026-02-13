@@ -1,0 +1,5 @@
+
+module BigInt.Swift {
+  header "BigInt-Swift.h"
+  requires objc
+}

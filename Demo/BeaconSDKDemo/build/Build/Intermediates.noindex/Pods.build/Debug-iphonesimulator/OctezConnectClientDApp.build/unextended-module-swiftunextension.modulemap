@@ -1,0 +1,4 @@
+
+module OctezConnectClientDApp.__Swift {
+  exclude header "OctezConnectClientDApp-Swift.h"
+}

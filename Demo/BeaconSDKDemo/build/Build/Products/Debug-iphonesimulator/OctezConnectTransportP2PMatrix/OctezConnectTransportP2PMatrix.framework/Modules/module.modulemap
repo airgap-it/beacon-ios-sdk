@@ -1,0 +1,11 @@
+framework module OctezConnectTransportP2PMatrix {
+  umbrella header "OctezConnectTransportP2PMatrix-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module OctezConnectTransportP2PMatrix.Swift {
+  header "OctezConnectTransportP2PMatrix-Swift.h"
+  requires objc
+}

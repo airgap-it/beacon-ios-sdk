@@ -1,0 +1,4 @@
+module OctezConnectBlockchainTezos {
+header "OctezConnectBlockchainTezos-Swift.h"
+export *
+}

@@ -5,9 +5,9 @@
       location = "container:BeaconSDKDemo.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:BeaconSDKDemo.xcodeproj">
+      location = "group:Pods/Pods.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Pods/Pods.xcodeproj">
+      location = "group:BeaconSDKDemo.xcodeproj">
    </FileRef>
 </Workspace>

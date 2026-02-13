@@ -6,7 +6,7 @@
 //
 
 import Foundation
-@testable import BeaconCore
+@testable import OctezConnectCore
 
 public class MockExtendedStorage : ExtendedStorage {
     private let storage: ExtendedStorage

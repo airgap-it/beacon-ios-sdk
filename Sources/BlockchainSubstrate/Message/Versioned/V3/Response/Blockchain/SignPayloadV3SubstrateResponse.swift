@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public struct SignPayloadV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol {
     public typealias BlockchainType = Substrate

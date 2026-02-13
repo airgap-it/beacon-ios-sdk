@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public protocol DAppClientStorage: DAppClientStoragePlugin, Storage {
     

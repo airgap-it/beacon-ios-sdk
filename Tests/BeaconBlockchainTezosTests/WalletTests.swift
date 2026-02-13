@@ -7,8 +7,8 @@
 
 import XCTest
 
-@testable import BeaconCore
-@testable import BeaconBlockchainTezos
+@testable import OctezConnectCore
+@testable import OctezConnectBlockchainTezos
 
 class WalletTests: XCTestCase {
     

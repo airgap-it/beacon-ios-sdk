@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public struct PairedAccount: Equatable, Codable {
     public let account: Account

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public struct V1SubstrateMessage: BlockchainV1Message {
     public var id: String { "" }

@@ -6,8 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
-import Base58
+import OctezConnectCore
 
 extension Tezos {
     

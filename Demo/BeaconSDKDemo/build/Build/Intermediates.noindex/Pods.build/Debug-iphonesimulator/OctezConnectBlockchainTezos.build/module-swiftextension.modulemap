@@ -1,0 +1,5 @@
+
+module OctezConnectBlockchainTezos.Swift {
+  header "OctezConnectBlockchainTezos-Swift.h"
+  requires objc
+}

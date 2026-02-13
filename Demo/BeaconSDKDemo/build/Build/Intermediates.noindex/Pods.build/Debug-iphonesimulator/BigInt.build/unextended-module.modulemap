@@ -1,0 +1,10 @@
+framework module BigInt {
+  umbrella header "BigInt-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module BigInt.__Swift {
+  exclude header "BigInt-Swift.h"
+}

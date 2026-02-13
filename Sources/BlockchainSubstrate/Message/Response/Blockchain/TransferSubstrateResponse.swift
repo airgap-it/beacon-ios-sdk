@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public enum TransferSubstrateResponse: BlockchainBeaconResponseProtocol, Equatable {
     case submit(_ submit: SubmitTransferSubstrateResponse)

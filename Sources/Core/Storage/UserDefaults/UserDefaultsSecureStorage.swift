@@ -55,7 +55,7 @@ public struct UserDefaultsSecureStorage: SecureStorage {
     }
     
     private func tag(forAlias alias: String) -> Data? {
-        "it.airgap.beacon-sdk.key-\(alias)".data(using: .utf8)
+        "io.tezos.octezconnect.key-\(alias)".data(using: .utf8)
     }
     
     private func store(key: SecuredKey, value: String, usingTag tag: Data, completion: @escaping (Result<(), Swift.Error>) -> ()) {

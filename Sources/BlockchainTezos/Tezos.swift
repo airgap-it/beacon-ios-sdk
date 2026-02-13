@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 /// Tezos implementation of the `Blockchain` protocol.
 public class Tezos: Blockchain {

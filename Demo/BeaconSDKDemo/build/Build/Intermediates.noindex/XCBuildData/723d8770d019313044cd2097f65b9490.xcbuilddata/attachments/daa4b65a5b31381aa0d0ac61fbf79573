@@ -1,0 +1,5 @@
+
+module OctezConnectTransportP2PMatrix.Swift {
+  header "OctezConnectTransportP2PMatrix-Swift.h"
+  requires objc
+}

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@testable import BeaconCore
+@testable import OctezConnectCore
 
 public class MockSerializer: Serializer {
     public init() {}

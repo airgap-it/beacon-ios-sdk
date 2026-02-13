@@ -1,0 +1,5 @@
+
+module OctezConnectClientDApp.Swift {
+  header "OctezConnectClientDApp-Swift.h"
+  requires objc
+}

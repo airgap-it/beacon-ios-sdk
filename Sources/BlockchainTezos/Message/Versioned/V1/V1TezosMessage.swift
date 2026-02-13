@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
     
 public enum V1TezosMessage: BlockchainV1Message {
     case permissionRequest(PermissionV1TezosRequest)

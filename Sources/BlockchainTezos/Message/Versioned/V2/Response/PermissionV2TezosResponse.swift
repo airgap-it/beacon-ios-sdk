@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
     
 public struct PermissionV2TezosResponse: V2BeaconMessageProtocol {
     public let type: String

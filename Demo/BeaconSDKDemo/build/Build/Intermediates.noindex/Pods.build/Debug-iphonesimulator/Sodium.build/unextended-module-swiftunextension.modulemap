@@ -1,0 +1,4 @@
+
+module Sodium.__Swift {
+  exclude header "Sodium-Swift.h"
+}

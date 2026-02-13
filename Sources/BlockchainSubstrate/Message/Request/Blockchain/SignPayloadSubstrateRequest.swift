@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 /// Body of the `BlockchainSubstrateRequest.sign` message.
 public struct SignPayloadSubstrateRequest: BlockchainBeaconRequestProtocol, Identifiable, Equatable, Codable {

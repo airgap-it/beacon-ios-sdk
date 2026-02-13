@@ -1,0 +1,64 @@
+{
+  "object" : {
+    "artifacts" : [
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "swift-sodium",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/jedisct1/swift-sodium.git",
+          "name" : "Sodium"
+        },
+        "path" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/SourcePackages/checkouts/swift-sodium/Clibsodium.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "Clibsodium"
+      }
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swift-bits",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/alja7dali/swift-bits.git",
+          "name" : "Bits"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "83668ec40d877d9e0012ba93359191cfc4bf04af",
+            "version" : "1.0.0"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "swift-bits"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swift-sodium",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/jedisct1/swift-sodium.git",
+          "name" : "Sodium"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "4f9164a0a2c9a6a7ff53a2833d54a5c79c957342",
+            "version" : "0.9.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "swift-sodium"
+      }
+    ],
+    "prebuilts" : [
+
+    ]
+  },
+  "version" : 7
+}

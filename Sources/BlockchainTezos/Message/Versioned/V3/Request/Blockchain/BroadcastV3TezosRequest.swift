@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public struct BroadcastV3TezosRequest: Equatable, Codable {
     public let type: String

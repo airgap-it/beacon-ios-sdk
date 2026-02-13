@@ -1,0 +1,11 @@
+framework module OctezConnectClientDApp {
+  umbrella header "OctezConnectClientDApp-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module OctezConnectClientDApp.Swift {
+  header "OctezConnectClientDApp-Swift.h"
+  requires objc
+}

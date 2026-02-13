@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public struct PermissionV3TezosRequest: PermissionV3BeaconRequestContentDataProtocol {
     public let network: Tezos.Network

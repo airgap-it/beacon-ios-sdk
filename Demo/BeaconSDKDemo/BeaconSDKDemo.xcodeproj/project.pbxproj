@@ -17,12 +17,7 @@
 		A376970C28A4F992004CCFFB /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376970B28A4F992004CCFFB /* WalletView.swift */; };
 		A376970F28A4F9B0004CCFFB /* WalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376970E28A4F9B0004CCFFB /* WalletViewModel.swift */; };
 		A376971428A51666004CCFFB /* DAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376971328A51666004CCFFB /* DAppViewModel.swift */; };
-		A3DD2BB127CCD65A0040FF1D /* BeaconBlockchainSubstrate in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB027CCD65A0040FF1D /* BeaconBlockchainSubstrate */; };
-		A3DD2BB327CCD65A0040FF1D /* BeaconBlockchainTezos in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB227CCD65A0040FF1D /* BeaconBlockchainTezos */; };
-		A3DD2BB527CCD65A0040FF1D /* BeaconClientWallet in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB427CCD65A0040FF1D /* BeaconClientWallet */; };
-		A3DD2BB727CCD65A0040FF1D /* BeaconCore in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB627CCD65A0040FF1D /* BeaconCore */; };
-		A3DD2BB927CCD65A0040FF1D /* BeaconTransportP2PMatrix in Frameworks */ = {isa = PBXBuildFile; productRef = A3DD2BB827CCD65A0040FF1D /* BeaconTransportP2PMatrix */; };
-		A3E6FB1C28A3DB1500F1B8B4 /* BeaconClientDApp in Frameworks */ = {isa = PBXBuildFile; productRef = A3E6FB1B28A3DB1500F1B8B4 /* BeaconClientDApp */; };
+		BDE8ABFBE041DC8AD98255F2 /* Pods_BeaconSDKDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A214AD0731A208262BA83B1 /* Pods_BeaconSDKDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A214AD0731A208262BA83B1 /* Pods_BeaconSDKDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BeaconSDKDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C97F7A25ADB07E002F6366 /* BeaconSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeaconSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C97F7D25ADB07E002F6366 /* BeaconSDKDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconSDKDemoApp.swift; sourceTree = "<group>"; };
 		49C97F8125ADB07F002F6366 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -55,8 +51,10 @@
 		49C97F9A25ADB07F002F6366 /* BeaconSDKDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconSDKDemoUITests.swift; sourceTree = "<group>"; };
 		49C97F9C25ADB07F002F6366 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49C97FAD25ADB0F8002F6366 /* BeaconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconView.swift; sourceTree = "<group>"; };
+		7532D0E5A634565D08BAAB69 /* Pods-BeaconSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeaconSDKDemo.debug.xcconfig"; path = "Target Support Files/Pods-BeaconSDKDemo/Pods-BeaconSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		88B042342683367400979229 /* beacon-ios-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "beacon-ios-sdk"; path = ../..; sourceTree = "<group>"; };
 		88BC03AC2705FD130095C508 /* beacon-ios-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "beacon-ios-sdk"; path = ../..; sourceTree = "<group>"; };
+		8A2847D0AFA6BDE5E3AA6D62 /* Pods-BeaconSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeaconSDKDemo.release.xcconfig"; path = "Target Support Files/Pods-BeaconSDKDemo/Pods-BeaconSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 		A376970828A4F978004CCFFB /* DAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAppView.swift; sourceTree = "<group>"; };
 		A376970B28A4F992004CCFFB /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		A376970E28A4F9B0004CCFFB /* WalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewModel.swift; sourceTree = "<group>"; };
@@ -69,12 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A3DD2BB527CCD65A0040FF1D /* BeaconClientWallet in Frameworks */,
-				A3DD2BB327CCD65A0040FF1D /* BeaconBlockchainTezos in Frameworks */,
-				A3DD2BB127CCD65A0040FF1D /* BeaconBlockchainSubstrate in Frameworks */,
-				A3DD2BB927CCD65A0040FF1D /* BeaconTransportP2PMatrix in Frameworks */,
-				A3E6FB1C28A3DB1500F1B8B4 /* BeaconClientDApp in Frameworks */,
-				A3DD2BB727CCD65A0040FF1D /* BeaconCore in Frameworks */,
+				BDE8ABFBE041DC8AD98255F2 /* Pods_BeaconSDKDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,6 +190,7 @@
 		A3E6FB1A28A3DB1500F1B8B4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A214AD0731A208262BA83B1 /* Pods_BeaconSDKDemo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -204,6 +198,8 @@
 		EF339F87834EDDBD6064FFD8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				7532D0E5A634565D08BAAB69 /* Pods-BeaconSDKDemo.debug.xcconfig */,
+				8A2847D0AFA6BDE5E3AA6D62 /* Pods-BeaconSDKDemo.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -215,23 +211,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 49C97F9F25ADB07F002F6366 /* Build configuration list for PBXNativeTarget "BeaconSDKDemo" */;
 			buildPhases = (
+				40F005C9EDF95A00FCAC480B /* [CP] Check Pods Manifest.lock */,
 				49C97F7625ADB07E002F6366 /* Sources */,
 				49C97F7725ADB07E002F6366 /* Frameworks */,
 				49C97F7825ADB07E002F6366 /* Resources */,
+				A5B29FDDE33E5DC8F536152D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = BeaconSDKDemo;
-			packageProductDependencies = (
-				A3DD2BB027CCD65A0040FF1D /* BeaconBlockchainSubstrate */,
-				A3DD2BB227CCD65A0040FF1D /* BeaconBlockchainTezos */,
-				A3DD2BB427CCD65A0040FF1D /* BeaconClientWallet */,
-				A3DD2BB627CCD65A0040FF1D /* BeaconCore */,
-				A3DD2BB827CCD65A0040FF1D /* BeaconTransportP2PMatrix */,
-				A3E6FB1B28A3DB1500F1B8B4 /* BeaconClientDApp */,
-			);
 			productName = BeaconSDKDemo;
 			productReference = 49C97F7A25ADB07E002F6366 /* BeaconSDKDemo.app */;
 			productType = "com.apple.product-type.application";
@@ -339,6 +329,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		40F005C9EDF95A00FCAC480B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BeaconSDKDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A5B29FDDE33E5DC8F536152D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BeaconSDKDemo/Pods-BeaconSDKDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BeaconSDKDemo/Pods-BeaconSDKDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BeaconSDKDemo/Pods-BeaconSDKDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		49C97F7625ADB07E002F6366 /* Sources */ = {
@@ -504,6 +536,7 @@
 		};
 		49C97FA025ADB07F002F6366 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7532D0E5A634565D08BAAB69 /* Pods-BeaconSDKDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -526,6 +559,7 @@
 		};
 		49C97FA125ADB07F002F6366 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8A2847D0AFA6BDE5E3AA6D62 /* Pods-BeaconSDKDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -670,33 +704,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		A3DD2BB027CCD65A0040FF1D /* BeaconBlockchainSubstrate */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = BeaconBlockchainSubstrate;
-		};
-		A3DD2BB227CCD65A0040FF1D /* BeaconBlockchainTezos */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = BeaconBlockchainTezos;
-		};
-		A3DD2BB427CCD65A0040FF1D /* BeaconClientWallet */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = BeaconClientWallet;
-		};
-		A3DD2BB627CCD65A0040FF1D /* BeaconCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = BeaconCore;
-		};
-		A3DD2BB827CCD65A0040FF1D /* BeaconTransportP2PMatrix */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = BeaconTransportP2PMatrix;
-		};
-		A3E6FB1B28A3DB1500F1B8B4 /* BeaconClientDApp */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = BeaconClientDApp;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 49C97F7225ADB07E002F6366 /* Project object */;
 }

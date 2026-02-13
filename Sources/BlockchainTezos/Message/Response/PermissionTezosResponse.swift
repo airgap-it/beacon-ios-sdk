@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
     
 /// Tezos specific content of the `BeaconResponse.permission` message.
 public struct PermissionTezosResponse: PermissionBeaconResponseProtocol, Identifiable, Equatable, Codable {

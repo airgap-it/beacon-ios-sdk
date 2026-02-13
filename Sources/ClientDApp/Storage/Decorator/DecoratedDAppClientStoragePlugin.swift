@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 struct DecoratedDAppClientStoragePlugin: ExtendedDAppClientStoragePlugin {
     private let storagePlugin: DAppClientStoragePlugin

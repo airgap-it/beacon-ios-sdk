@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 extension Migration {
     func migrateStorage(completion: @escaping (Result<(), Swift.Error>) -> ()) {

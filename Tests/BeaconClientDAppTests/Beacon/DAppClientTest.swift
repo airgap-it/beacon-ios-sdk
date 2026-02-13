@@ -8,8 +8,8 @@
 import XCTest
 import Common
 
-@testable import BeaconCore
-@testable import BeaconClientDApp
+@testable import OctezConnectCore
+@testable import OctezConnectClientDApp
 
 class DAppClientTest: XCTestCase {
     

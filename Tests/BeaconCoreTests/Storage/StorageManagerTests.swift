@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import BeaconCore
+@testable import OctezConnectCore
 import Common
 
 class StorageManagerTests: XCTestCase {

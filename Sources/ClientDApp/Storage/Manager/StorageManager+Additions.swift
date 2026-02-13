@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 extension StorageManager {
     var dAppClientPlugin: DAppClientStoragePlugin? { plugins.first(where: { $0 is DAppClientStoragePlugin }) as? DAppClientStoragePlugin }

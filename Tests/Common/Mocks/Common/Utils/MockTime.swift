@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@testable import BeaconCore
+@testable import OctezConnectCore
 
 public struct MockTime: TimeProtocol {
     public init() {}

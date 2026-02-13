@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public struct PermissionV3SubstrateRequest: PermissionV3BeaconRequestContentDataProtocol {
     public let appMetadata: AppMetadata

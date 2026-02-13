@@ -1,31 +1,26 @@
-# Beacon iOS SDK
-
-[![stable](https://img.shields.io/github/v/tag/airgap-it/beacon-ios-sdk?label=stable&sort=semver)](https://github.com/airgap-it/beacon-ios-sdk/releases)
-[![latest](https://img.shields.io/github/v/tag/airgap-it/beacon-ios-sdk?color=orange&include_prereleases&label=latest)](https://github.com/airgap-it/beacon-ios-sdk/releases)
-[![documentation](https://img.shields.io/badge/documentation-online-brightgreen.svg)](https://docs.walletbeacon.io/wallet/getting-started/ios/installation)
-[![license](https://img.shields.io/github/license/airgap-it/beacon-ios-sdk)](https://github.com/airgap-it/beacon-ios-sdk/blob/master/LICENSE)
+# Octez Connect iOS SDK
 
 > Connect Wallets with dApps on Tezos
 
-[Beacon](https://walletbeacon.io) is an implementation of the wallet interaction standard [tzip-10](https://gitlab.com/tzip/tzip/blob/master/proposals/tzip-10/tzip-10.md) which describes the connection of a dApp with a wallet.
+[Octez Connect](https://github.com/trilitech/octez-connect) is an implementation of the wallet interaction standard [tzip-10](https://gitlab.com/tzip/tzip/blob/master/proposals/tzip-10/tzip-10.md) which describes the connection of a dApp with a wallet.
 
 ## About
 
-The `Beacon iOS SDK` provides iOS developers with tools useful for setting up communication between native wallets supporting Tezos and dApps that implement [`beacon-sdk`](https://github.com/airgap-it/beacon-sdk).
+The `Octez Connect iOS SDK` provides iOS developers with tools useful for setting up communication between native wallets supporting Tezos and dApps that implement the Octez Connect protocol.
+
+This SDK is a fork of the Beacon iOS SDK (formerly maintained by AirGap/Papers), migrated to use Trilitech-hosted Matrix infrastructure and rebranded as Octez Connect.
 
 ## Installation
 
-See the below guides to learn how to add Beacon into your project.
+### Swift Package Manager (SPM)
 
-### SPM
-
-To add `Beacon iOS SDK` with [the Swift Package Manager](https://swift.org/package-manager/), add the `Beacon iOS SDK` package dependency:
+To add `Octez Connect iOS SDK` with [the Swift Package Manager](https://swift.org/package-manager/), add the package dependency:
 
 #### Xcode
 
-Open the `Add Package Dependency` window (as described in [the official guide](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app)) and enter the `Beacon iOS SDK` GitHub repository URL:
+Open the `Add Package Dependency` window (as described in [the official guide](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app)) and enter the `Octez Connect iOS SDK` GitHub repository URL:
 ```
-https://github.com/airgap-it/beacon-ios-sdk
+https://github.com/trilitech/octez-connect-ios-sdk
 ```
 
 #### Package.swift file
@@ -33,106 +28,68 @@ https://github.com/airgap-it/beacon-ios-sdk
 Add the following dependency in your `Package.swift` file:
 
 ```swift
-.package(url: "https://github.com/airgap-it/beacon-ios-sdk", from: "4.0.0")
+dependencies: [
+    .package(url: "https://github.com/trilitech/octez-connect-ios-sdk", from: "4.0.0")
+]
+```
+
+Then add the products to your target dependencies:
+
+```swift
+.target(
+    name: "MyTarget",
+    dependencies: [
+        .product(name: "OctezConnectCore", package: "octez-connect-ios-sdk"),
+        .product(name: "OctezConnectBlockchainTezos", package: "octez-connect-ios-sdk"),
+        .product(name: "OctezConnectClientWallet", package: "octez-connect-ios-sdk"),
+        .product(name: "OctezConnectTransportP2PMatrix", package: "octez-connect-ios-sdk")
+    ]
+)
 ```
 
 ### CocoaPods
 
-To add `Beacon iOS SDK` using [CocoaPods](https://cocoapods.org/), add the `Beacon iOS SDK` pod to your `Podfile`:
+To add `Octez Connect iOS SDK` using [CocoaPods](https://cocoapods.org/), add the pods to your `Podfile`:
 
 ```ruby
 target 'MyTarget' do
     use_frameworks!
     
-    pod 'BeaconCore', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '4.0.0'
+    pod 'OctezConnectCore', :git => 'https://github.com/trilitech/octez-connect-ios-sdk', :tag => '4.0.0'
     
-    // optional
-    pod 'BeaconClientDApp', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '4.0.0'
+    # optional
+    pod 'OctezConnectClientDApp', :git => 'https://github.com/trilitech/octez-connect-ios-sdk', :tag => '4.0.0'
 
-    // optional
-    pod 'BeaconClientWallet', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '4.0.0'
+    # optional
+    pod 'OctezConnectClientWallet', :git => 'https://github.com/trilitech/octez-connect-ios-sdk', :tag => '4.0.0'
 
-    // optional
-    pod 'BeaconBlockchainSubstrate', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '4.0.0'
-    // optional
-    pod 'BeaconBlockchainTezos', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '4.0.0'
+    # optional
+    pod 'OctezConnectBlockchainSubstrate', :git => 'https://github.com/trilitech/octez-connect-ios-sdk', :tag => '4.0.0'
+    # optional
+    pod 'OctezConnectBlockchainTezos', :git => 'https://github.com/trilitech/octez-connect-ios-sdk', :tag => '4.0.0'
 
-    // optional
-    pod 'BeaconTransportP2PMatrix', :git => 'https://github.com/airgap-it/beacon-ios-sdk', :tag => '4.0.0'
+    # optional
+    pod 'OctezConnectTransportP2PMatrix', :git => 'https://github.com/trilitech/octez-connect-ios-sdk', :tag => '4.0.0'
 end
 ```
 
-## Documentation
+## Quickstart
 
-The documentation can be found [here](https://docs.walletbeacon.io/). 
+The snippets below show how to quickly setup listening for incoming messages.
 
-## Project Overview
-
-The project is divided into the following packages:
-
-### Core
-
-Core packages are the basis for other packages. They are required for the SDK to work as expected.
-
-| Module       | Description            | Dependencies | Required by                                                                                                                          |
-| ------------ | ---------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `BeaconCore` | Base for other modules | ✖️           | `BeaconClientWallet` <br /><br /> `BeaconBlockchainSubstrate` <br /> `BeaconBlockchainTezos` <br /><br /> `BeaconTransportP2PMatrix` |
-
-### Client
-
-Client packages ship with Beacon implementations for different parts of the network.
-
-| Module               | Description                       | Dependencies | Required by |
-| -------------------- | --------------------------------- | ------------ | ----------- |
-| `BeaconClientDApp`   | Beacon implementation for dApps   | `BeaconCore` | ✖️          |
-| `BeaconClientWallet` | Beacon implementation for wallets | `BeaconCore` | ✖️          |
-
-### Blockchain
-
-Blockchain packages provide support for different blockchains.
-
-| Module                      | Description                                            | Dependencies | Required by |
-| --------------------------- | ------------------------------------------------------ | ------------ | ----------- |
-| `BeaconBlockchainSubstrate` | [Substrate](https://substrate.io/) specific components | `BeaconCore` | ✖️          |
-| `BeaconBlockchainTezos`     | [Tezos](https://tezos.com/) specific components        | `BeaconCore` | ✖️          |
-
-### Transport
-
-Transport packages provide various interfaces used to establish connection between Beacon clients.
-
-| Module                     | Description                                                                              | Dependencies | Required by |
-| -------------------------- | ---------------------------------------------------------------------------------------- | ------------ | ----------- |
-| `BeaconTransportP2PMatrix` | Beacon P2P implementation which uses [Matrix](https://matrix.org/) for the communication | `BeaconCore` | ✖️          |
-
-### Demo
-
-Demos provide examples of how to use the library. 
-
-| Module          | Description         |
-| --------------- | ------------------- |
-| `BeaconSDKDemo` | Example application |
-
-## Examples
-
-The snippets below show how to quickly setup listening for incoming Beacon messages.
-
-For more examples please see our `demo` app (WIP).
-
-### Create a Beacon wallet client and listen for incoming messages
+### Create a wallet client and listen for incoming messages
 
 ```swift
-import BeaconCore
-import BeaconBlockchainSubstrate
-import BeaconBlockchainTezos
-import BeaconClientWallet
-import BeaconTransportP2PMatrix
+import OctezConnectCore
+import OctezConnectBlockchainSubstrate
+import OctezConnectBlockchainTezos
+import OctezConnectClientWallet
+import OctezConnectTransportP2PMatrix
 
-class BeaconController {
+class OctezConnectController {
     private var client: Beacon.WalletClient?
     
-    ...
-    
-    func startBeacon() {
+    func start() {
         Beacon.WalletClient.create(
             with: Beacon.Client.Configuration(
                 name: "My App",
@@ -143,14 +100,14 @@ class BeaconController {
             switch result {
             case let .success(client):
                 self.client = client
-                self.listenForBeaconMessages()
+                self.listenForMessages()
             case let .failure(error):
                 /* handle error */
             }
         }
     }
     
-    func listenForBeaconMessages() {
+    func listenForMessages() {
         client?.connect { result in
             switch result {
             case .success(_):
@@ -165,112 +122,62 @@ class BeaconController {
 }
 ```
 
-## Migration
+## Project Overview
 
-See the below guides to learn how to migrate your existing code to new `Beacon iOS SDK` versions.
+The project is divided into the following packages:
 
-### From <v3.0.0
+### Core
 
-As of `v3.0.0`, `Beacon iOS SDK` has been further split into new packages and has become more generic in terms of supported blockchains and transports. This means that in some parts the values that had been previously set by default now must be configured manually or that various structures have changed their location or definition. To make sure your existing Beacon integration will be set up the same way as it used to be before `v3.0.0` do the following:
+Core packages are the basis for other packages. They are required for the SDK to work as expected.
 
-1. Replace the old `Beacon.Client` with the new `Beacon.WalletClient` (`BeaocnClientWallet`) and configure it with `Tezos` blockchain (`BeaconBlockchainTezos`) and `Transport.P2P.Matrix` transport (`BeaconTransportP2PMatrix`).
+| Module | Description | Dependencies | Required by |
+|--------|-------------|--------------|-------------|
+| `OctezConnectCore` | Base for other modules | ✖️ | `OctezConnectClientWallet` <br /> `OctezConnectBlockchainSubstrate` <br /> `OctezConnectBlockchainTezos` <br /> `OctezConnectTransportP2PMatrix` |
 
-```swift
-import BeaconCore
-import BeaconBlockchainTezos
-import BeaconClientWallet
-import BeaconTransportP2PMatrix
+### Client
 
-/* <v3.0.0: Beacon.Client.create(with: Beacon.Client.Configuration(name: "My App")) { ... } */
-Beacon.WalletClient.create(
-    with: Beacon.Client.Configuration(
-        name: "My App",
-        blockchains: [Tezos.factory],
-        connections: [try Transport.P2P.Matrix.connection()]
-    )
-) { /* ... */ }
-```
+Client packages ship with Octez Connect implementations for different parts of the network.
 
-2. Adjust the message handling code.
+| Module | Description | Dependencies | Required by |
+|--------|-------------|--------------|-------------|
+| `OctezConnectClientDApp` | Octez Connect implementation for dApps | `OctezConnectCore` | ✖️ |
+| `OctezConnectClientWallet` | Octez Connect implementation for wallets | `OctezConnectCore` | ✖️ |
 
-```swift
-/* <v3.0.0:
- * beaconClient.listen { result in
- *     switch result {
- *     case let .success(beaconRequest):
- *         switch beaconRequest {
- *         case let .permission(permission):
- *             ...
- *         case let .operation(operation):
- *             ...
- *         case let .signPayload(signPayload):
- *             ...
- *         case let .broadcast(broadcast):
- *             ...
- *         }
- *    ...
- *    }
- * }
- */
+### Blockchain
 
-beaconClient.listen { (result: Result<BeaconRequest<Tezos>, Beacon.Error>) in
-    switch result {
-    case let .success(beaconRequest):
-        switch beaconRequest {
-        case let .permission(content):
-            /* ... */
-        case let .blockchain(blockchain):
-            switch blockchain {
-            case let .operation(operation):
-                /* ... */
-            case let .signPayload(signPayload):
-                /* ... */
-            case let .broadcast(broadcast):
-                /* ... */
-            }
-        }
-    }
-    /* ... */
-}
-```
+Blockchain packages provide support for different blockchains.
 
-```swift
-/* <v3.0.0
- * let response = Beacon.Response.Operation(from: operationRequest, transactionHash: transactionHash)
- * beaconClient.respond(with: .operation(response)) { ... }
- */
+| Module | Description | Dependencies | Required by |
+|--------|-------------|--------------|-------------|
+| `OctezConnectBlockchainSubstrate` | [Substrate](https://substrate.io/) specific components | `OctezConnectCore` | ✖️ |
+| `OctezConnectBlockchainTezos` | [Tezos](https://tezos.com/) specific components | `OctezConnectCore` | ✖️ |
 
-let response = OperationTezosResponse(
-    from: operationRequest, //: OperationTezosRequest 
-    transactionHash: transactionHash
-)
-beaconClient.respond(
-    with: BeaconResponse<Tezos>.blockchain(
-        .operation(response)
-    )
-) { /* ... */ }
-```
+### Transport
 
-```swift
-/* let errorResponse = Beacon.Response.Error(from: broadcastRequest, errorType: .broadcastError)
- * beaconClient.respond(with: BeaconResponse<Tezos>.error(errorResponse)) { ... }
- */
- 
-let errorResponse = ErrorBeaconResponse<Tezos>(from: broadcastRequest, errorType: .blockchain(.broadcastError))
-beaconClient.respond(with: BeaconResponse<Tezos>.error(errorResponse)) { /* ... */ }
+Transport packages provide various interfaces used to establish connection between Octez Connect clients.
 
-```
-<!-- TODO: ## Development -->
+| Module | Description | Dependencies | Required by |
+|--------|-------------|--------------|-------------|
+| `OctezConnectTransportP2PMatrix` | P2P implementation which uses [Matrix](https://matrix.org/) for the communication | `OctezConnectCore` | ✖️ |
 
----
+## Migration from Beacon iOS SDK
+
+If you're migrating from the Beacon iOS SDK (maintained by AirGap/Papers), see our [Migration Guide](docs/migration-ios.md) for detailed instructions.
+
+**Quick Summary:**
+- Update dependencies to use `trilitech/octez-connect-ios-sdk` repository
+- Replace `import Beacon*` with `import OctezConnect*`
+- The public API (`Beacon.*`, `Transport.*`, etc.) remains the same, so your existing code should work without modifications
+
+## Examples
+
+For more examples, see the `Demo/BeaconSDKDemo` app in this repository.
+
 ## Related Projects
 
-### AirGap Projects
+- [Octez Connect Web SDK](https://github.com/trilitech/octez-connect-sdk) - SDK for web developers
+- [Octez Connect Android SDK](https://github.com/trilitech/octez-connect-android-sdk) - SDK for Android developers
 
-[Beacon SDK](https://github.com/airgap-it/beacon-sdk) - an SDK for web developers
+## License
 
-[Beacon Android SDK](https://github.com/airgap-it/beacon-android-sdk) - an SDK for Android developers
-
-### Community Projects
-
-[Beacon Flutter SDK](https://github.com/TalaoDAO/beacon) - an SDK for Flutter developers
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

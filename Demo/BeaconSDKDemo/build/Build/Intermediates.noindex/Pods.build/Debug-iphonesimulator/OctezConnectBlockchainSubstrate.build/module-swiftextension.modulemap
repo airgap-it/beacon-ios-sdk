@@ -1,0 +1,5 @@
+
+module OctezConnectBlockchainSubstrate.Swift {
+  header "OctezConnectBlockchainSubstrate-Swift.h"
+  requires objc
+}

@@ -6,7 +6,7 @@
 //  Copyright © 2020 Papers AG. All rights reserved.
 //
 
-@testable import BeaconCore
+@testable import OctezConnectCore
 
 public class MockStorage: Storage {
     public var peers: [Beacon.Peer] = []

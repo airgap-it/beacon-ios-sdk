@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import BeaconCore
+@testable import OctezConnectCore
 
 class ArrayAdditionsTests: XCTestCase {
     
@@ -51,7 +51,7 @@ class ArrayAdditionsTests: XCTestCase {
         array.forEachAsync(
             body: { (index, completion) in
                 DispatchQueue.init(
-                    label: "it.airgap.beacon-sdk-tests.testForEachAsyncValueCompletes#\(index)",
+                    label: "io.tezos.octezconnect-tests.testForEachAsyncValueCompletes#\(index)",
                     qos: .default,
                     target: .global(qos: .default)
                 ).async {

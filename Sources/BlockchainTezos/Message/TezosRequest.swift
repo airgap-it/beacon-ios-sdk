@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public enum TezosRequest: BlockchainRequest {
     public typealias Permission = PermissionTezosRequest

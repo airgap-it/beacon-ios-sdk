@@ -1,0 +1,39 @@
+{
+  "" : {
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/OctezConnectClientWallet-primary.dia",
+    "emit-module-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/OctezConnectClientWallet-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/OctezConnectClientWallet-primary-emit-module.dia",
+    "pch" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/OctezConnectClientWallet-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/OctezConnectClientWallet-primary.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientWallet/Beacon/WalletClient.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClient.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClient.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClient.dia",
+    "index-unit-output-path" : "/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClient.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClient.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClient.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClient.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClient~partial.swiftmodule"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientWallet/Common/DependencyInjection/ExtendedDependencyRegistry.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/ExtendedDependencyRegistry.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/ExtendedDependencyRegistry.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/ExtendedDependencyRegistry.dia",
+    "index-unit-output-path" : "/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/ExtendedDependencyRegistry.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/ExtendedDependencyRegistry.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/ExtendedDependencyRegistry.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/ExtendedDependencyRegistry.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/ExtendedDependencyRegistry~partial.swiftmodule"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientWallet/Common/DependencyInjection/WalletClientDependencyRegistry.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClientDependencyRegistry.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClientDependencyRegistry.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClientDependencyRegistry.dia",
+    "index-unit-output-path" : "/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClientDependencyRegistry.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClientDependencyRegistry.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClientDependencyRegistry.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClientDependencyRegistry.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/OctezConnectSDK.build/Debug-iphonesimulator/OctezConnectClientWallet.build/Objects-normal/arm64/WalletClientDependencyRegistry~partial.swiftmodule"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "" : {
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconSDKDemo-primary.dia",
+    "emit-module-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconSDKDemo-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconSDKDemo-primary-emit-module.dia",
+    "pch" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconSDKDemo-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconSDKDemo-primary.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/BeaconSDKDemo/Beacon/BeaconView.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconView.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconView.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconView.dia",
+    "index-unit-output-path" : "/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconView.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconView.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconView.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconView.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconView~partial.swiftmodule"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/BeaconSDKDemo/Beacon/DApp/DAppView.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppView.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppView.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppView.dia",
+    "index-unit-output-path" : "/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppView.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppView.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppView.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppView.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppView~partial.swiftmodule"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/BeaconSDKDemo/Beacon/DApp/DAppViewModel.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppViewModel.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppViewModel.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppViewModel.dia",
+    "index-unit-output-path" : "/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppViewModel.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppViewModel.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppViewModel.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppViewModel.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/DAppViewModel~partial.swiftmodule"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/BeaconSDKDemo/Beacon/Wallet/WalletView.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletView.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletView.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletView.dia",
+    "index-unit-output-path" : "/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletView.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletView.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletView.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletView.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletView~partial.swiftmodule"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/BeaconSDKDemo/Beacon/Wallet/WalletViewModel.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletViewModel.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletViewModel.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletViewModel.dia",
+    "index-unit-output-path" : "/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletViewModel.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletViewModel.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletViewModel.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletViewModel.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/WalletViewModel~partial.swiftmodule"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/BeaconSDKDemo/BeaconSDKDemoApp.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconSDKDemoApp.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconSDKDemoApp.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconSDKDemoApp.dia",
+    "index-unit-output-path" : "/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconSDKDemoApp.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconSDKDemoApp.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconSDKDemoApp.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconSDKDemoApp.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/BeaconSDKDemoApp~partial.swiftmodule"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/BeaconSDKDemo.build/Debug-iphonesimulator/BeaconSDKDemo.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  }
+}

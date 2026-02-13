@@ -4,18 +4,19 @@
 import PackageDescription
 
 let package = Package(
-    name: "BeaconSDK",
+    name: "OctezConnectSDK",
     platforms: [
-        .iOS(.v13)
+        .iOS(.v13),
+        .macOS(.v10_15)
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
-        .library(name: "BeaconCore", targets: ["BeaconCore"]),
-        .library(name: "BeaconBlockchainSubstrate", targets: ["BeaconBlockchainSubstrate"]),
-        .library(name: "BeaconBlockchainTezos", targets: ["BeaconBlockchainTezos"]),
-        .library(name: "BeaconClientDApp", targets: ["BeaconClientDApp"]),
-        .library(name: "BeaconClientWallet", targets: ["BeaconClientWallet"]),
-        .library(name: "BeaconTransportP2PMatrix", targets: ["BeaconTransportP2PMatrix"])
+        .library(name: "OctezConnectCore", targets: ["OctezConnectCore"]),
+        .library(name: "OctezConnectBlockchainSubstrate", targets: ["OctezConnectBlockchainSubstrate"]),
+        .library(name: "OctezConnectBlockchainTezos", targets: ["OctezConnectBlockchainTezos"]),
+        .library(name: "OctezConnectClientDApp", targets: ["OctezConnectClientDApp"]),
+        .library(name: "OctezConnectClientWallet", targets: ["OctezConnectClientWallet"]),
+        .library(name: "OctezConnectTransportP2PMatrix", targets: ["OctezConnectTransportP2PMatrix"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -27,7 +28,7 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "BeaconCore",
+            name: "OctezConnectCore",
             dependencies: [
                 .product(name: "Sodium", package: "swift-sodium"),
                 .product(name: "Clibsodium", package: "swift-sodium"),
@@ -35,43 +36,43 @@ let package = Package(
             ],
             path: "Sources/Core"
         ),
-        .target(name: "BeaconBlockchainSubstrate", dependencies: ["BeaconCore"], path: "Sources/BlockchainSubstrate"),
-        .target(name: "BeaconBlockchainTezos", dependencies: ["BeaconCore"], path: "Sources/BlockchainTezos"),
-        .target(name: "BeaconClientDApp", dependencies: ["BeaconCore"], path: "Sources/ClientDApp"),
-        .target(name: "BeaconClientWallet", dependencies: ["BeaconCore"], path: "Sources/ClientWallet"),
-        .target(name: "BeaconTransportP2PMatrix", dependencies: ["BeaconCore"], path: "Sources/TransportP2PMatrix"),
+        .target(name: "OctezConnectBlockchainSubstrate", dependencies: ["OctezConnectCore"], path: "Sources/BlockchainSubstrate"),
+        .target(name: "OctezConnectBlockchainTezos", dependencies: ["OctezConnectCore"], path: "Sources/BlockchainTezos"),
+        .target(name: "OctezConnectClientDApp", dependencies: ["OctezConnectCore"], path: "Sources/ClientDApp"),
+        .target(name: "OctezConnectClientWallet", dependencies: ["OctezConnectCore"], path: "Sources/ClientWallet"),
+        .target(name: "OctezConnectTransportP2PMatrix", dependencies: ["OctezConnectCore"], path: "Sources/TransportP2PMatrix"),
         
         // Tests
         .target(
             name: "Common",
             dependencies: [
-                "BeaconCore",
-                "BeaconBlockchainSubstrate",
-                "BeaconBlockchainTezos",
-                "BeaconClientDApp",
-                "BeaconClientWallet",
-                "BeaconTransportP2PMatrix"
+                "OctezConnectCore",
+                "OctezConnectBlockchainSubstrate",
+                "OctezConnectBlockchainTezos",
+                "OctezConnectClientDApp",
+                "OctezConnectClientWallet",
+                "OctezConnectTransportP2PMatrix"
             ],
             path: "Tests/Common"
         ),
         .testTarget(
-            name: "BeaconCoreTests",
-            dependencies: ["BeaconCore", "Common"],
+            name: "OctezConnectCoreTests",
+            dependencies: ["OctezConnectCore", "Common"],
             path: "Tests/BeaconCoreTests"
         ),
         .testTarget(
-            name: "BeaconClientDAppTests",
-            dependencies: ["BeaconClientDApp", "Common"],
+            name: "OctezConnectClientDAppTests",
+            dependencies: ["OctezConnectClientDApp", "Common"],
             path: "Tests/BeaconClientDAppTests"
         ),
         .testTarget(
-            name: "BeaconClientWalletTests",
-            dependencies: ["BeaconClientWallet", "Common"],
+            name: "OctezConnectClientWalletTests",
+            dependencies: ["OctezConnectClientWallet", "Common"],
             path: "Tests/BeaconClientWalletTests"
         ),
         .testTarget(
-            name: "BeaconBlockchainTezosTests",
-            dependencies: ["BeaconCore", "BeaconBlockchainTezos", "Common"],
+            name: "OctezConnectBlockchainTezosTests",
+            dependencies: ["OctezConnectCore", "OctezConnectBlockchainTezos", "Common"],
             path: "Tests/BeaconBlockchainTezosTests"
         )
     ]

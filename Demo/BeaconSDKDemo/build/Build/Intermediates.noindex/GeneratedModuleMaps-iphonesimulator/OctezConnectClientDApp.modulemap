@@ -1,0 +1,4 @@
+module OctezConnectClientDApp {
+header "OctezConnectClientDApp-Swift.h"
+export *
+}

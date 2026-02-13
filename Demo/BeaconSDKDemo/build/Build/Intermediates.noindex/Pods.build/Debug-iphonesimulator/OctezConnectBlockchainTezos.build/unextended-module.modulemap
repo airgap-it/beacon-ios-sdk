@@ -1,0 +1,10 @@
+framework module OctezConnectBlockchainTezos {
+  umbrella header "OctezConnectBlockchainTezos-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module OctezConnectBlockchainTezos.__Swift {
+  exclude header "OctezConnectBlockchainTezos-Swift.h"
+}

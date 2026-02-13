@@ -9,7 +9,7 @@
 import XCTest
 import Common
 
-@testable import BeaconCore
+@testable import OctezConnectCore
 
 class BeaconTests: XCTestCase {
     

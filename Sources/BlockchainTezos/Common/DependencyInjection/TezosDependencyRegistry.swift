@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 class TezosDependencyRegistry: ExtendedDependencyRegistry {
     private let dependencyRegistry: DependencyRegistry

@@ -8,11 +8,11 @@
 
 import Foundation
 
-import BeaconCore
-import BeaconBlockchainSubstrate
-import BeaconBlockchainTezos
-import BeaconClientWallet
-import BeaconTransportP2PMatrix
+import OctezConnectCore
+import OctezConnectBlockchainSubstrate
+import OctezConnectBlockchainTezos
+import OctezConnectClientWallet
+import OctezConnectTransportP2PMatrix
 
 class WalletViewModel: ObservableObject {
     private static let examplePairingRequest = "3NDKTWt2x3L5cYYtM2jL8YcpgmPR8EQbNNa4yoffDb1qXTMTydqVPkgHRjcWBcvmxTLAQ4D8JrvkrYvfnKjwvXTeojrzHN4KvnX6kYzgwtoDruE8hiwJynSDcFihkWaaUZKkTrkDYqz24c1Si6xWtkUa5SGuqDq2sE6TQhHita59BVWhh4zqyST8DKTnYEdSy93B6ei29cWcgmQamYPBSXLqn6toadS6yZUUH9mV2w8dhwvgXC9bDK4oGDxzT7zTofrP8bRwXPUUc3NGRc2MGhahTS5XsaFWqjxbKBX8JK7jSUHR9fJfxHoVQtav66BtVMtVtEt"
@@ -236,7 +236,11 @@ class WalletViewModel: ObservableObject {
         switch request {
         case let .permission(content):
             return .permission(
-                try PermissionSubstrateResponse(from: content, accounts: [Self.exampleSubstrateAccount(network: content.networks.first!)])
+                try PermissionSubstrateResponse(
+                    from: content,
+                    accounts: [Self.exampleSubstrateAccount(network: content.networks.first!)],
+                    appMetadata: content.appMetadata
+                )
             )
         case let .blockchain(blockchain):
             switch blockchain {

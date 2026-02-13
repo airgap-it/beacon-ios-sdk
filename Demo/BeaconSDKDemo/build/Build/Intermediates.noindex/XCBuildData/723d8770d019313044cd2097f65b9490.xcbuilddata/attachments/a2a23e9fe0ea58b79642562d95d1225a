@@ -1,0 +1,4 @@
+
+module OctezConnectClientWallet.__Swift {
+  exclude header "OctezConnectClientWallet-Swift.h"
+}

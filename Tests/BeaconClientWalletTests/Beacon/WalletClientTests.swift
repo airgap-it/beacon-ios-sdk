@@ -9,8 +9,8 @@
 import XCTest
 import Common
 
-@testable import BeaconCore
-@testable import BeaconClientWallet
+@testable import OctezConnectCore
+@testable import OctezConnectClientWallet
 
 class WalletClientTests: XCTestCase {
     

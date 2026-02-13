@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public struct AnyLegacyPermission: LegacyPermissionProtocol {
     public static var fromVersion: String = ""

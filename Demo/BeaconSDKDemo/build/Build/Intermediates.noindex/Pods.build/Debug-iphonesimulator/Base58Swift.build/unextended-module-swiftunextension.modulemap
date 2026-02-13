@@ -1,0 +1,4 @@
+
+module Base58Swift.__Swift {
+  exclude header "Base58Swift-Swift.h"
+}

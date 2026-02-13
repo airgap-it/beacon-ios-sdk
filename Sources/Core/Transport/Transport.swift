@@ -23,7 +23,7 @@ public class Transport {
     
     private var connectedPeers: Set<Beacon.Peer> = []
     
-    private let queue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.Transport", attributes: [], target: .global(qos: .default))
+    private let queue: DispatchQueue = .init(label: "io.tezos.octezconnect.Transport", attributes: [], target: .global(qos: .default))
     
     init(kind: Beacon.Connection.Kind, wrapped: TransportProtocol) {
         self.kind = kind

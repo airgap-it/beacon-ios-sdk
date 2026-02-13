@@ -1,0 +1,4 @@
+module OctezConnectTransportP2PMatrix {
+header "OctezConnectTransportP2PMatrix-Swift.h"
+export *
+}

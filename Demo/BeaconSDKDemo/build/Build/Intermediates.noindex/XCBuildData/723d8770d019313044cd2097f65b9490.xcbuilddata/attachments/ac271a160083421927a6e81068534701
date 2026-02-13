@@ -1,0 +1,49 @@
+{
+  "" : {
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bits-primary.dia",
+    "emit-module-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bits-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bits-primary-emit-module.dia",
+    "pch" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bits-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bits-primary.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/SourcePackages/checkouts/swift-bits/Sources/Bits/Bytes+Operations.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes+Operations.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes+Operations.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes+Operations.dia",
+    "index-unit-output-path" : "/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes+Operations.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes+Operations.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes+Operations.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes+Operations.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes+Operations~partial.swiftmodule"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/SourcePackages/checkouts/swift-bits/Sources/Bits/Bytes.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes.dia",
+    "index-unit-output-path" : "/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/Bytes~partial.swiftmodule"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/SourcePackages/checkouts/swift-bits/Sources/Bits/BytesConvertible.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/BytesConvertible.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/BytesConvertible.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/BytesConvertible.dia",
+    "index-unit-output-path" : "/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/BytesConvertible.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/BytesConvertible.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/BytesConvertible.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/BytesConvertible.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/BytesConvertible~partial.swiftmodule"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/SourcePackages/checkouts/swift-bits/Sources/Bits/exported.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/exported.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/exported.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/exported.dia",
+    "index-unit-output-path" : "/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/exported.o",
+    "llvm-bc" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/exported.bc",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/exported.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/exported.swiftdeps",
+    "swiftmodule" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Bits.build/Debug-iphonesimulator/Bits.build/Objects-normal/arm64/exported~partial.swiftmodule"
+  }
+}

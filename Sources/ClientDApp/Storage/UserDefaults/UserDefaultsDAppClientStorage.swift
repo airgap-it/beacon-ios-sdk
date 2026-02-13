@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 struct UserDefaultsDAppClientStorage: DAppClientStorage {
     private let userDefaults: UserDefaults

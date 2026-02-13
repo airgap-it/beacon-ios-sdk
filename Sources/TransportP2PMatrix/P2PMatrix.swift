@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public extension Transport.P2P {
     
@@ -22,7 +22,7 @@ public extension Transport.P2P {
         private var internalListeners: Set<MatrixClient.EventListener> = []
         
         private let joinQueue: DispatchQueue = .init(
-            label: "it.airgap.beacon-sdk.Transport.P2P.Matrix.join",
+            label: "io.tezos.octezconnect.Transport.P2P.Matrix.join",
             attributes: [],
             target: .global(qos: .default)
         )

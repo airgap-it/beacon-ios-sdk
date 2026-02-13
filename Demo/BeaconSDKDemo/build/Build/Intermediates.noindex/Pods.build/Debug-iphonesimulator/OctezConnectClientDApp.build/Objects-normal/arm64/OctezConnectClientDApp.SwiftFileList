@@ -1,0 +1,16 @@
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Controller/Account/AccountController.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Controller/Account/Store/AccountControllerAction.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Controller/Account/Store/AccountControllerState.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Controller/Account/Store/AccountControllerStore.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Beacon/DAppClient.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Common/DependencyInjection/DAppClientDependencyRegistry.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Storage/DAppClientStorage.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Storage/DAppClientStoragePlugin.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Storage/Decorator/DecoratedDAppClientStorage.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Storage/Decorator/DecoratedDAppClientStoragePlugin.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Storage/ExtendedDAppClientStorage.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Storage/ExtendedDAppClientStoragePlugin.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Common/DependencyInjection/ExtendedDependencyRegistry.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Beacon/Model/PairedAccount.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Storage/Manager/StorageManager+Additions.swift
+/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Sources/ClientDApp/Storage/UserDefaults/UserDefaultsDAppClientStorage.swift

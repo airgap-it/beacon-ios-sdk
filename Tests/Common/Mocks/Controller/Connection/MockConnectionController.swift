@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@testable import BeaconCore
+@testable import OctezConnectCore
 
 public class MockConnectionController: ConnectionControllerProtocol {
     public var isFailing: Bool = false

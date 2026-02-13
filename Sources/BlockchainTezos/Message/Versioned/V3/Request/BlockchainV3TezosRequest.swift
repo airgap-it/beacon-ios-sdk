@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public enum BlockchainV3TezosRequest: BlockchainV3BeaconRequestContentDataProtocol {
     case operation(OperationV3TezosRequest)

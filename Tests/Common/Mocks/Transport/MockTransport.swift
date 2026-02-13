@@ -7,8 +7,8 @@
 //
 
 import Foundation
-@testable import BeaconCore
-import BeaconBlockchainTezos
+@testable import OctezConnectCore
+import OctezConnectBlockchainTezos
 
 public class MockTransport: Transport {
     public var isFailing: Bool = false

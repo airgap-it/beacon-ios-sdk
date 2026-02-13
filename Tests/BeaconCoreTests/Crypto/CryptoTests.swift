@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import BeaconCore
+@testable import OctezConnectCore
 
 class CryptoTests: XCTestCase {
     private var crypto: Crypto!

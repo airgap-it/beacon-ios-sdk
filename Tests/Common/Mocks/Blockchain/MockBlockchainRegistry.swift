@@ -7,8 +7,8 @@
 //
 
 import Foundation
-@testable import BeaconCore
-@testable import BeaconBlockchainTezos
+@testable import OctezConnectCore
+@testable import OctezConnectBlockchainTezos
 
 public struct MockBlockchainRegistry: BlockchainRegistryProtocol {
     private let mockBlockchain: ShadowBlockchain

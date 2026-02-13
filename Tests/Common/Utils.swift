@@ -9,7 +9,7 @@
 import Foundation
 import XCTest
 
-@testable import BeaconCore
+@testable import OctezConnectCore
 
 // MARK: Setup
 
@@ -30,7 +30,7 @@ public func clearBeacon() {
 // MARK: Functions
 
 public func runAsync(with group: DispatchGroup = .init(), times n: Int, body: @escaping (@escaping () -> ()) -> (), completion: @escaping () -> ()) {
-    let queue = DispatchQueue(label: "it.airgap.beacon-sdk-tests.runAsync", qos: .default, attributes: [], target: .global(qos: .default))
+    let queue = DispatchQueue(label: "io.tezos.octezconnect-tests.runAsync", qos: .default, attributes: [], target: .global(qos: .default))
     
     for _ in 0..<n {
         group.enter()

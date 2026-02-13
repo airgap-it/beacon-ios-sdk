@@ -6,8 +6,8 @@
 //
 
 import Foundation
-@testable import BeaconCore
-@testable import BeaconClientDApp
+@testable import OctezConnectCore
+@testable import OctezConnectClientDApp
 
 public class MockAccountController: AccountControllerProtocol {
     private var activeAccount: PairedAccount? = nil

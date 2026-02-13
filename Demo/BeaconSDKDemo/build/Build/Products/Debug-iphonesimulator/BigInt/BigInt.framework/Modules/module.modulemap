@@ -1,0 +1,11 @@
+framework module BigInt {
+  umbrella header "BigInt-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module BigInt.Swift {
+  header "BigInt-Swift.h"
+  requires objc
+}

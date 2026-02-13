@@ -1,0 +1,10 @@
+framework module OctezConnectClientDApp {
+  umbrella header "OctezConnectClientDApp-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module OctezConnectClientDApp.__Swift {
+  exclude header "OctezConnectClientDApp-Swift.h"
+}

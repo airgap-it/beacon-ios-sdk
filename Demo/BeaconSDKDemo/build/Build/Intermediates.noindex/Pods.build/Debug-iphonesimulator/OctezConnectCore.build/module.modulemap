@@ -1,0 +1,11 @@
+framework module OctezConnectCore {
+  umbrella header "OctezConnectCore-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module OctezConnectCore.Swift {
+  header "OctezConnectCore-Swift.h"
+  requires objc
+}

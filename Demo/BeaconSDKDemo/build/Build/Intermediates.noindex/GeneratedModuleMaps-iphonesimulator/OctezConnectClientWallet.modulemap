@@ -1,0 +1,4 @@
+module OctezConnectClientWallet {
+header "OctezConnectClientWallet-Swift.h"
+export *
+}

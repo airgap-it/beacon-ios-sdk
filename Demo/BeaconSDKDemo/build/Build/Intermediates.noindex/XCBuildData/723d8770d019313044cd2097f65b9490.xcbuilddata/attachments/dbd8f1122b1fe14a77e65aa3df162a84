@@ -1,0 +1,4 @@
+module Sodium {
+header "Sodium-Swift.h"
+export *
+}

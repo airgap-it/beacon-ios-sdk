@@ -100,7 +100,7 @@ public extension Array {
         completion: @escaping ([T]) -> ()
     ) {
         var results = [T?](repeating: nil, count: count)
-        let queue = DispatchQueue(label: "it.airgap.beacon-sdk.forEachAsync", qos: .default, attributes: [], target: .global(qos: .default))
+        let queue = DispatchQueue(label: "io.tezos.octezconnect.forEachAsync", qos: .default, attributes: [], target: .global(qos: .default))
         
         for item in self.enumerated() {
             group.enter()

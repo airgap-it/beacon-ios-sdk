@@ -1,0 +1,5 @@
+
+module OctezConnectCore.Swift {
+  header "OctezConnectCore-Swift.h"
+  requires objc
+}

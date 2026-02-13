@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public extension BeaconConsumer where Self: Beacon.Client {
     func ownMetadata() throws -> Substrate.AppMetadata {

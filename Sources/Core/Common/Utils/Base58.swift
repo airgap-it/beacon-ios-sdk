@@ -6,7 +6,11 @@
 // Original implementation taken from: https://github.com/Alja7dali/swift-base58
 
 import CryptoKit
+#if SWIFT_PACKAGE
 import Bits
+#else
+// When building via CocoaPods, use local compatibility layer
+#endif
 
 private let Base58EncodingTable: [Byte: Byte] = [
     0: .one,  1: .two,   2: .three,  3: .four,

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 /// Substrate implementation of the `Blockchain` protocol.
 public class Substrate: Blockchain {

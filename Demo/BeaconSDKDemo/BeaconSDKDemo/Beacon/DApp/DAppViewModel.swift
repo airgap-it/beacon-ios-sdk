@@ -6,11 +6,11 @@
 //
 
 import Foundation
-import BeaconCore
-import BeaconBlockchainSubstrate
-import BeaconBlockchainTezos
-import BeaconClientDApp
-import BeaconTransportP2PMatrix
+import OctezConnectCore
+import OctezConnectBlockchainSubstrate
+import OctezConnectBlockchainTezos
+import OctezConnectClientDApp
+import OctezConnectTransportP2PMatrix
 
 class DAppViewModel: ObservableObject {
     

@@ -1,0 +1,4 @@
+
+module BigInt.__Swift {
+  exclude header "BigInt-Swift.h"
+}

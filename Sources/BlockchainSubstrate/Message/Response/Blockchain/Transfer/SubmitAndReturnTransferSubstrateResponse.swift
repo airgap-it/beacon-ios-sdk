@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public struct SubmitAndReturnTransferSubstrateResponse: BlockchainBeaconResponseProtocol, Identifiable, Equatable, Codable {
     /// The value that identifies the request to which the message is responding.

@@ -1,0 +1,4 @@
+
+module OctezConnectBlockchainTezos.__Swift {
+  exclude header "OctezConnectBlockchainTezos-Swift.h"
+}

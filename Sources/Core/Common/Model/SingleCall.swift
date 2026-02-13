@@ -11,7 +11,7 @@ import Foundation
 public class SingleCall<T> {
     private var completions: [Completion]?
     private let queue: DispatchQueue = .init(
-        label: "it.airgap.beacon-sdk.CachedCompletion",
+        label: "io.tezos.octezconnect.CachedCompletion",
         qos: .default,
         attributes: [],
         target: .global(qos: .default)

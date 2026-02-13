@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public class MatrixClient {
     private let store: Store
@@ -23,7 +23,7 @@ public class MatrixClient {
     
     private let time: TimeProtocol
     
-    private let guardQueue: DispatchQueue = .init(label: "it.airgap.beacon-sdk.MatrixClient.guard", attributes: [], target: .global(qos: .default))
+    private let guardQueue: DispatchQueue = .init(label: "io.tezos.octezconnect.MatrixClient.guard", attributes: [], target: .global(qos: .default))
     private var pollers: [String: Poller<Sync>] = [:]
     
     init(

@@ -1,0 +1,10 @@
+framework module OctezConnectClientWallet {
+  umbrella header "OctezConnectClientWallet-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module OctezConnectClientWallet.__Swift {
+  exclude header "OctezConnectClientWallet-Swift.h"
+}

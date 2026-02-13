@@ -1,0 +1,23 @@
+{
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/SourcePackages/checkouts/swift-sodium/Sodium/Aead.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Aead.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Aead.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Aead.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Aead.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Aead.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/SourcePackages/checkouts/swift-sodium/Sodium/Auth.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Auth.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Auth.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Auth.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Auth.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Auth.swiftdeps"
+  },
+  "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/SourcePackages/checkouts/swift-sodium/Sodium/Box.swift" : {
+    "const-values" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Box.swiftconstvalues",
+    "dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Box.d",
+    "diagnostics" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Box.dia",
+    "object" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Box.o",
+    "swift-dependencies" : "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Sodium.build/Debug-iphonesimulator/Sodium.build/Objects-normal/arm64/Box.swiftdeps"
+  }
+}

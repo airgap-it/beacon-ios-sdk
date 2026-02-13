@@ -1,0 +1,4 @@
+module OctezConnectCore {
+header "OctezConnectCore-Swift.h"
+export *
+}

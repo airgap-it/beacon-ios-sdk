@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@testable import BeaconCore
+@testable import OctezConnectCore
 
 public class MockSecureStorage: SecureStorage {
     public var sdkSecretSeed: String?

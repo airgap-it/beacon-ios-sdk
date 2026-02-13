@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public struct UserDefaultsP2PMatrixStoragePlugin: P2PMatrixStoragePlugin {
     

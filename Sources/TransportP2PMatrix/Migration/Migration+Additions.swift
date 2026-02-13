@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 extension Migration {
     func migrateMatrixRelayServer(withNodes matrixNodes: [String], completion: @escaping (Result<(), Swift.Error>) -> ()) {

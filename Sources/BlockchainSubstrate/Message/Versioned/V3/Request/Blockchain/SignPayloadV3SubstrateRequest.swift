@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public struct SignPayloadV3SubstrateRequest: BlockchainV3SubstrateRequestProtocol {
     public let type: String

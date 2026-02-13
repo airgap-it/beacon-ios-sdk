@@ -1,0 +1,23 @@
+{
+  "version": 0,
+  "use-external-names": false,
+  "case-sensitive": false,
+  "roots": [{
+    "type": "directory",
+    "name": "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Products/Debug-iphonesimulator/OctezConnectTransportP2PMatrix/OctezConnectTransportP2PMatrix.framework/Modules",
+    "contents": [{
+      "type": "file",
+      "name": "module.modulemap",
+      "external-contents": "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/unextended-module.modulemap",
+    }]
+    },
+    {
+    "type": "directory",
+    "name": "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Products/Debug-iphonesimulator/OctezConnectTransportP2PMatrix/OctezConnectTransportP2PMatrix.framework/Headers",
+    "contents": [{
+      "type": "file",
+      "name": "OctezConnectTransportP2PMatrix-Swift.h",
+      "external-contents": "/Users/thomasho/Documents/work/octez/octez.connect-ios-sdk/Demo/BeaconSDKDemo/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/OctezConnectTransportP2PMatrix.build/unextended-interface-header.h",
+    }]
+  }]
+}

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public enum BlockchainV3TezosResponse: BlockchainV3BeaconResponseContentDataProtocol {
     public typealias BlockchainType = Tezos

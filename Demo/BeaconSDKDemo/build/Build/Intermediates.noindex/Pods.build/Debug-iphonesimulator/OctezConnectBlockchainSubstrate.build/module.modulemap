@@ -1,0 +1,11 @@
+framework module OctezConnectBlockchainSubstrate {
+  umbrella header "OctezConnectBlockchainSubstrate-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module OctezConnectBlockchainSubstrate.Swift {
+  header "OctezConnectBlockchainSubstrate-Swift.h"
+  requires objc
+}

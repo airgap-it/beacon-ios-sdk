@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public struct SignPayloadV3TezosRequest: Equatable, Codable {
     public let type: String

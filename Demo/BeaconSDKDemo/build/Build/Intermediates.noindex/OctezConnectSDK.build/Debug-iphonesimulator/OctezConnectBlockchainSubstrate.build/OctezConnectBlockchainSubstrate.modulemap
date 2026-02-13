@@ -1,0 +1,4 @@
+module OctezConnectBlockchainSubstrate {
+header "OctezConnectBlockchainSubstrate-Swift.h"
+export *
+}

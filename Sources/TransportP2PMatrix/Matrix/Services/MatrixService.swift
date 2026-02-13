@@ -6,14 +6,14 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
     
 class MatrixService {
     let http: HTTP
     
     private var ongoingCalls: Set<OngoingCall> = []
     private let ongoingTasksQueue: DispatchQueue = .init(
-        label: "it.airgap.beacon-sdk.MatrixService.ongoingTasks",
+        label: "io.tezos.octezconnect.MatrixService.ongoingTasks",
         qos: .default,
         attributes: [],
         target: .global(qos: .default)

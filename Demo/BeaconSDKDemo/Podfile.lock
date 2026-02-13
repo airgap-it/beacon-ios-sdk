@@ -1,87 +1,53 @@
 PODS:
-  - Base58Swift (2.1.10):
-    - BigInt (~> 5.0.0)
-  - BeaconBlockchainSubstrate (3.2.1-beta.1):
-    - BeaconCore (~> 3.2.1-beta.1)
-  - BeaconBlockchainTezos (3.2.1-beta.1):
-    - BeaconCore (~> 3.2.1-beta.1)
-  - BeaconClientDApp (3.2.1-beta.1):
-    - BeaconCore (~> 3.2.1-beta.1)
-  - BeaconClientWallet (3.2.1-beta.1):
-    - BeaconCore (~> 3.2.1-beta.1)
-  - BeaconCore (3.2.1-beta.1):
-    - Base58Swift (~> 2.1.0)
+  - OctezConnectBlockchainSubstrate (4.0.0):
+    - OctezConnectCore (~> 4.0.0)
+  - OctezConnectBlockchainTezos (4.0.0):
+    - OctezConnectCore (~> 4.0.0)
+  - OctezConnectClientDApp (4.0.0):
+    - OctezConnectCore (~> 4.0.0)
+  - OctezConnectClientWallet (4.0.0):
+    - OctezConnectCore (~> 4.0.0)
+  - OctezConnectCore (4.0.0):
     - Sodium (~> 0.9.1)
-  - BeaconTransportP2PMatrix (3.2.1-beta.1):
-    - BeaconCore (~> 3.2.1-beta.1)
-  - BigInt (5.0.0)
+  - OctezConnectTransportP2PMatrix (4.0.0):
+    - OctezConnectCore (~> 4.0.0)
   - Sodium (0.9.1)
 
 DEPENDENCIES:
-  - BeaconBlockchainSubstrate (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.2.1-beta.1`)
-  - BeaconBlockchainTezos (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.2.1-beta.1`)
-  - BeaconClientDApp (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.2.1-beta.1`)
-  - BeaconClientWallet (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.2.1-beta.1`)
-  - BeaconCore (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.2.1-beta.1`)
-  - BeaconTransportP2PMatrix (from `https://github.com/airgap-it/beacon-ios-sdk`, tag `3.2.1-beta.1`)
+  - OctezConnectBlockchainSubstrate (from `../../`)
+  - OctezConnectBlockchainTezos (from `../../`)
+  - OctezConnectClientDApp (from `../../`)
+  - OctezConnectClientWallet (from `../../`)
+  - OctezConnectCore (from `../../`)
+  - OctezConnectTransportP2PMatrix (from `../../`)
 
 SPEC REPOS:
   trunk:
-    - Base58Swift
-    - BigInt
     - Sodium
 
 EXTERNAL SOURCES:
-  BeaconBlockchainSubstrate:
-    :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.2.1-beta.1
-  BeaconBlockchainTezos:
-    :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.2.1-beta.1
-  BeaconClientDApp:
-    :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.2.1-beta.1
-  BeaconClientWallet:
-    :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.2.1-beta.1
-  BeaconCore:
-    :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.2.1-beta.1
-  BeaconTransportP2PMatrix:
-    :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.2.1-beta.1
-
-CHECKOUT OPTIONS:
-  BeaconBlockchainSubstrate:
-    :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.2.1-beta.1
-  BeaconBlockchainTezos:
-    :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.2.1-beta.1
-  BeaconClientDApp:
-    :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.2.1-beta.1
-  BeaconClientWallet:
-    :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.2.1-beta.1
-  BeaconCore:
-    :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.2.1-beta.1
-  BeaconTransportP2PMatrix:
-    :git: https://github.com/airgap-it/beacon-ios-sdk
-    :tag: 3.2.1-beta.1
+  OctezConnectBlockchainSubstrate:
+    :path: "../../"
+  OctezConnectBlockchainTezos:
+    :path: "../../"
+  OctezConnectClientDApp:
+    :path: "../../"
+  OctezConnectClientWallet:
+    :path: "../../"
+  OctezConnectCore:
+    :path: "../../"
+  OctezConnectTransportP2PMatrix:
+    :path: "../../"
 
 SPEC CHECKSUMS:
-  Base58Swift: 53d551f0b33d9478fa63b3445e453a772d6b31a7
-  BeaconBlockchainSubstrate: d49d392bd6924884490fddccaa338395c90625b7
-  BeaconBlockchainTezos: ae7fb8a833cf99d6f44ff6245bc2decb20cb59e5
-  BeaconClientDApp: 36ee6927d9303e1de74ec5aa02ea0a328a313eb1
-  BeaconClientWallet: 6ad8244caa51b11257c2082c53ec2326f12f4d2c
-  BeaconCore: fe47e9d9fdfe94abd04922b27c4ab540cbf56ee7
-  BeaconTransportP2PMatrix: 796fd8d4960c7fa5f14130e9099694f99644f775
-  BigInt: 74b4d88367b0e819d9f77393549226d36faeb0d8
+  OctezConnectBlockchainSubstrate: d07be2f025c00fa307839ff2596f1379c46631bb
+  OctezConnectBlockchainTezos: 4e26a07c471dded3a98c3cc3ce244bb7301510cb
+  OctezConnectClientDApp: 15431fe51f004941544b4294be74027e87d2f059
+  OctezConnectClientWallet: 642a8b3d1ad349149b10e9520b4f9ac6078de186
+  OctezConnectCore: bbc4938ba9f55792edd2d9eba20a70f2757cb8fc
+  OctezConnectTransportP2PMatrix: a513d4054de6a6e14587d903ed5142c94bcd07ee
   Sodium: 23d11554ecd556196d313cf6130d406dfe7ac6da
 
-PODFILE CHECKSUM: c2c9d9958829778009f88ca2c970e2b69133a0b5
+PODFILE CHECKSUM: 8d115b4743e59fc7bbea705d719cfc9d09d1c7a5
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.16.2

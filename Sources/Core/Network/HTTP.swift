@@ -13,7 +13,7 @@ public class HTTP {
     
     private var ongoingTasks: [String: Set<URLSessionTask>] = [:]
     private let ongoingTasksQueue: DispatchQueue = .init(
-        label: "it.airgap.beacon-sdk.HTTP.ongoingTasks",
+        label: "io.tezos.octezconnect.HTTP.ongoingTasks",
         qos: .default,
         attributes: [],
         target: .global(qos: .default)

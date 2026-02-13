@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>12</integer>
+	<key>logs</key>
+	<dict>
+		<key>77307216-B5F2-45A7-ADB3-31C03257D37B</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>77307216-B5F2-45A7-ADB3-31C03257D37B.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>BeaconSDKDemo project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>BeaconSDKDemo</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Cleaning workspace BeaconSDKDemo with scheme BeaconSDKDemo</string>
+			<key>timeStartedRecording</key>
+			<real>792631958.89608395</real>
+			<key>timeStoppedRecording</key>
+			<real>792631959.61024201</real>
+			<key>title</key>
+			<string>Cleaning workspace BeaconSDKDemo with scheme BeaconSDKDemo</string>
+			<key>uniqueIdentifier</key>
+			<string>77307216-B5F2-45A7-ADB3-31C03257D37B</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

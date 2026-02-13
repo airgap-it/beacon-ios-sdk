@@ -9,7 +9,7 @@
 import XCTest
 import Common
 
-@testable import BeaconCore
+@testable import OctezConnectCore
 
 class ConnectionControllerTests: XCTestCase {
     
@@ -104,7 +104,7 @@ class ConnectionControllerTests: XCTestCase {
         var fulfilled = false
         
         let queue = DispatchQueue(
-            label: "it.airgap.beacon-sdk.test.ConnectionControllerTest.testControllerListensForSerializedMessages",
+            label: "io.tezos.octezconnect.test.ConnectionControllerTest.testControllerListensForSerializedMessages",
             qos: .default,
             attributes: [],
             target: .global(qos: .default)

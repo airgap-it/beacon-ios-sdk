@@ -1,0 +1,5 @@
+
+module OctezConnectClientWallet.Swift {
+  header "OctezConnectClientWallet-Swift.h"
+  requires objc
+}

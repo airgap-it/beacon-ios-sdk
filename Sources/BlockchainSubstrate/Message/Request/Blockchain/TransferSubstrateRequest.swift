@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 /// Body of the `BlockchainSubstrateRequest.transfer` message.
 public struct TransferSubstrateRequest: BlockchainBeaconRequestProtocol, Identifiable, Equatable, Codable {

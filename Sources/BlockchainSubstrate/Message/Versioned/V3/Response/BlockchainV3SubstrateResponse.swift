@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 public enum BlockchainV3SubstrateResponse: BlockchainV3SubstrateResponseProtocol {
     public typealias BlockchainType = Substrate

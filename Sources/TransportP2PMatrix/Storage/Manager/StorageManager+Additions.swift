@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 extension StorageManager {
     var p2pMatrixPlugin: P2PMatrixStoragePlugin? { plugins.first(where: { $0 is P2PMatrixStoragePlugin }) as? P2PMatrixStoragePlugin }

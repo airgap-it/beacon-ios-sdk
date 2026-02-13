@@ -1,0 +1,4 @@
+
+module OctezConnectBlockchainSubstrate.__Swift {
+  exclude header "OctezConnectBlockchainSubstrate-Swift.h"
+}

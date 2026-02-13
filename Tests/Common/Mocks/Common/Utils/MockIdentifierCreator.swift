@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@testable import BeaconCore
+@testable import OctezConnectCore
 
 public struct MockIdentifierCreator: IdentifierCreatorProtocol {
     public init() {}

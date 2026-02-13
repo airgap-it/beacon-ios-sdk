@@ -1,11 +1,11 @@
 import XCTest
 
-import BeaconCoreTests
-import BeaconClientWalletTests
-import BeaconBlockchainTezosTests
+import OctezConnectCoreTests
+import OctezConnectClientWalletTests
+import OctezConnectBlockchainTezosTests
 
 var tests = [XCTestCaseEntry]()
-tests += BeaconCoreTests.allTests()
-tests += BeaconClientWalletTests.allTests()
-tests += BeaconBlockchainTezosTests.allTests()
+tests += OctezConnectCoreTests.allTests()
+tests += OctezConnectClientWalletTests.allTests()
+tests += OctezConnectBlockchainTezosTests.allTests()
 XCTMain(tests)

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import BeaconCore
+import OctezConnectCore
 
 class AccountController: AccountControllerProtocol {
     private let store: Store

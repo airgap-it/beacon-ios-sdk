@@ -1,0 +1,11 @@
+framework module OctezConnectBlockchainTezos {
+  umbrella header "OctezConnectBlockchainTezos-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module OctezConnectBlockchainTezos.Swift {
+  header "OctezConnectBlockchainTezos-Swift.h"
+  requires objc
+}
